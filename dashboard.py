@@ -1,6 +1,9 @@
 from __future__ import annotations
 import json, yaml
 import os
+import sqlite3
+import tempfile
+from pathlib import Path
 import pandas as pd
 import streamlit as st
 from dotenv import load_dotenv
@@ -25,6 +28,55 @@ if _required_password and not st.session_state.get("v6_authenticated", False):
 with open("config.yaml","r",encoding="utf-8") as f: cfg=yaml.safe_load(f)
 engine=AutoOrchestrator(float(cfg["research"]["initial_capital"])); db=engine.db; lab=engine.lab
 
+def _import_forward_candidates(uploaded) -> dict:
+    """Merge Stage 4 candidates from a local forward_validation.sqlite3 into cloud DB.
+    Existing cloud candidates are kept; no local file replaces the live DB.
+    """
+    if uploaded is None:
+        return {"imported": 0, "active": 0}
+    raw = uploaded.getvalue()
+    tmp_path = None
+    try:
+        with tempfile.NamedTemporaryFile(suffix=".sqlite3", delete=False) as tmp:
+            tmp.write(raw)
+            tmp_path = tmp.name
+        con = sqlite3.connect(tmp_path)
+        con.row_factory = sqlite3.Row
+        tables = {r[0] for r in con.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()}
+        if "candidates" not in tables:
+            raise ValueError("這不是 V6 forward_validation.sqlite3：找不到 candidates 資料表")
+        rows = [dict(r) for r in con.execute("SELECT * FROM candidates ORDER BY registered_at, candidate_id").fetchall()]
+        con.close()
+        before = {r["candidate_id"] for r in engine.forward.candidates()}
+        for r in rows:
+            try:
+                params = json.loads(r.get("params_json") or "{}")
+            except Exception:
+                params = {}
+            engine.forward.register_candidate({
+                "candidate_id": r["candidate_id"],
+                "market": r["market"],
+                "symbol": r["symbol"],
+                "strategy": r["strategy"],
+                "params": params,
+                "registered_at": r["registered_at"],
+                "initial_capital": r["initial_capital"],
+                "research_grade": r.get("research_grade"),
+                "evidence_coverage": r.get("evidence_coverage"),
+                "source_stage": r.get("source_stage", "stage3"),
+                "status": r.get("status", "ACTIVE"),
+                "notes": r.get("notes"),
+            })
+        after_rows = engine.forward.candidates()
+        after = {r["candidate_id"] for r in after_rows}
+        active = sum(1 for r in after_rows if r.get("status") == "ACTIVE")
+        imported_assets = engine.import_active()
+        return {"imported": len(after-before), "total_candidates": len(after), "active": active, "simulation_assets_added": imported_assets}
+    finally:
+        if tmp_path:
+            try: Path(tmp_path).unlink(missing_ok=True)
+            except Exception: pass
+
 st.title("V6 Live Simulation Dashboard")
 st.caption("只看結果與數據｜本地虛擬資金｜交易訂單 API = 0｜行情 SQLite 快取＋節流更新")
 
@@ -33,6 +85,9 @@ c1.metric("虛擬帳戶","6")
 c2.metric("ACTIVE 標的",len(db.assets()))
 c3.metric("目前持倉",len(db.positions()))
 c4.metric("交易訂單 API","0")
+
+if len(db.assets()) == 0:
+    st.warning("雲端目前還沒有研究標的。請在頁面最下方『研究/維護工具』匯入你本機舊 V6 的 forward_validation.sqlite3；匯入後不需要再上傳。")
 
 if st.button("立即完整更新",type="primary",use_container_width=True):
     with st.spinner("自動匯入標的 → 校準到期模型 → 補行情 → 算短中長決策 → 更新本地模擬倉..."):
@@ -47,7 +102,7 @@ if r:
 @st.fragment(run_every="30s")
 def live_results():
     prices=latest_prices_table(db,engine.cache)
-    st.subheader("最新行情（本機快取）")
+    st.subheader("最新行情（雲端快取）")
     if prices.empty: st.info("尚未建立行情快取。背景 Worker 啟動後會自動補資料。")
     else:
         px=prices.copy(); px["漲跌"]=px.change_pct.map(lambda x:f"{x*100:+.2f}%")
@@ -90,11 +145,24 @@ def live_results():
     dec=decisions_table(db,500)
     if not dec.empty:
         last=pd.to_datetime(dec.bar_time,utc=True,errors="coerce").max()
-        st.caption(f"最新決策資料時間：{last}｜畫面每 30 秒只讀本機資料庫；背景 Worker 才會依節流規則補行情。")
+        st.caption(f"最新決策資料時間：{last}｜畫面每 30 秒只讀雲端資料庫；背景 Worker 才會依節流規則補行情。")
 
 live_results()
 
-with st.expander("研究/維護工具"):
+with st.expander("研究/維護工具", expanded=(len(db.assets()) == 0)):
+    st.markdown("### 一次性匯入舊 V6 候選")
+    st.caption("選你原本本機 V6 資料夾裡的 forward_validation.sqlite3。只會合併候選標的，不會覆蓋目前雲端資料，也不會上傳到 GitHub。")
+    uploaded_forward = st.file_uploader("選擇 forward_validation.sqlite3", type=["sqlite3", "db"], key="forward_db_upload")
+    if uploaded_forward is not None and st.button("匯入 ACTIVE 候選到雲端", type="primary"):
+        try:
+            result = _import_forward_candidates(uploaded_forward)
+            st.success(f"匯入完成：新增 {result['imported']} 個候選；ACTIVE {result['active']} 個。已同步建立 Simulation 標的。")
+            st.session_state["last_import_result"] = result
+            st.rerun()
+        except Exception as e:
+            st.error(f"匯入失敗：{type(e).__name__}: {e}")
+
+    st.divider()
     st.write("完整研究頁仍保留在 app.py。平常只需要這個 Dashboard；要重新大篩選或查 Stage 3/4/5/6 細節時才開研究頁。")
     if st.button("強制重新校準全部模型"):
         with st.spinner("重新校準所有 ACTIVE 標的 × 短中長..."):
