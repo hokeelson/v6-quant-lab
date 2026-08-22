@@ -1,0 +1,67 @@
+name: Ingest V6 bundle
+
+on:
+  push:
+    paths:
+      - 'V6_Quant_Lab*.zip'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  ingest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Find newest V6 zip
+        id: bundle
+        shell: bash
+        run: |
+          set -e
+          ZIP=$(ls -t V6_Quant_Lab*.zip 2>/dev/null | head -1 || true)
+          if [ -z "$ZIP" ]; then
+            echo "No V6_Quant_Lab*.zip found"
+            exit 1
+          fi
+          echo "zip=$ZIP" >> "$GITHUB_OUTPUT"
+
+      - name: Extract and flatten project
+        shell: bash
+        run: |
+          set -e
+          mkdir -p /tmp/v6_unpack
+          python - <<'PY'
+          import zipfile
+          from pathlib import Path
+          z=Path('${{ steps.bundle.outputs.zip }}')
+          out=Path('/tmp/v6_unpack')
+          with zipfile.ZipFile(z) as f:
+              f.extractall(out)
+          PY
+          SRC=/tmp/v6_unpack/V6_Quant_Lab
+          if [ ! -d "$SRC" ]; then SRC=/tmp/v6_unpack; fi
+          rsync -a --exclude '.env' --exclude '*.sqlite3*' --exclude '.venv' --exclude '__pycache__' "$SRC"/ ./
+
+      - name: Apply cloud migration
+        run: python cloud_patch.py
+
+      - name: Remove uploaded bundle
+        run: rm -f V6_Quant_Lab*.zip
+
+      - name: Test
+        run: |
+          python -m pip install -r requirements.txt
+          python -m pytest -q
+
+      - name: Commit unpacked cloud version
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Ingest V6 Stage 7 cloud source" || exit 0
+          git push
