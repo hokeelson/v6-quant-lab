@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - 'V6_Quant_Lab*.zip'
+      - 'ingest.trigger'
   workflow_dispatch:
 
 permissions:
@@ -50,7 +51,7 @@ jobs:
         run: python cloud_patch.py
 
       - name: Remove uploaded bundle
-        run: rm -f V6_Quant_Lab*.zip
+        run: rm -f V6_Quant_Lab*.zip ingest.trigger
 
       - name: Test
         run: |
