@@ -12,7 +12,8 @@ from src.live_analytics import account_performance, positions_table, decisions_t
 
 load_dotenv(); st.set_page_config(page_title="V6 Live Dashboard",layout="wide",page_icon="📊")
 
-_required_password = os.getenv("V6_PASSWORD", "")
+# Accept the new Railway variable name and the legacy local name.
+_required_password = os.getenv("V6_DASHBOARD_PASSWORD", "") or os.getenv("V6_PASSWORD", "")
 if _required_password and not st.session_state.get("v6_authenticated", False):
     st.title("V6 Web Quant Lab")
     with st.form("v6_login"):
@@ -27,6 +28,7 @@ if _required_password and not st.session_state.get("v6_authenticated", False):
     st.stop()
 with open("config.yaml","r",encoding="utf-8") as f: cfg=yaml.safe_load(f)
 engine=AutoOrchestrator(float(cfg["research"]["initial_capital"])); db=engine.db; lab=engine.lab
+
 
 def _import_forward_candidates(uploaded) -> dict:
     """Merge Stage 4 candidates from a local forward_validation.sqlite3 into cloud DB.
@@ -77,14 +79,57 @@ def _import_forward_candidates(uploaded) -> dict:
             try: Path(tmp_path).unlink(missing_ok=True)
             except Exception: pass
 
+
+def _show_cycle_result(r: dict):
+    sim=r.get("simulation",{}) or {}
+    health=r.get("health",{}) or {}
+    cal=r.get("calibration",{}) or {}
+    total=int(health.get("total_pairs",0))
+    ready=int(health.get("ready_pairs",0))
+    waiting=int(health.get("waiting_history",len(cal.get("waiting_history",[]) or [])))
+    errors=int(health.get("true_errors",len(r.get("true_errors",[]) or [])))
+
+    a,b,c,d=st.columns(4)
+    a.metric("可運行",f"{ready} / {total}" if total else "0")
+    b.metric("等待更多資料",waiting)
+    c.metric("真正錯誤",errors)
+    d.metric("本次新 K",int(sim.get("bars_processed",0)))
+
+    if errors == 0:
+        if waiting:
+            st.success(f"系統正常。{ready}/{total} 組已可運行；{waiting} 組只是歷史 K 尚未達門檻，不算錯誤。交易 API 0 次。")
+        else:
+            st.success(f"系統正常。{ready}/{total} 組可運行；處理 {sim.get('bars_processed',0)} 根新 K；交易 API 0 次。")
+    else:
+        st.error(f"有 {errors} 個真正錯誤需要處理；其餘等待歷史資料的組合不算故障。")
+
+    waiting_rows=cal.get("waiting_history",[]) or []
+    true_errors=r.get("true_errors",[]) or []
+    if waiting_rows or true_errors:
+        with st.expander("查看未就緒詳細資料"):
+            if waiting_rows:
+                st.markdown("**等待歷史資料**")
+                w=pd.DataFrame(waiting_rows)
+                if not w.empty:
+                    w=w.rename(columns={"market":"市場","symbol":"標的","horizon":"週期","required_closed_bars":"最低完整 K"})
+                    cols=[c for c in ["市場","標的","週期","最低完整 K"] if c in w.columns]
+                    st.dataframe(w[cols],use_container_width=True,hide_index=True)
+            if true_errors:
+                st.markdown("**真正錯誤**")
+                st.dataframe(pd.DataFrame(true_errors),use_container_width=True,hide_index=True)
+
+
 st.title("V6 Live Simulation Dashboard")
 st.caption("只看結果與數據｜本地虛擬資金｜交易訂單 API = 0｜行情 SQLite 快取＋節流更新")
 
-c1,c2,c3,c4=st.columns(4)
+model_health=engine.model_health()
+c1,c2,c3,c4,c5,c6=st.columns(6)
 c1.metric("虛擬帳戶","6")
 c2.metric("ACTIVE 標的",len(db.assets()))
-c3.metric("目前持倉",len(db.positions()))
-c4.metric("交易訂單 API","0")
+c3.metric("可運行組合",f"{model_health['ready_pairs']}/{model_health['total_pairs']}")
+c4.metric("尚未就緒",model_health["unready_pairs"])
+c5.metric("目前持倉",len(db.positions()))
+c6.metric("交易訂單 API","0")
 
 if len(db.assets()) == 0:
     st.warning("雲端目前還沒有研究標的。請在頁面最下方『研究/維護工具』匯入你本機舊 V6 的 forward_validation.sqlite3；匯入後不需要再上傳。")
@@ -95,9 +140,7 @@ if st.button("立即完整更新",type="primary",use_container_width=True):
         st.session_state["last_manual_cycle"]=r
 r=st.session_state.get("last_manual_cycle")
 if r:
-    sim=r.get("simulation",{})
-    if r.get("status")=="OK": st.success(f"完成：處理 {sim.get('bars_processed',0)} 根新 K；行情 API {sim.get('market_data_api_calls',0)} 次；交易 API 0 次。")
-    else: st.warning(r)
+    _show_cycle_result(r)
 
 @st.fragment(run_every="30s")
 def live_results():
@@ -167,4 +210,11 @@ with st.expander("研究/維護工具", expanded=(len(db.assets()) == 0)):
     if st.button("強制重新校準全部模型"):
         with st.spinner("重新校準所有 ACTIVE 標的 × 短中長..."):
             x=engine.calibrate_due(force=True)
-        st.write(x)
+        wa=x.get("waiting_history",[]) or []
+        er=x.get("errors",[]) or []
+        st.write(f"校準完成：成功 {x.get('calibrated',0)}；等待資料 {len(wa)}；真正錯誤 {len(er)}。")
+        if wa:
+            st.dataframe(pd.DataFrame(wa),use_container_width=True,hide_index=True)
+        if er:
+            st.error("有真正錯誤需要處理")
+            st.dataframe(pd.DataFrame(er),use_container_width=True,hide_index=True)
