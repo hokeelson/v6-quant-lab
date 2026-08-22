@@ -1,0 +1,8 @@
+streamlit>=1.37,<2
+pandas>=2.2,<3
+numpy>=2.0,<3
+requests>=2.32,<3
+python-dotenv>=1.0,<2
+PyYAML>=6.0,<7
+
+scipy>=1.13,<2

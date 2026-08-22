@@ -1,0 +1,86 @@
+research:
+  initial_capital: 100000
+  annual_risk_free_rate: 0.0
+  bars_per_year_stock_daily: 252
+  bars_per_year_crypto_daily: 365
+  min_trades: 20
+  train_bars: 504
+  test_bars: 126
+  step_bars: 126
+  top_n_results: 25
+
+execution:
+  stock:
+    commission_bps: 0.0
+    slippage_bps: 3.0
+    spread_bps: 2.0
+  crypto:
+    commission_bps: 10.0
+    slippage_bps: 5.0
+    spread_bps: 4.0
+
+risk:
+  max_position_pct: 0.20
+  max_total_exposure_pct: 1.00
+  stop_loss_pct: 0.08
+  take_profit_pct: 0.20
+
+universe:
+  stocks:
+    - AAPL
+    - MSFT
+    - NVDA
+    - AMZN
+    - GOOGL
+    - META
+    - TSLA
+    - AVGO
+    - AMD
+    - NFLX
+    - COST
+    - JPM
+    - V
+    - MA
+    - WMT
+    - XOM
+    - UNH
+    - LLY
+    - ORCL
+    - CRM
+    - QCOM
+    - INTC
+    - AMAT
+    - MU
+    - PANW
+    - PLTR
+    - UBER
+    - COIN
+    - HOOD
+    - SHOP
+    - SPY
+    - QQQ
+    - IWM
+    - DIA
+    - GLD
+    - TLT
+  crypto:
+    - BTCUSDT
+    - ETHUSDT
+    - SOLUSDT
+    - XRPUSDT
+    - BNBUSDT
+    - DOGEUSDT
+    - ADAUSDT
+    - AVAXUSDT
+    - LINKUSDT
+    - SUIUSDT
+    - LTCUSDT
+    - BCHUSDT
+    - DOTUSDT
+    - UNIUSDT
+    - AAVEUSDT
+    - NEARUSDT
+    - ETCUSDT
+    - ATOMUSDT
+    - FILUSDT
+    - ARBUSDT

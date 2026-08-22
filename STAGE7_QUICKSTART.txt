@@ -1,0 +1,23 @@
+V6 Stage 7 — Auto Live Dashboard
+
+平常只要雙擊：start_v6_auto.bat
+
+它會：
+1) 啟動背景 Auto Worker
+2) 自動匯入 Stage 4 ACTIVE 標的
+3) 只在模型到期時重新校準（短 72h / 中 168h / 長 336h）
+4) 行情使用 market_cache.sqlite3，只補新資料並節流 API
+5) 自動跑短/中/長決策與本地虛擬成交
+6) 打開精簡 Dashboard，只顯示結果與數據
+
+Dashboard 每 30 秒重新讀本機 SQLite，不會因此增加 API 呼叫。
+交易訂單 API 永遠為 0。
+
+行情節流預設：
+Crypto 短 60秒 / 中 5分 / 長 30分
+Stock  短 5分 / 中 15分 / 長 60分
+
+決策真正使用完整 K：短 1H / 中 4H / 長 1D。
+畫面上的最新資料時間會標示來源時間，避免把舊 K 誤認成即時 tick。
+
+舊的 start_v6.bat 仍可打開完整研究頁。

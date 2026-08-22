@@ -1,0 +1,39 @@
+V6 Stage 6 — Local Quant Simulation Lab
+
+目的
+- 不使用 Alpaca Paper 下單 API。
+- 股票/幣只透過行情 API 補抓「本地 SQLite 尚未有的新 K 線」。
+- 六個等本金帳戶：stock_short / stock_medium / stock_long / crypto_short / crypto_medium / crypto_long。
+- 每個標的都分別校準短、中、長打法，不預設哪個週期一定適合。
+
+時間框架
+- 短線：1H
+- 中線：4H
+- 長線：1D
+
+第一次使用
+1. start_v6.bat
+2. 到 Stage 6，按「⑩ 匯入 Stage 4 ACTIVE 標的」
+3. 按「⑪ 校準所有標的 × 短中長策略」
+4. 校準完成後按「⑫ 現在執行一次 Local Forward 模擬」
+   第一次只建立 forward 起點，不會倒灌歷史成交。
+5. 開 start_forward_worker.bat，之後每小時只補新行情並處理新完整 K。
+
+決策核心
+- 每個 Symbol × Horizon 分別比較 Trend MA / Momentum / Mean Reversion RSI / Breakout。
+- 參數依 Horizon 使用不同搜尋空間。
+- 使用 Train + OOS 分離、樣本數、穩定度、Regime 適配度建立 calibration score。
+- Forward 決策綜合 OOS score、train score、regime fit、stability。
+- 信心不足或 Regime 衝突時輸出 NO_TRADE。
+
+風險/槓桿
+- Position sizing 以帳戶 equity × risk budget / ATR stop distance 計算。
+- Stop / Target 依 ATR 動態調整，不再寫死 4% / 8% / 15%。
+- 槓桿為本地模擬，受 confidence、volatility guard、horizon leverage cap 限制。
+- 負 cash 視為模擬融資，每 bar 扣除假設借貸成本。
+- 這不是實盤槓桿建議。
+
+資料庫
+- simulation_lab.sqlite3：帳戶、模型、決策、訂單、持倉、交易、equity、診斷。
+- market_cache.sqlite3：OHLCV 本地快取。
+- 不會覆蓋 forward_validation.sqlite3 或 multi_horizon_validation.sqlite3。

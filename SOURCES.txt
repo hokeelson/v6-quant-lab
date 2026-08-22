@@ -1,0 +1,21 @@
+Research references used for V6 design:
+1. Alpaca Docs — Getting Started with Market Data API; Historical Bars; Market Data FAQ.
+2. Binance Developer Docs — Spot REST API; Spot WebSocket Streams; Spot Testnet.
+3. Interactive Brokers — Paper Trading vs Live Trading; Paper Trading API limitations.
+4. Bailey, Borwein, López de Prado, Zhu — The Probability of Backtest Overfitting.
+
+Important: verify API behavior against current official documentation before changing endpoints,
+rate limits, feed entitlements, or order behavior.
+
+5. Bailey & Lopez de Prado — The Deflated Sharpe Ratio: Correcting for Selection Bias, Backtest Overfitting and Non-Normality.
+6. Bailey et al. — Mathematical Appendices to The Probability of Backtest Overfitting.
+
+7. Alpaca Docs — /v2/assets current active/tradable assets.
+8. Alpaca Docs — Stock snapshots and Most Active screener.
+9. Alpaca Docs — Basic Market Data plan: IEX real-time coverage; 200 historical API calls/min.
+10. Binance Spot Developer Docs — /api/v3/exchangeInfo.
+11. Binance Spot Developer Docs — /api/v3/ticker/24hr.
+
+12. Alpaca Docs — Paper Trading: real-time simulation environment and paper-only account.
+13. Alpaca Docs — Orders API: paper-api.alpaca.markets/v2/orders.
+14. Alpaca Docs — US Market Calendar for exchange open/close dates and early closes.

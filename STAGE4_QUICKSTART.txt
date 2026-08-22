@@ -1,0 +1,14 @@
+V6 Stage 4 — Forward Validation Quick Start
+
+1. 先用 start_v6.bat 打開網頁。
+2. 跑完 Stage 3 的「④ 執行完整深度驗證」。
+3. 到 Stage 4 按「⑤ 凍結並註冊到 Forward」。
+4. 第一次註冊後，註冊日前的歷史資料不算 Forward。
+5. 你可以：
+   A. 每次打開網頁按「⑥ 現在執行一次 Forward 檢查」
+   B. 或雙擊 start_forward_worker.bat，讓黑色視窗每小時檢查一次。
+6. Forward 結果存於 forward_validation.sqlite3。
+7. 關閉 start_forward_worker.bat 的黑色視窗後，就不會繼續自動檢查。
+8. 預設是 Shadow Paper Ledger，不送真錢單，也不會自動開啟 Live Trading。
+9. 至少累積 60 forward days + 20 closed trades 等條件後，才有資格進「延長 Paper 驗證」。
+10. 即使通過，也不等於允許實盤。

@@ -1,0 +1,26 @@
+V6 Stage 5 — 長／中／短線模擬交易
+
+建議用「覆蓋更新」目前正在使用的 V6 資料夾，不要刪除：
+- .env
+- forward_validation.sqlite3
+- .venv
+
+更新後：
+1. start_v6.bat
+2. 到 Stage 5
+3. 按「⑦ 為所有 ACTIVE 候選建立短／中／長三套帳本」
+4. 按「⑧ 現在執行一次長／中／短線 Forward 檢查」
+5. 之後保持 start_forward_worker.bat 開著即可自動累積
+
+三個週期：
+- 短線：數天級，最長 10 根日K
+- 中線：數週級，最長 40 根日K
+- 長線：數月級，最長 180 根日K
+
+Alpaca Paper Mirror（選配，只限美股）：
+- 預設完全不送單
+- .env 設 V6_ALLOW_PAPER_ORDERS=true 並重啟後才允許 Paper 訂單
+- 程式拒絕 live endpoint
+- 同一股票只能選一個週期做 Paper Mirror
+
+Crypto 長中短線仍會正常做 V6 Shadow 模擬，只是不送 Alpaca Paper。
