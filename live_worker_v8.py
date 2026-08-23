@@ -33,6 +33,7 @@ worker_state = {
     "broker_order_api_calls": 0,
     "true_errors": 0,
     "risk_layer": "STARTING",
+    "risk_sizing": "ACTIVE",
     "realtime_watchlist_sync": "STARTING",
     "realtime_watchlist_total": 0,
     "last_request_kind": None,
@@ -83,7 +84,7 @@ def _sleep_until_due():
 threading.Thread(target=_heartbeat_loop, daemon=True).start()
 print("V6 V8 Auto Simulation Worker started: crypto + US stocks + Taiwan stocks.", flush=True)
 print("Broker order API = 0. This worker uses virtual accounts only.", flush=True)
-print("Professional Risk Layer = shadow-only monitoring.", flush=True)
+print("Professional Risk Layer = active virtual position sizing; no hard trade block.", flush=True)
 print("Realtime watchlist is synchronized by the main worker after every cycle.", flush=True)
 
 while True:
@@ -150,6 +151,7 @@ while True:
                 "broker_order_api_calls": 0,
                 "true_errors": core_errors,
                 "risk_layer": "ONLINE" if not any(x.startswith(("professional:", "pretrade:")) for x in auxiliary_errors) else "ERROR",
+                "risk_sizing": "ACTIVE",
                 "portfolio_risk": global_risk,
                 "realtime_watchlist_sync": realtime_sync_status,
                 "realtime_watchlist_total": realtime_watchlist_total,
