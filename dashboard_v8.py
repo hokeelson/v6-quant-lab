@@ -350,3 +350,12 @@ with st.expander("研究/維護工具"):
     force_notice = st.session_state.pop("force_calibration_notice", None)
     if force_notice:
         st.success("已交給背景 Worker 分批強制校準；不會在 Dashboard 內同步重算。")
+
+# These panels must be rendered by the Streamlit entry script itself. Importing the
+# main dashboard from another entry module caused Python module caching to skip the
+# entire main dashboard after a Streamlit rerun.
+from src.realtime_dashboard import render_realtime_panel
+from src.pro_risk_dashboard import render_professional_risk_panel
+
+render_realtime_panel()
+render_professional_risk_panel()
