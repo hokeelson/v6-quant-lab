@@ -417,11 +417,13 @@ with st.expander("研究／維護工具"):
 
     force_notice = st.session_state.pop("force_calibration_notice", None)
     if force_notice:
-        st.success("已交給背景程序分批強制校準；不會在儀表板內同步重算。")
+        st.success("已交給背景程序分批強制校準；若策略／參數不同，會先進入 Challenger Forward 競賽，不會直接覆蓋目前冠軍。")
 
-# 這兩個區塊必須由同一個 Streamlit 入口直接繪製，避免重新執行時因模組快取而漏掉主畫面。
+# 這三個區塊由同一個 Streamlit 入口直接繪製，避免重新執行時因模組快取而漏掉主畫面。
 from src.realtime_dashboard import render_realtime_panel
 from src.pro_risk_dashboard import render_professional_risk_panel
+from src.governance_dashboard import render_governance_panel
 
 render_realtime_panel()
 render_professional_risk_panel()
+render_governance_panel()
