@@ -8,7 +8,8 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 from src.auto_orchestrator_v8 import AutoOrchestratorV8
-from src.paths import data_dir
+from src.data_quality_drift import DataQualityDriftMonitor
+from src.paths import data_dir, db_path
 from src.pretrade_risk import write_pretrade_risk_snapshot
 from src.pro_risk_engine import write_professional_risk_snapshot
 from src.realtime_layer import RealtimeDB, build_realtime_watchlist
@@ -18,6 +19,7 @@ HEARTBEAT_SECONDS = 15
 
 load_dotenv()
 engine = AutoOrchestratorV8(initial_equity=100000.0)
+quality_monitor = DataQualityDriftMonitor(db_path("data_quality.sqlite3"))
 realtime_db = RealtimeDB()
 status_path = Path(data_dir()) / "worker_status.json"
 request_path = Path(data_dir()) / "worker_request.json"
@@ -34,6 +36,10 @@ worker_state = {
     "true_errors": 0,
     "risk_layer": "STARTING",
     "risk_sizing": "ACTIVE",
+    "data_quality": "STARTING",
+    "data_quality_warnings": 0,
+    "data_quality_critical": 0,
+    "concept_drift_pairs": 0,
     "realtime_watchlist_sync": "STARTING",
     "realtime_watchlist_total": 0,
     "last_request_kind": None,
@@ -85,6 +91,7 @@ threading.Thread(target=_heartbeat_loop, daemon=True).start()
 print("V6 V8 Auto Simulation Worker started: crypto + US stocks + Taiwan stocks.", flush=True)
 print("Broker order API = 0. This worker uses virtual accounts only.", flush=True)
 print("Professional Risk Layer = active virtual position sizing; no hard trade block.", flush=True)
+print("Data Quality + Concept Drift = active sizing guard; cache-only scan, no extra market-data API calls.", flush=True)
 print("Realtime watchlist is synchronized by the main worker after every cycle.", flush=True)
 
 while True:
@@ -107,6 +114,9 @@ while True:
         auxiliary_errors = []
         global_risk = "UNKNOWN"
         realtime_watchlist_total = 0
+        quality_result = {
+            "status": "UNKNOWN", "warnings": 0, "critical_data": 0, "drifted": 0, "errors": []
+        }
 
         # Synchronize the realtime watchlist from the SAME SimulationDB instance
         # that just completed the core cycle. This removes cross-process timing
@@ -139,6 +149,23 @@ while True:
             auxiliary_errors.append(f"pretrade: {type(exc).__name__}: {exc}")
             print(stamp, "PRETRADE_RISK_ERROR", auxiliary_errors[-1], flush=True)
 
+        # Read only the already-populated OHLCV cache. This monitor never fetches
+        # data itself, so enabling it does not increase Alpaca/Binance/Yahoo calls.
+        try:
+            quality_result = quality_monitor.scan_all(engine.db, engine.cache)
+            if quality_result.get("errors"):
+                auxiliary_errors.append(
+                    f"data_quality: {len(quality_result.get('errors') or [])} pair scan errors"
+                )
+                print(stamp, "DATA_QUALITY_PARTIAL", quality_result.get("errors"), flush=True)
+        except Exception as exc:
+            quality_result = {
+                "status": "ERROR", "warnings": 0, "critical_data": 0, "drifted": 0,
+                "errors": [{"error": f"{type(exc).__name__}: {exc}"}],
+            }
+            auxiliary_errors.append(f"data_quality: {type(exc).__name__}: {exc}")
+            print(stamp, "DATA_QUALITY_ERROR", auxiliary_errors[-1], flush=True)
+
         finished = datetime.now(timezone.utc).isoformat()
         core_errors = len(r.get("true_errors", []) or [])
         with status_lock:
@@ -152,6 +179,10 @@ while True:
                 "true_errors": core_errors,
                 "risk_layer": "ONLINE" if not any(x.startswith(("professional:", "pretrade:")) for x in auxiliary_errors) else "ERROR",
                 "risk_sizing": "ACTIVE",
+                "data_quality": str(quality_result.get("status") or "UNKNOWN"),
+                "data_quality_warnings": int(quality_result.get("warnings", 0) or 0),
+                "data_quality_critical": int(quality_result.get("critical_data", 0) or 0),
+                "concept_drift_pairs": int(quality_result.get("drifted", 0) or 0),
                 "portfolio_risk": global_risk,
                 "realtime_watchlist_sync": realtime_sync_status,
                 "realtime_watchlist_total": realtime_watchlist_total,
@@ -160,7 +191,7 @@ while True:
                 ),
             })
         _write_status()
-        print(stamp, request_kind, r, flush=True)
+        print(stamp, request_kind, r, "DATA_QUALITY", quality_result, flush=True)
     except Exception as e:
         finished = datetime.now(timezone.utc).isoformat()
         with status_lock:
