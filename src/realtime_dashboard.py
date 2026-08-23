@@ -8,8 +8,14 @@ import streamlit as st
 
 from .paths import data_dir
 from .realtime_layer import RealtimeDB
+from .ui_zh import market_label, realtime_signal_label, status_label, translate_reason
 
 STATUS_PATH = Path(data_dir()) / "realtime_status.json"
+
+SOURCE_LABELS = {
+    "BINANCE_STREAM": "Binance 即時串流",
+    "ALPACA_IEX_STREAM": "Alpaca IEX 即時串流",
+}
 
 
 def _status():
@@ -37,36 +43,40 @@ def _fmt_ts(ts):
         return "—"
 
 
+def _stream_label(value):
+    return status_label(value)
+
+
 @st.fragment(run_every="2s")
 def render_realtime_panel():
     st.divider()
-    st.subheader("Realtime Execution Layer")
-    st.caption("秒級 Watchlist｜Crypto Binance Stream＋美股 Alpaca IEX Stream｜目前為 Shadow 執行層，交易訂單 API = 0")
+    st.subheader("秒級即時執行層")
+    st.caption("秒級監控清單｜加密貨幣 Binance 即時串流＋美股 Alpaca IEX 即時串流｜目前為影子執行層，交易訂單介面呼叫 = 0")
 
     s = _status()
     if not s:
-        st.warning("Realtime Worker 尚未回報心跳；若剛部署請等待約 10–30 秒。")
+        st.warning("秒級背景程序尚未回報心跳；若剛部署請等待約 10～30 秒。")
         return
     age = _age_seconds(s.get("heartbeat_at"))
     fresh = age is not None and age <= 15
     raw_status = str(s.get("status") or "UNKNOWN").upper()
     if not fresh:
-        display = "🔴 OFFLINE"
+        display = "🔴 離線"
     elif raw_status == "DEGRADED":
-        display = "🟠 DEGRADED"
+        display = "🟠 部分異常"
     elif raw_status == "ERROR":
-        display = "🔴 ERROR"
+        display = "🔴 錯誤"
     else:
-        display = "🟢 ONLINE"
+        display = "🟢 在線"
 
     cols = st.columns(7)
-    cols[0].metric("Realtime", display)
-    cols[1].metric("心跳", f"{age}s" if age is not None else "—")
-    cols[2].metric("Watchlist", int(s.get("watchlist_total", 0) or 0))
-    cols[3].metric("Crypto Stream", s.get("crypto_stream", "—"))
-    cols[4].metric("美股 Stream", s.get("stock_stream", "—"))
-    cols[5].metric("台股", "BAR_ONLY")
-    cols[6].metric("交易 API", "0")
+    cols[0].metric("即時層", display)
+    cols[1].metric("心跳", f"{age} 秒" if age is not None else "—")
+    cols[2].metric("監控標的", int(s.get("watchlist_total", 0) or 0))
+    cols[3].metric("加密貨幣串流", _stream_label(s.get("crypto_stream", "—")))
+    cols[4].metric("美股串流", _stream_label(s.get("stock_stream", "—")))
+    cols[5].metric("台股", "僅K線")
+    cols[6].metric("交易介面呼叫", "0")
 
     db = RealtimeDB()
     quotes = pd.DataFrame(db.quotes())
@@ -81,36 +91,59 @@ def render_realtime_panel():
         err = s.get("watchlist_last_error")
         if err:
             st.error(
-                f"Realtime Watchlist 異常｜Realtime Worker 讀到持倉 {positions_seen}、ACTIVE 標的 {assets_seen}、決策 {decisions_seen}｜"
+                f"秒級監控清單異常｜背景程序讀到持倉 {positions_seen}、啟用標的 {assets_seen}、決策 {decisions_seen}｜"
                 f"最後成功 {last_ok}｜錯誤：{err}"
             )
         else:
             st.info(
-                f"Realtime Watchlist 尚未建立｜Realtime Worker 目前讀到持倉 {positions_seen}、ACTIVE 標的 {assets_seen}、決策 {decisions_seen}｜"
+                f"秒級監控清單尚未建立｜背景程序目前讀到持倉 {positions_seen}、啟用標的 {assets_seen}、決策 {decisions_seen}｜"
                 f"最後成功 {last_ok}"
             )
 
     if not quotes.empty:
         quotes["資料時間"] = quotes.ts.map(_fmt_ts)
         quotes["延遲秒"] = quotes.ts.map(_age_seconds)
-        quotes["spread"] = quotes.spread_bps.map(lambda x: "—" if pd.isna(x) else f"{x:.1f} bps")
-        show = quotes.rename(columns={"market": "市場", "symbol": "標的", "price": "即時價", "bid": "Bid", "ask": "Ask", "source": "來源"})
+        quotes["買賣價差"] = quotes.spread_bps.map(lambda x: "—" if pd.isna(x) else f"{x:.1f} 基點")
+        quotes["市場中文"] = quotes.market.map(market_label)
+        quotes["資料來源中文"] = quotes.source.map(lambda x: SOURCE_LABELS.get(str(x), str(x)))
+        show = quotes.rename(columns={"symbol": "標的", "price": "即時價", "bid": "最佳買價", "ask": "最佳賣價"})
         st.markdown("**秒級行情**")
-        st.dataframe(show[["資料時間", "延遲秒", "市場", "標的", "即時價", "Bid", "Ask", "spread", "來源"]],
-                     use_container_width=True, hide_index=True)
+        st.dataframe(
+            show[["資料時間", "延遲秒", "市場中文", "標的", "即時價", "最佳買價", "最佳賣價", "買賣價差", "資料來源中文"]].rename(
+                columns={"市場中文": "市場", "資料來源中文": "資料來源"}
+            ),
+            use_container_width=True,
+            hide_index=True,
+        )
     else:
-        st.info("秒級行情尚未收到第一筆資料。Crypto 通常會先出現；美股休市時沒有新成交屬正常。")
+        st.info("秒級行情尚未收到第一筆資料。加密貨幣通常會先出現；美股休市時沒有新成交屬正常。")
 
     if not signals.empty:
         signals["時間"] = signals.ts.map(_fmt_ts)
-        sig = signals.rename(columns={"market": "市場", "symbol": "標的", "signal": "即時狀態", "detail": "說明", "confidence": "模型信心"})
+        signals["市場中文"] = signals.market.map(market_label)
+        signals["即時狀態中文"] = signals.signal.map(realtime_signal_label)
+        signals["說明中文"] = signals.detail.map(translate_reason)
+        sig = signals.rename(columns={"symbol": "標的", "priority": "優先級", "confidence": "模型信心"})
         st.markdown("**即時執行監控**")
-        st.dataframe(sig[["時間", "市場", "標的", "即時狀態", "priority", "模型信心", "說明"]],
-                     use_container_width=True, hide_index=True)
+        st.dataframe(
+            sig[["時間", "市場中文", "標的", "即時狀態中文", "優先級", "模型信心", "說明中文"]].rename(
+                columns={"市場中文": "市場", "即時狀態中文": "即時狀態", "說明中文": "說明"}
+            ),
+            use_container_width=True,
+            hide_index=True,
+        )
 
     if not watch.empty:
-        with st.expander("查看秒級 Watchlist"):
-            w = watch.rename(columns={"market": "市場", "symbol": "標的", "score": "排名分數", "reason": "入選原因", "updated_at": "更新時間"})
-            st.dataframe(w[["市場", "標的", "排名分數", "入選原因", "更新時間"]], use_container_width=True, hide_index=True)
+        with st.expander("查看秒級監控清單"):
+            watch["市場中文"] = watch.market.map(market_label)
+            watch["入選原因中文"] = watch.reason.map(translate_reason)
+            w = watch.rename(columns={"symbol": "標的", "score": "排名分數", "updated_at": "更新時間"})
+            st.dataframe(
+                w[["市場中文", "標的", "排名分數", "入選原因中文", "更新時間"]].rename(
+                    columns={"市場中文": "市場", "入選原因中文": "入選原因"}
+                ),
+                use_container_width=True,
+                hide_index=True,
+            )
 
-    st.caption("目前秒級層不會直接改變既有模擬成交規則；先累積 Shadow 資料驗證是否能改善進出場，再決定是否升級成正式執行條件。台股目前沒有被標示成假秒級資料。")
+    st.caption("目前秒級層不會直接改變既有模擬成交規則；先累積影子資料驗證是否能改善進出場，再決定是否升級成正式執行條件。台股目前只使用K線資料，不會把延遲資料標示成假即時行情。")
