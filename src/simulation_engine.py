@@ -6,6 +6,7 @@ import pandas as pd
 from .backtest import ExecutionCosts
 from .decision_engine import HORIZON_SPECS, calibrate_asset, decision_for
 from .market_cache import MarketCache
+from .risk_sizing import active_entry_sizing
 from .simulation_db import SimulationDB, now_iso
 
 
@@ -65,7 +66,10 @@ class SimulationLab:
             hz=decision_context.get("horizon",aid.split("_",1)[1])
             maxlev=HORIZON_SPECS[hz]["max_leverage"]
             room=max(0.0,equity*maxlev-gross)
-            notional=min(float(o["requested_notional"] or 0),room)
+            original_notional=float(o["requested_notional"] or 0)
+            sizing=active_entry_sizing(self.db,self.cache,market,symbol,hz,decision_context,original_notional)
+            risk_adjusted=float(sizing.get("adjusted_notional",original_notional) or 0)
+            notional=min(risk_adjusted,room)
             if notional<=0:
                 return None
             fill=open_px*(1+rate); qty=notional/fill; fees=notional*rate
@@ -75,6 +79,10 @@ class SimulationLab:
                 "stop_price":fill*(1-float(decision_context.get("stop_distance",0.08))),"target_price":fill*(1+float(decision_context.get("target_distance",0.20))),
                 "max_holding_bars":int(decision_context.get("diagnostics",{}).get("max_holding_bars",HORIZON_SPECS[hz]["max_holding_stock"] if market=="stock" else HORIZON_SPECS[hz]["max_holding_crypto"])),"bars_held":0,"leverage_at_entry":float(decision_context.get("leverage",1.0))})
             self.db.fill_order(o["order_id"],ts.isoformat(),fill,fees,fill-open_px)
+            self.db.add_diagnostic(aid,symbol,hz,ts.isoformat(),"RISK_SIZING","Active portfolio/strategy sizing applied",{
+                **sizing,"leverage_room":room,"filled_notional":notional,"fill_price":fill,
+                "broker_order_api_calls":0,
+            })
             return "BUY"
         if o["side"]=="SELL" and pos is not None:
             fill=open_px*(1-rate); proceeds=float(pos["qty"])*fill; cash=float(acct["cash"])+proceeds
