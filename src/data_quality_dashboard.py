@@ -62,15 +62,6 @@ def _ratio(value):
         return "—"
 
 
-def _pct(value):
-    try:
-        if pd.isna(value):
-            return "—"
-        return f"{float(value) * 100:.2f}%"
-    except Exception:
-        return "—"
-
-
 def _structural_count(payload: dict) -> int:
     s = payload.get("structural") or {}
     return int(sum(int(s.get(k, 0) or 0) for k in [
@@ -104,7 +95,7 @@ def _data_note(payload: dict) -> str:
 
 
 def _drift_note(payload: dict) -> str:
-    reasons = payload.get("reasons") or []
+    reasons = payload.get("drift_reasons") or payload.get("reasons") or []
     labels = {
         "volatility_shift": "波動率改變",
         "return_distribution_shift": "報酬分布改變",
@@ -118,7 +109,6 @@ def _drift_note(payload: dict) -> str:
     return "、".join(labels.get(str(x), str(x)) for x in reasons) if reasons else "無明顯市場漂移"
 
 
-@st.fragment(run_every="30s")
 def render_data_quality_panel():
     st.divider()
     st.subheader("資料品質＋市場結構漂移")
@@ -174,9 +164,7 @@ def render_data_quality_panel():
             "Drift原因": _drift_note(p),
         })
 
-    df = pd.DataFrame(table)
-    st.dataframe(df, use_container_width=True, hide_index=True)
-
+    st.dataframe(pd.DataFrame(table), use_container_width=True, hide_index=True)
     st.caption(
         "Sizing 預設：正常 1.00x；輕度資料警告／Drift 觀察 0.85x；明顯 Drift 0.60x；"
         "嚴重資料品質或嚴重 Drift 0.40x。最後仍受整體最低部位倍率保護。"
