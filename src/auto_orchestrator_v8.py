@@ -102,14 +102,16 @@ class AutoOrchestratorV8:
         now = now.tz_localize("UTC") if now.tzinfo is None else now.tz_convert("UTC")
         done, errors, waiting = [], [], []
         attempts = 0
-        budget = None if force else _calibration_budget()
+        # Safety invariant: even a manual/forced calibration is batched. Force means
+        # "ignore due-time", not "recalculate the whole universe in one request".
+        budget = _calibration_budget()
         for a in self.db.assets():
             for hz in _HORIZONS:
                 if not force and not self._model_due(a["market"], a["symbol"], hz, now):
                     continue
-                if budget is not None and attempts >= budget:
+                if attempts >= budget:
                     return {"calibrated": len(done), "waiting_history": waiting, "errors": errors,
-                            "budget": budget, "budget_exhausted": True}
+                            "budget": budget, "budget_exhausted": True, "forced": bool(force)}
                 attempts += 1
                 try:
                     done.append(self.lab.calibrate(a["market"], a["symbol"], hz, now))
@@ -121,7 +123,7 @@ class AutoOrchestratorV8:
                     else:
                         errors.append({**row, "error": f"{type(e).__name__}: {e}"})
         return {"calibrated": len(done), "waiting_history": waiting, "errors": errors,
-                "budget": budget, "budget_exhausted": False}
+                "budget": budget, "budget_exhausted": False, "forced": bool(force)}
 
     def _run_ready_once(self, now=None):
         checked = processed = fetched = api_calls = 0
