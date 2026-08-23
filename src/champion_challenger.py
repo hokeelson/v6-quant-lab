@@ -24,8 +24,31 @@ def _now_iso() -> str:
     return datetime.now(timezone.utc).isoformat()
 
 
+def _json_safe(value):
+    """Convert model diagnostics into strict JSON without hiding NaN/NumPy types."""
+    if isinstance(value, dict):
+        return {str(k): _json_safe(v) for k, v in value.items()}
+    if isinstance(value, (list, tuple, set)):
+        return [_json_safe(v) for v in value]
+    if isinstance(value, np.ndarray):
+        return [_json_safe(v) for v in value.tolist()]
+    if isinstance(value, (np.integer,)):
+        return int(value)
+    if isinstance(value, (np.floating, float)):
+        x = float(value)
+        return x if math.isfinite(x) else None
+    if isinstance(value, pd.Timestamp):
+        return value.isoformat()
+    if isinstance(value, datetime):
+        return value.isoformat()
+    return value
+
+
 def _json(value) -> str:
-    return json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":"), allow_nan=False)
+    return json.dumps(
+        _json_safe(value), ensure_ascii=False, sort_keys=True,
+        separators=(",", ":"), allow_nan=False,
+    )
 
 
 def _safe_float(value, default=None):
@@ -51,12 +74,7 @@ def _float_env(name: str, default: float) -> float:
 
 
 def model_signature(model: dict) -> str:
-    """Fingerprint only the hypothesis-defining fields.
-
-    OOS/diagnostic scores are allowed to refresh when the actual strategy and
-    parameters stay unchanged. A new Champion/Challenger arena is created only
-    when strategy or parameters change.
-    """
+    """Fingerprint only strategy + frozen parameters, not changing diagnostics."""
     payload = {
         "strategy": str(model.get("strategy") or ""),
         "params": model.get("params") or {},
@@ -70,23 +88,18 @@ def _costs_and_bpy(market: str, horizon: str):
     if market == "crypto":
         return ExecutionCosts(10, 5, 4), int(HORIZON_SPECS[horizon]["bars_per_year_crypto"])
     if market == TW_MARKET:
-        # Same conservative symmetric approximation used by the Taiwan simulator.
         return ExecutionCosts(29.25, 5.0, 4.0), int(TW_BARS_PER_YEAR[horizon])
     raise ValueError(f"Unsupported market: {market}")
 
 
 def _paired_block_probability(champion_returns, challenger_returns, seed_text: str):
-    """P(mean challenger bar return > champion) using paired moving blocks.
-
-    This is deliberately a small, transparent forward-only stability check. It is
-    not used before enough aligned forward bars exist.
-    """
+    """Paired moving-block bootstrap P(mean challenger return > champion return)."""
     a = np.asarray(champion_returns, dtype=float)
     b = np.asarray(challenger_returns, dtype=float)
     n = min(len(a), len(b))
     if n < 30:
         return None
-    diff = (b[-n:] - a[-n:])
+    diff = b[-n:] - a[-n:]
     diff = diff[np.isfinite(diff)]
     n = len(diff)
     if n < 30:
@@ -172,13 +185,11 @@ CREATE TABLE IF NOT EXISTS governance_events(
 
 
 class ChampionChallenger:
-    """Forward-only model-governance layer.
+    """Forward-only governance for production Champion vs frozen Challenger.
 
-    The production simulation model is the Champion. A recalibration that changes
-    strategy/parameters becomes a frozen Challenger. Both are then evaluated from
-    the same registration timestamp on the same future closed bars, with the same
-    standalone 1x capital, costs and risk rules. No pre-registration bar is ever
-    counted as evidence and no broker order API is used.
+    Both arms start at the same registration time, use the same future closed bars,
+    the same standalone capital/cost/risk rules, and never count pre-registration
+    bars as evidence. Pre-registration history is indicator warm-up only.
     """
 
     def __init__(self, path: str, initial_capital: float = 100000.0):
@@ -233,7 +244,9 @@ class ChampionChallenger:
     def arenas(self, status: str | None = None):
         with self._c() as c:
             if status:
-                rows = c.execute("SELECT * FROM arenas WHERE status=? ORDER BY registered_at DESC", (status,)).fetchall()
+                rows = c.execute(
+                    "SELECT * FROM arenas WHERE status=? ORDER BY registered_at DESC", (status,)
+                ).fetchall()
             else:
                 rows = c.execute("SELECT * FROM arenas ORDER BY registered_at DESC").fetchall()
             return [dict(r) for r in rows]
@@ -268,7 +281,7 @@ class ChampionChallenger:
                 arena_id, market, symbol, horizon, now, self.initial_capital,
                 csig, nsig, _json(champion_model), _json(challenger_model),
                 "ACTIVE", "WAITING", _json({"reason": "awaiting_post_registration_bars"}), None,
-                "Frozen paired forward comparison. Pre-registration bars are warmup only and never evidence.", now,
+                "Frozen paired forward comparison. Pre-registration bars never count as evidence.", now,
             ))
         self._event(arena_id, market, symbol, horizon, "CHALLENGE_REGISTERED", {
             "champion_strategy": champion_model.get("strategy"),
@@ -311,6 +324,8 @@ class ChampionChallenger:
         if len(forward) < 2:
             return None
 
+        # Compute indicators on full history for warmup, but execute/evaluate only
+        # bars strictly after registration.
         sig_all = strategy_signal(str(model.get("strategy") or ""), data, model.get("params") or {})
         sig = sig_all.reindex(forward.index).fillna(0.0)
         costs, bpy = _costs_and_bpy(str(arena["market"]), str(arena["horizon"]))
@@ -318,21 +333,27 @@ class ChampionChallenger:
         result = run_backtest(forward, sig, float(arena["initial_capital"]), costs, risk, bpy, 0.0)
         trades = result["trades"].copy()
         if not trades.empty and "reason" in trades.columns:
-            # FINAL_LIQUIDATION is only a mark-to-market convenience for the backtest;
-            # it must not count as a genuinely closed forward trade.
             genuine = trades[trades["reason"].fillna("") != "FINAL_LIQUIDATION"].copy()
         else:
             genuine = trades
         m = performance_metrics(result["equity"], genuine, bpy, 0.0)
-        first = forward.index[0]
-        last = forward.index[-1]
+        first, last = forward.index[0], forward.index[-1]
         days = max(1, int(math.floor((last - first).total_seconds() / 86400.0)) + 1)
         rets = result["equity"].pct_change().replace([np.inf, -np.inf], np.nan).dropna().to_numpy(float)
 
         def clean(name, default=None):
             return _safe_float(m.get(name), default)
 
-        metrics = {
+        clean_metrics = {}
+        for k, v in m.items():
+            if isinstance(v, (int, np.integer)):
+                clean_metrics[k] = int(v)
+            elif isinstance(v, (float, np.floating)):
+                clean_metrics[k] = _safe_float(v)
+            else:
+                clean_metrics[k] = _json_safe(v)
+
+        return {
             "last_forward_bar": last.isoformat(),
             "forward_bars": int(len(forward)),
             "forward_days": days,
@@ -342,13 +363,9 @@ class ChampionChallenger:
             "max_drawdown": clean("max_drawdown", 0.0),
             "win_rate": clean("win_rate"),
             "profit_factor": clean("profit_factor"),
-            "metrics": {
-                k: (_safe_float(v) if isinstance(v, (int, float, np.integer, np.floating)) else v)
-                for k, v in m.items()
-            },
+            "metrics": clean_metrics,
             "returns": rets,
         }
-        return metrics
 
     def _gate(self, arena: dict, champion: dict, challenger: dict):
         min_days = max(1, _int_env("V6_CC_MIN_FORWARD_DAYS", 60))
@@ -370,8 +387,12 @@ class ChampionChallenger:
         n_dd = _safe_float(challenger.get("max_drawdown"), -1.0)
         days = int(challenger.get("forward_days", 0) or 0)
         trades = int(challenger.get("closed_trades", 0) or 0)
+        champion_returns = champion.get("returns")
+        challenger_returns = challenger.get("returns")
         boot = _paired_block_probability(
-            champion.get("returns") or [], challenger.get("returns") or [], str(arena["arena_id"])
+            champion_returns if champion_returns is not None else [],
+            challenger_returns if challenger_returns is not None else [],
+            str(arena["arena_id"]),
         )
 
         checks = {
@@ -385,8 +406,7 @@ class ChampionChallenger:
             "drawdown_not_materially_worse": n_dd >= c_dd - dd_slack,
             "paired_bootstrap_support": boot is not None and boot >= min_boot,
         }
-        promotion = all(checks.values())
-        if promotion:
+        if all(checks.values()):
             verdict = "PROMOTE_READY"
         elif days >= max_days and trades >= min_trades:
             verdict = "REJECT_READY"
@@ -453,10 +473,10 @@ class ChampionChallenger:
                 verdict = gate["verdict"]
                 if verdict == "PROMOTE_READY":
                     promoted_model = dict(challenger_model)
-                    promoted_model["market"] = market
-                    promoted_model["symbol"] = symbol
-                    promoted_model["horizon"] = horizon
-                    promoted_model["updated_at"] = now_iso
+                    promoted_model.update({
+                        "market": market, "symbol": symbol, "horizon": horizon,
+                        "updated_at": now_iso,
+                    })
                     simulation_db.save_model(promoted_model)
                     self._set_arena_result(arena, "PROMOTED", "PROMOTED", gate, now_iso)
                     self.mark_research(market, symbol, horizon, arena["challenger_signature"], now_iso)
