@@ -4,6 +4,7 @@ import json
 import os
 import sqlite3
 import tempfile
+from datetime import datetime, timezone
 from pathlib import Path
 
 import pandas as pd
@@ -48,6 +49,19 @@ engine = AutoOrchestratorV8(float((cfg.get("research") or {}).get("initial_capit
 db = engine.db
 lab = engine.lab
 WORKER_STATUS_PATH = Path(data_dir()) / "worker_status.json"
+WORKER_REQUEST_PATH = Path(data_dir()) / "worker_request.json"
+
+
+def _queue_worker_request(kind: str) -> dict:
+    payload = {
+        "kind": kind,
+        "requested_at": datetime.now(timezone.utc).isoformat(),
+        "source": "dashboard",
+    }
+    tmp = WORKER_REQUEST_PATH.with_suffix(".json.tmp")
+    tmp.write_text(json.dumps(payload, ensure_ascii=False), encoding="utf-8")
+    tmp.replace(WORKER_REQUEST_PATH)
+    return payload
 
 
 def _import_forward_candidates(uploaded) -> dict:
@@ -204,12 +218,12 @@ def worker_status_panel():
 worker_status_panel()
 
 if st.button("立即完整更新", type="primary", use_container_width=True):
-    with st.spinner("補行情 → 校準到期模型 → 算短中長決策 → 更新 9 個虛擬帳戶..."):
-        r = engine.full_cycle(force_recalibrate=False)
-        st.session_state["last_manual_cycle"] = r
-r = st.session_state.get("last_manual_cycle")
-if r:
-    _show_cycle_result(r)
+    payload = _queue_worker_request("full_cycle")
+    st.session_state["manual_request_notice"] = payload
+
+notice = st.session_state.pop("manual_request_notice", None)
+if notice:
+    st.success("立即完整更新已交給背景 Worker。Dashboard 不會同步重算，你可以繼續查看 Realtime 與 Risk 區塊。")
 
 
 @st.fragment(run_every="30s")
@@ -330,13 +344,9 @@ with st.expander("研究/維護工具"):
 
     st.divider()
     if st.button("強制重新校準全部模型"):
-        with st.spinner("重新校準 Crypto／美股／台股全部 ACTIVE 標的..."):
-            x = engine.calibrate_due(force=True)
-        wa = x.get("waiting_history", []) or []
-        er = x.get("errors", []) or []
-        st.write(f"校準完成：成功 {x.get('calibrated', 0)}；等待資料 {len(wa)}；真正錯誤 {len(er)}。")
-        if wa:
-            st.dataframe(pd.DataFrame(wa), use_container_width=True, hide_index=True)
-        if er:
-            st.error("有真正錯誤需要處理")
-            st.dataframe(pd.DataFrame(er), use_container_width=True, hide_index=True)
+        payload = _queue_worker_request("force_calibration")
+        st.session_state["force_calibration_notice"] = payload
+
+    force_notice = st.session_state.pop("force_calibration_notice", None)
+    if force_notice:
+        st.success("已交給背景 Worker 分批強制校準；不會在 Dashboard 內同步重算。")
