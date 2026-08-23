@@ -18,6 +18,7 @@ HEARTBEAT_SECONDS = 15
 load_dotenv()
 engine = AutoOrchestratorV8(initial_equity=100000.0)
 status_path = Path(data_dir()) / "worker_status.json"
+request_path = Path(data_dir()) / "worker_request.json"
 status_lock = threading.Lock()
 worker_state = {
     "status": "STARTING",
@@ -30,6 +31,8 @@ worker_state = {
     "broker_order_api_calls": 0,
     "true_errors": 0,
     "risk_layer": "STARTING",
+    "last_request_kind": None,
+    "last_request_at": None,
     "message": "Worker starting",
 }
 
@@ -52,18 +55,48 @@ def _heartbeat_loop():
         time.sleep(HEARTBEAT_SECONDS)
 
 
+def _pop_request():
+    try:
+        if not request_path.exists():
+            return None
+        payload = json.loads(request_path.read_text(encoding="utf-8"))
+        request_path.unlink(missing_ok=True)
+        return payload if isinstance(payload, dict) else None
+    except Exception as exc:
+        print("WORKER_REQUEST_ERROR", type(exc).__name__, exc, flush=True)
+        return None
+
+
+def _sleep_until_due():
+    # Wake early when the dashboard queues a manual request instead of forcing the
+    # user to wait for the next 60-second scheduled cycle.
+    for _ in range(POLL_SECONDS):
+        if request_path.exists():
+            return
+        time.sleep(1)
+
+
 threading.Thread(target=_heartbeat_loop, daemon=True).start()
 print("V6 V8 Auto Simulation Worker started: crypto + US stocks + Taiwan stocks.", flush=True)
 print("Broker order API = 0. This worker uses virtual accounts only.", flush=True)
 print("Professional Risk Layer = shadow-only monitoring.", flush=True)
 
 while True:
+    request = _pop_request()
+    request_kind = str((request or {}).get("kind") or "scheduled")
+    force_recalibrate = request_kind == "force_calibration"
     stamp = datetime.now(timezone.utc).isoformat()
     with status_lock:
-        worker_state.update({"status": "RUNNING", "last_cycle_started_at": stamp, "message": "Automatic cycle running"})
+        worker_state.update({
+            "status": "RUNNING",
+            "last_cycle_started_at": stamp,
+            "last_request_kind": request_kind if request else None,
+            "last_request_at": (request or {}).get("requested_at"),
+            "message": "Manual update running" if request else "Automatic cycle running",
+        })
     _write_status()
     try:
-        r = engine.full_cycle()
+        r = engine.full_cycle(force_recalibrate=force_recalibrate)
         sim = r.get("simulation", {}) or {}
         risk_errors = []
         global_risk = "UNKNOWN"
@@ -93,10 +126,12 @@ while True:
                 "true_errors": core_errors,
                 "risk_layer": "ONLINE" if not risk_errors else "ERROR",
                 "portfolio_risk": global_risk,
-                "message": "Automatic cycle completed" if not risk_errors else "Core cycle completed; " + " | ".join(risk_errors),
+                "message": "Manual update completed" if request and not risk_errors else (
+                    "Automatic cycle completed" if not risk_errors else "Core cycle completed; " + " | ".join(risk_errors)
+                ),
             })
         _write_status()
-        print(stamp, r, flush=True)
+        print(stamp, request_kind, r, flush=True)
     except Exception as e:
         finished = datetime.now(timezone.utc).isoformat()
         with status_lock:
@@ -108,4 +143,4 @@ while True:
             })
         _write_status()
         print(stamp, "AUTO_ERROR", type(e).__name__, e, flush=True)
-    time.sleep(POLL_SECONDS)
+    _sleep_until_due()
