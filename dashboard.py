@@ -19,6 +19,7 @@ from src.live_analytics import (
     latest_prices_table,
     positions_table,
     problem_ranking,
+    trade_diagnostics_table,
 )
 from src.paths import data_dir
 
@@ -304,12 +305,36 @@ def live_results():
         q["PF"] = q.profit_factor.map(lambda x: "—" if pd.isna(x) else ("∞" if x == float("inf") else f"{x:.2f}"))
         st.dataframe(q[["symbol", "週期", "strategy", "regime", "samples", "勝率", "PF", "平均報酬", "realized_pnl", "問題"]].head(30), use_container_width=True, hide_index=True)
 
-    trades = pd.DataFrame(db.recent_trades(100))
-    st.subheader("最近已平倉")
+    trades = trade_diagnostics_table(db, engine.cache, 100)
+    st.subheader("最近已平倉＋問題診斷")
     if trades.empty:
         st.info("尚無已平倉交易。")
     else:
-        st.dataframe(trades[[c for c in ["exit_bar", "account_id", "symbol", "strategy", "horizon", "realized_pnl", "return_pct", "exit_reason", "leverage"] if c in trades.columns]], use_container_width=True, hide_index=True)
+        t = trades.copy()
+        t["平倉時間"] = t.exit_bar.map(_fmt_taipei)
+        t["進場時間"] = t.entry_bar.map(_fmt_taipei)
+        t["P/L"] = t.realized_pnl.map(lambda x: f"{x:,.2f}")
+        t["報酬"] = t.return_pct.map(lambda x: f"{x * 100:+.2f}%")
+        t["MAE"] = t.mae.map(lambda x: "—" if pd.isna(x) else f"{x * 100:+.2f}%")
+        t["MFE"] = t.mfe.map(lambda x: "—" if pd.isna(x) else f"{x * 100:+.2f}%")
+        t["進場信心"] = t.entry_confidence.map(lambda x: "—" if pd.isna(x) else f"{x:.1f}")
+        t["槓桿"] = t.leverage.map(lambda x: f"{x:.2f}x")
+        t = t.rename(columns={
+            "symbol": "標的",
+            "strategy": "策略",
+            "entry_price": "進場價",
+            "exit_price": "出場價",
+            "bars_held": "持有K",
+            "regime_entry": "進場Regime",
+            "exit_reason": "平倉原因",
+        })
+        cols = [
+            "平倉時間", "標的", "週期", "策略", "進場時間", "進場價", "出場價",
+            "持有K", "P/L", "報酬", "MAE", "MFE", "進場信心", "進場Regime",
+            "平倉原因", "問題診斷", "嚴重度", "槓桿",
+        ]
+        st.dataframe(t[cols], use_container_width=True, hide_index=True)
+        st.caption("MAE＝持倉期間最大不利波動；MFE＝持倉期間最大有利波動。診斷只讀既有 SQLite 行情快取，不會額外呼叫行情 API。")
 
     dec = decisions_table(db, 500)
     if not dec.empty:
