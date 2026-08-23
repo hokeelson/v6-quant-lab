@@ -22,6 +22,18 @@ from .ui_zh import (
     verdict_label,
 )
 
+META_VERDICT_LABELS = {
+    "STRONG": "品質強",
+    "ALLOW": "允許",
+    "CAUTION": "注意／縮小",
+    "SHADOW_ONLY": "僅小部位觀察",
+    "LEARNING": "樣本累積中",
+}
+META_MODE_LABELS = {
+    "COLD_START": "冷啟動透明評分",
+    "LEARNED_VALIDATED": "時間切分驗證通過",
+}
+
 
 def _pct(x):
     try:
@@ -33,6 +45,24 @@ def _pct(x):
 def _num(x, digits=2):
     try:
         return f"{float(x):,.{digits}f}"
+    except Exception:
+        return "—"
+
+
+def _score(x):
+    try:
+        if pd.isna(x):
+            return "—"
+        return f"{float(x):.1f}"
+    except Exception:
+        return "—"
+
+
+def _bps(x):
+    try:
+        if pd.isna(x):
+            return "—"
+        return f"{float(x):+.1f} bp"
     except Exception:
         return "—"
 
@@ -79,7 +109,7 @@ def render_professional_risk_panel():
     pretrade_snap = read_pretrade_risk_snapshot()
     st.divider()
     st.subheader("專業風控層")
-    st.caption("組合風險＋進場前風險閘門＋策略健康度｜已開始調整虛擬進場部位大小，不直接封鎖交易｜交易訂單介面呼叫 = 0")
+    st.caption("組合風險＋進場前風險閘門＋策略健康度＋Meta 第二層｜只調整虛擬進場部位，不送券商訂單｜交易訂單介面呼叫 = 0")
 
     if not snap:
         st.info("尚未產生第一份專業風險快照。背景程序下一個循環會自動建立。")
@@ -118,11 +148,28 @@ def render_professional_risk_panel():
         e.metric("最高相關", "0.00")
         f.metric("目前建議倍率", "1.00x")
 
-    st.markdown("**實際虛擬部位調整紀錄**")
+    st.markdown("**實際虛擬部位調整＋Meta 第二層紀錄**")
     if active_sizing.empty:
-        st.info("新版風控尚未遇到下一筆實際進場成交。新 BUY 成交後會在這裡顯示原始部位與風控後部位。")
+        st.info("新版風控尚未遇到下一筆實際進場成交。新 BUY 成交後會顯示原始部位、Meta 評分與風控後部位。")
     else:
         z = active_sizing.copy()
+        defaults = {
+            "meta_score": None,
+            "meta_probability": None,
+            "meta_verdict": "LEARNING",
+            "meta_mode": "COLD_START",
+            "meta_samples": 0,
+            "meta_multiplier": 1.0,
+            "meta_tca_samples": 0,
+            "meta_tca_execution_score": 50.0,
+            "meta_spread_bps": None,
+            "meta_validation_logloss": None,
+            "meta_baseline_logloss": None,
+            "meta_error": None,
+        }
+        for col, default in defaults.items():
+            if col not in z.columns:
+                z[col] = default
         z["時間"] = z["bar_time"].map(_fmt_time)
         z["帳戶"] = z["account_id"].map(account_label)
         z["週期"] = z["horizon"].map(horizon_label)
@@ -133,14 +180,36 @@ def render_professional_risk_panel():
         z["組合倍率"] = z["portfolio_multiplier"].map(lambda x: f"{float(x):.2f}x")
         z["策略倍率"] = z["strategy_multiplier"].map(lambda x: f"{float(x):.2f}x")
         z["策略狀態"] = z["strategy_state"].map(health_label)
+        z["Meta分數"] = z["meta_score"].map(_score)
+        z["Meta機率"] = z["meta_probability"].map(lambda x: "—" if pd.isna(x) else f"{float(x) * 100:.1f}%")
+        z["Meta判定"] = z["meta_verdict"].map(lambda x: META_VERDICT_LABELS.get(str(x), str(x)))
+        z["Meta模式"] = z["meta_mode"].map(lambda x: META_MODE_LABELS.get(str(x), str(x)))
+        z["Meta倍率"] = z["meta_multiplier"].map(lambda x: f"{float(x):.2f}x")
+        z["Meta樣本"] = z["meta_samples"].fillna(0).astype(int)
+        z["TCA樣本"] = z["meta_tca_samples"].fillna(0).astype(int)
+        z["即時價差"] = z["meta_spread_bps"].map(_bps)
         z["進場風險判定"] = z["pretrade_verdict"].map(verdict_label)
         z["風險原因"] = z["flags"].map(_flags)
         st.dataframe(
             z[["時間", "帳戶", "symbol", "週期", "原始要求部位", "風控後目標部位", "實際成交部位",
-               "總倍率", "組合倍率", "策略倍率", "策略狀態", "進場風險判定", "風險原因"]].rename(columns={"symbol": "標的"}),
+               "總倍率", "組合倍率", "策略倍率", "Meta倍率", "Meta分數", "Meta機率", "Meta判定", "Meta模式",
+               "Meta樣本", "TCA樣本", "即時價差", "策略狀態", "進場風險判定", "風險原因"]].rename(columns={"symbol": "標的"}),
             use_container_width=True,
             hide_index=True,
         )
+        newest = z.iloc[0]
+        val_ll = newest.get("meta_validation_logloss")
+        base_ll = newest.get("meta_baseline_logloss")
+        if str(newest.get("meta_mode")) == "LEARNED_VALIDATED":
+            st.success(
+                f"Meta 學習模型已通過時間切分驗證｜樣本 {int(newest.get('meta_samples') or 0)}｜"
+                f"驗證 LogLoss {_num(val_ll, 4)} vs 基準 {_num(base_ll, 4)}。"
+            )
+        else:
+            st.info(
+                f"Meta 目前使用冷啟動透明評分｜已匹配已平倉樣本 {int(newest.get('meta_samples') or 0)}。"
+                "至少 60 筆、正負樣本各至少 15 筆，且時間切分驗證優於基準後，學習模型才會接管。"
+            )
 
     if not groups.empty:
         g = groups.copy()
@@ -269,5 +338,5 @@ def render_professional_risk_panel():
 
     st.caption(
         f"風險快照時間（台灣）：{_fmt_time(snap.get('generated_at'))}。"
-        "風險分數與健康度仍是透明診斷規則，不是虧損機率。新版只會縮放虛擬進場部位，不會直接封鎖訊號、強制停用策略或呼叫券商交易 API。"
+        "Meta 第二層在冷啟動時使用可解釋的模型品質分數；只有至少 60 筆匹配已平倉交易、正負樣本各至少 15 筆，且時間切分驗證 LogLoss 比基準改善至少 2%，學習模型才會啟用。現階段 Meta 不會把部位放大超過原策略要求，也不會呼叫券商交易 API。"
     )
