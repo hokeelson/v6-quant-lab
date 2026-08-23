@@ -9,6 +9,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 from src.auto_orchestrator_v8 import AutoOrchestratorV8
 from src.paths import data_dir
+from src.pro_risk_engine import write_professional_risk_snapshot
 
 POLL_SECONDS = 60
 HEARTBEAT_SECONDS = 15
@@ -27,6 +28,7 @@ worker_state = {
     "market_data_api_calls": 0,
     "broker_order_api_calls": 0,
     "true_errors": 0,
+    "risk_layer": "STARTING",
     "message": "Worker starting",
 }
 
@@ -52,6 +54,7 @@ def _heartbeat_loop():
 threading.Thread(target=_heartbeat_loop, daemon=True).start()
 print("V6 V8 Auto Simulation Worker started: crypto + US stocks + Taiwan stocks.", flush=True)
 print("Broker order API = 0. This worker uses virtual accounts only.", flush=True)
+print("Professional Risk Layer = shadow-only monitoring.", flush=True)
 
 while True:
     stamp = datetime.now(timezone.utc).isoformat()
@@ -61,17 +64,32 @@ while True:
     try:
         r = engine.full_cycle()
         sim = r.get("simulation", {}) or {}
+        risk_error = None
+        try:
+            risk = write_professional_risk_snapshot(engine.db, engine.cache)
+            risk_status = "ONLINE"
+            global_rows = ((risk.get("portfolio") or {}).get("groups") or [])
+            global_risk = next((x.get("risk_status") for x in global_rows if x.get("group") == "GLOBAL"), "LOW")
+        except Exception as exc:
+            risk_status = "ERROR"
+            global_risk = "UNKNOWN"
+            risk_error = f"{type(exc).__name__}: {exc}"
+            print(stamp, "RISK_LAYER_ERROR", risk_error, flush=True)
+
         finished = datetime.now(timezone.utc).isoformat()
+        core_errors = len(r.get("true_errors", []) or [])
         with status_lock:
             worker_state.update({
-                "status": "ONLINE" if not (r.get("true_errors") or []) else "DEGRADED",
+                "status": "ONLINE" if core_errors == 0 and risk_error is None else "DEGRADED",
                 "last_cycle_finished_at": finished,
                 "assets_checked": int(sim.get("assets_checked", 0) or 0),
                 "bars_processed": int(sim.get("bars_processed", 0) or 0),
                 "market_data_api_calls": int(sim.get("market_data_api_calls", 0) or 0),
                 "broker_order_api_calls": 0,
-                "true_errors": len(r.get("true_errors", []) or []),
-                "message": "Automatic cycle completed",
+                "true_errors": core_errors,
+                "risk_layer": risk_status,
+                "portfolio_risk": global_risk,
+                "message": "Automatic cycle completed" if risk_error is None else f"Core cycle completed; risk layer: {risk_error}",
             })
         _write_status()
         print(stamp, r, flush=True)
