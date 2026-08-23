@@ -48,9 +48,19 @@ def render_realtime_panel():
         st.warning("Realtime Worker 尚未回報心跳；若剛部署請等待約 10–30 秒。")
         return
     age = _age_seconds(s.get("heartbeat_at"))
-    online = age is not None and age <= 15
+    fresh = age is not None and age <= 15
+    raw_status = str(s.get("status") or "UNKNOWN").upper()
+    if not fresh:
+        display = "🔴 OFFLINE"
+    elif raw_status == "DEGRADED":
+        display = "🟠 DEGRADED"
+    elif raw_status == "ERROR":
+        display = "🔴 ERROR"
+    else:
+        display = "🟢 ONLINE"
+
     cols = st.columns(7)
-    cols[0].metric("Realtime", "🟢 ONLINE" if online else "🔴 OFFLINE")
+    cols[0].metric("Realtime", display)
     cols[1].metric("心跳", f"{age}s" if age is not None else "—")
     cols[2].metric("Watchlist", int(s.get("watchlist_total", 0) or 0))
     cols[3].metric("Crypto Stream", s.get("crypto_stream", "—"))
@@ -62,6 +72,23 @@ def render_realtime_panel():
     quotes = pd.DataFrame(db.quotes())
     signals = pd.DataFrame(db.signals())
     watch = pd.DataFrame(db.watchlist())
+
+    if raw_status in ("DEGRADED", "ERROR") or int(s.get("watchlist_total", 0) or 0) == 0:
+        positions_seen = int(s.get("positions_seen", 0) or 0)
+        assets_seen = int(s.get("assets_seen", 0) or 0)
+        decisions_seen = int(s.get("decisions_seen", 0) or 0)
+        last_ok = _fmt_ts(s.get("watchlist_last_success_at"))
+        err = s.get("watchlist_last_error")
+        if err:
+            st.error(
+                f"Realtime Watchlist 異常｜Realtime Worker 讀到持倉 {positions_seen}、ACTIVE 標的 {assets_seen}、決策 {decisions_seen}｜"
+                f"最後成功 {last_ok}｜錯誤：{err}"
+            )
+        else:
+            st.info(
+                f"Realtime Watchlist 尚未建立｜Realtime Worker 目前讀到持倉 {positions_seen}、ACTIVE 標的 {assets_seen}、決策 {decisions_seen}｜"
+                f"最後成功 {last_ok}"
+            )
 
     if not quotes.empty:
         quotes["資料時間"] = quotes.ts.map(_fmt_ts)
