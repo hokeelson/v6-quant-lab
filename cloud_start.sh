@@ -4,9 +4,10 @@ set -eu
 mkdir -p "${V6_DATA_DIR:-/data}"
 
 APP_PORT="${PORT:-8501}"
-echo "Starting V6 Streamlit on 0.0.0.0:${APP_PORT}"
+echo "Starting V6 V8 Streamlit on 0.0.0.0:${APP_PORT}"
 
-python worker_supervisor.py &
+echo "Virtual simulation only; broker order API remains disabled."
+python worker_supervisor_v8.py &
 SUPERVISOR_PID=$!
 
 cleanup() {
@@ -14,7 +15,7 @@ cleanup() {
 }
 trap cleanup EXIT INT TERM
 
-exec streamlit run dashboard.py \
+exec streamlit run dashboard_v8.py \
   --server.address=0.0.0.0 \
   --server.port="${APP_PORT}" \
   --server.headless=true \
