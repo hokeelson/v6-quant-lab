@@ -7,6 +7,8 @@ import re
 import pandas as pd
 import yaml
 
+from .champion_challenger import ChampionChallenger, model_signature
+from .decision_engine import calibrate_asset
 from .dynamic_universe import DynamicUniverse
 from .forward_db import ForwardDB
 from .paths import db_path
@@ -15,6 +17,7 @@ from .twstock_support import (
     TaiwanMarketCache,
     TaiwanSimulationDB,
     TaiwanSimulationLab,
+    calibrate_twstock,
     normalize_tw_symbol,
 )
 
@@ -36,14 +39,16 @@ def _calibration_budget():
 
 
 class AutoOrchestratorV8:
-    """Research + local virtual broker only. Broker order API remains disabled."""
+    """Research + virtual broker only. Broker order API remains disabled."""
 
     def __init__(self, initial_equity=100000.0):
+        self.initial_equity = float(initial_equity)
         self.forward = ForwardDB(db_path("forward_validation.sqlite3"))
         self.db = TaiwanSimulationDB(db_path("simulation_lab.sqlite3"))
         self.cache = TaiwanMarketCache(db_path("market_cache.sqlite3"))
-        self.lab = TaiwanSimulationLab(self.db, self.cache, initial_equity=float(initial_equity))
+        self.lab = TaiwanSimulationLab(self.db, self.cache, initial_equity=self.initial_equity)
         self.universe = DynamicUniverse(self.db)
+        self.governance = ChampionChallenger(db_path("model_governance.sqlite3"), self.initial_equity)
         self._bootstrap_twstocks()
 
     def _configured_twstocks(self):
@@ -74,18 +79,46 @@ class AutoOrchestratorV8:
             symbol = str(r.get("symbol") or "").upper()
             if market in pinned and symbol:
                 pinned[market].add(symbol)
+        # An active Champion/Challenger arena must not lose its symbol from the
+        # dynamic universe before the paired forward comparison is decided.
+        for r in self.governance.arenas("ACTIVE"):
+            market = str(r.get("market") or "")
+            symbol = str(r.get("symbol") or "").upper()
+            if market in pinned and symbol:
+                pinned[market].add(symbol)
         return {k: sorted(v) for k, v in pinned.items()}
 
     def _model_due(self, market, symbol, horizon, now):
         m = self.db.model(market, symbol, horizon)
         if m is None:
             return True
+        if self.governance.active_arena(market, symbol, horizon):
+            return False
+        raw = self.governance.last_research_at(market, symbol, horizon) or m.get("updated_at")
         try:
-            t = pd.Timestamp(m.get("updated_at"))
+            t = pd.Timestamp(raw)
             t = t.tz_localize("UTC") if t.tzinfo is None else t.tz_convert("UTC")
             return (now - t).total_seconds() >= RECALIBRATE_HOURS[horizon] * 3600
         except Exception:
             return True
+
+    def _candidate_model(self, market, symbol, horizon, now):
+        pack = self.cache.ensure(market, symbol, horizon, now)
+        df = self.cache.closed_only(pack["data"], market, horizon, now)
+        if market == TW_MARKET:
+            model = calibrate_twstock(df, horizon, self.initial_equity)
+            symbol = normalize_tw_symbol(symbol)
+        else:
+            model = calibrate_asset(df, market, horizon, self.initial_equity)
+        now_ts = pd.Timestamp(now or datetime.now(timezone.utc))
+        now_ts = now_ts.tz_localize("UTC") if now_ts.tzinfo is None else now_ts.tz_convert("UTC")
+        model.update({
+            "market": market,
+            "symbol": str(symbol).upper(),
+            "horizon": horizon,
+            "updated_at": now_ts.isoformat(),
+        })
+        return model, pack
 
     def model_health(self):
         assets = self.db.assets()
@@ -102,28 +135,60 @@ class AutoOrchestratorV8:
         now = now.tz_localize("UTC") if now.tzinfo is None else now.tz_convert("UTC")
         done, errors, waiting = [], [], []
         attempts = 0
-        # Safety invariant: even a manual/forced calibration is batched. Force means
-        # "ignore due-time", not "recalculate the whole universe in one request".
+        # Forced calibration still respects an active arena: repeatedly generating
+        # challengers while one is already in forward validation would data-mine
+        # the same future period and defeat the governance layer.
         budget = _calibration_budget()
         for a in self.db.assets():
             for hz in _HORIZONS:
-                if not force and not self._model_due(a["market"], a["symbol"], hz, now):
+                market, symbol = a["market"], a["symbol"]
+                if self.governance.active_arena(market, symbol, hz):
+                    continue
+                if not force and not self._model_due(market, symbol, hz, now):
                     continue
                 if attempts >= budget:
                     return {"calibrated": len(done), "waiting_history": waiting, "errors": errors,
                             "budget": budget, "budget_exhausted": True, "forced": bool(force)}
                 attempts += 1
                 try:
-                    done.append(self.lab.calibrate(a["market"], a["symbol"], hz, now))
+                    current = self.db.model(market, symbol, hz)
+                    if current is None:
+                        # There is nothing to challenge yet. The first valid model
+                        # becomes the initial Champion, then future changes must win
+                        # a paired forward arena before replacing it.
+                        result = self.lab.calibrate(market, symbol, hz, now)
+                        saved = self.db.model(market, symbol, hz)
+                        self.governance.mark_research(
+                            market, symbol, hz, model_signature(saved or result), now.isoformat()
+                        )
+                        done.append({**result, "governance_status": "INITIAL_CHAMPION"})
+                        continue
+
+                    candidate, pack = self._candidate_model(market, symbol, hz, now)
+                    governance = self.governance.register_challenge(current, candidate, now.isoformat())
+                    if governance.get("status") == "SAME_MODEL":
+                        # Same strategy+params: refresh its evidence/diagnostics but
+                        # do not create a pointless challenger arena.
+                        self.db.save_model(candidate)
+                    done.append({
+                        "market": market, "symbol": str(symbol).upper(), "horizon": hz,
+                        "fetched": int(pack.get("fetched", 0) or 0),
+                        "api_called": bool(pack.get("api_called", False)),
+                        "strategy": candidate.get("strategy"),
+                        "oos_score": candidate.get("oos_score"),
+                        "calibration_score": candidate.get("calibration_score"),
+                        "governance_status": governance.get("status"),
+                        "arena_id": governance.get("arena_id"),
+                    })
                 except Exception as e:
                     required = _waiting_history_error(e)
-                    row = {"market": a["market"], "symbol": a["symbol"], "horizon": hz}
+                    row = {"market": market, "symbol": symbol, "horizon": hz}
                     if required is not None:
                         waiting.append({**row, "required_closed_bars": required, "status": "WAITING_FOR_HISTORY"})
                     else:
                         errors.append({**row, "error": f"{type(e).__name__}: {e}"})
         return {"calibrated": len(done), "waiting_history": waiting, "errors": errors,
-                "budget": budget, "budget_exhausted": False, "forced": bool(force)}
+                "budget": budget, "budget_exhausted": False, "forced": bool(force), "results": done}
 
     def _run_ready_once(self, now=None):
         checked = processed = fetched = api_calls = 0
@@ -160,8 +225,10 @@ class AutoOrchestratorV8:
         universe = self.universe.refresh_due(self._pinned_universe(), force=False)
         cal = self.calibrate_due(now, force_recalibrate)
         run = self._run_ready_once(now)
+        governance = self.governance.process_active(self.db, self.cache, now)
         run_errors = run.get("errors") or []
-        true_errors = [*cal.get("errors", []), *run_errors]
+        governance_errors = governance.get("errors") or []
+        true_errors = [*cal.get("errors", []), *run_errors, *governance_errors]
         health = self.model_health()
         waiting = cal.get("waiting_history", [])
         return {
@@ -170,6 +237,7 @@ class AutoOrchestratorV8:
             "universe": universe,
             "calibration": cal,
             "simulation": run,
+            "governance": governance,
             "health": {**health, "waiting_history": len(waiting), "true_errors": len(true_errors)},
             "true_errors": true_errors,
             "broker_order_api_calls": 0,
