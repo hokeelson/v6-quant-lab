@@ -9,6 +9,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 from src.auto_orchestrator_v8 import AutoOrchestratorV8
 from src.paths import data_dir
+from src.pretrade_risk import write_pretrade_risk_snapshot
 from src.pro_risk_engine import write_professional_risk_snapshot
 
 POLL_SECONDS = 60
@@ -64,32 +65,35 @@ while True:
     try:
         r = engine.full_cycle()
         sim = r.get("simulation", {}) or {}
-        risk_error = None
+        risk_errors = []
+        global_risk = "UNKNOWN"
         try:
             risk = write_professional_risk_snapshot(engine.db, engine.cache)
-            risk_status = "ONLINE"
             global_rows = ((risk.get("portfolio") or {}).get("groups") or [])
             global_risk = next((x.get("risk_status") for x in global_rows if x.get("group") == "GLOBAL"), "LOW")
         except Exception as exc:
-            risk_status = "ERROR"
-            global_risk = "UNKNOWN"
-            risk_error = f"{type(exc).__name__}: {exc}"
-            print(stamp, "RISK_LAYER_ERROR", risk_error, flush=True)
+            risk_errors.append(f"professional: {type(exc).__name__}: {exc}")
+            print(stamp, "RISK_LAYER_ERROR", risk_errors[-1], flush=True)
+        try:
+            write_pretrade_risk_snapshot(engine.db, engine.cache)
+        except Exception as exc:
+            risk_errors.append(f"pretrade: {type(exc).__name__}: {exc}")
+            print(stamp, "PRETRADE_RISK_ERROR", risk_errors[-1], flush=True)
 
         finished = datetime.now(timezone.utc).isoformat()
         core_errors = len(r.get("true_errors", []) or [])
         with status_lock:
             worker_state.update({
-                "status": "ONLINE" if core_errors == 0 and risk_error is None else "DEGRADED",
+                "status": "ONLINE" if core_errors == 0 and not risk_errors else "DEGRADED",
                 "last_cycle_finished_at": finished,
                 "assets_checked": int(sim.get("assets_checked", 0) or 0),
                 "bars_processed": int(sim.get("bars_processed", 0) or 0),
                 "market_data_api_calls": int(sim.get("market_data_api_calls", 0) or 0),
                 "broker_order_api_calls": 0,
                 "true_errors": core_errors,
-                "risk_layer": risk_status,
+                "risk_layer": "ONLINE" if not risk_errors else "ERROR",
                 "portfolio_risk": global_risk,
-                "message": "Automatic cycle completed" if risk_error is None else f"Core cycle completed; risk layer: {risk_error}",
+                "message": "Automatic cycle completed" if not risk_errors else "Core cycle completed; " + " | ".join(risk_errors),
             })
         _write_status()
         print(stamp, r, flush=True)
