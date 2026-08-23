@@ -161,7 +161,7 @@ def active_entry_sizing(db, cache, market: str, symbol: str, horizon: str, decis
                 result["drift_status"] = str(health.get("drift_status") or "LEARNING")
                 result["quality_score"] = health.get("quality_score")
                 result["drift_score"] = health.get("drift_score")
-                result["quality_reasons"] = health.get("reasons") or []
+                result["quality_reasons"] = [] if result["data_status"] == "OK" else [result["data_status"]]
                 result["drift_reasons"] = health.get("reasons") or []
                 # Preserve the detailed assessment for diagnostics without changing
                 # the original strategy decision.
