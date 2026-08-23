@@ -6,11 +6,11 @@ mkdir -p "${V6_DATA_DIR:-/data}"
 APP_PORT="${PORT:-8501}"
 echo "Starting V6 Streamlit on 0.0.0.0:${APP_PORT}"
 
-python live_worker.py &
-WORKER_PID=$!
+python worker_supervisor.py &
+SUPERVISOR_PID=$!
 
 cleanup() {
-  kill "$WORKER_PID" 2>/dev/null || true
+  kill "$SUPERVISOR_PID" 2>/dev/null || true
 }
 trap cleanup EXIT INT TERM
 
