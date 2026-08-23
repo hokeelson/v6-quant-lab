@@ -53,7 +53,6 @@ def market_regime(df):
     c=df.close
     if len(c)<80:return "UNKNOWN"
     a=atr(df,14)
-    atrp=float((a.iloc[-1]/c.iloc[-1])) if c.iloc[-1]>0 and pd.notna(a.iloc[-1]) else np.nan
     fast=c.ewm(span=20,adjust=False).mean(); slow=c.ewm(span=60,adjust=False).mean()
     slope=float(slow.pct_change(10).iloc[-1]) if pd.notna(slow.pct_change(10).iloc[-1]) else 0.0
     vol=float(c.pct_change().rolling(40).std().iloc[-1])
@@ -88,7 +87,6 @@ def calibrate_asset(df, market: str, horizon: str, initial_capital: float=100000
     train=data.iloc[:split]; test=data.iloc[split:]
     bpy=spec["bars_per_year_stock"] if market=="stock" else spec["bars_per_year_crypto"]
     costs=_costs_for(market)
-    # calibration uses moderate fixed risk; forward broker will use ATR/risk-budget sizing.
     risk=RiskRules(max_position_pct=0.25,stop_loss_pct=0.12,take_profit_pct=0.30)
     regime=market_regime(data)
     best=None; rows=[]
@@ -101,7 +99,6 @@ def calibrate_asset(df, market: str, horizon: str, initial_capital: float=100000
                 continue
             ts=robustness_score(tr["metrics"],spec["min_trades"]); os=robustness_score(te["metrics"],spec["min_trades"])
             rf=regime_fit(strat,regime)
-            # penalize train/OOS divergence and thin OOS samples
             gap=abs(ts-os); stability=max(0.0,100-gap)
             sample=min(1.0,float(te["metrics"].get("closed_trades",0))/max(1,spec["min_trades"]))
             score=0.55*os+0.20*ts+0.10*stability+0.10*(rf*100)+0.05*(sample*100)
@@ -147,6 +144,22 @@ def _signal_strength(df, strategy, params, atr_pct):
     return 0.0
 
 
+def _risk_grade(atr_pct, trade_conf, regime, leverage):
+    score=0
+    ap=float(atr_pct or 0)
+    if ap>=0.08: score+=3
+    elif ap>=0.05: score+=2
+    elif ap>=0.03: score+=1
+    if "HIGH_VOL" in str(regime): score+=2
+    if float(trade_conf)<70: score+=1
+    if float(leverage)>=1.5: score+=2
+    elif float(leverage)>1.0: score+=1
+    if score>=6:return "VERY_HIGH",score
+    if score>=4:return "HIGH",score
+    if score>=2:return "MEDIUM",score
+    return "LOW",score
+
+
 def decision_for(df, market: str, horizon: str, model: dict, equity: float):
     spec=HORIZON_SPECS[horizon]; strat=model["strategy"]; params=model["params"]
     sig=strategy_signal(strat,df,params)
@@ -165,18 +178,23 @@ def decision_for(df, market: str, horizon: str, model: dict, equity: float):
     lev=1.0+(spec["max_leverage"]-1.0)*conf_mult*min(1.0,vol_guard)
     if "HIGH_VOL" in reg: lev=min(lev,1.15)
     lev=float(np.clip(lev,1.0,spec["max_leverage"])); notional=min(raw_notional,base_cap*lev)
+    risk_grade,risk_score=_risk_grade(ap,trade_conf,reg,lev)
+    rationale=(f"{strat} | Trade {trade_conf:.1f} | Model {model_conf:.1f} | Signal {signal_strength:.1f} | "
+               f"Regime {regime_score:.1f} | OOS {float(model.get('oos_score',0)):.1f} | Risk {risk_grade}")
     if current==0:
         action="EXIT" if prior==1 else "NO_TRADE"; reason="strategy_exit" if prior==1 else "no_active_signal"
     elif trade_conf<spec["confidence"]:
-        action="NO_TRADE"; reason=f"trade_confidence_below_{spec['confidence']}"
+        action="NO_TRADE"; reason=f"trade_confidence_below_{spec['confidence']} | {rationale}"
     elif "DOWN_TREND" in reg and strat in ("Trend MA","Momentum"):
-        action="NO_TRADE"; reason="regime_conflict"
+        action="NO_TRADE"; reason=f"regime_conflict | {rationale}"
     else:
-        action="ENTER"; reason="qualified_signal"
+        action="ENTER"; reason=f"qualified_signal | {rationale}"
     maxhold=spec["max_holding_stock"] if market=="stock" else spec["max_holding_crypto"]
     return {"action":action,"confidence":trade_conf,"strategy":strat,"params":params,"regime":reg,"atr_pct":ap,
             "stop_distance":stop,"target_distance":target,"risk_budget_pct":risk_budget,"requested_notional":float(notional),"leverage":lev,
             "max_holding_bars":int(maxhold),"reason":reason,
-            "diagnostics":{"model_score":model["calibration_score"],"oos_score":model["oos_score"],"model_confidence":model_conf,
-                           "signal_strength":signal_strength,"regime_score":regime_score,"regime_fit":rf,"vol_quality":vol_quality,
-                           "raw_notional":raw_notional,"base_cap":base_cap,"vol_guard":vol_guard}}
+            "diagnostics":{"model_score":model["calibration_score"],"oos_score":model["oos_score"],"train_score":model.get("train_score"),
+                           "model_confidence":model_conf,"signal_strength":signal_strength,"regime_score":regime_score,"regime_fit":rf,
+                           "vol_quality":vol_quality,"raw_notional":raw_notional,"base_cap":base_cap,"vol_guard":vol_guard,
+                           "risk_grade":risk_grade,"risk_score":risk_score,"entry_rationale":rationale,
+                           "stability":stability,"sample_score":sample}}
