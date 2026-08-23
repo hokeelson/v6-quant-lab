@@ -16,7 +16,7 @@ from src.twstock_support import TaiwanSimulationDB
 
 load_dotenv()
 
-WATCHLIST_REFRESH_SECONDS = 30
+WATCHLIST_REFRESH_SECONDS = 10
 STATUS_WRITE_SECONDS = 2
 RECONNECT_SECONDS = 3
 STATUS_PATH = Path(data_dir()) / "realtime_status.json"
@@ -28,6 +28,13 @@ state = {
     "status": "STARTING",
     "heartbeat_at": datetime.now(timezone.utc).isoformat(),
     "watchlist_total": 0,
+    "positions_seen": 0,
+    "assets_seen": 0,
+    "decisions_seen": 0,
+    "watchlist_last_success_at": None,
+    "watchlist_last_error": None,
+    "simulation_db_path": str(sim_db.path),
+    "realtime_db_path": str(rt_db.path),
     "crypto_stream": "STARTING",
     "stock_stream": "STARTING",
     "twstock_stream": "BAR_ONLY",
@@ -59,16 +66,36 @@ def _status_loop():
 def _refresh_watchlist_loop():
     while True:
         try:
+            positions_seen = len(sim_db.positions())
+            assets_seen = len(sim_db.assets())
+            decisions_seen = len(sim_db.recent_decisions(5000))
             rows = build_realtime_watchlist(sim_db, rt_db)
+            # If the source DB clearly has things to watch, never accept an empty
+            # rebuild as a valid state. Keep the last successfully written list.
+            if len(rows) == 0 and (positions_seen > 0 or assets_seen > 0):
+                raise RuntimeError(
+                    f"watchlist unexpectedly empty; positions={positions_seen}, assets={assets_seen}, decisions={decisions_seen}"
+                )
             rt_db.prune_ticks(6)
             with lock:
                 state["watchlist_total"] = len(rows)
+                state["positions_seen"] = positions_seen
+                state["assets_seen"] = assets_seen
+                state["decisions_seen"] = decisions_seen
+                state["watchlist_last_success_at"] = datetime.now(timezone.utc).isoformat()
+                state["watchlist_last_error"] = None
                 state["message"] = "Realtime watchlist active"
-                if state["status"] == "STARTING":
-                    state["status"] = "ONLINE"
+                state["status"] = "ONLINE"
         except Exception as exc:
+            # Do not overwrite watchlist_total here; last known-good list remains.
+            try:
+                current_total = len(rt_db.watchlist())
+            except Exception:
+                current_total = int(state.get("watchlist_total", 0) or 0)
             with lock:
                 state["status"] = "DEGRADED"
+                state["watchlist_total"] = current_total
+                state["watchlist_last_error"] = f"{type(exc).__name__}: {exc}"
                 state["message"] = f"watchlist: {type(exc).__name__}: {exc}"
             print("REALTIME_WATCHLIST_ERROR", type(exc).__name__, exc, flush=True)
         time.sleep(WATCHLIST_REFRESH_SECONDS)
@@ -236,6 +263,8 @@ threading.Thread(target=_crypto_loop, daemon=True).start()
 threading.Thread(target=_stock_loop, daemon=True).start()
 
 print("V6 Realtime Execution Layer started.", flush=True)
+print(f"Simulation DB: {sim_db.path}", flush=True)
+print(f"Realtime DB: {rt_db.path}", flush=True)
 print("Realtime layer is shadow-only; broker order API = 0.", flush=True)
 
 while True:
