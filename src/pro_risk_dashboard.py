@@ -1,10 +1,14 @@
 from __future__ import annotations
 
+import json
+
 import pandas as pd
 import streamlit as st
 
+from .paths import db_path
 from .pretrade_risk import read_pretrade_risk_snapshot
 from .pro_risk_engine import read_professional_risk_snapshot
+from .simulation_db import SimulationDB
 from .ui_zh import (
     account_label,
     bool_label,
@@ -50,13 +54,32 @@ def _flags(value):
     return translate_code(value)
 
 
+def _recent_active_sizing(limit=100):
+    try:
+        db = SimulationDB(db_path("simulation_lab.sqlite3"))
+        rows = []
+        for d in db.diagnostics(max(200, limit * 3)):
+            if str(d.get("category") or "") != "RISK_SIZING":
+                continue
+            try:
+                payload = json.loads(d.get("payload_json") or "{}")
+            except Exception:
+                payload = {}
+            rows.append({**d, **payload})
+            if len(rows) >= limit:
+                break
+        return pd.DataFrame(rows)
+    except Exception:
+        return pd.DataFrame()
+
+
 @st.fragment(run_every="30s")
 def render_professional_risk_panel():
     snap = read_professional_risk_snapshot()
     pretrade_snap = read_pretrade_risk_snapshot()
     st.divider()
     st.subheader("專業風控層")
-    st.caption("組合風險＋進場前風險閘門＋策略健康度｜目前為影子風控層，不直接改變現有前向驗證成交｜交易訂單介面呼叫 = 0")
+    st.caption("組合風險＋進場前風險閘門＋策略健康度｜已開始調整虛擬進場部位大小，不直接封鎖交易｜交易訂單介面呼叫 = 0")
 
     if not snap:
         st.info("尚未產生第一份專業風險快照。背景程序下一個循環會自動建立。")
@@ -70,6 +93,7 @@ def render_professional_risk_panel():
     strategies = pd.DataFrame(health.get("strategies") or [])
     regimes = pd.DataFrame(health.get("regimes") or [])
     pretrade = pd.DataFrame((pretrade_snap or {}).get("candidates") or [])
+    active_sizing = _recent_active_sizing(100)
 
     global_row = None
     if not groups.empty:
@@ -85,14 +109,38 @@ def render_professional_risk_panel():
         d.metric("停損風險", _pct(global_row.get("stop_risk_pct", 0)))
         mc = float(global_row.get("max_pair_correlation", 0) or 0)
         e.metric("最高相關", f"{mc:.2f}")
-        f.metric("影子部位倍率", f"{float(global_row.get('shadow_risk_multiplier', 1)):.2f}x")
+        f.metric("目前建議倍率", f"{float(global_row.get('shadow_risk_multiplier', 1)):.2f}x")
     else:
         a.metric("整體風險", "低")
         b.metric("風險分數", "0/100")
         c.metric("總曝險", "0.00%")
         d.metric("停損風險", "0.00%")
         e.metric("最高相關", "0.00")
-        f.metric("影子部位倍率", "1.00x")
+        f.metric("目前建議倍率", "1.00x")
+
+    st.markdown("**實際虛擬部位調整紀錄**")
+    if active_sizing.empty:
+        st.info("新版風控尚未遇到下一筆實際進場成交。新 BUY 成交後會在這裡顯示原始部位與風控後部位。")
+    else:
+        z = active_sizing.copy()
+        z["時間"] = z["bar_time"].map(_fmt_time)
+        z["帳戶"] = z["account_id"].map(account_label)
+        z["週期"] = z["horizon"].map(horizon_label)
+        z["原始要求部位"] = z["original_notional"].map(lambda x: _num(x, 2))
+        z["風控後目標部位"] = z["adjusted_notional"].map(lambda x: _num(x, 2))
+        z["實際成交部位"] = z["filled_notional"].map(lambda x: _num(x, 2))
+        z["總倍率"] = z["combined_multiplier"].map(lambda x: f"{float(x):.2f}x")
+        z["組合倍率"] = z["portfolio_multiplier"].map(lambda x: f"{float(x):.2f}x")
+        z["策略倍率"] = z["strategy_multiplier"].map(lambda x: f"{float(x):.2f}x")
+        z["策略狀態"] = z["strategy_state"].map(health_label)
+        z["進場風險判定"] = z["pretrade_verdict"].map(verdict_label)
+        z["風險原因"] = z["flags"].map(_flags)
+        st.dataframe(
+            z[["時間", "帳戶", "symbol", "週期", "原始要求部位", "風控後目標部位", "實際成交部位",
+               "總倍率", "組合倍率", "策略倍率", "策略狀態", "進場風險判定", "風險原因"]].rename(columns={"symbol": "標的"}),
+            use_container_width=True,
+            hide_index=True,
+        )
 
     if not groups.empty:
         g = groups.copy()
@@ -147,7 +195,7 @@ def render_professional_risk_panel():
                     hide_index=True,
                 )
 
-    st.markdown("**進場前風險閘門（影子模式）**")
+    st.markdown("**進場前風險閘門**")
     if pretrade_snap is None:
         st.info("進場前風險閘門尚未產生第一份快照。")
     elif pretrade.empty:
@@ -162,12 +210,12 @@ def render_professional_risk_panel():
         q["預計市場曝險"] = q["projected_gross_ratio"].map(_pct)
         q["最高相關"] = q["max_correlation"].map(lambda x: f"{float(x):.2f}")
         q["要求部位"] = q["requested_notional"].map(lambda x: _num(x, 2))
-        q["影子部位倍率"] = q["shadow_size_multiplier"].map(lambda x: f"{float(x):.2f}x")
+        q["建議部位倍率"] = q["shadow_size_multiplier"].map(lambda x: f"{float(x):.2f}x")
         q["重複標的中文"] = q["duplicate_symbol"].map(bool_label)
         q["風險原因中文"] = q["flags"].map(_flags)
         st.dataframe(
             q[["市場", "symbol", "週期", "策略", "交易信心", "判定", "risk_score", "要求部位",
-               "預計市場曝險", "重複標的中文", "most_correlated_symbol", "最高相關", "影子部位倍率", "風險原因中文"]].rename(columns={
+               "預計市場曝險", "重複標的中文", "most_correlated_symbol", "最高相關", "建議部位倍率", "風險原因中文"]].rename(columns={
                    "symbol": "標的", "risk_score": "風險分數", "重複標的中文": "重複標的",
                    "most_correlated_symbol": "最相關持倉", "風險原因中文": "風險原因",
                }),
@@ -189,10 +237,10 @@ def render_professional_risk_panel():
         s["近期報酬"] = s["recent_avg_return"].map(_pct)
         s["惡化幅度"] = s["deterioration"].map(lambda x: "—" if pd.isna(x) else _pct(x))
         s["獲利因子"] = s.apply(lambda r: "∞" if bool(r.get("profit_factor_infinite")) else ("—" if pd.isna(r.get("profit_factor")) else f"{float(r.get('profit_factor')):.2f}"), axis=1)
-        s["影子權重"] = s["shadow_weight_multiplier"].map(lambda x: f"{float(x):.2f}x")
+        s["部位權重"] = s["shadow_weight_multiplier"].map(lambda x: f"{float(x):.2f}x")
         st.dataframe(
             s[["市場", "週期", "策略", "狀態", "samples", "health_score", "加權勝率", "獲利因子",
-               "平均報酬", "近期報酬", "惡化幅度", "max_loss_streak", "failure_votes", "影子權重"]].rename(columns={
+               "平均報酬", "近期報酬", "惡化幅度", "max_loss_streak", "failure_votes", "部位權重"]].rename(columns={
                    "samples": "樣本數", "health_score": "健康分數",
                    "max_loss_streak": "最大連敗", "failure_votes": "失效警訊",
                }),
@@ -221,5 +269,5 @@ def render_professional_risk_panel():
 
     st.caption(
         f"風險快照時間（台灣）：{_fmt_time(snap.get('generated_at'))}。"
-        "風險分數、影子倍率與進場前判定都是透明的診斷規則，不是虧損機率；目前只監控，不直接縮倉、攔單或停用策略。"
+        "風險分數與健康度仍是透明診斷規則，不是虧損機率。新版只會縮放虛擬進場部位，不會直接封鎖訊號、強制停用策略或呼叫券商交易 API。"
     )
