@@ -4,6 +4,8 @@ from collections import defaultdict
 import numpy as np
 import pandas as pd
 
+from .market_cache import TIMEFRAME_MAP
+
 HORIZON_LABELS = {"short":"短線","medium":"中線","long":"長線"}
 
 
@@ -81,6 +83,109 @@ def problem_ranking(db, min_samples=1):
         out.append({"account_id":key[0],"symbol":key[1],"horizon":key[2],"週期":HORIZON_LABELS.get(key[2],key[2]),"strategy":key[3],"regime":key[4],
                     "samples":n,"win_rate":win_rate,"profit_factor":pf,"avg_return":avg_ret,"realized_pnl":total,"severity":severity,"問題":" / ".join(issue)})
     return pd.DataFrame(out).sort_values(["severity","samples"],ascending=[False,False]) if out else pd.DataFrame()
+
+
+def _trade_root_cause(ret, exit_reason, bars_held, mae, mfe, entry_confidence, leverage):
+    ret=float(ret or 0.0)
+    mae=float(mae) if pd.notna(mae) else np.nan
+    mfe=float(mfe) if pd.notna(mfe) else np.nan
+    bars=int(bars_held or 0)
+    reason=str(exit_reason or "UNKNOWN").upper()
+    conf=float(entry_confidence) if pd.notna(entry_confidence) else np.nan
+    lev=float(leverage or 1.0)
+
+    if ret >= 0:
+        if reason == "ATR_TARGET":
+            return "正常獲利：到達 ATR 目標", "—"
+        return "正常獲利／模型退出", "—"
+
+    severity = "高" if ret <= -0.05 else ("中" if ret <= -0.02 else "低")
+    if lev >= 1.5 and ret <= -0.03:
+        severity = "高"
+
+    if reason == "MARGIN_LIQUIDATION":
+        return "槓桿／風險過高導致強制平倉", "高"
+
+    if reason == "ATR_STOP":
+        if bars and bars <= 3 and (not np.isfinite(mfe) or mfe < 0.01):
+            return "進場後快速反轉，疑似假突破／假訊號", "高"
+        if np.isfinite(mfe) and mfe >= 0.03:
+            return "曾有明顯浮盈但全部回吐至停損，鎖利偏慢", "高" if ret <= -0.03 else "中"
+        return "訊號未延續，觸發保護性停損", severity
+
+    if reason == "MODEL_EXIT":
+        if bars and bars <= 3:
+            return "訊號快速失效，可能進場過晚或假動能", "高" if ret <= -0.03 else "中"
+        if np.isfinite(mfe) and mfe >= 0.03 and ret < 0:
+            return "曾有浮盈但模型未及時退出，獲利回吐後轉虧", "高"
+        if np.isfinite(mfe) and mfe < 0.01:
+            text="進場後幾乎沒有正向延續，模型退出偏晚"
+            if np.isfinite(conf) and conf >= 75:
+                text += "；進場信心可能高估"
+            return text, severity
+        return "原策略訊號失效後模型退出", severity
+
+    if reason == "TIME_EXIT":
+        if not np.isfinite(mfe) or mfe < 0.01:
+            return "持有期間缺乏趨勢，資金占用後時間退出", severity
+        return "行情未能延續至目標，持有時間到期", severity
+
+    return f"虧損平倉：{reason}", severity
+
+
+def trade_diagnostics_table(db, cache, limit=100):
+    """Explain closed trades using stored OHLCV only; no market-data API calls."""
+    trades=pd.DataFrame(db.recent_trades(limit))
+    if trades.empty:return pd.DataFrame()
+
+    dec=decisions_table(db,5000)
+    if not dec.empty:
+        dec["_t"]=pd.to_datetime(dec["bar_time"],utc=True,errors="coerce")
+
+    rows=[]
+    for _,t in trades.iterrows():
+        aid=str(t.get("account_id") or "")
+        market=aid.split("_",1)[0] if "_" in aid else ""
+        horizon=str(t.get("horizon") or (aid.split("_",1)[1] if "_" in aid else ""))
+        symbol=str(t.get("symbol") or "").upper()
+        entry=float(t.get("entry_price") or 0)
+        exit_px=float(t.get("exit_price") or 0)
+        ret=float(t.get("return_pct") or 0)
+        entry_ts=pd.to_datetime(t.get("entry_bar"),utc=True,errors="coerce")
+        exit_ts=pd.to_datetime(t.get("exit_bar"),utc=True,errors="coerce")
+
+        bars=pd.DataFrame()
+        if market in ("stock","crypto") and horizon in ("short","medium","long") and symbol and pd.notna(entry_ts) and pd.notna(exit_ts):
+            try:
+                alpaca_tf,binance_tf=TIMEFRAME_MAP[(market,horizon)]
+                tf=alpaca_tf if market=="stock" else binance_tf
+                bars=cache.get(market,symbol,tf,entry_ts,exit_ts)
+            except Exception:
+                bars=pd.DataFrame()
+
+        if not bars.empty and entry>0:
+            mae=float(bars.low.min()/entry-1)
+            mfe=float(bars.high.max()/entry-1)
+            bars_held=int(len(bars))
+        else:
+            mae=np.nan; mfe=np.nan; bars_held=0
+
+        entry_conf=np.nan
+        if not dec.empty and pd.notna(entry_ts):
+            m=dec[(dec.account_id==aid)&(dec.symbol==symbol)&(dec.action=="ENTER")&(dec._t<entry_ts)]
+            if not m.empty:
+                entry_conf=float(m.sort_values("_t").iloc[-1].trade_confidence)
+
+        issue,severity=_trade_root_cause(ret,t.get("exit_reason"),bars_held,mae,mfe,entry_conf,t.get("leverage"))
+        rows.append({
+            "exit_bar":t.get("exit_bar"),"entry_bar":t.get("entry_bar"),"account_id":aid,"symbol":symbol,
+            "horizon":horizon,"週期":HORIZON_LABELS.get(horizon,horizon),"strategy":t.get("strategy"),
+            "regime_entry":t.get("regime_entry"),"entry_price":entry,"exit_price":exit_px,
+            "realized_pnl":float(t.get("realized_pnl") or 0),"return_pct":ret,"exit_reason":t.get("exit_reason"),
+            "leverage":float(t.get("leverage") or 1),"bars_held":bars_held,"mae":mae,"mfe":mfe,
+            "entry_confidence":entry_conf,"問題診斷":issue,"嚴重度":severity,
+        })
+    return pd.DataFrame(rows)
 
 
 def account_performance(db, lab):
