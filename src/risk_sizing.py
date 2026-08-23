@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import os
 
+from .data_quality_drift import assess_pair
 from .meta_model import meta_entry_assessment
 from .pretrade_risk import build_pretrade_risk_snapshot
 from .pro_risk_engine import portfolio_risk_snapshot, strategy_health_snapshot
@@ -50,10 +51,10 @@ def active_entry_sizing(db, cache, market: str, symbol: str, horizon: str, decis
                         requested_notional: float) -> dict:
     """Return the notional to use for a virtual BUY fill.
 
-    Three independent evidence layers are combined at the last possible moment:
-    portfolio/pre-trade risk, strategy health, and the second-layer Meta Model.
-    The original model decision is preserved; only the virtual fill size changes.
-    No broker order API is used.
+    Independent evidence layers are combined at the last possible moment:
+    portfolio/pre-trade risk, strategy health, second-layer Meta Model, and
+    data-quality/concept-drift health. The original model decision is preserved;
+    only the virtual fill size changes. No broker order API is used.
     """
     original = max(0.0, float(requested_notional or 0.0))
     result = {
@@ -75,13 +76,24 @@ def active_entry_sizing(db, cache, market: str, symbol: str, horizon: str, decis
         "meta_samples": 0,
         "meta_tca_samples": 0,
         "meta_spread_bps": None,
+        "quality_drift_multiplier": 1.0,
+        "data_multiplier": 1.0,
+        "drift_multiplier": 1.0,
+        "data_status": "UNKNOWN",
+        "drift_status": "LEARNING",
+        "quality_score": None,
+        "drift_score": None,
+        "quality_reasons": [],
+        "drift_reasons": [],
         "pretrade_verdict": "ALLOW",
         "pretrade_score": 0.0,
         "flags": "無明顯組合衝突",
         "active_portfolio_sizing": _flag("V6_ACTIVE_PORTFOLIO_SIZING", True),
         "active_strategy_health_sizing": _flag("V6_ACTIVE_STRATEGY_HEALTH_SIZING", True),
         "active_meta_sizing": _flag("V6_ACTIVE_META_SIZING", True),
+        "active_data_quality_sizing": _flag("V6_ACTIVE_DATA_QUALITY_SIZING", True),
         "meta_error": None,
+        "quality_error": None,
         "error": None,
     }
     if original <= 0:
@@ -138,7 +150,29 @@ def active_entry_sizing(db, cache, market: str, symbol: str, horizon: str, decis
                 result["meta_error"] = f"{type(exc).__name__}: {exc}"
                 meta_multiplier = 1.0
 
-        combined = result["portfolio_multiplier"] * health_multiplier * meta_multiplier
+        quality_multiplier = 1.0
+        if result["active_data_quality_sizing"]:
+            try:
+                health = assess_pair(db, cache, market, symbol, horizon)
+                result["quality_drift_multiplier"] = float(health.get("quality_drift_multiplier", 1.0) or 1.0)
+                result["data_multiplier"] = float(health.get("data_multiplier", 1.0) or 1.0)
+                result["drift_multiplier"] = float(health.get("drift_multiplier", 1.0) or 1.0)
+                result["data_status"] = str(health.get("data_status") or "UNKNOWN")
+                result["drift_status"] = str(health.get("drift_status") or "LEARNING")
+                result["quality_score"] = health.get("quality_score")
+                result["drift_score"] = health.get("drift_score")
+                result["quality_reasons"] = health.get("reasons") or []
+                result["drift_reasons"] = health.get("reasons") or []
+                # Preserve the detailed assessment for diagnostics without changing
+                # the original strategy decision.
+                result["quality_detail"] = health
+                quality_multiplier = result["quality_drift_multiplier"]
+            except Exception as exc:
+                # Fail open for research continuity, but record the detector error.
+                result["quality_error"] = f"{type(exc).__name__}: {exc}"
+                quality_multiplier = 1.0
+
+        combined = result["portfolio_multiplier"] * health_multiplier * meta_multiplier * quality_multiplier
         combined = max(_min_multiplier(), min(1.0, float(combined)))
         result["combined_multiplier"] = combined
         result["adjusted_notional"] = original * combined
