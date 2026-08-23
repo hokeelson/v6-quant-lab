@@ -6,6 +6,7 @@ import pandas as pd
 import streamlit as st
 
 from .champion_challenger import ChampionChallenger
+from .data_quality_dashboard import render_data_quality_panel
 from .paths import db_path
 from .ui_zh import horizon_label, market_label, strategy_label
 
@@ -92,6 +93,10 @@ def _params(value):
 
 @st.fragment(run_every="30s")
 def render_governance_panel():
+    # Keep this inside the same direct Streamlit entry path as the governance
+    # panel so reruns never lose it because of Python module caching.
+    render_data_quality_panel()
+
     st.divider()
     st.subheader("Champion / Challenger 模型治理")
     st.caption(
