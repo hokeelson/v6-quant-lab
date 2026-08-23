@@ -13,6 +13,7 @@ from .backtest import ExecutionCosts, RiskRules, run_backtest
 from .decision_engine import HORIZON_SPECS, PARAM_GRIDS, _grid, decision_for, market_regime, regime_fit
 from .market_cache import HISTORY_DAYS, TIMEFRAME_MAP, MarketCache, _utc
 from .research import robustness_score, strategy_signal
+from .risk_sizing import active_entry_sizing
 from .simulation_db import SimulationDB, now_iso
 from .simulation_engine import SimulationLab
 
@@ -307,14 +308,17 @@ class TaiwanSimulationLab(SimulationLab):
         open_px = float(row.open)
         if o["side"] == "BUY" and pos is None:
             cash, gross, equity = self._account_marks(aid, {symbol: open_px})
-            notional = min(float(o["requested_notional"] or 0), max(0.0, cash))
+            hz = decision_context.get("horizon", aid.rsplit("_", 1)[-1])
+            original_notional = float(o["requested_notional"] or 0)
+            sizing = active_entry_sizing(self.db, self.cache, market, symbol, hz, decision_context, original_notional)
+            risk_adjusted = float(sizing.get("adjusted_notional", original_notional) or 0)
+            notional = min(risk_adjusted, max(0.0, cash))
             fill = open_px * (1 + rate)
             qty = math.floor(notional / fill) if fill > 0 else 0
             if qty <= 0:
                 return None
             spent = qty * fill
             fees = qty * open_px * rate
-            hz = decision_context.get("horizon", aid.rsplit("_", 1)[-1])
             self.db.set_cash(aid, cash - spent)
             self.db.upsert_position({
                 "account_id": aid, "symbol": symbol, "qty": qty, "avg_entry": fill,
@@ -326,6 +330,10 @@ class TaiwanSimulationLab(SimulationLab):
                 "bars_held": 0, "leverage_at_entry": 1.0,
             })
             self.db.fill_order(o["order_id"], ts.isoformat(), fill, fees, fill - open_px)
+            self.db.add_diagnostic(aid, symbol, hz, ts.isoformat(), "RISK_SIZING", "Active portfolio/strategy sizing applied", {
+                **sizing, "cash_room": max(0.0, cash), "filled_notional": spent, "fill_price": fill,
+                "broker_order_api_calls": 0,
+            })
             return "BUY"
         if o["side"] == "SELL" and pos is not None:
             fill = open_px * (1 - rate)
