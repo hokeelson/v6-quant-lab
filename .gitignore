@@ -2,6 +2,7 @@
 .env
 .env.*
 !.env.example
+!.env.oracle.example
 
 # Persistent experiment data
 *.sqlite3
