@@ -11,10 +11,13 @@ python worker_supervisor_v8.py &
 SUPERVISOR_PID=$!
 python realtime_supervisor.py &
 REALTIME_SUPERVISOR_PID=$!
+python tca_supervisor.py &
+TCA_SUPERVISOR_PID=$!
 
 cleanup() {
   kill "$SUPERVISOR_PID" 2>/dev/null || true
   kill "$REALTIME_SUPERVISOR_PID" 2>/dev/null || true
+  kill "$TCA_SUPERVISOR_PID" 2>/dev/null || true
 }
 trap cleanup EXIT INT TERM
 
