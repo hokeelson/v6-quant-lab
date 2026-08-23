@@ -159,14 +159,21 @@ class RealtimeDB:
             c.execute("DELETE FROM ticks WHERE julianday('now') - julianday(ts) > ?", (float(keep_hours) / 24.0,))
 
 
+def _market_from_account_id(account_id: str) -> str:
+    aid = str(account_id or "")
+    for market in ("crypto", "stock", "twstock"):
+        if aid.startswith(market + "_"):
+            return market
+    return aid.rsplit("_", 1)[0] if "_" in aid else ""
+
+
 def build_realtime_watchlist(sim_db, realtime_db: RealtimeDB):
-    """Positions are always watched; remaining slots use latest model confidence."""
+    """Positions are always watched; remaining slots use latest confidence with ACTIVE-asset fallback."""
     positions = sim_db.positions()
     position_keys = set()
     rows = []
     for p in positions:
-        aid = str(p.get("account_id") or "")
-        market = aid.rsplit("_", 1)[0] if "_" in aid else ""
+        market = _market_from_account_id(p.get("account_id"))
         symbol = str(p.get("symbol") or "").upper()
         if market and symbol:
             position_keys.add((market, symbol))
@@ -191,19 +198,35 @@ def build_realtime_watchlist(sim_db, realtime_db: RealtimeDB):
             score_by_symbol[key] = conf
             action_by_symbol[key] = str(d.get("action") or "")
 
+    # Fallback: if a newly deployed realtime worker starts before decisions are available,
+    # seed it from ACTIVE simulation assets instead of leaving the entire stream idle at 0.
+    active_assets = sim_db.assets()
+    active_by_market = {"crypto": [], "stock": [], "twstock": []}
+    for a in active_assets:
+        market = str(a.get("market") or "")
+        symbol = str(a.get("symbol") or "").upper()
+        if market in active_by_market and symbol:
+            active_by_market[market].append(symbol)
+
     for market in ("crypto", "stock", "twstock"):
         cap = _cap(market)
         already = sum(1 for m, _ in position_keys if m == market)
         slots = max(0, cap - already)
         candidates = [
-            (score, symbol, action_by_symbol.get((market, symbol), ""))
+            (score, symbol, action_by_symbol.get((market, symbol), ""), "DECISION")
             for (m, symbol), score in score_by_symbol.items()
             if m == market and (market, symbol) not in position_keys
         ]
-        candidates.sort(reverse=True)
-        for score, symbol, action in candidates[:slots]:
-            rows.append({"market": market, "symbol": symbol, "score": score,
-                         "reason": f"TOP_CONFIDENCE:{action or 'WATCH'}"})
+        selected_symbols = {symbol for _, symbol, _, _ in candidates}
+        # Add ACTIVE assets not represented in latest decisions as low-priority fallback.
+        for symbol in active_by_market.get(market, []):
+            if (market, symbol) in position_keys or symbol in selected_symbols:
+                continue
+            candidates.append((1.0, symbol, "WATCH", "ACTIVE_FALLBACK"))
+        candidates.sort(key=lambda x: (x[0], x[1]), reverse=True)
+        for score, symbol, action, source in candidates[:slots]:
+            reason = f"TOP_CONFIDENCE:{action or 'WATCH'}" if source == "DECISION" else "ACTIVE_FALLBACK"
+            rows.append({"market": market, "symbol": symbol, "score": score, "reason": reason})
 
     realtime_db.set_watchlist(rows)
     return rows
@@ -215,8 +238,7 @@ def evaluate_realtime_signal(sim_db, realtime_db: RealtimeDB, market: str, symbo
         return
     positions = []
     for p in sim_db.positions():
-        aid = str(p.get("account_id") or "")
-        pm = aid.rsplit("_", 1)[0] if "_" in aid else ""
+        pm = _market_from_account_id(p.get("account_id"))
         if pm == market and str(p.get("symbol") or "").upper() == symbol.upper():
             positions.append(p)
 
