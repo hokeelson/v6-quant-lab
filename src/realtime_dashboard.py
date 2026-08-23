@@ -8,21 +8,43 @@ import streamlit as st
 
 from .paths import data_dir
 from .realtime_layer import RealtimeDB
-from .ui_zh import market_label, realtime_signal_label, status_label, translate_reason
+from .tca_engine import TCAStore
+from .ui_zh import action_label, market_label, realtime_signal_label, status_label, translate_reason
 
 STATUS_PATH = Path(data_dir()) / "realtime_status.json"
+TCA_STATUS_PATH = Path(data_dir()) / "tca_status.json"
 
 SOURCE_LABELS = {
     "BINANCE_STREAM": "Binance 即時串流",
     "ALPACA_IEX_STREAM": "Alpaca IEX 即時串流",
 }
 
+TRIGGER_LABELS = {
+    "ENTRY_CONFIRM": "確認進場",
+    "STOP_TOUCH": "觸及停損",
+    "TARGET_TOUCH": "觸及目標",
+}
 
-def _status():
+TCA_STATE_LABELS = {
+    "PENDING": "等待後續價格",
+    "PARTIAL": "部分完成",
+    "COMPLETE": "60秒完成",
+}
+
+
+def _read_json(path: Path):
     try:
-        return json.loads(STATUS_PATH.read_text(encoding="utf-8"))
+        return json.loads(path.read_text(encoding="utf-8"))
     except Exception:
         return None
+
+
+def _status():
+    return _read_json(STATUS_PATH)
+
+
+def _tca_status():
+    return _read_json(TCA_STATUS_PATH)
 
 
 def _age_seconds(ts):
@@ -45,6 +67,24 @@ def _fmt_ts(ts):
 
 def _stream_label(value):
     return status_label(value)
+
+
+def _bps(value):
+    try:
+        if pd.isna(value):
+            return "—"
+        return f"{float(value):+.2f} 基點"
+    except Exception:
+        return "—"
+
+
+def _price(value):
+    try:
+        if pd.isna(value):
+            return "—"
+        return f"{float(value):.8g}"
+    except Exception:
+        return "—"
 
 
 @st.fragment(run_every="2s")
@@ -79,6 +119,7 @@ def render_realtime_panel():
     cols[6].metric("交易介面呼叫", "0")
 
     db = RealtimeDB()
+    tca = TCAStore(db)
     quotes = pd.DataFrame(db.quotes())
     signals = pd.DataFrame(db.signals())
     watch = pd.DataFrame(db.watchlist())
@@ -132,6 +173,57 @@ def render_realtime_panel():
             use_container_width=True,
             hide_index=True,
         )
+
+    st.markdown("**秒級成交品質分析（TCA）**")
+    tca_state = _tca_status()
+    summary = tca.summary(500)
+    tca_age = _age_seconds((tca_state or {}).get("heartbeat_at"))
+    tca_online = tca_state is not None and tca_age is not None and tca_age <= 15 and str(tca_state.get("status")).upper() == "ONLINE"
+    m = st.columns(7)
+    m[0].metric("TCA程序", "🟢 在線" if tca_online else "⚪ 啟動中/等待")
+    m[1].metric("TCA樣本", int(summary.get("samples", 0) or 0))
+    m[2].metric("完成60秒", int(summary.get("complete_60s", 0) or 0))
+    m[3].metric("平均執行成本", _bps(summary.get("avg_execution_cost_bps")))
+    m[4].metric("平均買賣價差", _bps(summary.get("avg_spread_bps")))
+    m[5].metric("平均60秒Markout", _bps(summary.get("avg_markout_60s_bps")))
+    positive = summary.get("positive_60s_rate")
+    m[6].metric("60秒有利率", "—" if positive is None else f"{float(positive) * 100:.1f}%")
+
+    markout_cols = st.columns(3)
+    markout_cols[0].metric("平均5秒Markout", _bps(summary.get("avg_markout_5s_bps")))
+    markout_cols[1].metric("平均30秒Markout", _bps(summary.get("avg_markout_30s_bps")))
+    markout_cols[2].metric("平均60秒Markout", _bps(summary.get("avg_markout_60s_bps")))
+
+    events = pd.DataFrame(tca.events(100))
+    if events.empty:
+        st.info("尚未出現新的『確認進場／觸及停損／觸及目標』狀態切換。出現後會自動建立 TCA 樣本並追蹤 5／30／60 秒。")
+    else:
+        e = events.copy()
+        e["時間"] = e.event_ts.map(_fmt_ts)
+        e["市場中文"] = e.market.map(market_label)
+        e["觸發中文"] = e.trigger_signal.map(lambda x: TRIGGER_LABELS.get(str(x), str(x)))
+        e["方向中文"] = e.side.map(action_label)
+        e["訊號價中文"] = e.signal_price.map(_price)
+        e["影子成交價中文"] = e.shadow_fill_price.map(_price)
+        e["執行成本中文"] = e.execution_cost_bps.map(_bps)
+        e["買賣價差中文"] = e.spread_bps.map(_bps)
+        e["5秒中文"] = e.markout_5s_bps.map(_bps)
+        e["30秒中文"] = e.markout_30s_bps.map(_bps)
+        e["60秒中文"] = e.markout_60s_bps.map(_bps)
+        e["資料來源中文"] = e.source.map(lambda x: SOURCE_LABELS.get(str(x), str(x)))
+        e["狀態中文"] = e.status.map(lambda x: TCA_STATE_LABELS.get(str(x), str(x)))
+        st.dataframe(
+            e[["時間", "市場中文", "symbol", "觸發中文", "方向中文", "訊號價中文", "影子成交價中文",
+               "執行成本中文", "買賣價差中文", "5秒中文", "30秒中文", "60秒中文", "資料來源中文", "狀態中文"]].rename(columns={
+                   "市場中文": "市場", "symbol": "標的", "觸發中文": "觸發", "方向中文": "方向",
+                   "訊號價中文": "訊號價", "影子成交價中文": "影子成交價", "執行成本中文": "執行成本",
+                   "買賣價差中文": "買賣價差", "5秒中文": "5秒Markout", "30秒中文": "30秒Markout",
+                   "60秒中文": "60秒Markout", "資料來源中文": "資料來源", "狀態中文": "狀態",
+               }),
+            use_container_width=True,
+            hide_index=True,
+        )
+    st.caption("TCA 為影子執行品質分析：買進用當下最佳賣價、賣出用當下最佳買價當作可執行影子成交價。Markout 正值代表成交後價格朝該交易方向移動；它不是整筆交易最終獲利率，也不會直接改變目前交易規則。")
 
     if not watch.empty:
         with st.expander("查看秒級監控清單"):
