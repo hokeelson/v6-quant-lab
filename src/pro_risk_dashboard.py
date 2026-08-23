@@ -3,6 +3,7 @@ from __future__ import annotations
 import pandas as pd
 import streamlit as st
 
+from .pretrade_risk import read_pretrade_risk_snapshot
 from .pro_risk_engine import read_professional_risk_snapshot
 
 HORIZON_LABELS = {"short": "短線", "medium": "中線", "long": "長線"}
@@ -15,6 +16,7 @@ STATE_LABELS = {
     "PAUSE_CANDIDATE": "暫停候選",
 }
 RISK_LABELS = {"LOW": "低", "MEDIUM": "中", "HIGH": "高", "CRITICAL": "極高"}
+VERDICT_LABELS = {"ALLOW": "允許", "CAUTION": "注意", "BLOCK_CANDIDATE": "阻擋候選"}
 
 
 def _pct(x):
@@ -45,9 +47,10 @@ def _fmt_time(ts):
 @st.fragment(run_every="30s")
 def render_professional_risk_panel():
     snap = read_professional_risk_snapshot()
+    pretrade_snap = read_pretrade_risk_snapshot()
     st.divider()
     st.subheader("Professional Risk Layer")
-    st.caption("Portfolio Risk＋Strategy Health｜目前為 Shadow 風控層，不直接改變現有 Forward 成交｜交易訂單 API = 0")
+    st.caption("Portfolio Risk＋Pre-Trade Gate＋Strategy Health｜目前為 Shadow 風控層，不直接改變現有 Forward 成交｜交易訂單 API = 0")
 
     if not snap:
         st.info("尚未產生第一份專業風險快照。背景 Worker 下一個循環會自動建立。")
@@ -60,6 +63,7 @@ def render_professional_risk_panel():
     health = snap.get("strategy_health") or {}
     strategies = pd.DataFrame(health.get("strategies") or [])
     regimes = pd.DataFrame(health.get("regimes") or [])
+    pretrade = pd.DataFrame((pretrade_snap or {}).get("candidates") or [])
 
     global_row = None
     if not groups.empty:
@@ -127,6 +131,31 @@ def render_professional_risk_panel():
                 high["相關係數"] = high["correlation"].map(lambda x: f"{float(x):.3f}")
                 st.dataframe(high[["市場", "symbol_a", "symbol_b", "相關係數", "samples"]], use_container_width=True, hide_index=True)
 
+    st.markdown("**Pre-Trade Risk Gate（Shadow）**")
+    if pretrade_snap is None:
+        st.info("Pre-Trade Gate 尚未產生第一份快照。")
+    elif pretrade.empty:
+        st.info("目前沒有最新 ENTER 候選需要做進場前組合風險檢查。")
+    else:
+        q = pretrade.copy()
+        q["市場"] = q["market"].map(lambda x: MARKET_LABELS.get(x, x))
+        q["週期"] = q["horizon"].map(lambda x: HORIZON_LABELS.get(x, x))
+        q["判定"] = q["verdict"].map(lambda x: VERDICT_LABELS.get(x, x))
+        q["Trade信心"] = q["trade_confidence"].map(lambda x: f"{float(x):.1f}")
+        q["預計市場曝險"] = q["projected_gross_ratio"].map(_pct)
+        q["最高相關"] = q["max_correlation"].map(lambda x: f"{float(x):.2f}")
+        q["要求部位"] = q["requested_notional"].map(lambda x: _num(x, 2))
+        q["Shadow部位倍率"] = q["shadow_size_multiplier"].map(lambda x: f"{float(x):.2f}x")
+        st.dataframe(
+            q[["市場", "symbol", "週期", "strategy", "Trade信心", "判定", "risk_score", "要求部位",
+               "預計市場曝險", "duplicate_symbol", "most_correlated_symbol", "最高相關", "Shadow部位倍率", "flags"]].rename(columns={
+                   "symbol": "標的", "strategy": "策略", "risk_score": "Risk Score",
+                   "duplicate_symbol": "重複標的", "most_correlated_symbol": "最相關持倉", "flags": "風險原因",
+               }),
+            use_container_width=True,
+            hide_index=True,
+        )
+
     st.markdown("**Strategy Health**")
     if strategies.empty:
         st.info("已平倉樣本還不足，Strategy Health 會先保持樣本累積狀態。")
@@ -171,5 +200,5 @@ def render_professional_risk_panel():
 
     st.caption(
         f"風險快照時間（台灣）：{_fmt_time(snap.get('generated_at'))}。"
-        "Risk Score 與 Shadow 倍率是透明的診斷規則，不是虧損機率；目前只監控、不直接縮倉或停用策略。"
+        "Risk Score、Shadow 倍率與 Gate 判定都是透明的診斷規則，不是虧損機率；目前只監控，不直接縮倉、攔單或停用策略。"
     )
