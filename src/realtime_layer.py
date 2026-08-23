@@ -79,10 +79,25 @@ class RealtimeDB:
             """)
 
     def set_watchlist(self, rows):
-        rows = list(rows or [])
+        # Defensive de-duplication: one stream subscription per market+symbol even
+        # when the same symbol is held in multiple horizon accounts.
+        unique = {}
+        for raw in list(rows or []):
+            market = str(raw.get("market") or "")
+            symbol = str(raw.get("symbol") or "").upper()
+            if not market or not symbol:
+                continue
+            row = dict(raw)
+            row["market"] = market
+            row["symbol"] = symbol
+            key = (market, symbol)
+            prev = unique.get(key)
+            if prev is None or float(row.get("score", 0) or 0) > float(prev.get("score", 0) or 0):
+                unique[key] = row
+
         with self._c() as c:
             c.execute("DELETE FROM watchlist")
-            for r in rows:
+            for r in unique.values():
                 c.execute(
                     "INSERT INTO watchlist(market,symbol,score,reason,updated_at) VALUES(?,?,?,?,?)",
                     (str(r["market"]), str(r["symbol"]).upper(), float(r.get("score", 0) or 0),
@@ -170,14 +185,19 @@ def _market_from_account_id(account_id: str) -> str:
 def build_realtime_watchlist(sim_db, realtime_db: RealtimeDB):
     """Positions are always watched; remaining slots use latest confidence with ACTIVE-asset fallback."""
     positions = sim_db.positions()
-    position_keys = set()
-    rows = []
+    position_counts = {}
     for p in positions:
         market = _market_from_account_id(p.get("account_id"))
         symbol = str(p.get("symbol") or "").upper()
         if market and symbol:
-            position_keys.add((market, symbol))
-            rows.append({"market": market, "symbol": symbol, "score": 1000.0, "reason": "POSITION"})
+            key = (market, symbol)
+            position_counts[key] = position_counts.get(key, 0) + 1
+
+    position_keys = set(position_counts)
+    rows = []
+    for (market, symbol), count in sorted(position_counts.items()):
+        reason = "POSITION" if count == 1 else f"POSITION_MULTI_HORIZON:{count}"
+        rows.append({"market": market, "symbol": symbol, "score": 1000.0, "reason": reason})
 
     latest = {}
     for d in sim_db.recent_decisions(5000):
@@ -229,7 +249,7 @@ def build_realtime_watchlist(sim_db, realtime_db: RealtimeDB):
             rows.append({"market": market, "symbol": symbol, "score": score, "reason": reason})
 
     realtime_db.set_watchlist(rows)
-    return rows
+    return realtime_db.watchlist()
 
 
 def evaluate_realtime_signal(sim_db, realtime_db: RealtimeDB, market: str, symbol: str, quote: dict):
