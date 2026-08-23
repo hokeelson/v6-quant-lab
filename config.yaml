@@ -84,3 +84,9 @@ universe:
     - ATOMUSDT
     - FILUSDT
     - ARBUSDT
+  twstocks:
+    - 2330.TW
+    - 2317.TW
+    - 2454.TW
+    - 2382.TW
+    - 0050.TW
