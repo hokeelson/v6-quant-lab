@@ -1,6 +1,9 @@
 name: Sync research snapshot
 
 on:
+  push:
+    paths:
+      - '.github/workflows/sync-research-snapshot.yml'
   schedule:
     - cron: '*/5 * * * *'
   workflow_dispatch:
