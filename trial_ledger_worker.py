@@ -46,7 +46,7 @@ def _tables(con):
     return {r[0] for r in con.execute("SELECT name FROM sqlite_master WHERE type='table'")}
 
 
-def _strategy_performance(sim_path: str):
+def _performance_rows(sim_path: str, by_symbol: bool = False):
     path = Path(sim_path)
     if not path.exists():
         return []
@@ -55,7 +55,9 @@ def _strategy_performance(sim_path: str):
     try:
         if "trades" not in _tables(con):
             return []
-        rows = con.execute("""
+        symbol_select = "COALESCE(symbol, '') AS symbol," if by_symbol else ""
+        symbol_group = ",symbol" if by_symbol else ""
+        rows = con.execute(f"""
             SELECT
               CASE
                 WHEN account_id LIKE 'crypto_%' THEN 'crypto'
@@ -63,6 +65,7 @@ def _strategy_performance(sim_path: str):
                 WHEN account_id LIKE 'twstock_%' THEN 'twstock'
                 ELSE ''
               END AS market,
+              {symbol_select}
               COALESCE(horizon, '') AS horizon,
               COALESCE(strategy, '') AS strategy,
               COUNT(*) AS closed_trades,
@@ -77,8 +80,8 @@ def _strategy_performance(sim_path: str):
               SUM(CASE WHEN realized_pnl > 0 THEN realized_pnl ELSE 0 END) AS gross_profit,
               ABS(SUM(CASE WHEN realized_pnl < 0 THEN realized_pnl ELSE 0 END)) AS gross_loss
             FROM trades
-            GROUP BY market,horizon,strategy
-            ORDER BY closed_trades DESC, market,horizon,strategy
+            GROUP BY market{symbol_group},horizon,strategy
+            ORDER BY closed_trades DESC, market{symbol_group},horizon,strategy
         """).fetchall()
         out = []
         for r in rows:
@@ -87,7 +90,7 @@ def _strategy_performance(sim_path: str):
             wins = int(d.get("wins") or 0)
             gp = _finite(d.get("gross_profit")) or 0.0
             gl = _finite(d.get("gross_loss")) or 0.0
-            out.append({
+            item = {
                 "market": d.get("market"),
                 "horizon": d.get("horizon"),
                 "strategy": d.get("strategy"),
@@ -102,10 +105,22 @@ def _strategy_performance(sim_path: str):
                 "worst_trade_return": _finite(d.get("worst_trade_return")),
                 "best_trade_return": _finite(d.get("best_trade_return")),
                 "last_exit_bar": d.get("last_exit_bar"),
-            })
+            }
+            if by_symbol:
+                item["symbol"] = d.get("symbol")
+                item["performance_key"] = f"{item['market']}:{item['symbol']}:{item['horizon']}:{item['strategy']}"
+            out.append(item)
         return out
     finally:
         con.close()
+
+
+def _strategy_performance(sim_path: str):
+    return _performance_rows(sim_path, by_symbol=False)
+
+
+def _strategy_symbol_performance(sim_path: str):
+    return _performance_rows(sim_path, by_symbol=True)
 
 
 def _models(sim_path: str):
@@ -278,7 +293,7 @@ def _public_snapshot(worker, quality):
             safe_quality[k] = quality.get(k)
 
     return _safe_json({
-        "schema_version": 1,
+        "schema_version": 2,
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "scope": "PUBLIC_READ_ONLY_RESEARCH_SUMMARY",
         "contains_secrets": False,
@@ -286,6 +301,7 @@ def _public_snapshot(worker, quality):
         "trial_ledger": ledger.summary(),
         "accounts": _accounts(sim_path),
         "strategy_performance": _strategy_performance(sim_path),
+        "strategy_symbol_performance": _strategy_symbol_performance(sim_path),
         "models": _models(sim_path),
         "governance": _governance(gov_path),
         "forward_validation": _forward(forward_path),
