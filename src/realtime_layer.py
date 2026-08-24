@@ -104,6 +104,24 @@ class RealtimeDB:
                      str(r.get("reason", "watch")), now_iso()),
                 )
 
+            # Quotes/signals are current-state tables, not historical ledgers.
+            # Remove rows for symbols that are no longer actively monitored so a
+            # many-hours-old quote cannot appear as if it were a live delayed feed.
+            c.execute("""
+                DELETE FROM quotes
+                WHERE NOT EXISTS (
+                    SELECT 1 FROM watchlist w
+                    WHERE w.market=quotes.market AND w.symbol=quotes.symbol
+                )
+            """)
+            c.execute("""
+                DELETE FROM signals
+                WHERE NOT EXISTS (
+                    SELECT 1 FROM watchlist w
+                    WHERE w.market=signals.market AND w.symbol=signals.symbol
+                )
+            """)
+
     def watchlist(self, market=None):
         with self._c() as c:
             if market:
@@ -151,8 +169,15 @@ class RealtimeDB:
                 "spread_bps": spread, "source": source}
 
     def quotes(self):
+        # Only expose quotes belonging to the current watchlist. Historical ticks
+        # remain available separately for TCA, but stale orphan quotes are hidden.
         with self._c() as c:
-            return [dict(x) for x in c.execute("SELECT * FROM quotes ORDER BY market,symbol")]
+            return [dict(x) for x in c.execute("""
+                SELECT q.*
+                FROM quotes q
+                INNER JOIN watchlist w ON w.market=q.market AND w.symbol=q.symbol
+                ORDER BY q.market,q.symbol
+            """)]
 
     def set_signal(self, market, symbol, signal, priority=0, detail="", confidence=None, ts=None):
         with self._c() as c:
@@ -167,7 +192,12 @@ class RealtimeDB:
 
     def signals(self):
         with self._c() as c:
-            return [dict(x) for x in c.execute("SELECT * FROM signals ORDER BY priority DESC,ts DESC")]
+            return [dict(x) for x in c.execute("""
+                SELECT s.*
+                FROM signals s
+                INNER JOIN watchlist w ON w.market=s.market AND w.symbol=s.symbol
+                ORDER BY s.priority DESC,s.ts DESC
+            """)]
 
     def prune_ticks(self, keep_hours=6):
         with self._c() as c:
