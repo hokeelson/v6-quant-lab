@@ -1,0 +1,57 @@
+name: Sync research snapshot
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-research-snapshot
+  cancel-in-progress: true
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Fetch latest V6 research snapshot
+        shell: bash
+        run: |
+          set -euo pipefail
+          url='https://v6-quant-lab-production.up.railway.app/app/static/research_snapshot.json'
+          tmp="$(mktemp)"
+          curl --fail --silent --show-error --location \
+            --retry 3 --retry-delay 5 --max-time 30 \
+            "$url" -o "$tmp"
+          python - "$tmp" <<'PY'
+          import json, pathlib, sys
+          p = pathlib.Path(sys.argv[1])
+          data = json.loads(p.read_text(encoding='utf-8'))
+          if data.get('contains_secrets') is not False:
+              raise SystemExit('Snapshot secret-safety flag missing or unsafe')
+          if str(data.get('scope') or '') != 'PUBLIC_READ_ONLY_RESEARCH_SUMMARY':
+              raise SystemExit('Unexpected snapshot scope')
+          pathlib.Path('research_snapshot.json').write_text(
+              json.dumps(data, ensure_ascii=False, indent=2, sort_keys=True) + '\n',
+              encoding='utf-8'
+          )
+          PY
+
+      - name: Commit only when changed
+        shell: bash
+        run: |
+          set -euo pipefail
+          if git diff --quiet -- research_snapshot.json; then
+            echo 'No snapshot changes.'
+            exit 0
+          fi
+          git config user.name 'v6-snapshot-bot'
+          git config user.email 'v6-snapshot-bot@users.noreply.github.com'
+          git add research_snapshot.json
+          git commit -m 'Update research snapshot'
+          git push
