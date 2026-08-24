@@ -4,9 +4,9 @@ import sqlite3
 from contextlib import contextmanager
 from pathlib import Path
 
-# Railway persistent volumes can be less reliable with SQLite WAL/SHM sidecars
-# across deployment hand-offs. Forward validation is low-write-volume, so the
-# rollback journal is the safer cloud-volume default and preserves the DB file.
+# Do not change SQLite journal/synchronous modes at runtime on Railway persistent
+# volumes. Deployment hand-offs can leave filesystem state where journal-mode
+# transitions fail with `disk I/O error`. Keep the existing DB format untouched.
 SCHEMA = """
 PRAGMA foreign_keys=ON;
 
@@ -84,15 +84,11 @@ class ForwardDB:
         con = sqlite3.connect(self.path, timeout=30)
         con.row_factory = sqlite3.Row
         try:
-            # Use a rollback journal on persistent cloud volumes. This avoids the
-            # separate -wal/-shm files that can trigger disk I/O errors during a
-            # deployment hand-off. No database rows are deleted or recreated.
+            # Avoid PRAGMA journal_mode / synchronous here. They can require
+            # sidecar creation or journal transitions and are the failing I/O
+            # operation on the mounted Railway volume.
             con.execute("PRAGMA busy_timeout=30000")
             con.execute("PRAGMA foreign_keys=ON")
-            mode = str(con.execute("PRAGMA journal_mode=DELETE").fetchone()[0]).lower()
-            if mode != "delete":
-                raise sqlite3.OperationalError(f"unable to set safe SQLite journal mode: {mode}")
-            con.execute("PRAGMA synchronous=NORMAL")
             yield con
             con.commit()
         finally:
