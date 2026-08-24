@@ -58,3 +58,5 @@ jobs:
           git add research_snapshot.json
           git commit -m 'Update research snapshot'
           git push
+
+# retrigger after enabling Actions write permissions
