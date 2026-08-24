@@ -43,13 +43,40 @@ class AutoOrchestratorV8:
 
     def __init__(self, initial_equity=100000.0):
         self.initial_equity = float(initial_equity)
-        self.forward = ForwardDB(db_path("forward_validation.sqlite3"))
+
+        # Forward validation is useful research state, but it must never become a
+        # single point of failure for the live dashboard/simulation. Railway volume
+        # hand-offs can occasionally leave one SQLite file temporarily unreadable
+        # with `disk I/O error`. Preserve the primary file untouched and fail over
+        # to an ephemeral isolated DB so the rest of V6 can stay online.
+        self.forward_primary_path = db_path("forward_validation.sqlite3")
+        self.forward_degraded = False
+        self.forward_error = None
+        self.forward_fallback_path = os.getenv(
+            "V6_FORWARD_FALLBACK_PATH", "/tmp/v6_forward_validation_fallback.sqlite3"
+        )
+        try:
+            self.forward = ForwardDB(self.forward_primary_path)
+        except Exception as exc:
+            self.forward_degraded = True
+            self.forward_error = f"{type(exc).__name__}: {exc}"
+            self.forward = ForwardDB(self.forward_fallback_path)
+
         self.db = TaiwanSimulationDB(db_path("simulation_lab.sqlite3"))
         self.cache = TaiwanMarketCache(db_path("market_cache.sqlite3"))
         self.lab = TaiwanSimulationLab(self.db, self.cache, initial_equity=self.initial_equity)
         self.universe = DynamicUniverse(self.db)
         self.governance = ChampionChallenger(db_path("model_governance.sqlite3"), self.initial_equity)
         self._bootstrap_twstocks()
+
+    def forward_health(self):
+        return {
+            "status": "DEGRADED" if self.forward_degraded else "ONLINE",
+            "primary_path": self.forward_primary_path,
+            "active_path": self.forward_fallback_path if self.forward_degraded else self.forward_primary_path,
+            "error": self.forward_error,
+            "fallback_ephemeral": bool(self.forward_degraded),
+        }
 
     def _configured_twstocks(self):
         enabled = os.getenv("V6_ENABLE_TWSTOCKS", "1").strip().lower() not in ("0", "false", "no", "off")
@@ -70,6 +97,8 @@ class AutoOrchestratorV8:
         return self.lab.import_assets(rows)
 
     def import_active(self):
+        # In degraded mode the fallback ForwardDB intentionally starts empty. We
+        # do not invent or reconstruct old Forward candidates from other stores.
         return self.lab.import_assets(self.forward.candidates("ACTIVE"))
 
     def _pinned_universe(self):
@@ -238,6 +267,7 @@ class AutoOrchestratorV8:
             "calibration": cal,
             "simulation": run,
             "governance": governance,
+            "forward_store": self.forward_health(),
             "health": {**health, "waiting_history": len(waiting), "true_errors": len(true_errors)},
             "true_errors": true_errors,
             "broker_order_api_calls": 0,
