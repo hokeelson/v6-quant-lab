@@ -6,6 +6,7 @@ from .data_quality_drift import assess_pair
 from .meta_model import meta_entry_assessment
 from .pretrade_risk import build_pretrade_risk_snapshot
 from .pro_risk_engine import portfolio_risk_snapshot, strategy_health_snapshot
+from .symbol_strategy_health import find_symbol_strategy_health, symbol_strategy_health_snapshot
 
 
 def _flag(name: str, default: bool = True) -> bool:
@@ -52,9 +53,9 @@ def active_entry_sizing(db, cache, market: str, symbol: str, horizon: str, decis
     """Return the notional to use for a virtual BUY fill.
 
     Independent evidence layers are combined at the last possible moment:
-    portfolio/pre-trade risk, strategy health, second-layer Meta Model, and
-    data-quality/concept-drift health. The original model decision is preserved;
-    only the virtual fill size changes. No broker order API is used.
+    portfolio/pre-trade risk, strategy health, symbol×strategy health, second-layer
+    Meta Model, and data-quality/concept-drift health. The original model decision
+    is preserved; only the virtual fill size changes. No broker order API is used.
     """
     original = max(0.0, float(requested_notional or 0.0))
     result = {
@@ -68,6 +69,14 @@ def active_entry_sizing(db, cache, market: str, symbol: str, horizon: str, decis
         "strategy_state": "LEARNING",
         "regime_multiplier": 1.0,
         "regime_state": "LEARNING",
+        "symbol_strategy_multiplier": 1.0,
+        "symbol_strategy_state": "LEARNING",
+        "symbol_strategy_samples": 0,
+        "symbol_strategy_failure_votes": 0,
+        "symbol_strategy_profit_factor": None,
+        "symbol_strategy_weighted_win_rate": None,
+        "symbol_strategy_weighted_avg_return": None,
+        "symbol_strategy_performance_key": None,
         "meta_multiplier": 1.0,
         "meta_score": None,
         "meta_probability": None,
@@ -90,10 +99,12 @@ def active_entry_sizing(db, cache, market: str, symbol: str, horizon: str, decis
         "flags": "無明顯組合衝突",
         "active_portfolio_sizing": _flag("V6_ACTIVE_PORTFOLIO_SIZING", True),
         "active_strategy_health_sizing": _flag("V6_ACTIVE_STRATEGY_HEALTH_SIZING", True),
+        "active_symbol_strategy_health_sizing": _flag("V6_ACTIVE_SYMBOL_STRATEGY_HEALTH_SIZING", True),
         "active_meta_sizing": _flag("V6_ACTIVE_META_SIZING", True),
         "active_data_quality_sizing": _flag("V6_ACTIVE_DATA_QUALITY_SIZING", True),
         "meta_error": None,
         "quality_error": None,
+        "symbol_strategy_error": None,
         "error": None,
     }
     if original <= 0:
@@ -121,6 +132,7 @@ def active_entry_sizing(db, cache, market: str, symbol: str, horizon: str, decis
             # the more conservative multiplier rather than multiplying twice.
             result["portfolio_multiplier"] = min(result["pretrade_multiplier"], result["global_multiplier"])
 
+        health_multiplier = 1.0
         if result["active_strategy_health_sizing"]:
             health = strategy_health_snapshot(db)
             strategy = str(decision.get("strategy") or "")
@@ -135,8 +147,26 @@ def active_entry_sizing(db, cache, market: str, symbol: str, horizon: str, decis
                 result["regime_state"] = str(rrow.get("state") or "LEARNING")
             # Strategy and Strategy×Regime are overlapping evidence too.
             health_multiplier = min(result["strategy_multiplier"], result["regime_multiplier"])
-        else:
-            health_multiplier = 1.0
+
+        if result["active_symbol_strategy_health_sizing"]:
+            try:
+                strategy = str(decision.get("strategy") or "")
+                symbol_health = symbol_strategy_health_snapshot(db)
+                hrow = find_symbol_strategy_health(symbol_health, market, symbol, horizon, strategy)
+                if hrow:
+                    result["symbol_strategy_multiplier"] = float(hrow.get("shadow_weight_multiplier", 1.0) or 1.0)
+                    result["symbol_strategy_state"] = str(hrow.get("state") or "LEARNING")
+                    result["symbol_strategy_samples"] = int(hrow.get("samples", 0) or 0)
+                    result["symbol_strategy_failure_votes"] = int(hrow.get("failure_votes", 0) or 0)
+                    result["symbol_strategy_profit_factor"] = hrow.get("profit_factor")
+                    result["symbol_strategy_weighted_win_rate"] = hrow.get("weighted_win_rate")
+                    result["symbol_strategy_weighted_avg_return"] = hrow.get("weighted_avg_return")
+                    result["symbol_strategy_performance_key"] = hrow.get("performance_key")
+                # Symbol×strategy is a narrower view of the same realized trades.
+                # Do not multiply it by broad strategy health; use the stricter view.
+                health_multiplier = min(health_multiplier, result["symbol_strategy_multiplier"])
+            except Exception as exc:
+                result["symbol_strategy_error"] = f"{type(exc).__name__}: {exc}"
 
         meta_multiplier = 1.0
         if result["active_meta_sizing"]:
