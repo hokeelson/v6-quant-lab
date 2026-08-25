@@ -29,8 +29,8 @@ patch(
 exporter = ROOT / "storage_status_exporter.py"
 patch(
     exporter,
-    '            "expected_live_evidence_weight": _finite(payload.get("expected_live_evidence_weight")),\n            "meta_multiplier": _mult(payload, "meta_multiplier"),',
-    '            "expected_live_evidence_weight": _finite(payload.get("expected_live_evidence_weight")),\n            "realized_evidence_multiplier": _mult(payload, "realized_evidence_multiplier"),\n            "realized_evidence_dedup_applied": bool(payload.get("realized_evidence_dedup_applied", False)),\n            "meta_multiplier": _mult(payload, "meta_multiplier"),',
+    '            "expected_live_evidence_weight": _finite(payload.get("expected_live_evidence_weight")) or 0.0,\n            "expected_live_performance_key": str(payload.get("expected_live_performance_key") or ""),\n            "expected_live_reasons": _safe_list(payload.get("expected_live_reasons")),\n            "meta_multiplier": _mult(payload, "meta_multiplier"),',
+    '            "expected_live_evidence_weight": _finite(payload.get("expected_live_evidence_weight")) or 0.0,\n            "expected_live_performance_key": str(payload.get("expected_live_performance_key") or ""),\n            "expected_live_reasons": _safe_list(payload.get("expected_live_reasons")),\n            "realized_evidence_multiplier": _mult(payload, "realized_evidence_multiplier"),\n            "realized_evidence_dedup_applied": bool(payload.get("realized_evidence_dedup_applied", False)),\n            "meta_multiplier": _mult(payload, "meta_multiplier"),',
 )
 patch(
     exporter,
