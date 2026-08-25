@@ -17,30 +17,30 @@
     {
       "account_id": "crypto_medium",
       "as_of": "2026-08-25T04:00:00+00:00",
-      "cash": -2974.09403748927,
+      "cash": -2975.561035505357,
       "closed_trades": 5,
-      "drawdown": -0.010678351478498271,
-      "equity": 99308.7543247171,
-      "gross_exposure": 102282.84836220636,
+      "drawdown": -0.011676871185666737,
+      "equity": 99208.52226324772,
+      "gross_exposure": 102184.08329875307,
       "horizon": "medium",
       "initial_equity": 100000.0,
-      "leverage": 1.0299479543139234,
+      "leverage": 1.029992998258857,
       "market": "crypto",
-      "return_pct": -0.006912456752829033
+      "return_pct": -0.007914777367522774
     },
     {
       "account_id": "crypto_short",
       "as_of": "2026-08-25T10:00:00+00:00",
-      "cash": 75565.00052268742,
-      "closed_trades": 41,
-      "drawdown": -0.038560677621223616,
-      "equity": 98952.38741819724,
-      "gross_exposure": 23564.364640365595,
+      "cash": 63893.6214595745,
+      "closed_trades": 42,
+      "drawdown": -0.03709138872116802,
+      "equity": 99103.6082400249,
+      "gross_exposure": 35175.94452127007,
       "horizon": "short",
       "initial_equity": 100000.0,
-      "leverage": 0.2381384143949632,
+      "leverage": 0.35494110805809775,
       "market": "crypto",
-      "return_pct": -0.010476125818027704
+      "return_pct": -0.008963917599751015
     },
     {
       "account_id": "stock_long",
@@ -253,7 +253,7 @@
       }
     ]
   },
-  "generated_at": "2026-08-25T11:04:15.769557+00:00",
+  "generated_at": "2026-08-25T11:05:15.798872+00:00",
   "governance": {
     "arenas": [],
     "recent_events": []
@@ -5269,18 +5269,18 @@
   },
   "strategy_performance": [
     {
-      "avg_pnl": -39.306376190481714,
-      "avg_return_pct": -0.009996889711085455,
+      "avg_pnl": -39.055703951903084,
+      "avg_return_pct": -0.009956186389161303,
       "best_trade_return": 0.06523949416052943,
-      "closed_trades": 20,
+      "closed_trades": 21,
       "horizon": "short",
       "last_exit_bar": "2026-08-25T09:00:00+00:00",
-      "losses": 16,
+      "losses": 17,
       "market": "crypto",
-      "profit_factor": 0.6298908314748073,
-      "realized_pnl": -786.1275238096342,
+      "profit_factor": 0.619954748570325,
+      "realized_pnl": -820.1697829899648,
       "strategy": "Momentum",
-      "win_rate": 0.2,
+      "win_rate": 0.19047619047619047,
       "wins": 4,
       "worst_trade_return": -0.053519372097020956
     },
@@ -5531,6 +5531,24 @@
       "worst_trade_return": -0.0033244639171163826
     },
     {
+      "avg_pnl": -76.46795947636886,
+      "avg_return_pct": -0.008996710271405972,
+      "best_trade_return": -0.008851300592133682,
+      "closed_trades": 2,
+      "horizon": "short",
+      "last_exit_bar": "2026-08-23T23:00:00+00:00",
+      "losses": 2,
+      "market": "crypto",
+      "performance_key": "crypto:XRPUSDT:short:Momentum",
+      "profit_factor": 0.0,
+      "realized_pnl": -152.93591895273772,
+      "strategy": "Momentum",
+      "symbol": "XRPUSDT",
+      "win_rate": 0.0,
+      "wins": 0,
+      "worst_trade_return": -0.009142119950678262
+    },
+    {
       "avg_pnl": 202.42055606715897,
       "avg_return_pct": 0.009430723801708618,
       "best_trade_return": 0.009430723801708618,
@@ -5711,24 +5729,6 @@
       "worst_trade_return": 0.0198909517371868
     },
     {
-      "avg_pnl": -118.8936597724072,
-      "avg_return_pct": -0.008851300592133682,
-      "best_trade_return": -0.008851300592133682,
-      "closed_trades": 1,
-      "horizon": "short",
-      "last_exit_bar": "2026-08-23T17:00:00+00:00",
-      "losses": 1,
-      "market": "crypto",
-      "performance_key": "crypto:XRPUSDT:short:Momentum",
-      "profit_factor": 0.0,
-      "realized_pnl": -118.8936597724072,
-      "strategy": "Momentum",
-      "symbol": "XRPUSDT",
-      "win_rate": 0.0,
-      "wins": 0,
-      "worst_trade_return": -0.008851300592133682
-    },
-    {
       "avg_pnl": 800.726337886813,
       "avg_return_pct": 0.06088878796815078,
       "best_trade_return": 0.06088878796815078,
@@ -5764,7 +5764,7 @@
     "data_quality": "STARTING",
     "data_quality_critical": 0,
     "data_quality_warnings": 0,
-    "heartbeat_at": "2026-08-25T11:04:11.943439+00:00",
+    "heartbeat_at": "2026-08-25T11:05:11.962950+00:00",
     "last_cycle_finished_at": null,
     "last_cycle_started_at": "2026-08-25T10:35:41.035479+00:00",
     "market_data_api_calls": 0,
