@@ -13,7 +13,7 @@ permissions:
 
 concurrency:
   group: sync-research-snapshot
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   sync:
