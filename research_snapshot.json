@@ -253,7 +253,7 @@
       }
     ]
   },
-  "generated_at": "2026-08-25T10:14:44.929366+00:00",
+  "generated_at": "2026-08-25T10:28:46.971298+00:00",
   "governance": {
     "arenas": [],
     "recent_events": []
@@ -1497,7 +1497,7 @@
       "strategy": "Mean Reversion RSI",
       "symbol": "SNDKBUSDT",
       "train_score": 77.79156797479784,
-      "updated_at": "2026-08-25T10:02:57.200367+00:00"
+      "updated_at": "2026-08-25T10:16:22.870860+00:00"
     },
     {
       "calibrated_through": "2026-08-25T09:00:00+00:00",
@@ -1517,7 +1517,7 @@
       "strategy": "Breakout",
       "symbol": "SNDKBUSDT",
       "train_score": 88.83351256203208,
-      "updated_at": "2026-08-25T10:02:55.034569+00:00"
+      "updated_at": "2026-08-25T10:16:20.881968+00:00"
     },
     {
       "calibrated_through": "2026-08-22T00:00:00+00:00",
@@ -5243,8 +5243,14 @@
   "schema_version": 2,
   "scope": "PUBLIC_READ_ONLY_RESEARCH_SUMMARY",
   "storage_persistence": {
-    "persistence_status": "UNKNOWN",
-    "status": "UNAVAILABLE"
+    "last_snapshot_failed": [
+      {
+        "error": "OSError: [Errno 28] No space left on device: '/data/v6-snapshots'"
+      }
+    ],
+    "persistence_status": "ERROR",
+    "status": "AVAILABLE",
+    "updated_at": "2026-08-25T10:26:31.618123+00:00"
   },
   "strategy_performance": [
     {
@@ -5623,7 +5629,7 @@
     "cycles": 0,
     "distinct_hypotheses": 2,
     "events": 2,
-    "last_event_at": "2026-08-25T10:02:49.422047+00:00",
+    "last_event_at": "2026-08-25T10:16:15.067204+00:00",
     "promotions": 0,
     "research_trials": 2
   },
@@ -5635,9 +5641,9 @@
     "data_quality": "STARTING",
     "data_quality_critical": 0,
     "data_quality_warnings": 0,
-    "heartbeat_at": "2026-08-25T10:14:30.097880+00:00",
+    "heartbeat_at": "2026-08-25T10:28:42.820607+00:00",
     "last_cycle_finished_at": null,
-    "last_cycle_started_at": "2026-08-25T10:02:44.718663+00:00",
+    "last_cycle_started_at": "2026-08-25T10:16:12.590220+00:00",
     "market_data_api_calls": 0,
     "realtime_watchlist_sync": "STARTING",
     "realtime_watchlist_total": 0,
