@@ -49,7 +49,7 @@ st.set_page_config(page_title="Expected vs Live Deviation", layout="wide")
 st.title("Expected vs Live Deviation")
 st.caption(
     "比較模型校準時的 OOS 表現，與真正往前跑的虛擬已平倉交易。"
-    "目前只做影子監控，不會直接改訊號、縮倉或呼叫券商交易 API。"
+    "至少累積 5 筆後，偏離狀態才會影響未來虛擬進場部位；原始訊號與券商交易 API 不變。"
 )
 
 try:
@@ -68,6 +68,11 @@ d.metric("明顯偏離", int(summary.get("diverging", 0) or 0))
 e.metric("嚴重偏離", int(summary.get("severe", 0) or 0))
 f.metric("Trading API", int(summary.get("broker_order_api_calls", 0) or 0))
 
+if snap.get("active_sizing"):
+    st.success("Active sizing 已啟用：至少 5 筆前向已平倉後，WATCH / DIVERGING / SEVERE_DIVERGENCE 會縮小未來虛擬進場部位。")
+else:
+    st.warning("Active sizing 目前停用；本頁只顯示偏離監控。")
+
 rows = pd.DataFrame(snap.get("rows") or [])
 if rows.empty:
     st.info("目前沒有可比較的模型資料。")
@@ -79,7 +84,7 @@ view["週期"] = view["horizon"].map(horizon_label)
 view["策略"] = view["strategy"].map(strategy_label)
 view["狀態"] = view["state"].map(lambda x: STATE_LABEL.get(str(x), str(x)))
 view["偏差分數"] = view["deviation_score"].map(lambda x: _num(x, 1))
-view["建議信心倍率"] = view["suggested_confidence_multiplier"].map(lambda x: f"{float(x):.2f}x")
+view["Active倍率"] = view["suggested_confidence_multiplier"].map(lambda x: f"{float(x):.2f}x")
 view["OOS勝率"] = view["oos_win_rate"].map(_pct)
 view["前向勝率"] = view["live_win_rate"].map(_pct)
 view["OOS總報酬"] = view["oos_total_return"].map(_pct)
@@ -95,7 +100,7 @@ view["原因"] = view["reasons"].map(
 
 st.dataframe(
     view[[
-        "市場", "symbol", "週期", "策略", "狀態", "偏差分數", "建議信心倍率",
+        "市場", "symbol", "週期", "策略", "狀態", "偏差分數", "Active倍率",
         "live_closed_trades", "證據權重", "OOS勝率", "前向勝率", "OOS總報酬",
         "前向複合報酬", "OOS單筆期望", "前向單筆期望", "OOS獲利因子",
         "前向獲利因子", "live_max_loss_streak", "原因",
@@ -110,16 +115,16 @@ st.dataframe(
 
 focus = rows[(rows["live_closed_trades"] >= 5) & (rows["state"] != "NORMAL") & (rows["state"] != "LEARNING")]
 if not focus.empty:
-    st.subheader("需要優先觀察")
+    st.subheader("目前會影響 Active Sizing 的組合")
     for _, r in focus.head(10).iterrows():
         reasons = "、".join(REASON_LABEL.get(str(x), str(x)) for x in (r.get("reasons") or [])) or "無"
         st.write(
             f"{r['market']} / {r['symbol']} / {r['horizon']} / {r['strategy']}｜"
             f"{STATE_LABEL.get(str(r['state']), r['state'])}｜偏差 {float(r['deviation_score']):.1f}/100｜"
-            f"樣本 {int(r['live_closed_trades'])}｜原因：{reasons}"
+            f"倍率 {float(r['suggested_confidence_multiplier']):.2f}x｜樣本 {int(r['live_closed_trades'])}｜原因：{reasons}"
         )
 
 st.info(
-    "目前建議信心倍率只是 shadow 建議值。至少累積 5 筆前向已平倉才離開 LEARNING；"
-    "是否接入 active sizing 會等這層運作穩定後再決定。"
+    "門檻固定為至少 5 筆前向已平倉：LEARNING=1.00x、NORMAL=1.00x、WATCH=0.85x、"
+    "DIVERGING=0.65x、SEVERE_DIVERGENCE=0.40x。此層只影響未來虛擬進場大小，不改原始模型訊號。"
 )
