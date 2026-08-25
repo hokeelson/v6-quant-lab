@@ -6,10 +6,10 @@ from pathlib import Path
 
 from src.paths import data_dir
 
-POLL_SECONDS = 15
+POLL_SECONDS = 5
 DATA_DIR = Path(data_dir())
 STATUS_PATH = DATA_DIR / "storage_persistence_status.json"
-PUBLIC_SNAPSHOT_PATH = Path("static") / "research_snapshot.json"
+PUBLIC_STATUS_PATH = Path("static") / "storage_persistence.json"
 
 SAFE_KEYS = (
     "mode",
@@ -18,6 +18,10 @@ SAFE_KEYS = (
     "last_snapshot_success",
     "last_snapshot_failed",
     "snapshot_interval_seconds",
+    "snapshot_db_count",
+    "snapshot_keep_archives",
+    "skipped_rebuildable",
+    "persistent_disk",
     "bootstrap_at",
     "restored",
     "bootstrap_warnings",
@@ -45,28 +49,19 @@ def _safe_storage_status(raw):
 
 def export_once():
     storage = _safe_storage_status(_read_json(STATUS_PATH))
-    snapshot = _read_json(PUBLIC_SNAPSHOT_PATH)
-    if not isinstance(snapshot, dict):
-        return False
-    if snapshot.get("contains_secrets") is not False:
-        return False
-    if str(snapshot.get("scope") or "") != "PUBLIC_READ_ONLY_RESEARCH_SUMMARY":
-        return False
-
-    snapshot["storage_persistence"] = storage
-    tmp = PUBLIC_SNAPSHOT_PATH.with_suffix(".json.storage.tmp")
-    tmp.parent.mkdir(parents=True, exist_ok=True)
-    tmp.write_text(json.dumps(snapshot, ensure_ascii=False, indent=2), encoding="utf-8")
-    tmp.replace(PUBLIC_SNAPSHOT_PATH)
+    PUBLIC_STATUS_PATH.parent.mkdir(parents=True, exist_ok=True)
+    tmp = PUBLIC_STATUS_PATH.with_suffix(".json.tmp")
+    tmp.write_text(json.dumps(storage, ensure_ascii=False, indent=2), encoding="utf-8")
+    tmp.replace(PUBLIC_STATUS_PATH)
     return True
 
 
 def watch():
-    time.sleep(10)
+    time.sleep(2)
     while True:
         try:
-            ok = export_once()
-            print("STORAGE_STATUS_EXPORT", "OK" if ok else "WAITING", flush=True)
+            export_once()
+            print("STORAGE_STATUS_EXPORT OK", flush=True)
         except Exception as exc:
             print("STORAGE_STATUS_EXPORT_ERROR", type(exc).__name__, exc, flush=True)
         time.sleep(POLL_SECONDS)
