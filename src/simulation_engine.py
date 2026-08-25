@@ -71,7 +71,14 @@ class SimulationLab:
             risk_adjusted=float(sizing.get("adjusted_notional",original_notional) or 0)
             notional=min(risk_adjusted,room)
             if notional<=0:
-                return None
+                cancel_reason = "RISK_SIZING_ZERO_NOTIONAL" if risk_adjusted <= 0 else "NO_LEVERAGE_ROOM"
+                self.db.cancel_order(o["order_id"], cancel_reason)
+                self.db.add_diagnostic(aid,symbol,hz,ts.isoformat(),"ORDER_CANCELLED","Pending BUY cancelled before fill",{
+                    **sizing,"leverage_room":room,"risk_adjusted_notional":risk_adjusted,
+                    "requested_notional":original_notional,"cancel_reason":cancel_reason,
+                    "broker_order_api_calls":0,
+                })
+                return "CANCELLED"
             fill=open_px*(1+rate); qty=notional/fill; fees=notional*rate
             self.db.set_cash(aid,cash-notional)
             self.db.upsert_position({"account_id":aid,"symbol":symbol,"qty":qty,"avg_entry":fill,"entry_bar":ts.isoformat(),

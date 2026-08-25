@@ -168,6 +168,12 @@ class SimulationDB:
         return x["order_id"]
     def fill_order(self,oid,bar,price,fees,slippage):
         with self._c() as c: c.execute("UPDATE orders SET status='FILLED',filled_bar=?,fill_price=?,fees=?,slippage_cost=? WHERE order_id=?",(bar,float(price),float(fees),float(slippage),oid))
+    def cancel_order(self,oid,reason=None):
+        with self._c() as c:
+            if reason is None:
+                c.execute("UPDATE orders SET status='CANCELLED' WHERE order_id=? AND status='PENDING'",(oid,))
+            else:
+                c.execute("UPDATE orders SET status='CANCELLED',reason=? WHERE order_id=? AND status='PENDING'",(str(reason),oid))
     def add_trade(self,t):
         x=dict(t); x.setdefault("trade_id",uuid.uuid4().hex); x.setdefault("created_at",now_iso())
         with self._c() as c:
