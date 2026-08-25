@@ -63,6 +63,14 @@ def _mult(payload: dict, key: str, default: float = 1.0) -> float:
     return default if x is None else max(0.0, min(1.0, x))
 
 
+def _safe_list(value, limit: int = 20):
+    if isinstance(value, (list, tuple)):
+        return [str(x)[:200] for x in value[:limit]]
+    if value in (None, ""):
+        return []
+    return [str(value)[:200]]
+
+
 def _market_from_account(account_id: str) -> str:
     aid = str(account_id or "")
     if aid.startswith("twstock_"):
@@ -91,7 +99,11 @@ def _sizing_audit(limit: int = 100):
         "scope": "PUBLIC_READ_ONLY_RISK_SIZING_AUDIT",
         "contains_secrets": False,
         "generated_at": _now_iso(),
-        "summary": {"entries": 0, "broker_order_api_calls": 0},
+        "summary": {
+            "entries": 0,
+            "expected_live_reduced": 0,
+            "broker_order_api_calls": 0,
+        },
         "entries": [],
     }
     if not SIM_PATH.exists():
@@ -156,6 +168,7 @@ def _sizing_audit(limit: int = 100):
         strategy_mult = _mult(payload, "strategy_multiplier")
         regime_mult = _mult(payload, "regime_multiplier")
         symbol_mult = _mult(payload, "symbol_strategy_multiplier")
+        expected_live_mult = _mult(payload, "expected_live_multiplier")
         broad_health_mult = min(strategy_mult, regime_mult)
         effective_health_mult = min(broad_health_mult, symbol_mult)
         leverage_guard_mult = _mult(payload, "leverage_guard_multiplier")
@@ -199,6 +212,13 @@ def _sizing_audit(limit: int = 100):
             "symbol_strategy_profit_factor": _finite(payload.get("symbol_strategy_profit_factor")),
             "symbol_strategy_weighted_win_rate": _finite(payload.get("symbol_strategy_weighted_win_rate")),
             "symbol_strategy_weighted_avg_return": _finite(payload.get("symbol_strategy_weighted_avg_return")),
+            "expected_live_multiplier": expected_live_mult,
+            "expected_live_state": str(payload.get("expected_live_state") or "LEARNING"),
+            "expected_live_samples": int(payload.get("expected_live_samples", 0) or 0),
+            "expected_live_deviation_score": _finite(payload.get("expected_live_deviation_score")),
+            "expected_live_evidence_weight": _finite(payload.get("expected_live_evidence_weight")) or 0.0,
+            "expected_live_performance_key": str(payload.get("expected_live_performance_key") or ""),
+            "expected_live_reasons": _safe_list(payload.get("expected_live_reasons")),
             "meta_multiplier": _mult(payload, "meta_multiplier"),
             "meta_score": _finite(payload.get("meta_score")),
             "meta_probability": _finite(payload.get("meta_probability")),
@@ -240,7 +260,8 @@ def _sizing_audit(limit: int = 100):
             "broker_order_api_calls": int(payload.get("broker_order_api_calls", 0) or 0),
             "has_error": bool(
                 payload.get("error") or payload.get("meta_error") or payload.get("quality_error")
-                or payload.get("symbol_strategy_error") or payload.get("leverage_guard_error")
+                or payload.get("symbol_strategy_error") or payload.get("expected_live_error")
+                or payload.get("leverage_guard_error")
             ),
         }
         entries.append(item)
@@ -259,6 +280,7 @@ def _sizing_audit(limit: int = 100):
             "portfolio_reduced": reduced("portfolio_multiplier"),
             "broad_health_reduced": reduced("broad_health_multiplier"),
             "symbol_strategy_reduced": reduced("symbol_strategy_multiplier"),
+            "expected_live_reduced": reduced("expected_live_multiplier"),
             "meta_reduced": reduced("meta_multiplier"),
             "quality_drift_reduced": reduced("quality_drift_multiplier"),
             "leverage_guard_reduced": reduced("leverage_guard_multiplier"),
