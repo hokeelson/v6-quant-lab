@@ -2,7 +2,10 @@ from __future__ import annotations
 
 import os
 
+from .backtest import ExecutionCosts
 from .data_quality_drift import assess_pair
+from .decision_engine import HORIZON_SPECS
+from .leverage_guard import cost_aware_leverage_room, projected_post_fill
 from .meta_model import meta_entry_assessment
 from .pretrade_risk import build_pretrade_risk_snapshot
 from .pro_risk_engine import portfolio_risk_snapshot, strategy_health_snapshot
@@ -48,19 +51,39 @@ def _find_health_row(rows: list[dict], market: str, horizon: str, strategy: str,
     return None
 
 
+def _account_marks(db, account_id: str) -> tuple[float, float, float]:
+    acct = db.account(account_id)
+    if not acct:
+        return 0.0, 0.0, 0.0
+    cash = float(acct.get("cash") or 0.0)
+    marks = db.marks(account_id)
+    gross = 0.0
+    for pos in db.positions(account_id):
+        px = float(marks.get(pos.get("symbol"), pos.get("avg_entry") or 0.0) or 0.0)
+        gross += max(0.0, float(pos.get("qty") or 0.0) * px)
+    return cash, gross, cash + gross
+
+
+def _cost_rate(market: str) -> float:
+    costs = ExecutionCosts(0, 3, 2) if market == "stock" else ExecutionCosts(10, 5, 4)
+    return float(costs.one_way_rate)
+
+
 def active_entry_sizing(db, cache, market: str, symbol: str, horizon: str, decision: dict,
                         requested_notional: float) -> dict:
     """Return the notional to use for a virtual BUY fill.
 
     Independent evidence layers are combined at the last possible moment:
     portfolio/pre-trade risk, strategy health, symbol×strategy health, second-layer
-    Meta Model, and data-quality/concept-drift health. The original model decision
-    is preserved; only the virtual fill size changes. No broker order API is used.
+    Meta Model, and data-quality/concept-drift health. A final cost-aware leverage
+    hard guard can reduce the virtual fill further. The original model decision is
+    preserved and no broker order API is used.
     """
     original = max(0.0, float(requested_notional or 0.0))
     result = {
         "original_notional": original,
         "adjusted_notional": original,
+        "pre_execution_adjusted_notional": original,
         "combined_multiplier": 1.0,
         "portfolio_multiplier": 1.0,
         "pretrade_multiplier": 1.0,
@@ -102,6 +125,17 @@ def active_entry_sizing(db, cache, market: str, symbol: str, horizon: str, decis
         "active_symbol_strategy_health_sizing": _flag("V6_ACTIVE_SYMBOL_STRATEGY_HEALTH_SIZING", True),
         "active_meta_sizing": _flag("V6_ACTIVE_META_SIZING", True),
         "active_data_quality_sizing": _flag("V6_ACTIVE_DATA_QUALITY_SIZING", True),
+        "active_leverage_hard_guard": _flag("V6_ACTIVE_LEVERAGE_HARD_GUARD", True),
+        "leverage_guard_applied": False,
+        "leverage_guard_multiplier": 1.0,
+        "legacy_leverage_room": None,
+        "cost_adjusted_leverage_room": None,
+        "max_leverage": None,
+        "target_leverage_cap": None,
+        "projected_post_fill_leverage": None,
+        "projected_post_fill_equity": None,
+        "projected_post_fill_gross": None,
+        "leverage_guard_error": None,
         "meta_error": None,
         "quality_error": None,
         "symbol_strategy_error": None,
@@ -193,12 +227,9 @@ def active_entry_sizing(db, cache, market: str, symbol: str, horizon: str, decis
                 result["drift_score"] = health.get("drift_score")
                 result["quality_reasons"] = [] if result["data_status"] == "OK" else [result["data_status"]]
                 result["drift_reasons"] = health.get("reasons") or []
-                # Preserve the detailed assessment for diagnostics without changing
-                # the original strategy decision.
                 result["quality_detail"] = health
                 quality_multiplier = result["quality_drift_multiplier"]
             except Exception as exc:
-                # Fail open for research continuity, but record the detector error.
                 result["quality_error"] = f"{type(exc).__name__}: {exc}"
                 quality_multiplier = 1.0
 
@@ -206,10 +237,40 @@ def active_entry_sizing(db, cache, market: str, symbol: str, horizon: str, decis
         combined = max(_min_multiplier(), min(1.0, float(combined)))
         result["combined_multiplier"] = combined
         result["adjusted_notional"] = original * combined
+        result["pre_execution_adjusted_notional"] = result["adjusted_notional"]
+
+        # This final guard is execution safety, not another evidence score. It may
+        # reduce below the normal minimum sizing floor when the account is near its
+        # hard leverage cap. Taiwan is cash-only and keeps its existing cash clamp.
+        if result["active_leverage_hard_guard"] and market in ("stock", "crypto"):
+            try:
+                account_id = f"{market}_{horizon}"
+                _, gross, equity = _account_marks(db, account_id)
+                max_leverage = float(HORIZON_SPECS[horizon]["max_leverage"])
+                rate = _cost_rate(market)
+                guard = cost_aware_leverage_room(equity, gross, max_leverage, rate, 0.005)
+                result["legacy_leverage_room"] = guard.get("legacy_room")
+                result["cost_adjusted_leverage_room"] = guard.get("cost_adjusted_room")
+                result["max_leverage"] = guard.get("max_leverage")
+                result["target_leverage_cap"] = guard.get("target_leverage_cap")
+                guarded = min(float(result["adjusted_notional"]), float(guard.get("cost_adjusted_room") or 0.0))
+                result["leverage_guard_applied"] = guarded + 1e-9 < float(result["adjusted_notional"])
+                result["leverage_guard_multiplier"] = (
+                    guarded / float(result["adjusted_notional"])
+                    if float(result["adjusted_notional"]) > 0 else 1.0
+                )
+                result["adjusted_notional"] = max(0.0, guarded)
+                projected = projected_post_fill(equity, gross, result["adjusted_notional"], rate)
+                result.update(projected)
+            except Exception as exc:
+                # Fail open to the existing engine-level room clamp if this
+                # diagnostic hard-guard layer itself has an unexpected issue.
+                result["leverage_guard_error"] = f"{type(exc).__name__}: {exc}"
     except Exception as exc:
         # Core risk-layer failure also fails open for research continuity.
         result["error"] = f"{type(exc).__name__}: {exc}"
         result["combined_multiplier"] = 1.0
         result["adjusted_notional"] = original
+        result["pre_execution_adjusted_notional"] = original
 
     return result
