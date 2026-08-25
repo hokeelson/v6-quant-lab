@@ -2,45 +2,45 @@
   "accounts": [
     {
       "account_id": "crypto_long",
-      "as_of": "2026-08-24T00:00:00+00:00",
-      "cash": 78112.46021903901,
+      "as_of": "2026-08-22T00:00:00+00:00",
+      "cash": 100000.0,
       "closed_trades": 0,
-      "drawdown": -0.001924493181755249,
-      "equity": 99807.55068182448,
-      "gross_exposure": 21695.09046278546,
+      "drawdown": 0.0,
+      "equity": 100000.0,
+      "gross_exposure": 0.0,
       "horizon": "long",
       "initial_equity": 100000.0,
-      "leverage": 0.2173692302293544,
+      "leverage": 0.0,
       "market": "crypto",
-      "return_pct": -0.001924493181755249
+      "return_pct": 0.0
     },
     {
       "account_id": "crypto_medium",
-      "as_of": "2026-08-25T04:00:00+00:00",
-      "cash": 11788.58894351558,
-      "closed_trades": 3,
-      "drawdown": -0.005562106641763931,
-      "equity": 99822.32632864086,
-      "gross_exposure": 90880.86497477109,
+      "as_of": "2026-08-23T16:00:00+00:00",
+      "cash": 11592.766062627157,
+      "closed_trades": 0,
+      "drawdown": -0.002787887071923789,
+      "equity": 100100.80430404533,
+      "gross_exposure": 88508.03824141818,
       "horizon": "medium",
       "initial_equity": 100000.0,
-      "leverage": 0.9104262374688387,
+      "leverage": 0.8841890817638649,
       "market": "crypto",
-      "return_pct": -0.0017767367135913537
+      "return_pct": 0.0010080430404533214
     },
     {
       "account_id": "crypto_short",
-      "as_of": "2026-08-25T08:00:00+00:00",
-      "cash": 14112.228961483936,
-      "closed_trades": 16,
-      "drawdown": -0.016762905348977397,
-      "equity": 101195.8379995613,
-      "gross_exposure": 87083.60903807737,
+      "as_of": "2026-08-23T20:00:00+00:00",
+      "cash": -8687.533135479986,
+      "closed_trades": 8,
+      "drawdown": -0.018486803342970926,
+      "equity": 101018.41253109903,
+      "gross_exposure": 109705.94566657902,
       "horizon": "short",
       "initial_equity": 100000.0,
-      "leverage": 0.8605453619392418,
+      "leverage": 1.0859995016532802,
       "market": "crypto",
-      "return_pct": 0.011958379995613111
+      "return_pct": 0.010184125310990444
     },
     {
       "account_id": "stock_long",
@@ -253,7 +253,7 @@
       }
     ]
   },
-  "generated_at": "2026-08-25T09:59:56.034777+00:00",
+  "generated_at": "2026-08-25T10:02:42.679232+00:00",
   "governance": {
     "arenas": [],
     "recent_events": []
@@ -1398,66 +1398,6 @@
       "symbol": "PUMPUSDT",
       "train_score": 97.48332618403448,
       "updated_at": "2026-08-22T16:03:03.632923+00:00"
-    },
-    {
-      "calibrated_through": "2026-08-24T00:00:00+00:00",
-      "calibration_score": 75.40667464743507,
-      "horizon": "long",
-      "market": "crypto",
-      "oos_metrics": {
-        "closed_trades": 3,
-        "max_drawdown": -0.022591546445454913,
-        "profit_factor": null,
-        "sharpe": 2.2009744496794674,
-        "total_return": 0.16756852028432534,
-        "win_rate": 1.0
-      },
-      "oos_score": 84.91397246825032,
-      "regime_fit": 0.6,
-      "strategy": "Mean Reversion RSI",
-      "symbol": "PYTHUSDT",
-      "train_score": 62.31795678907475,
-      "updated_at": "2026-08-25T09:53:41.608748+00:00"
-    },
-    {
-      "calibrated_through": "2026-08-25T04:00:00+00:00",
-      "calibration_score": 78.33204237480174,
-      "horizon": "medium",
-      "market": "crypto",
-      "oos_metrics": {
-        "closed_trades": 12,
-        "max_drawdown": -0.03911523453651189,
-        "profit_factor": 1.5052204845170056,
-        "sharpe": 1.237433858352389,
-        "total_return": 0.035920933579616676,
-        "win_rate": 0.4166666666666667
-      },
-      "oos_score": 77.09777746419084,
-      "regime_fit": 0.9,
-      "strategy": "Momentum",
-      "symbol": "PYTHUSDT",
-      "train_score": 65.46014171971954,
-      "updated_at": "2026-08-25T09:53:37.806724+00:00"
-    },
-    {
-      "calibrated_through": "2026-08-25T08:00:00+00:00",
-      "calibration_score": 91.53889211360914,
-      "horizon": "short",
-      "market": "crypto",
-      "oos_metrics": {
-        "closed_trades": 17,
-        "max_drawdown": -0.01012317396107476,
-        "profit_factor": 3.2361134799282425,
-        "sharpe": 6.5201867096583035,
-        "total_return": 0.02830041264189287,
-        "win_rate": 0.7058823529411765
-      },
-      "oos_score": 97.27811327647623,
-      "regime_fit": 0.9,
-      "strategy": "Mean Reversion RSI",
-      "symbol": "PYTHUSDT",
-      "train_score": 81.71247046398278,
-      "updated_at": "2026-08-25T09:53:32.521785+00:00"
     },
     {
       "calibrated_through": "2026-08-23T08:00:00+00:00",
@@ -5263,59 +5203,10 @@
   "schema_version": 2,
   "scope": "PUBLIC_READ_ONLY_RESEARCH_SUMMARY",
   "storage_persistence": {
-    "last_snapshot_at": "2026-08-25T09:59:47.157221+00:00",
-    "last_snapshot_failed": [
-      {
-        "db": "data_quality.sqlite3",
-        "error": "OSError: [Errno 28] No space left on device: '/data/v6-snapshots'"
-      },
-      {
-        "db": "forward_validation.sqlite3",
-        "error": "OSError: [Errno 28] No space left on device: '/data/v6-snapshots'"
-      },
-      {
-        "db": "market_cache.sqlite3",
-        "error": "OSError: [Errno 28] No space left on device: '/data/v6-snapshots'"
-      },
-      {
-        "db": "model_governance.sqlite3",
-        "error": "OSError: [Errno 28] No space left on device: '/data/v6-snapshots'"
-      },
-      {
-        "db": "realtime_execution.sqlite3",
-        "error": "OSError: [Errno 28] No space left on device: '/data/v6-snapshots'"
-      },
-      {
-        "db": "simulation_lab.sqlite3",
-        "error": "OSError: [Errno 28] No space left on device: '/data/v6-snapshots'"
-      },
-      {
-        "db": "trial_ledger.sqlite3",
-        "error": "OSError: [Errno 28] No space left on device: '/data/v6-snapshots'"
-      }
-    ],
-    "last_snapshot_success": [],
-    "persistence_status": "ERROR",
-    "status": "AVAILABLE",
-    "updated_at": "2026-08-25T09:59:47.157541+00:00"
+    "persistence_status": "UNKNOWN",
+    "status": "UNAVAILABLE"
   },
   "strategy_performance": [
-    {
-      "avg_pnl": -15.174368585700613,
-      "avg_return_pct": -0.009921154985609205,
-      "best_trade_return": 0.06523949416052943,
-      "closed_trades": 9,
-      "horizon": "short",
-      "last_exit_bar": "2026-08-25T07:00:00+00:00",
-      "losses": 7,
-      "market": "crypto",
-      "profit_factor": 0.8734817897353032,
-      "realized_pnl": -136.56931727130552,
-      "strategy": "Momentum",
-      "win_rate": 0.2222222222222222,
-      "wins": 2,
-      "worst_trade_return": -0.053519372097020956
-    },
     {
       "avg_pnl": 114.452548849826,
       "avg_return_pct": -0.018435857117408583,
@@ -5333,93 +5224,23 @@
       "worst_trade_return": -0.1730817378156454
     },
     {
-      "avg_pnl": -195.8607259480767,
-      "avg_return_pct": -0.058126190074553,
-      "best_trade_return": -0.026108891238171505,
+      "avg_pnl": -189.75310135704862,
+      "avg_return_pct": -0.024262385712438512,
+      "best_trade_return": -0.008851300592133682,
       "closed_trades": 3,
-      "horizon": "medium",
-      "last_exit_bar": "2026-08-24T20:00:00+00:00",
+      "horizon": "short",
+      "last_exit_bar": "2026-08-23T18:00:00+00:00",
       "losses": 3,
       "market": "crypto",
       "profit_factor": 0.0,
-      "realized_pnl": -587.58217784423,
+      "realized_pnl": -569.2593040711458,
       "strategy": "Momentum",
       "win_rate": 0.0,
       "wins": 0,
-      "worst_trade_return": -0.11173360634670926
-    },
-    {
-      "avg_pnl": 129.07175723226788,
-      "avg_return_pct": 0.012101893339076075,
-      "best_trade_return": 0.014773062876443532,
-      "closed_trades": 2,
-      "horizon": "short",
-      "last_exit_bar": "2026-08-25T06:00:00+00:00",
-      "losses": 0,
-      "market": "crypto",
-      "profit_factor": 999.0,
-      "realized_pnl": 258.14351446453577,
-      "strategy": "Mean Reversion RSI",
-      "win_rate": 1.0,
-      "wins": 2,
-      "worst_trade_return": 0.009430723801708618
+      "worst_trade_return": -0.053519372097020956
     }
   ],
   "strategy_symbol_performance": [
-    {
-      "avg_pnl": 126.31947978598768,
-      "avg_return_pct": 0.0017990023851915116,
-      "best_trade_return": 0.06523949416052943,
-      "closed_trades": 4,
-      "horizon": "short",
-      "last_exit_bar": "2026-08-24T07:00:00+00:00",
-      "losses": 3,
-      "market": "crypto",
-      "performance_key": "crypto:AAVEUSDT:short:Momentum",
-      "profit_factor": 2.70237160193021,
-      "realized_pnl": 505.2779191439507,
-      "strategy": "Momentum",
-      "symbol": "AAVEUSDT",
-      "win_rate": 0.25,
-      "wins": 1,
-      "worst_trade_return": -0.050330845011503866
-    },
-    {
-      "avg_pnl": -36.293966172055164,
-      "avg_return_pct": -0.011849623636966677,
-      "best_trade_return": 0.008132349383272564,
-      "closed_trades": 2,
-      "horizon": "short",
-      "last_exit_bar": "2026-08-25T07:00:00+00:00",
-      "losses": 1,
-      "market": "crypto",
-      "performance_key": "crypto:ADAUSDT:short:Momentum",
-      "profit_factor": 0.6598127597700543,
-      "realized_pnl": -72.58793234411033,
-      "strategy": "Momentum",
-      "symbol": "ADAUSDT",
-      "win_rate": 0.5,
-      "wins": 1,
-      "worst_trade_return": -0.03183159665720592
-    },
-    {
-      "avg_pnl": -114.72328021443282,
-      "avg_return_pct": -0.031322481938474867,
-      "best_trade_return": -0.026108891238171505,
-      "closed_trades": 2,
-      "horizon": "medium",
-      "last_exit_bar": "2026-08-24T20:00:00+00:00",
-      "losses": 2,
-      "market": "crypto",
-      "performance_key": "crypto:DASHUSDT:medium:Momentum",
-      "profit_factor": 0.0,
-      "realized_pnl": -229.44656042886564,
-      "strategy": "Momentum",
-      "symbol": "DASHUSDT",
-      "win_rate": 0.0,
-      "wins": 0,
-      "worst_trade_return": -0.03653607263877823
-    },
     {
       "avg_pnl": -247.78856769488775,
       "avg_return_pct": -0.08488121911941221,
@@ -5455,60 +5276,6 @@
       "win_rate": 0.5,
       "wins": 1,
       "worst_trade_return": -0.04164070167792533
-    },
-    {
-      "avg_pnl": 202.439298018653,
-      "avg_return_pct": 0.009430723801708618,
-      "best_trade_return": 0.009430723801708618,
-      "closed_trades": 1,
-      "horizon": "short",
-      "last_exit_bar": "2026-08-24T21:00:00+00:00",
-      "losses": 0,
-      "market": "crypto",
-      "performance_key": "crypto:DEXEUSDT:short:Mean Reversion RSI",
-      "profit_factor": 999.0,
-      "realized_pnl": 202.439298018653,
-      "strategy": "Mean Reversion RSI",
-      "symbol": "DEXEUSDT",
-      "win_rate": 1.0,
-      "wins": 1,
-      "worst_trade_return": 0.009430723801708618
-    },
-    {
-      "avg_pnl": -358.1356174153644,
-      "avg_return_pct": -0.11173360634670926,
-      "best_trade_return": -0.11173360634670926,
-      "closed_trades": 1,
-      "horizon": "medium",
-      "last_exit_bar": "2026-08-24T20:00:00+00:00",
-      "losses": 1,
-      "market": "crypto",
-      "performance_key": "crypto:ENAUSDT:medium:Momentum",
-      "profit_factor": 0.0,
-      "realized_pnl": -358.1356174153644,
-      "strategy": "Momentum",
-      "symbol": "ENAUSDT",
-      "win_rate": 0.0,
-      "wins": 0,
-      "worst_trade_return": -0.11173360634670926
-    },
-    {
-      "avg_pnl": 55.70421644588275,
-      "avg_return_pct": 0.014773062876443532,
-      "best_trade_return": 0.014773062876443532,
-      "closed_trades": 1,
-      "horizon": "short",
-      "last_exit_bar": "2026-08-25T06:00:00+00:00",
-      "losses": 0,
-      "market": "crypto",
-      "performance_key": "crypto:ENAUSDT:short:Mean Reversion RSI",
-      "profit_factor": 999.0,
-      "realized_pnl": 55.70421644588275,
-      "strategy": "Mean Reversion RSI",
-      "symbol": "ENAUSDT",
-      "win_rate": 1.0,
-      "wins": 1,
-      "worst_trade_return": 0.014773062876443532
     },
     {
       "avg_pnl": -98.46151910684034,
@@ -5586,29 +5353,11 @@
   "trial_ledger": {
     "challenges": 0,
     "cycles": 0,
-    "distinct_hypotheses": 3,
-    "events": 3,
-    "last_event_at": "2026-08-25T09:53:27.247386+00:00",
+    "distinct_hypotheses": 0,
+    "events": 0,
+    "last_event_at": null,
     "promotions": 0,
-    "research_trials": 3
+    "research_trials": 0
   },
-  "worker": {
-    "assets_checked": 0,
-    "bars_processed": 0,
-    "broker_order_api_calls": 0,
-    "concept_drift_pairs": 0,
-    "data_quality": "STARTING",
-    "data_quality_critical": 0,
-    "data_quality_warnings": 0,
-    "heartbeat_at": "2026-08-25T09:59:51.935126+00:00",
-    "last_cycle_finished_at": null,
-    "last_cycle_started_at": "2026-08-25T09:53:21.765396+00:00",
-    "market_data_api_calls": 0,
-    "realtime_watchlist_sync": "STARTING",
-    "realtime_watchlist_total": 0,
-    "risk_layer": "STARTING",
-    "risk_sizing": "ACTIVE",
-    "status": "RUNNING",
-    "true_errors": 0
-  }
+  "worker": {}
 }
