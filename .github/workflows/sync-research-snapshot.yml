@@ -33,6 +33,7 @@ jobs:
           research_tmp="$(mktemp)"
           storage_tmp="$(mktemp)"
           sizing_tmp="$(mktemp)"
+          expected_tmp="$(mktemp)"
 
           curl --fail --silent --show-error --location \
             --retry 3 --retry-delay 5 --max-time 30 \
@@ -50,12 +51,19 @@ jobs:
             printf '%s\n' '{"status":"UNAVAILABLE","scope":"PUBLIC_READ_ONLY_RISK_SIZING_AUDIT","contains_secrets":false,"summary":{"entries":0,"broker_order_api_calls":0},"entries":[]}' > "$sizing_tmp"
           fi
 
-          python - "$research_tmp" "$storage_tmp" "$sizing_tmp" <<'PY'
+          if ! curl --fail --silent --show-error --location \
+            --retry 2 --retry-delay 2 --max-time 15 \
+            "$base/expected_live_deviation.json" -o "$expected_tmp"; then
+            printf '%s\n' '{"status":"UNAVAILABLE","scope":"PUBLIC_READ_ONLY_EXPECTED_LIVE_DEVIATION","contains_secrets":false,"shadow_only":true,"active_sizing":false,"summary":{"models":0,"with_live_trades":0,"broker_order_api_calls":0},"rows":[]}' > "$expected_tmp"
+          fi
+
+          python - "$research_tmp" "$storage_tmp" "$sizing_tmp" "$expected_tmp" <<'PY'
           import json, pathlib, sys
 
           research_path = pathlib.Path(sys.argv[1])
           storage_path = pathlib.Path(sys.argv[2])
           sizing_path = pathlib.Path(sys.argv[3])
+          expected_path = pathlib.Path(sys.argv[4])
           data = json.loads(research_path.read_text(encoding='utf-8'))
 
           if data.get('contains_secrets') is not False:
@@ -100,6 +108,26 @@ jobs:
                   'entries': [],
               }
           data['risk_sizing_audit'] = sizing
+
+          try:
+              expected = json.loads(expected_path.read_text(encoding='utf-8'))
+          except Exception:
+              expected = None
+          if (
+              not isinstance(expected, dict)
+              or expected.get('contains_secrets') is not False
+              or str(expected.get('scope') or '') != 'PUBLIC_READ_ONLY_EXPECTED_LIVE_DEVIATION'
+          ):
+              expected = {
+                  'status': 'UNAVAILABLE',
+                  'scope': 'PUBLIC_READ_ONLY_EXPECTED_LIVE_DEVIATION',
+                  'contains_secrets': False,
+                  'shadow_only': True,
+                  'active_sizing': False,
+                  'summary': {'models': 0, 'with_live_trades': 0, 'broker_order_api_calls': 0},
+                  'rows': [],
+              }
+          data['expected_live_deviation'] = expected
 
           pathlib.Path('research_snapshot.json').write_text(
               json.dumps(data, ensure_ascii=False, indent=2, sort_keys=True) + '\n',
