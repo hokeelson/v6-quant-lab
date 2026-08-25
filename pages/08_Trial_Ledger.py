@@ -48,7 +48,7 @@ else:
     rows["模型指紋"] = rows["model_signature"].fillna("—")
     rows["競賽ID"] = rows["arena_id"].fillna("—")
     rows["狀態"] = rows["status"].map(lambda x: translate_code(x) if pd.notna(x) else "—")
-    st.dataframe(rows[["時間", "事件", "市場", "標的", "週期", "策略", "模型指紋", "競賽ID", "狀態"]], use_container_width=True, hide_index=True)
+    st.dataframe(rows[["時間", "事件", "市場", "標的", "週期", "策略", "模型指紋", "競賽ID", "狀態"]], width="stretch", hide_index=True)
 
 cycles = pd.DataFrame(ledger.recent_cycles(100))
 st.subheader("背景循環稽核")
@@ -62,7 +62,7 @@ else:
         "data_quality_status": "資料品質", "data_quality_warnings": "資料警告",
         "data_quality_critical": "嚴重資料異常", "concept_drift_pairs": "Drift組數",
     })
-    st.dataframe(cycles[["時間", "狀態", "檢查組合", "新K線", "真正錯誤", "資料品質", "資料警告", "嚴重資料異常", "Drift組數"]], use_container_width=True, hide_index=True)
+    st.dataframe(cycles[["時間", "狀態", "檢查組合", "新K線", "真正錯誤", "資料品質", "資料警告", "嚴重資料異常", "Drift組數"]], width="stretch", hide_index=True)
 
 with st.expander("查看事件原始內容"):
     if rows.empty:

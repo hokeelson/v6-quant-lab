@@ -153,7 +153,7 @@ def render_realtime_panel():
             show[["資料時間", "延遲秒", "市場中文", "標的", "即時價", "最佳買價", "最佳賣價", "買賣價差", "資料來源中文"]].rename(
                 columns={"市場中文": "市場", "資料來源中文": "資料來源"}
             ),
-            use_container_width=True,
+            width="stretch",
             hide_index=True,
         )
     else:
@@ -170,7 +170,7 @@ def render_realtime_panel():
             sig[["時間", "市場中文", "標的", "即時狀態中文", "優先級", "模型信心", "說明中文"]].rename(
                 columns={"市場中文": "市場", "即時狀態中文": "即時狀態", "說明中文": "說明"}
             ),
-            use_container_width=True,
+            width="stretch",
             hide_index=True,
         )
 
@@ -220,7 +220,7 @@ def render_realtime_panel():
                    "買賣價差中文": "買賣價差", "5秒中文": "5秒Markout", "30秒中文": "30秒Markout",
                    "60秒中文": "60秒Markout", "資料來源中文": "資料來源", "狀態中文": "狀態",
                }),
-            use_container_width=True,
+            width="stretch",
             hide_index=True,
         )
     st.caption("TCA 為影子執行品質分析：買進用當下最佳賣價、賣出用當下最佳買價當作可執行影子成交價。Markout 正值代表成交後價格朝該交易方向移動；它不是整筆交易最終獲利率，也不會直接改變目前交易規則。")
@@ -234,7 +234,7 @@ def render_realtime_panel():
                 w[["市場中文", "標的", "排名分數", "入選原因中文", "更新時間"]].rename(
                     columns={"市場中文": "市場", "入選原因中文": "入選原因"}
                 ),
-                use_container_width=True,
+                width="stretch",
                 hide_index=True,
             )
 

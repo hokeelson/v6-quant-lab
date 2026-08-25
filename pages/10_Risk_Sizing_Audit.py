@@ -94,7 +94,7 @@ show_cols = [
     "Expected原因",
 ]
 show_cols = [c for c in show_cols if c in view.columns]
-st.dataframe(view[show_cols], use_container_width=True, hide_index=True)
+st.dataframe(view[show_cols], width="stretch", hide_index=True)
 
 floor_rows = rows[rows.get("final_effective_multiplier", pd.Series(dtype=float)) <= 0.250001]
 if not floor_rows.empty:

@@ -164,7 +164,7 @@ def render_data_quality_panel():
             "Drift原因": _drift_note(p),
         })
 
-    st.dataframe(pd.DataFrame(table), use_container_width=True, hide_index=True)
+    st.dataframe(pd.DataFrame(table), width="stretch", hide_index=True)
     st.caption(
         "Sizing 預設：正常 1.00x；輕度資料警告／Drift 觀察 0.85x；明顯 Drift 0.60x；"
         "嚴重資料品質或嚴重 Drift 0.40x。最後仍受整體最低部位倍率保護。"
@@ -185,6 +185,6 @@ def render_data_quality_panel():
             e["新狀態"] = e["new_status"].fillna("—")
             st.dataframe(
                 e[["時間", "市場", "標的", "週期", "原狀態", "新狀態"]],
-                use_container_width=True,
+                width="stretch",
                 hide_index=True,
             )

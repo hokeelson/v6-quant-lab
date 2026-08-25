@@ -141,10 +141,10 @@ def _show_cycle_result(r: dict):
                         "required_closed_bars": "最低完整 K",
                     })
                     cols = [c for c in ["市場", "標的", "週期", "最低完整 K"] if c in w.columns]
-                    st.dataframe(w[cols], use_container_width=True, hide_index=True)
+                    st.dataframe(w[cols], width="stretch", hide_index=True)
             if true_errors:
                 st.markdown("**真正錯誤**")
-                st.dataframe(pd.DataFrame(true_errors), use_container_width=True, hide_index=True)
+                st.dataframe(pd.DataFrame(true_errors), width="stretch", hide_index=True)
 
 
 def _read_worker_status():
@@ -242,7 +242,7 @@ worker_status_panel()
 if len(db.assets()) == 0:
     st.warning("雲端目前還沒有研究標的。請在頁面最下方『研究/維護工具』匯入你本機舊 V6 的 forward_validation.sqlite3；匯入後不需要再上傳。")
 
-if st.button("立即完整更新", type="primary", use_container_width=True):
+if st.button("立即完整更新", type="primary", width="stretch"):
     with st.spinner("自動匯入標的 → 校準到期模型 → 補行情 → 算短中長決策 → 更新本地模擬倉..."):
         r = engine.full_cycle(force_recalibrate=False)
         st.session_state["last_manual_cycle"] = r
@@ -261,7 +261,7 @@ def live_results():
     else:
         px = prices.copy()
         px["漲跌"] = px.change_pct.map(lambda x: f"{x * 100:+.2f}%")
-        st.dataframe(px[["bar_time", "market", "symbol", "price", "漲跌", "volume"]], use_container_width=True, hide_index=True)
+        st.dataframe(px[["bar_time", "market", "symbol", "price", "漲跌", "volume"]], width="stretch", hide_index=True)
 
     acct = account_performance(db, lab)
     st.subheader("六個等本金帳戶")
@@ -271,7 +271,7 @@ def live_results():
         a["回撤"] = a.drawdown.map(lambda x: f"{x * 100:.2f}%")
         a["勝率"] = a.win_rate.map(lambda x: "—" if pd.isna(x) else f"{x * 100:.1f}%")
         a["PF"] = a.profit_factor.map(lambda x: "—" if pd.isna(x) else ("∞" if x == float("inf") else f"{x:.2f}"))
-        st.dataframe(a[["account_id", "initial_equity", "equity", "報酬率", "cash", "gross_exposure", "leverage", "回撤", "positions", "closed_trades", "勝率", "PF"]], use_container_width=True, hide_index=True)
+        st.dataframe(a[["account_id", "initial_equity", "equity", "報酬率", "cash", "gross_exposure", "leverage", "回撤", "positions", "closed_trades", "勝率", "PF"]], width="stretch", hide_index=True)
 
     pos = positions_table(db, engine.cache)
     st.subheader("目前持倉")
@@ -281,7 +281,7 @@ def live_results():
         p = pos.copy()
         p["未實現報酬"] = p.return_pct.map(lambda x: f"{x * 100:.2f}%")
         p["未實現P/L"] = p.unrealized_pnl.map(lambda x: f"{x:,.2f}")
-        st.dataframe(p[["account_id", "symbol", "週期", "strategy", "entry_price", "mark_price", "未實現P/L", "未實現報酬", "leverage_at_entry", "stop_price", "target_price", "bars_held"]], use_container_width=True, hide_index=True)
+        st.dataframe(p[["account_id", "symbol", "週期", "strategy", "entry_price", "mark_price", "未實現P/L", "未實現報酬", "leverage_at_entry", "stop_price", "target_price", "bars_held"]], width="stretch", hide_index=True)
 
     latest = latest_by_asset_horizon(db)
     st.subheader("最新短／中／長決策")
@@ -292,7 +292,7 @@ def live_results():
         v["Trade信心"] = v.trade_confidence.map(lambda x: f"{x:.1f}")
         v["模型信心"] = v.model_confidence.map(lambda x: f"{x:.1f}")
         v["訊號強度"] = v.signal_strength.map(lambda x: f"{x:.1f}")
-        st.dataframe(v[["bar_time", "market", "symbol", "週期", "strategy", "action", "Trade信心", "模型信心", "訊號強度", "regime", "requested_notional", "leverage", "reason"]], use_container_width=True, hide_index=True)
+        st.dataframe(v[["bar_time", "market", "symbol", "週期", "strategy", "action", "Trade信心", "模型信心", "訊號強度", "regime", "requested_notional", "leverage", "reason"]], width="stretch", hide_index=True)
 
     problems = problem_ranking(db)
     st.subheader("策略問題排名")
@@ -303,7 +303,7 @@ def live_results():
         q["勝率"] = q.win_rate.map(lambda x: f"{x * 100:.1f}%")
         q["平均報酬"] = q.avg_return.map(lambda x: f"{x * 100:.2f}%")
         q["PF"] = q.profit_factor.map(lambda x: "—" if pd.isna(x) else ("∞" if x == float("inf") else f"{x:.2f}"))
-        st.dataframe(q[["symbol", "週期", "strategy", "regime", "samples", "勝率", "PF", "平均報酬", "realized_pnl", "問題"]].head(30), use_container_width=True, hide_index=True)
+        st.dataframe(q[["symbol", "週期", "strategy", "regime", "samples", "勝率", "PF", "平均報酬", "realized_pnl", "問題"]].head(30), width="stretch", hide_index=True)
 
     trades = trade_diagnostics_table(db, engine.cache, 100)
     st.subheader("最近已平倉＋問題診斷")
@@ -333,7 +333,7 @@ def live_results():
             "持有K", "P/L", "報酬", "MAE", "MFE", "進場信心", "進場Regime",
             "平倉原因", "問題診斷", "嚴重度", "槓桿",
         ]
-        st.dataframe(t[cols], use_container_width=True, hide_index=True)
+        st.dataframe(t[cols], width="stretch", hide_index=True)
         st.caption("MAE＝持倉期間最大不利波動；MFE＝持倉期間最大有利波動。診斷只讀既有 SQLite 行情快取，不會額外呼叫行情 API。")
 
     dec = decisions_table(db, 500)
@@ -366,7 +366,7 @@ with st.expander("研究/維護工具", expanded=(len(db.assets()) == 0)):
         er = x.get("errors", []) or []
         st.write(f"校準完成：成功 {x.get('calibrated', 0)}；等待資料 {len(wa)}；真正錯誤 {len(er)}。")
         if wa:
-            st.dataframe(pd.DataFrame(wa), use_container_width=True, hide_index=True)
+            st.dataframe(pd.DataFrame(wa), width="stretch", hide_index=True)
         if er:
             st.error("有真正錯誤需要處理")
-            st.dataframe(pd.DataFrame(er), use_container_width=True, hide_index=True)
+            st.dataframe(pd.DataFrame(er), width="stretch", hide_index=True)

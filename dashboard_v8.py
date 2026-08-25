@@ -168,10 +168,10 @@ def _show_cycle_result(r: dict):
                     w["最低完整K線"] = w["required_closed_bars"]
                 cols = [c for c in ["市場", "標的", "週期", "最低完整K線"] if c in w.columns]
                 st.markdown("**等待歷史資料**")
-                st.dataframe(w[cols], use_container_width=True, hide_index=True)
+                st.dataframe(w[cols], width="stretch", hide_index=True)
             if true_errors:
                 st.markdown("**真正錯誤**")
-                st.dataframe(pd.DataFrame(true_errors), use_container_width=True, hide_index=True)
+                st.dataframe(pd.DataFrame(true_errors), width="stretch", hide_index=True)
 
 
 st.title("V6 即時模擬交易儀表板")
@@ -234,7 +234,7 @@ def worker_status_panel():
 
 worker_status_panel()
 
-if st.button("立即完整更新", type="primary", use_container_width=True):
+if st.button("立即完整更新", type="primary", width="stretch"):
     payload = _queue_worker_request("full_cycle")
     st.session_state["manual_request_notice"] = payload
 
@@ -257,7 +257,7 @@ def live_results():
         px["價格"] = px["price"]
         px["漲跌"] = px.change_pct.map(lambda x: f"{x * 100:+.2f}%")
         px["成交量"] = px["volume"]
-        st.dataframe(px[["時間", "市場", "標的", "價格", "漲跌", "成交量"]], use_container_width=True, hide_index=True)
+        st.dataframe(px[["時間", "市場", "標的", "價格", "漲跌", "成交量"]], width="stretch", hide_index=True)
 
     acct = account_performance(db, lab)
     st.subheader("九個等本金帳戶")
@@ -277,7 +277,7 @@ def live_results():
         st.dataframe(
             a[["帳戶", "市場中文", "週期", "初始本金", "帳戶淨值", "報酬率", "現金", "總曝險", "槓桿", "回撤",
                "持倉數", "已平倉數", "勝率", "獲利因子"]].rename(columns={"市場中文": "市場"}),
-            use_container_width=True,
+            width="stretch",
             hide_index=True,
         )
 
@@ -298,7 +298,7 @@ def live_results():
         })
         st.dataframe(
             p[["帳戶", "標的", "週期", "策略", "進場價", "現價", "未實現損益", "未實現報酬", "進場槓桿", "停損價", "目標價", "持有K線數"]],
-            use_container_width=True,
+            width="stretch",
             hide_index=True,
         )
 
@@ -324,7 +324,7 @@ def live_results():
                "市場狀態", "要求部位", "槓桿", "理由中文"]].rename(columns={
                    "市場中文": "市場", "標的中文": "標的", "策略中文": "策略", "理由中文": "理由",
                }),
-            use_container_width=True,
+            width="stretch",
             hide_index=True,
         )
 
@@ -345,7 +345,7 @@ def live_results():
             q[["標的", "週期", "策略中文", "市場狀態", "樣本數", "勝率", "獲利因子", "平均報酬", "已實現損益", "問題"]].rename(
                 columns={"策略中文": "策略"}
             ).head(30),
-            use_container_width=True,
+            width="stretch",
             hide_index=True,
         )
 
@@ -372,7 +372,7 @@ def live_results():
                 "報酬", "最大不利變動", "最大有利變動", "進場信心", "進場市場狀態", "平倉原因中文", "問題診斷", "嚴重度", "槓桿中文"]
         st.dataframe(
             t[cols].rename(columns={"策略中文": "策略", "平倉原因中文": "平倉原因", "槓桿中文": "槓桿"}),
-            use_container_width=True,
+            width="stretch",
             hide_index=True,
         )
 

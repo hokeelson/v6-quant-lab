@@ -21,7 +21,7 @@ st.caption("建立 Railway → Oracle 遷移備份。只包含 V6 SQLite 資料�
 
 st.info("建議先讓 Railway 繼續運行。Oracle 驗證完成後再停 Railway，避免遷移期間中斷。")
 
-if st.button("建立 V6 遷移備份", type="primary", use_container_width=True):
+if st.button("建立 V6 遷移備份", type="primary", width="stretch"):
     with st.spinner("正在建立一致性 SQLite 備份..."):
         payload, manifest = build_migration_backup()
         st.session_state["oracle_migration_backup"] = payload
@@ -41,7 +41,7 @@ if payload and manifest:
         file_name=f"v6_oracle_migration_{stamp}.zip",
         mime="application/zip",
         type="primary",
-        use_container_width=True,
+        width="stretch",
     )
 
 st.divider()

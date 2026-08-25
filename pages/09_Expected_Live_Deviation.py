@@ -109,7 +109,7 @@ st.dataframe(
         "live_closed_trades": "前向已平倉",
         "live_max_loss_streak": "最大連敗",
     }),
-    use_container_width=True,
+    width="stretch",
     hide_index=True,
 )
 

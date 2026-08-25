@@ -106,7 +106,7 @@ if data is not None and len(data):
         )
         st.json(result["metrics"])
         st.line_chart(result["equity"])
-        st.dataframe(result["trades"], use_container_width=True)
+        st.dataframe(result["trades"], width="stretch")
 
     with tab2:
         if st.button("開始完整參數篩選"):
@@ -119,7 +119,7 @@ if data is not None and len(data):
                 st.session_state["ranking"] = ranking
         ranking = st.session_state.get("ranking")
         if ranking is not None:
-            st.dataframe(ranking.head(cfg["research"]["top_n_results"]), use_container_width=True)
+            st.dataframe(ranking.head(cfg["research"]["top_n_results"]), width="stretch")
 
     with tab3:
         if st.button("開始 Walk-Forward"):
@@ -133,7 +133,7 @@ if data is not None and len(data):
                 st.session_state["wf"] = wf
         wf = st.session_state.get("wf")
         if wf is not None:
-            st.dataframe(wf, use_container_width=True)
+            st.dataframe(wf, width="stretch")
             if len(wf):
                 st.metric("OOS 平均 Score", f"{wf['oos_score'].mean():.1f}")
                 st.metric("OOS Sharpe 中位數", f"{wf['sharpe'].median():.2f}")
@@ -149,7 +149,7 @@ if data is not None and len(data):
                 bars_per_year, cfg["research"]["annual_risk_free_rate"]
             )
             st.session_state["stress"] = stress
-            st.dataframe(stress, use_container_width=True)
+            st.dataframe(stress, width="stretch")
 
 
     with tab5:
@@ -177,7 +177,7 @@ if data is not None and len(data):
                 st.session_state["cross"] = cross
         cross = st.session_state.get("cross")
         if cross is not None:
-            st.dataframe(cross.head(cfg["research"]["top_n_results"]), use_container_width=True)
+            st.dataframe(cross.head(cfg["research"]["top_n_results"]), width="stretch")
             if len(cross):
                 top = cross.iloc[0]
                 st.metric("最佳 Generalization Score", f"{top['generalization_score']:.1f}")
@@ -226,7 +226,7 @@ if data is not None and len(data):
                 st.write("**Parameter Neighborhood Stability**")
                 st.json(stab)
                 st.write("**不同市場 Regime 的策略表現**")
-                st.dataframe(adv["regime_table"], use_container_width=True)
+                st.dataframe(adv["regime_table"], width="stretch")
 
                 if adv["bootstrap"] is not None and len(adv["bootstrap"]):
                     st.write("Bootstrap 終值報酬分布")
@@ -288,7 +288,7 @@ if data is not None and len(data):
             st.json(port["metrics"])
             st.line_chart(port["equity"])
             st.write("最近權重")
-            st.dataframe(port["weights"].tail(30), use_container_width=True)
+            st.dataframe(port["weights"].tail(30), width="stretch")
 
         st.divider()
         st.subheader("研究證據總評")
@@ -419,7 +419,7 @@ universe_s3 = st.session_state.get("s3_universe")
 if universe_s3 is not None:
     st.subheader("動態候選池")
     st.metric("候選數", len(universe_s3))
-    st.dataframe(universe_s3.head(200), use_container_width=True)
+    st.dataframe(universe_s3.head(200), width="stretch")
 
     if st.button("② 下載候選歷史資料", key="s3_load_history"):
         scan_symbols = universe_s3["symbol"].astype(str).head(int(scan_max_symbols)).tolist()
@@ -463,7 +463,7 @@ if datasets_s3 is not None:
     invalid_s3 = st.session_state.get("s3_invalid")
     if invalid_s3 is not None and len(invalid_s3):
         with st.expander("被資料品質/歷史長度淘汰的標的"):
-            st.dataframe(invalid_s3, use_container_width=True)
+            st.dataframe(invalid_s3, width="stretch")
 
     if st.button("③ 執行快速 OOS 粗篩", key="s3_coarse_button"):
         pg = st.progress(0)
@@ -495,14 +495,14 @@ if coarse_s3 is not None:
     c1.metric("策略×標的測試", len(coarse_s3))
     c2.metric("通過粗篩", passed)
     c3.metric("通過率", f"{passed/max(len(coarse_s3),1)*100:.1f}%")
-    st.dataframe(coarse_s3.head(200), use_container_width=True)
+    st.dataframe(coarse_s3.head(200), width="stretch")
 
 finalists_s3 = st.session_state.get("s3_finalists")
 if not isinstance(finalists_s3, pd.DataFrame):
     finalists_s3 = None
 if finalists_s3 is not None and not finalists_s3.empty:
     st.subheader("Finalists")
-    st.dataframe(finalists_s3, use_container_width=True)
+    st.dataframe(finalists_s3, width="stretch")
 
     if st.button("④ 執行完整深度驗證", key="s3_deep_button"):
         pg2 = st.progress(0)
@@ -539,7 +539,7 @@ if not isinstance(deep_s3, pd.DataFrame):
     deep_s3 = None
 if deep_s3 is not None:
     st.subheader("最終深度排名")
-    st.dataframe(deep_s3, use_container_width=True)
+    st.dataframe(deep_s3, width="stretch")
     if not deep_s3.empty:
         winner = deep_s3.iloc[0]
         w1,w2,w3,w4 = st.columns(4)
@@ -602,7 +602,7 @@ if deep_for_forward is not None and not deep_for_forward.empty:
         )
         if len(registered):
             st.success(f"已註冊 {len(registered)} 個候選。參數與註冊時間已凍結。")
-            st.dataframe(registered, use_container_width=True)
+            st.dataframe(registered, width="stretch")
         else:
             st.warning("沒有候選達到目前 Research Grade 門檻。")
 else:
@@ -615,7 +615,7 @@ if len(registered_candidates):
         "candidate_id","market","symbol","strategy","registered_at",
         "research_grade","evidence_coverage","status"
     ] if c in registered_candidates.columns]
-    st.dataframe(registered_candidates[show_cols], use_container_width=True)
+    st.dataframe(registered_candidates[show_cols], width="stretch")
 
     if st.button("⑥ 現在執行一次 Forward 檢查", type="primary", key="s4_run_once"):
         with st.spinner("只處理註冊後且已收完的新日 K..."):
@@ -639,7 +639,7 @@ if len(registered_candidates):
     )
     if len(ranking_fwd):
         st.subheader("Forward 真實時間向前排名")
-        st.dataframe(ranking_fwd, use_container_width=True)
+        st.dataframe(ranking_fwd, width="stretch")
 
         top_fwd = ranking_fwd.iloc[0].to_dict()
         a,b,c,d = st.columns(4)
@@ -672,7 +672,7 @@ if len(registered_candidates):
             eq_show["bar_time"] = pd.to_datetime(eq_show["bar_time"], utc=True)
             st.line_chart(eq_show.set_index("bar_time")["equity"])
         if tr_rows:
-            st.dataframe(pd.DataFrame(tr_rows), use_container_width=True)
+            st.dataframe(pd.DataFrame(tr_rows), width="stretch")
 
         fcsv = ranking_fwd.to_csv(index=False).encode("utf-8-sig")
         st.download_button(
@@ -707,7 +707,7 @@ for hz in ["short","medium","long"]:
         "完整證據目標天數": p["evidence_days"],
         "完整證據目標交易數": p["evidence_trades"],
     })
-st.dataframe(pd.DataFrame(profile_rows), use_container_width=True, hide_index=True)
+st.dataframe(pd.DataFrame(profile_rows), width="stretch", hide_index=True)
 
 horizon_db = HorizonDB("multi_horizon_validation.sqlite3")
 horizon_cfg = HorizonConfig(
@@ -743,7 +743,7 @@ if len(sleeves_df):
     show = sleeves_df.copy()
     show["週期"] = show["horizon"].map(HORIZON_LABELS)
     cols = [c for c in ["market","symbol","strategy","週期","registered_at","initial_capital","research_grade","status"] if c in show.columns]
-    st.dataframe(show[cols], use_container_width=True)
+    st.dataframe(show[cols], width="stretch")
 
     if st.button("⑧ 現在執行一次長／中／短線 Forward 檢查", type="primary", key="s5_run_once"):
         with st.spinner("只處理註冊後且已收完的新日 K..."):
@@ -768,7 +768,7 @@ if len(sleeves_df):
         st.subheader("長／中／短線 Forward 排名")
         filter_label = st.selectbox("排名週期", ["全部","短線（數天）","中線（數週）","長線（數月）"], key="s5_horizon_filter")
         view = hz_rank if filter_label == "全部" else hz_rank[hz_rank["horizon_label"] == filter_label]
-        st.dataframe(view, use_container_width=True)
+        st.dataframe(view, width="stretch")
         if len(view):
             top_h = view.iloc[0]
             x1,x2,x3,x4 = st.columns(4)
@@ -778,7 +778,7 @@ if len(sleeves_df):
             x4.metric("累積天數", int(top_h["forward_days"]))
 
         st.write("**每個標的目前最適合的週期（依 Forward 證據動態變化）**")
-        st.dataframe(best_horizon_by_symbol(hz_rank), use_container_width=True)
+        st.dataframe(best_horizon_by_symbol(hz_rank), width="stretch")
 
         chosen_sleeve = st.selectbox(
             "查看週期帳本明細", hz_rank["sleeve_id"].tolist(), key="s5_detail_sleeve",
@@ -794,7 +794,7 @@ if len(sleeves_df):
             h_eq_df = pd.DataFrame(h_eq); h_eq_df["bar_time"] = pd.to_datetime(h_eq_df["bar_time"],utc=True)
             st.line_chart(h_eq_df.set_index("bar_time")["equity"])
         if h_tr:
-            st.dataframe(pd.DataFrame(h_tr), use_container_width=True)
+            st.dataframe(pd.DataFrame(h_tr), width="stretch")
 
         hcsv = hz_rank.to_csv(index=False).encode("utf-8-sig")
         st.download_button("下載長中短線排名 CSV", hcsv, "V6_stage5_multi_horizon_ranking.csv", "text/csv")
@@ -834,7 +834,7 @@ for hz,label in [("short","短線"),("medium","中線"),("long","長線")]:
         "模擬槓桿上限":f"{sp['max_leverage']:.1f}x",
         "最低決策信心":sp["confidence"],
     })
-st.dataframe(pd.DataFrame(spec_table),use_container_width=True,hide_index=True)
+st.dataframe(pd.DataFrame(spec_table),width="stretch",hide_index=True)
 
 s61,s62,s63=st.columns(3)
 s61.metric("本地交易 API", "0 筆")
@@ -857,7 +857,7 @@ with st.expander("手動增加研究標的"):
 assets6=pd.DataFrame(sim_db.assets())
 if len(assets6):
     st.subheader("Simulation Lab 研究標的")
-    st.dataframe(assets6,use_container_width=True,hide_index=True)
+    st.dataframe(assets6,width="stretch",hide_index=True)
 
     if st.button("⑪ 校準所有標的 × 短中長策略",type="primary",key="s6_calibrate_all"):
         with st.spinner("從本地快取補資料，並讓每個標的/週期獨立比較 Trend、Momentum、Mean Reversion、Breakout 的參數與 OOS 表現..."):
@@ -867,7 +867,7 @@ if len(assets6):
     if cal:
         if cal.get("errors"):
             st.warning(f"完成 {cal.get('calibrated',0)} 組；另有 {len(cal['errors'])} 組需要處理。")
-            st.dataframe(pd.DataFrame(cal["errors"]),use_container_width=True)
+            st.dataframe(pd.DataFrame(cal["errors"]),width="stretch")
         else:
             st.success(f"完成 {cal.get('calibrated',0)} 組標的×週期模型校準。")
 
@@ -877,7 +877,7 @@ if len(assets6):
         showm=models6.copy()
         showm["週期"]=showm["horizon"].map({"short":"短線","medium":"中線","long":"長線"})
         keep=[c for c in ["market","symbol","週期","strategy","calibration_score","oos_score","train_score","regime_fit","calibrated_through"] if c in showm.columns]
-        st.dataframe(showm[keep].sort_values(["market","symbol","週期"]),use_container_width=True,hide_index=True)
+        st.dataframe(showm[keep].sort_values(["market","symbol","週期"]),width="stretch",hide_index=True)
 
     if st.button("⑫ 現在執行一次 Local Forward 模擬",type="primary",key="s6_run_once"):
         with st.spinner("只處理新的完整 K 線；上一根收盤決策最早在下一根開盤成交..."):
@@ -898,7 +898,7 @@ if len(assets6):
     if len(acct6):
         acct6["報酬率"]=acct6["return_pct"].map(lambda x:f"{x*100:.2f}%")
         acct6["回撤"]=acct6["drawdown"].map(lambda x:f"{x*100:.2f}%")
-        st.dataframe(acct6[["account_id","initial_equity","equity","報酬率","cash","gross_exposure","leverage","回撤","positions"]],use_container_width=True,hide_index=True)
+        st.dataframe(acct6[["account_id","initial_equity","equity","報酬率","cash","gross_exposure","leverage","回撤","positions"]],width="stretch",hide_index=True)
         selected_account=st.selectbox("查看帳戶 Equity",acct6["account_id"].tolist(),key="s6_account_chart")
         eq6=sim_db.equity(selected_account)
         if eq6:
@@ -909,17 +909,17 @@ if len(assets6):
     if len(d6):
         st.subheader("最近決策 — ENTER / EXIT / NO_TRADE")
         cols=[c for c in ["bar_time","account_id","symbol","action","confidence","strategy","regime","atr_pct","requested_notional","leverage","reason"] if c in d6.columns]
-        st.dataframe(d6[cols],use_container_width=True,hide_index=True)
+        st.dataframe(d6[cols],width="stretch",hide_index=True)
 
     t6=pd.DataFrame(sim_db.recent_trades(200))
     if len(t6):
         st.subheader("本地虛擬成交與已平倉結果")
-        st.dataframe(t6,use_container_width=True,hide_index=True)
+        st.dataframe(t6,width="stretch",hide_index=True)
 
     diag6=pd.DataFrame(sim_db.diagnostics(200))
     if len(diag6):
         st.subheader("問題診斷紀錄")
-        st.dataframe(diag6,use_container_width=True,hide_index=True)
+        st.dataframe(diag6,width="stretch",hide_index=True)
 
     with st.expander("重置 Simulation Lab（不影響 Stage 3/4/5）"):
         confirm_reset=st.checkbox("我確認要清除 Stage 6 的模型、虛擬交易與績效，研究標的名單保留",key="s6_reset_confirm")

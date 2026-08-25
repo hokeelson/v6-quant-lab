@@ -162,7 +162,7 @@ def render_governance_panel():
             "champion_closed_trades": "冠軍已平倉",
             "challenger_closed_trades": "挑戰已平倉",
         }),
-        use_container_width=True,
+        width="stretch",
         hide_index=True,
     )
 
@@ -173,7 +173,7 @@ def render_governance_panel():
         st.dataframe(
             p[["市場", "symbol", "週期", "冠軍策略", "冠軍參數", "挑戰策略", "挑戰參數", "開始時間"]]
             .rename(columns={"symbol": "標的"}),
-            use_container_width=True,
+            width="stretch",
             hide_index=True,
         )
 

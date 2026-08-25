@@ -194,7 +194,7 @@ def render_professional_risk_panel():
             z[["時間", "帳戶", "symbol", "週期", "原始要求部位", "風控後目標部位", "實際成交部位",
                "總倍率", "組合倍率", "策略倍率", "Meta倍率", "Meta分數", "Meta機率", "Meta判定", "Meta模式",
                "Meta樣本", "TCA樣本", "即時價差", "策略狀態", "進場風險判定", "風險原因"]].rename(columns={"symbol": "標的"}),
-            use_container_width=True,
+            width="stretch",
             hide_index=True,
         )
         newest = z.iloc[0]
@@ -227,7 +227,7 @@ def render_professional_risk_panel():
                    "risk_score": "風險分數", "positions": "持倉數", "unique_symbols": "不同標的",
                    "duplicate_symbols": "重複標的數", "high_corr_pairs": "高相關組數",
                }),
-            use_container_width=True,
+            width="stretch",
             hide_index=True,
         )
 
@@ -246,7 +246,7 @@ def render_professional_risk_panel():
                    "stop_price", "停損風險額", "全系統權重", "leverage"]].rename(columns={
                        "symbol": "標的", "mark_price": "現價", "stop_price": "停損價", "leverage": "槓桿",
                    }),
-                use_container_width=True,
+                width="stretch",
                 hide_index=True,
             )
 
@@ -260,7 +260,7 @@ def render_professional_risk_panel():
                     high[["市場", "symbol_a", "symbol_b", "相關係數", "samples"]].rename(columns={
                         "symbol_a": "標的一", "symbol_b": "標的二", "samples": "樣本數",
                     }),
-                    use_container_width=True,
+                    width="stretch",
                     hide_index=True,
                 )
 
@@ -288,7 +288,7 @@ def render_professional_risk_panel():
                    "symbol": "標的", "risk_score": "風險分數", "重複標的中文": "重複標的",
                    "most_correlated_symbol": "最相關持倉", "風險原因中文": "風險原因",
                }),
-            use_container_width=True,
+            width="stretch",
             hide_index=True,
         )
 
@@ -313,7 +313,7 @@ def render_professional_risk_panel():
                    "samples": "樣本數", "health_score": "健康分數",
                    "max_loss_streak": "最大連敗", "failure_votes": "失效警訊",
                }),
-            use_container_width=True,
+            width="stretch",
             hide_index=True,
         )
 
@@ -332,7 +332,7 @@ def render_professional_risk_panel():
                    "加權勝率", "平均報酬", "max_loss_streak"]].rename(columns={
                        "samples": "樣本數", "health_score": "健康分數", "max_loss_streak": "最大連敗",
                    }),
-                use_container_width=True,
+                width="stretch",
                 hide_index=True,
             )
 
