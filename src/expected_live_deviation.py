@@ -106,12 +106,18 @@ def expected_live_deviation_snapshot(db, trade_limit: int = 5000) -> dict:
         live_total = _compound_return(live) if n else None
         live_pf_raw = _profit_factor(live) if n else None
         live_pf = _finite_pf(live_pf_raw)
+        live_pf_infinite = bool(live_pf_raw is not None and not math.isfinite(float(live_pf_raw)))
         loss_streak = _max_loss_streak(live) if n else 0
 
         oos_n = int(oos.get("closed_trades", 0) or 0)
         oos_total = _f(oos.get("total_return"))
         oos_win = _f(oos.get("win_rate"))
-        oos_pf = _finite_pf(oos.get("profit_factor"))
+        oos_pf_raw = oos.get("profit_factor")
+        oos_pf = _finite_pf(oos_pf_raw)
+        try:
+            oos_pf_infinite = bool(oos_pf_raw is not None and not math.isfinite(float(oos_pf_raw)))
+        except Exception:
+            oos_pf_infinite = False
         oos_sharpe = _f(oos.get("sharpe"))
         oos_dd = _f(oos.get("max_drawdown"))
         oos_per_trade = _per_trade(oos_total, oos_n)
@@ -172,13 +178,15 @@ def expected_live_deviation_snapshot(db, trade_limit: int = 5000) -> dict:
             "live_losses": losses,
             "live_win_rate": live_win,
             "live_compound_return": live_total,
-            "live_profit_factor": live_pf_raw,
+            "live_profit_factor": live_pf,
+            "live_profit_factor_infinite": live_pf_infinite,
             "live_per_trade_return": live_per_trade,
             "live_max_loss_streak": loss_streak,
             "oos_closed_trades": oos_n,
             "oos_win_rate": oos_win,
             "oos_total_return": oos_total,
-            "oos_profit_factor": oos.get("profit_factor"),
+            "oos_profit_factor": oos_pf,
+            "oos_profit_factor_infinite": oos_pf_infinite,
             "oos_sharpe": oos_sharpe,
             "oos_max_drawdown": oos_dd,
             "oos_per_trade_return": oos_per_trade,
