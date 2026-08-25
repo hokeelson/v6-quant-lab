@@ -108,6 +108,8 @@ def active_entry_sizing(db, cache, market: str, symbol: str, horizon: str, decis
         "expected_live_reasons": [],
         "expected_live_performance_key": None,
         "expected_live_evidence_weight": 0.0,
+        "realized_evidence_multiplier": 1.0,
+        "realized_evidence_dedup_applied": False,
         "meta_multiplier": 1.0,
         "meta_score": None,
         "meta_probability": None,
@@ -262,14 +264,20 @@ def active_entry_sizing(db, cache, market: str, symbol: str, horizon: str, decis
                 result["quality_error"] = f"{type(exc).__name__}: {exc}"
                 quality_multiplier = 1.0
 
-        # Expected-vs-live is an additional generalization test: absolute realized
-        # health can be weak while the more important question is whether live
-        # behavior materially contradicts the model's own OOS expectation. It only
-        # activates after >=5 closed trades, so small-sample combinations remain 1x.
+        # Broad strategy health, symbol×strategy health, and expected-vs-live all
+        # reuse the same forward realized trades. Expected-vs-live adds an OOS
+        # reference, but multiplying these penalties would count the realized loss
+        # evidence more than once. Keep all diagnostics, but size from the strictest
+        # realized-evidence view only. Independent portfolio, Meta, and data/drift
+        # layers remain multiplicative.
+        realized_evidence_multiplier = min(health_multiplier, expected_live_multiplier)
+        result["realized_evidence_multiplier"] = realized_evidence_multiplier
+        result["realized_evidence_dedup_applied"] = (
+            health_multiplier < 0.999999 and expected_live_multiplier < 0.999999
+        )
         combined = (
             result["portfolio_multiplier"]
-            * health_multiplier
-            * expected_live_multiplier
+            * realized_evidence_multiplier
             * meta_multiplier
             * quality_multiplier
         )
