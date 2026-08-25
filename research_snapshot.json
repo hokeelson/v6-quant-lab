@@ -17,16 +17,16 @@
     {
       "account_id": "crypto_medium",
       "as_of": "2026-08-25T04:00:00+00:00",
-      "cash": 7644.177963374782,
-      "closed_trades": 3,
-      "drawdown": -0.009050331104747289,
-      "equity": 99472.17607493766,
-      "gross_exposure": 91827.99811156288,
+      "cash": 2905.0688525869855,
+      "closed_trades": 4,
+      "drawdown": -0.008953954925849938,
+      "equity": 99481.85037882777,
+      "gross_exposure": 96576.78152624078,
       "horizon": "medium",
       "initial_equity": 100000.0,
-      "leverage": 0.9231526014107099,
+      "leverage": 0.9707980014291605,
       "market": "crypto",
-      "return_pct": -0.005278239250623429
+      "return_pct": -0.0051814962117222585
     },
     {
       "account_id": "crypto_short",
@@ -253,7 +253,7 @@
       }
     ]
   },
-  "generated_at": "2026-08-25T10:13:44.904608+00:00",
+  "generated_at": "2026-08-25T10:14:44.929366+00:00",
   "governance": {
     "arenas": [],
     "recent_events": []
@@ -5280,6 +5280,22 @@
       "worst_trade_return": -0.1730817378156454
     },
     {
+      "avg_pnl": -145.881382045098,
+      "avg_return_pct": -0.04333179236633808,
+      "best_trade_return": 0.0010514007583066753,
+      "closed_trades": 4,
+      "horizon": "medium",
+      "last_exit_bar": "2026-08-24T20:00:00+00:00",
+      "losses": 3,
+      "market": "crypto",
+      "profit_factor": 0.006903969890171603,
+      "realized_pnl": -583.525528180392,
+      "strategy": "Momentum",
+      "win_rate": 0.25,
+      "wins": 1,
+      "worst_trade_return": -0.11173360634670926
+    },
+    {
       "avg_pnl": 303.04181531798343,
       "avg_return_pct": 0.020045500286439477,
       "best_trade_return": 0.030088790824261302,
@@ -5294,22 +5310,6 @@
       "win_rate": 1.0,
       "wins": 4,
       "worst_trade_return": 0.009430723801708618
-    },
-    {
-      "avg_pnl": -195.8607259480767,
-      "avg_return_pct": -0.058126190074553,
-      "best_trade_return": -0.026108891238171505,
-      "closed_trades": 3,
-      "horizon": "medium",
-      "last_exit_bar": "2026-08-24T20:00:00+00:00",
-      "losses": 3,
-      "market": "crypto",
-      "profit_factor": 0.0,
-      "realized_pnl": -587.58217784423,
-      "strategy": "Momentum",
-      "win_rate": 0.0,
-      "wins": 0,
-      "worst_trade_return": -0.11173360634670926
     },
     {
       "avg_pnl": -411.4045190386523,
@@ -5528,6 +5528,24 @@
       "worst_trade_return": 0.030088790824261302
     },
     {
+      "avg_pnl": 4.05664966383802,
+      "avg_return_pct": 0.0010514007583066753,
+      "best_trade_return": 0.0010514007583066753,
+      "closed_trades": 1,
+      "horizon": "medium",
+      "last_exit_bar": "2026-08-24T00:00:00+00:00",
+      "losses": 0,
+      "market": "crypto",
+      "performance_key": "crypto:ONDOUSDT:medium:Momentum",
+      "profit_factor": 999.0,
+      "realized_pnl": 4.05664966383802,
+      "strategy": "Momentum",
+      "symbol": "ONDOUSDT",
+      "win_rate": 1.0,
+      "wins": 1,
+      "worst_trade_return": 0.0010514007583066753
+    },
+    {
       "avg_pnl": -98.46151910684034,
       "avg_return_pct": -0.010416484448160901,
       "best_trade_return": -0.010416484448160901,
@@ -5617,7 +5635,7 @@
     "data_quality": "STARTING",
     "data_quality_critical": 0,
     "data_quality_warnings": 0,
-    "heartbeat_at": "2026-08-25T10:13:30.077224+00:00",
+    "heartbeat_at": "2026-08-25T10:14:30.097880+00:00",
     "last_cycle_finished_at": null,
     "last_cycle_started_at": "2026-08-25T10:02:44.718663+00:00",
     "market_data_api_calls": 0,
