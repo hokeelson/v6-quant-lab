@@ -7,14 +7,19 @@ import time
 from datetime import datetime, timezone
 from pathlib import Path
 
+from src.expected_live_deviation import expected_live_deviation_snapshot
 from src.paths import data_dir
+from src.simulation_db import SimulationDB
 
 POLL_SECONDS = 5
+EXPECTED_LIVE_REFRESH_SECONDS = 60
 DATA_DIR = Path(data_dir())
 STATUS_PATH = DATA_DIR / "storage_persistence_status.json"
 SIM_PATH = DATA_DIR / "simulation_lab.sqlite3"
 PUBLIC_STATUS_PATH = Path("static") / "storage_persistence.json"
 PUBLIC_SIZING_PATH = Path("static") / "risk_sizing_audit.json"
+PUBLIC_EXPECTED_LIVE_PATH = Path("static") / "expected_live_deviation.json"
+_last_expected_live_export = 0.0
 
 SAFE_KEYS = (
     "mode",
@@ -141,6 +146,9 @@ def _sizing_audit(limit: int = 100):
         adjusted = _finite(payload.get("adjusted_notional"))
         if adjusted is None:
             adjusted = original
+        pre_execution_adjusted = _finite(payload.get("pre_execution_adjusted_notional"))
+        if pre_execution_adjusted is None:
+            pre_execution_adjusted = adjusted
         filled = _finite(payload.get("filled_notional"))
         if filled is None:
             filled = adjusted
@@ -150,6 +158,7 @@ def _sizing_audit(limit: int = 100):
         symbol_mult = _mult(payload, "symbol_strategy_multiplier")
         broad_health_mult = min(strategy_mult, regime_mult)
         effective_health_mult = min(broad_health_mult, symbol_mult)
+        leverage_guard_mult = _mult(payload, "leverage_guard_multiplier")
         execution_cap_mult = min(1.0, max(0.0, filled / adjusted)) if adjusted > 0 else 1.0
         final_effective_mult = min(1.0, max(0.0, filled / original)) if original > 0 else 1.0
 
@@ -207,18 +216,32 @@ def _sizing_audit(limit: int = 100):
             "pretrade_score": _finite(payload.get("pretrade_score")),
             "flags": flags,
             "combined_multiplier": _mult(payload, "combined_multiplier"),
-            "risk_adjusted_notional": adjusted,
+            "risk_adjusted_notional": pre_execution_adjusted,
+            "leverage_guard_multiplier": leverage_guard_mult,
+            "leverage_guard_applied": bool(payload.get("leverage_guard_applied", False)),
+            "leverage_guarded_notional": adjusted,
+            "legacy_leverage_room": _finite(payload.get("legacy_leverage_room")),
+            "cost_adjusted_leverage_room": _finite(payload.get("cost_adjusted_leverage_room")),
+            "max_leverage": _finite(payload.get("max_leverage")),
+            "target_leverage_cap": _finite(payload.get("target_leverage_cap")),
+            "projected_post_fill_leverage": _finite(payload.get("projected_post_fill_leverage")),
+            "projected_post_fill_equity": _finite(payload.get("projected_post_fill_equity")),
+            "projected_post_fill_gross": _finite(payload.get("projected_post_fill_gross")),
             "execution_room": room,
             "execution_room_type": room_type,
             "execution_cap_multiplier": execution_cap_mult,
             "filled_notional": filled,
             "final_effective_multiplier": final_effective_mult,
-            "risk_reduction_notional": max(0.0, original - adjusted),
+            "risk_reduction_notional": max(0.0, original - pre_execution_adjusted),
+            "leverage_guard_reduction_notional": max(0.0, pre_execution_adjusted - adjusted),
             "execution_reduction_notional": max(0.0, adjusted - filled),
             "total_reduction_notional": max(0.0, original - filled),
             "fill_price": _finite(payload.get("fill_price")),
             "broker_order_api_calls": int(payload.get("broker_order_api_calls", 0) or 0),
-            "has_error": bool(payload.get("error") or payload.get("meta_error") or payload.get("quality_error") or payload.get("symbol_strategy_error")),
+            "has_error": bool(
+                payload.get("error") or payload.get("meta_error") or payload.get("quality_error")
+                or payload.get("symbol_strategy_error") or payload.get("leverage_guard_error")
+            ),
         }
         entries.append(item)
 
@@ -238,12 +261,39 @@ def _sizing_audit(limit: int = 100):
             "symbol_strategy_reduced": reduced("symbol_strategy_multiplier"),
             "meta_reduced": reduced("meta_multiplier"),
             "quality_drift_reduced": reduced("quality_drift_multiplier"),
+            "leverage_guard_reduced": reduced("leverage_guard_multiplier"),
             "execution_cap_reduced": reduced("execution_cap_multiplier"),
             "entries_with_error": sum(1 for x in entries if x.get("has_error")),
             "broker_order_api_calls": sum(int(x.get("broker_order_api_calls", 0) or 0) for x in entries),
         },
         "entries": entries,
     }
+
+
+def _expected_live():
+    empty = {
+        "status": "UNAVAILABLE",
+        "scope": "PUBLIC_READ_ONLY_EXPECTED_LIVE_DEVIATION",
+        "contains_secrets": False,
+        "generated_at": _now_iso(),
+        "shadow_only": True,
+        "active_sizing": False,
+        "summary": {"models": 0, "with_live_trades": 0, "broker_order_api_calls": 0},
+        "rows": [],
+    }
+    if not SIM_PATH.exists():
+        return empty
+    try:
+        snap = expected_live_deviation_snapshot(SimulationDB(str(SIM_PATH)))
+        if not isinstance(snap, dict):
+            return empty
+        snap["scope"] = "PUBLIC_READ_ONLY_EXPECTED_LIVE_DEVIATION"
+        snap["contains_secrets"] = False
+        snap["generated_at"] = _now_iso()
+        return snap
+    except Exception as exc:
+        empty["error"] = f"{type(exc).__name__}: {exc}"
+        return empty
 
 
 def _atomic_json(path: Path, payload: dict):
@@ -254,8 +304,13 @@ def _atomic_json(path: Path, payload: dict):
 
 
 def export_once():
+    global _last_expected_live_export
     _atomic_json(PUBLIC_STATUS_PATH, _safe_storage_status(_read_json(STATUS_PATH)))
     _atomic_json(PUBLIC_SIZING_PATH, _sizing_audit(100))
+    now = time.monotonic()
+    if (not PUBLIC_EXPECTED_LIVE_PATH.exists()) or (now - _last_expected_live_export >= EXPECTED_LIVE_REFRESH_SECONDS):
+        _atomic_json(PUBLIC_EXPECTED_LIVE_PATH, _expected_live())
+        _last_expected_live_export = now
     return True
 
 
@@ -264,7 +319,7 @@ def watch():
     while True:
         try:
             export_once()
-            print("STORAGE_AND_SIZING_STATUS_EXPORT OK", flush=True)
+            print("STORAGE_SIZING_EXPECTED_LIVE_EXPORT OK", flush=True)
         except Exception as exc:
             print("STORAGE_STATUS_EXPORT_ERROR", type(exc).__name__, exc, flush=True)
         time.sleep(POLL_SECONDS)
