@@ -3,86 +3,86 @@
     {
       "account_id": "crypto_long",
       "as_of": "2026-08-24T00:00:00+00:00",
-      "cash": 30219.34378273179,
+      "cash": 27487.74390863346,
       "closed_trades": 0,
-      "drawdown": -0.0028339408991898685,
-      "equity": 99716.60591008101,
-      "gross_exposure": 69497.26212734921,
+      "drawdown": -0.0036185679852528407,
+      "equity": 99638.14320147471,
+      "gross_exposure": 72150.39929284125,
       "horizon": "long",
       "initial_equity": 100000.0,
-      "leverage": 0.696947729949995,
+      "leverage": 0.7241242858866661,
       "market": "crypto",
-      "return_pct": -0.0028339408991898685
+      "return_pct": -0.0036185679852528407
     },
     {
       "account_id": "crypto_medium",
       "as_of": "2026-08-25T04:00:00+00:00",
-      "cash": -2975.561035505357,
-      "closed_trades": 5,
-      "drawdown": -0.011676871185666737,
-      "equity": 99208.52226324772,
-      "gross_exposure": 102184.08329875307,
+      "cash": -3326.565824650957,
+      "closed_trades": 7,
+      "drawdown": -0.012539638352183857,
+      "equity": 99121.91713062263,
+      "gross_exposure": 102448.48295527359,
       "horizon": "medium",
       "initial_equity": 100000.0,
-      "leverage": 1.029992998258857,
+      "leverage": 1.033560345894715,
       "market": "crypto",
-      "return_pct": -0.007914777367522774
+      "return_pct": -0.008780828693773612
     },
     {
       "account_id": "crypto_short",
       "as_of": "2026-08-25T10:00:00+00:00",
-      "cash": 63893.6214595745,
-      "closed_trades": 42,
-      "drawdown": -0.03709138872116802,
-      "equity": 99103.6082400249,
-      "gross_exposure": 35175.94452127007,
+      "cash": 72047.44571598181,
+      "closed_trades": 46,
+      "drawdown": -0.0439773541049564,
+      "equity": 98394.89714558053,
+      "gross_exposure": 26347.45142959872,
       "horizon": "short",
       "initial_equity": 100000.0,
-      "leverage": 0.35494110805809775,
+      "leverage": 0.2677725389622213,
       "market": "crypto",
-      "return_pct": -0.008963917599751015
+      "return_pct": -0.016051028544194712
     },
     {
       "account_id": "stock_long",
-      "as_of": null,
+      "as_of": "2026-08-24T04:00:00+00:00",
       "cash": 100000.0,
       "closed_trades": 0,
-      "drawdown": null,
+      "drawdown": 0.0,
       "equity": 100000.0,
-      "gross_exposure": null,
+      "gross_exposure": 0.0,
       "horizon": "long",
       "initial_equity": 100000.0,
-      "leverage": null,
+      "leverage": 0.0,
       "market": "stock",
       "return_pct": 0.0
     },
     {
       "account_id": "stock_medium",
-      "as_of": null,
-      "cash": 100000.0,
+      "as_of": "2026-08-24T16:00:00+00:00",
+      "cash": 87599.43181818182,
       "closed_trades": 0,
-      "drawdown": null,
-      "equity": 100000.0,
-      "gross_exposure": null,
+      "drawdown": -0.0007453135868705774,
+      "equity": 99925.46864131294,
+      "gross_exposure": 12326.036823131111,
       "horizon": "medium",
       "initial_equity": 100000.0,
-      "leverage": null,
+      "leverage": 0.12335230437973713,
       "market": "stock",
-      "return_pct": 0.0
+      "return_pct": -0.0007453135868705774
     },
     {
       "account_id": "stock_short",
-      "as_of": null,
-      "cash": 100000.0,
-      "closed_trades": 0,
-      "drawdown": null,
-      "equity": 100000.0,
-      "gross_exposure": null,
+      "as_of": "2026-08-24T20:00:00+00:00",
+      "cash": 80458.05634527317,
+      "closed_trades": 1,
+      "drawdown": 0.0,
+      "equity": 99928.92881698141,
+      "gross_exposure": 19470.87247170823,
       "horizon": "short",
       "initial_equity": 100000.0,
-      "leverage": null,
+      "leverage": 0.1948472049307052,
       "market": "stock",
-      "return_pct": 0.0
+      "return_pct": -0.000710711830185895
     },
     {
       "account_id": "twstock_long",
@@ -253,7 +253,7 @@
       }
     ]
   },
-  "generated_at": "2026-08-25T11:05:15.798872+00:00",
+  "generated_at": "2026-08-25T11:13:15.956355+00:00",
   "governance": {
     "arenas": [],
     "recent_events": []
@@ -5240,10 +5240,20 @@
       "updated_at": "2026-08-23T05:43:33.678412+00:00"
     }
   ],
+  "risk_sizing_audit": {
+    "contains_secrets": false,
+    "entries": [],
+    "scope": "PUBLIC_READ_ONLY_RISK_SIZING_AUDIT",
+    "status": "UNAVAILABLE",
+    "summary": {
+      "broker_order_api_calls": 0,
+      "entries": 0
+    }
+  },
   "schema_version": 2,
   "scope": "PUBLIC_READ_ONLY_RESEARCH_SUMMARY",
   "storage_persistence": {
-    "last_snapshot_at": "2026-08-25T11:02:57.982312+00:00",
+    "last_snapshot_at": "2026-08-25T11:07:59.126786+00:00",
     "last_snapshot_failed": [],
     "last_snapshot_success": [
       "data_quality.sqlite3",
@@ -5255,9 +5265,9 @@
     ],
     "persistence_status": "OK",
     "persistent_disk": {
-      "free": 3905114112,
+      "free": 3904929792,
       "total": 4685873152,
-      "used": 770695168
+      "used": 770879488
     },
     "skipped_rebuildable": [
       "market_cache.sqlite3"
@@ -5265,38 +5275,38 @@
     "snapshot_db_count": 6,
     "snapshot_keep_archives": 0,
     "status": "AVAILABLE",
-    "updated_at": "2026-08-25T11:02:57.982412+00:00"
+    "updated_at": "2026-08-25T11:07:59.126964+00:00"
   },
   "strategy_performance": [
     {
-      "avg_pnl": -39.055703951903084,
-      "avg_return_pct": -0.009956186389161303,
+      "avg_pnl": -39.50703316695596,
+      "avg_return_pct": -0.010098852091806353,
       "best_trade_return": 0.06523949416052943,
-      "closed_trades": 21,
+      "closed_trades": 22,
       "horizon": "short",
       "last_exit_bar": "2026-08-25T09:00:00+00:00",
-      "losses": 17,
+      "losses": 18,
       "market": "crypto",
-      "profit_factor": 0.619954748570325,
-      "realized_pnl": -820.1697829899648,
+      "profit_factor": 0.6061951227688113,
+      "realized_pnl": -869.154729673031,
       "strategy": "Momentum",
-      "win_rate": 0.19047619047619047,
+      "win_rate": 0.18181818181818182,
       "wins": 4,
       "worst_trade_return": -0.053519372097020956
     },
     {
-      "avg_pnl": -39.33366122849723,
-      "avg_return_pct": -0.028478128084753394,
+      "avg_pnl": -77.04083911898611,
+      "avg_return_pct": -0.02897601314606841,
       "best_trade_return": 0.24418091488318883,
-      "closed_trades": 11,
+      "closed_trades": 14,
       "horizon": "short",
-      "last_exit_bar": "2026-08-24T15:00:00+00:00",
-      "losses": 6,
+      "last_exit_bar": "2026-08-24T18:00:00+00:00",
+      "losses": 9,
       "market": "crypto",
-      "profit_factor": 0.8373851750174987,
-      "realized_pnl": -432.6702735134695,
+      "profit_factor": 0.6738132088808192,
+      "realized_pnl": -1078.5717476658056,
       "strategy": "Trend MA",
-      "win_rate": 0.45454545454545453,
+      "win_rate": 0.35714285714285715,
       "wins": 5,
       "worst_trade_return": -0.1754387572936471
     },
@@ -5317,18 +5327,18 @@
       "worst_trade_return": -0.003394229809324245
     },
     {
-      "avg_pnl": -136.64832610174625,
-      "avg_return_pct": -0.05055738016314422,
+      "avg_pnl": -111.1660468405051,
+      "avg_return_pct": -0.04269029579495276,
       "best_trade_return": 0.0010514007583066753,
-      "closed_trades": 5,
+      "closed_trades": 7,
       "horizon": "medium",
       "last_exit_bar": "2026-08-24T20:00:00+00:00",
-      "losses": 4,
+      "losses": 6,
       "market": "crypto",
-      "profit_factor": 0.005902313130798847,
-      "realized_pnl": -683.2416305087313,
+      "profit_factor": 0.005186079320854033,
+      "realized_pnl": -778.1623278835357,
       "strategy": "Momentum",
-      "win_rate": 0.2,
+      "win_rate": 0.14285714285714285,
       "wins": 1,
       "worst_trade_return": -0.11173360634670926
     },
@@ -5347,6 +5357,22 @@
       "win_rate": 0.0,
       "wins": 0,
       "worst_trade_return": -0.036042069087260264
+    },
+    {
+      "avg_pnl": 10.014102266218648,
+      "avg_return_pct": 0.0004229104060593514,
+      "best_trade_return": 0.0004229104060593514,
+      "closed_trades": 1,
+      "horizon": "short",
+      "last_exit_bar": "2026-08-24T15:00:00+00:00",
+      "losses": 0,
+      "market": "stock",
+      "profit_factor": 999.0,
+      "realized_pnl": 10.014102266218648,
+      "strategy": "Trend MA",
+      "win_rate": 1.0,
+      "wins": 1,
+      "worst_trade_return": 0.0004229104060593514
     }
   ],
   "strategy_symbol_performance": [
@@ -5441,6 +5467,24 @@
       "worst_trade_return": -0.04798237196765487
     },
     {
+      "avg_pnl": 38.706215933619205,
+      "avg_return_pct": -0.00787899678612991,
+      "best_trade_return": 0.06088878796815078,
+      "closed_trades": 4,
+      "horizon": "short",
+      "last_exit_bar": "2026-08-24T18:00:00+00:00",
+      "losses": 3,
+      "market": "crypto",
+      "performance_key": "crypto:ZECUSDT:short:Trend MA",
+      "profit_factor": 1.239703530538717,
+      "realized_pnl": 154.82486373447682,
+      "strategy": "Trend MA",
+      "symbol": "ZECUSDT",
+      "win_rate": 0.25,
+      "wins": 1,
+      "worst_trade_return": -0.03899207586535558
+    },
+    {
       "avg_pnl": -30.422175378492668,
       "avg_return_pct": -0.00873038770733888,
       "best_trade_return": 0.008132349383272564,
@@ -5457,6 +5501,24 @@
       "win_rate": 0.3333333333333333,
       "wins": 1,
       "worst_trade_return": -0.03183159665720592
+    },
+    {
+      "avg_pnl": -67.30695521193466,
+      "avg_return_pct": -0.010362750796721443,
+      "best_trade_return": -0.008851300592133682,
+      "closed_trades": 3,
+      "horizon": "short",
+      "last_exit_bar": "2026-08-24T01:00:00+00:00",
+      "losses": 3,
+      "market": "crypto",
+      "performance_key": "crypto:XRPUSDT:short:Momentum",
+      "profit_factor": 0.0,
+      "realized_pnl": -201.92086563580398,
+      "strategy": "Momentum",
+      "symbol": "XRPUSDT",
+      "win_rate": 0.0,
+      "wins": 0,
+      "worst_trade_return": -0.013094831847352384
     },
     {
       "avg_pnl": -114.72328021443282,
@@ -5531,22 +5593,22 @@
       "worst_trade_return": -0.0033244639171163826
     },
     {
-      "avg_pnl": -76.46795947636886,
-      "avg_return_pct": -0.008996710271405972,
-      "best_trade_return": -0.008851300592133682,
+      "avg_pnl": -47.46034868740217,
+      "avg_return_pct": -0.023022584874474117,
+      "best_trade_return": -0.011213550288275087,
       "closed_trades": 2,
-      "horizon": "short",
-      "last_exit_bar": "2026-08-23T23:00:00+00:00",
+      "horizon": "medium",
+      "last_exit_bar": "2026-08-24T20:00:00+00:00",
       "losses": 2,
       "market": "crypto",
-      "performance_key": "crypto:XRPUSDT:short:Momentum",
+      "performance_key": "crypto:ZECUSDT:medium:Momentum",
       "profit_factor": 0.0,
-      "realized_pnl": -152.93591895273772,
+      "realized_pnl": -94.92069737480433,
       "strategy": "Momentum",
-      "symbol": "XRPUSDT",
+      "symbol": "ZECUSDT",
       "win_rate": 0.0,
       "wins": 0,
-      "worst_trade_return": -0.009142119950678262
+      "worst_trade_return": -0.03483161946067315
     },
     {
       "avg_pnl": 202.42055606715897,
@@ -5729,22 +5791,22 @@
       "worst_trade_return": 0.0198909517371868
     },
     {
-      "avg_pnl": 800.726337886813,
-      "avg_return_pct": 0.06088878796815078,
-      "best_trade_return": 0.06088878796815078,
+      "avg_pnl": 10.014102266218648,
+      "avg_return_pct": 0.0004229104060593514,
+      "best_trade_return": 0.0004229104060593514,
       "closed_trades": 1,
       "horizon": "short",
-      "last_exit_bar": "2026-08-23T14:00:00+00:00",
+      "last_exit_bar": "2026-08-24T15:00:00+00:00",
       "losses": 0,
-      "market": "crypto",
-      "performance_key": "crypto:ZECUSDT:short:Trend MA",
+      "market": "stock",
+      "performance_key": "stock:AMZN:short:Trend MA",
       "profit_factor": 999.0,
-      "realized_pnl": 800.726337886813,
+      "realized_pnl": 10.014102266218648,
       "strategy": "Trend MA",
-      "symbol": "ZECUSDT",
+      "symbol": "AMZN",
       "win_rate": 1.0,
       "wins": 1,
-      "worst_trade_return": 0.06088878796815078
+      "worst_trade_return": 0.0004229104060593514
     }
   ],
   "trial_ledger": {
@@ -5764,7 +5826,7 @@
     "data_quality": "STARTING",
     "data_quality_critical": 0,
     "data_quality_warnings": 0,
-    "heartbeat_at": "2026-08-25T11:05:11.962950+00:00",
+    "heartbeat_at": "2026-08-25T11:13:12.182684+00:00",
     "last_cycle_finished_at": null,
     "last_cycle_started_at": "2026-08-25T10:35:41.035479+00:00",
     "market_data_api_calls": 0,
