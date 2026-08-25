@@ -16,7 +16,9 @@ CURRENT_DIR = SNAPSHOT_DIR / "current"
 ARCHIVE_DIR = SNAPSHOT_DIR / "archive"
 STATUS_PATH = RUNTIME_DIR / "storage_persistence_status.json"
 INTERVAL = max(60, int(os.getenv("V6_SNAPSHOT_INTERVAL_SECONDS", "300")))
-KEEP_ARCHIVES = max(0, int(os.getenv("V6_SNAPSHOT_KEEP", "1")))
+# Rescue mode keeps only the latest current snapshot. Historical archives are
+# disabled because the Railway persistent volume is space constrained.
+KEEP_ARCHIVES = max(0, int(os.getenv("V6_SNAPSHOT_KEEP", "0")))
 
 # Only persist state that cannot be cheaply rebuilt from market APIs/cache.
 # market_cache/realtime quote caches are intentionally excluded in rescue mode.
@@ -49,6 +51,14 @@ def write_status(**updates):
     tmp = STATUS_PATH.with_suffix(".json.tmp")
     tmp.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
     tmp.replace(STATUS_PATH)
+
+
+def disk_usage_payload():
+    try:
+        usage = shutil.disk_usage(PERSIST_DIR)
+        return {"total": usage.total, "used": usage.used, "free": usage.free}
+    except Exception:
+        return {}
 
 
 def quick_check(path: Path) -> bool:
@@ -89,8 +99,47 @@ def candidate_mtime(path: Path) -> float:
     return max(vals) if vals else 0.0
 
 
+def purge_old_snapshot_copies():
+    """Delete duplicate/temporary snapshot files only.
+
+    Never touches original SQLite files directly under /data and never deletes a
+    current critical *.sqlite3 snapshot. Historical archive copies are expendable
+    in rescue mode and are removed first to recover capacity.
+    """
+    try:
+        if ARCHIVE_DIR.exists():
+            shutil.rmtree(ARCHIVE_DIR, ignore_errors=True)
+    except Exception:
+        pass
+
+    try:
+        if CURRENT_DIR.exists():
+            for p in CURRENT_DIR.iterdir():
+                if not p.is_file():
+                    continue
+                name = p.name
+                # Stale temporary copies are never valid restore points.
+                if name.endswith(".new") or name.endswith(".tmp"):
+                    try:
+                        p.unlink()
+                    except Exception:
+                        pass
+                    continue
+                # Old policy may have left rebuildable DB snapshots in current.
+                if name.endswith(".sqlite3") and name not in CRITICAL_DBS:
+                    try:
+                        p.unlink()
+                    except Exception:
+                        pass
+    except Exception:
+        pass
+
+
 def bootstrap_runtime():
     RUNTIME_DIR.mkdir(parents=True, exist_ok=True)
+    # Free duplicate archive space before bootstrap. Current critical snapshots are
+    # intentionally preserved because they may be newer than the root /data copy.
+    purge_old_snapshot_copies()
     CURRENT_DIR.mkdir(parents=True, exist_ok=True)
     names = set()
     for base in (PERSIST_DIR, CURRENT_DIR):
@@ -141,6 +190,8 @@ def bootstrap_runtime():
         bootstrap_warnings=warnings,
         snapshot_interval_seconds=INTERVAL,
         snapshot_db_count=len(CRITICAL_DBS),
+        snapshot_keep_archives=KEEP_ARCHIVES,
+        persistent_disk=disk_usage_payload(),
     )
 
 
@@ -163,36 +214,11 @@ def sqlite_backup(src: Path, dst: Path):
 
 
 def cleanup_snapshot_storage():
-    """Free only snapshot copies; never delete original /data DBs."""
+    """Free only duplicate snapshot copies; never delete original /data DBs."""
+    purge_old_snapshot_copies()
     CURRENT_DIR.mkdir(parents=True, exist_ok=True)
-    ARCHIVE_DIR.mkdir(parents=True, exist_ok=True)
-
-    # Remove snapshot copies of rebuildable DBs left by the old all-DB policy.
-    for p in list(CURRENT_DIR.glob("*.sqlite3")) + list(CURRENT_DIR.glob("*.new")):
-        if p.name.replace(".new", "") not in CRITICAL_DBS:
-            try:
-                p.unlink()
-            except Exception:
-                pass
-
-    groups = {}
-    for p in ARCHIVE_DIR.glob("*__*.sqlite3"):
-        name = p.name.split("__", 1)[1]
-        if name not in CRITICAL_DBS:
-            try:
-                p.unlink()
-            except Exception:
-                pass
-            continue
-        groups.setdefault(name, []).append(p)
-
-    for files in groups.values():
-        files.sort(key=lambda p: p.stat().st_mtime, reverse=True)
-        for old in files[KEEP_ARCHIVES:]:
-            try:
-                old.unlink()
-            except Exception:
-                pass
+    if KEEP_ARCHIVES > 0:
+        ARCHIVE_DIR.mkdir(parents=True, exist_ok=True)
 
 
 def persist_one(src: Path, stamp: str):
@@ -207,8 +233,6 @@ def persist_one(src: Path, stamp: str):
     persistent_final = CURRENT_DIR / src.name
     persistent_tmp.replace(persistent_final)
 
-    # Archive is optional. Keep current snapshot first; archive only when there is
-    # comfortably enough free space for another copy.
     if KEEP_ARCHIVES > 0:
         try:
             free = shutil.disk_usage(PERSIST_DIR).free
@@ -237,7 +261,6 @@ def snapshot_all():
             ok.append(src.name)
         except OSError as exc:
             if getattr(exc, "errno", None) == 28:
-                # One emergency cleanup/retry. Originals are never touched.
                 cleanup_snapshot_storage()
                 try:
                     persist_one(src, stamp)
@@ -250,12 +273,6 @@ def snapshot_all():
             failed.append({"db": src.name, "error": f"{type(exc).__name__}: {exc}"})
 
     cleanup_snapshot_storage()
-    try:
-        usage = shutil.disk_usage(PERSIST_DIR)
-        disk = {"total": usage.total, "used": usage.used, "free": usage.free}
-    except Exception:
-        disk = {}
-
     write_status(
         last_snapshot_at=now_iso(),
         last_snapshot_success=ok,
@@ -263,24 +280,34 @@ def snapshot_all():
         skipped_rebuildable=skipped,
         snapshot_db_count=len(CRITICAL_DBS),
         snapshot_keep_archives=KEEP_ARCHIVES,
-        persistent_disk=disk,
+        persistent_disk=disk_usage_payload(),
         persistence_status="OK" if ok and not failed else ("PARTIAL" if ok else "ERROR"),
     )
     print("STORAGE_SNAPSHOT", json.dumps({"ok": ok, "failed": failed, "skipped": skipped}, ensure_ascii=False), flush=True)
 
 
 def watch():
-    # Clean old snapshot-only files immediately to recover space before first backup.
+    # Purge historical duplicate snapshots immediately, then expose free space
+    # before the first scheduled backup attempt.
     try:
         cleanup_snapshot_storage()
-    except Exception:
-        pass
+        write_status(
+            cleanup_at=now_iso(),
+            snapshot_keep_archives=KEEP_ARCHIVES,
+            persistent_disk=disk_usage_payload(),
+        )
+    except Exception as exc:
+        write_status(last_cleanup_error=f"{type(exc).__name__}: {exc}")
     time.sleep(45)
     while True:
         try:
             snapshot_all()
         except Exception as exc:
-            write_status(persistence_status="ERROR", last_snapshot_failed=[{"error": f"{type(exc).__name__}: {exc}"}])
+            write_status(
+                persistence_status="ERROR",
+                persistent_disk=disk_usage_payload(),
+                last_snapshot_failed=[{"error": f"{type(exc).__name__}: {exc}"}],
+            )
             print("STORAGE_SNAPSHOT_FATAL", type(exc).__name__, exc, flush=True)
         time.sleep(INTERVAL)
 
