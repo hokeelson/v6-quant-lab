@@ -1,0 +1,89 @@
+name: Fix zero-notional pending orders
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/fix-zero-notional-pending-order.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Patch pending-order cancellation
+        shell: python
+        run: |
+          from pathlib import Path
+
+          db_path = Path('src/simulation_db.py')
+          db = db_path.read_text(encoding='utf-8')
+          old_db = '''    def fill_order(self,oid,bar,price,fees,slippage):
+        with self._c() as c: c.execute("UPDATE orders SET status='FILLED',filled_bar=?,fill_price=?,fees=?,slippage_cost=? WHERE order_id=?",(bar,float(price),float(fees),float(slippage),oid))
+    def add_trade(self,t):
+'''
+          new_db = '''    def fill_order(self,oid,bar,price,fees,slippage):
+        with self._c() as c: c.execute("UPDATE orders SET status='FILLED',filled_bar=?,fill_price=?,fees=?,slippage_cost=? WHERE order_id=?",(bar,float(price),float(fees),float(slippage),oid))
+    def cancel_order(self,oid,reason=None):
+        with self._c() as c:
+            if reason is None:
+                c.execute("UPDATE orders SET status='CANCELLED' WHERE order_id=? AND status='PENDING'",(oid,))
+            else:
+                c.execute("UPDATE orders SET status='CANCELLED',reason=? WHERE order_id=? AND status='PENDING'",(str(reason),oid))
+    def add_trade(self,t):
+'''
+          if old_db not in db:
+              raise SystemExit('simulation_db.py patch anchor not found')
+          db_path.write_text(db.replace(old_db, new_db, 1), encoding='utf-8')
+
+          eng_path = Path('src/simulation_engine.py')
+          eng = eng_path.read_text(encoding='utf-8')
+          old_eng = '''            notional=min(risk_adjusted,room)
+            if notional<=0:
+                return None
+            fill=open_px*(1+rate); qty=notional/fill; fees=notional*rate
+'''
+          new_eng = '''            notional=min(risk_adjusted,room)
+            if notional<=0:
+                cancel_reason = "RISK_SIZING_ZERO_NOTIONAL" if risk_adjusted <= 0 else "NO_LEVERAGE_ROOM"
+                self.db.cancel_order(o["order_id"], cancel_reason)
+                self.db.add_diagnostic(aid,symbol,hz,ts.isoformat(),"ORDER_CANCELLED","Pending BUY cancelled before fill",{
+                    **sizing,"leverage_room":room,"risk_adjusted_notional":risk_adjusted,
+                    "requested_notional":original_notional,"cancel_reason":cancel_reason,
+                    "broker_order_api_calls":0,
+                })
+                return "CANCELLED"
+            fill=open_px*(1+rate); qty=notional/fill; fees=notional*rate
+'''
+          if old_eng not in eng:
+              raise SystemExit('simulation_engine.py patch anchor not found')
+          eng_path.write_text(eng.replace(old_eng, new_eng, 1), encoding='utf-8')
+
+      - name: Self-check
+        shell: python
+        run: |
+          from pathlib import Path
+          db = Path('src/simulation_db.py').read_text(encoding='utf-8')
+          eng = Path('src/simulation_engine.py').read_text(encoding='utf-8')
+          assert 'def cancel_order(self,oid,reason=None):' in db
+          assert 'RISK_SIZING_ZERO_NOTIONAL' in eng
+          assert 'NO_LEVERAGE_ROOM' in eng
+          assert 'return "CANCELLED"' in eng
+          compile(db, 'src/simulation_db.py', 'exec')
+          compile(eng, 'src/simulation_engine.py', 'exec')
+
+      - name: Commit patch and remove one-shot workflow
+        shell: bash
+        run: |
+          rm -f .github/workflows/fix-zero-notional-pending-order.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/simulation_db.py src/simulation_engine.py .github/workflows/fix-zero-notional-pending-order.yml
+          git commit -m "Cancel zero-notional pending buy orders"
+          git push origin main
