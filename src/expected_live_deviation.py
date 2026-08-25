@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import math
+import os
 from collections import defaultdict
 
 
@@ -11,6 +12,13 @@ def _f(value, default=None):
         return x if math.isfinite(x) else default
     except Exception:
         return default
+
+
+def active_expected_live_sizing_enabled() -> bool:
+    raw = os.getenv("V6_ACTIVE_EXPECTED_LIVE_SIZING")
+    if raw is None:
+        return True
+    return raw.strip().lower() not in ("0", "false", "no", "off")
 
 
 def _market_from_account(account_id: str) -> str:
@@ -71,8 +79,10 @@ def _finite_pf(value):
 def expected_live_deviation_snapshot(db, trade_limit: int = 5000) -> dict:
     """Compare calibration OOS expectations with forward virtual realized trades.
 
-    Diagnostic only: this layer does not alter strategy decisions or position size.
-    Small samples remain LEARNING so a few lucky/unlucky trades cannot kill a model.
+    The diagnostic itself remains read-only, while its suggested multiplier may be
+    consumed by active virtual position sizing when V6_ACTIVE_EXPECTED_LIVE_SIZING
+    is enabled. Combinations with fewer than five closed forward trades always stay
+    LEARNING at 1.00x, so a few lucky/unlucky trades cannot kill a model.
     """
     trades = db.recent_trades(trade_limit)
     grouped = defaultdict(list)
@@ -205,7 +215,8 @@ def expected_live_deviation_snapshot(db, trade_limit: int = 5000) -> dict:
     return {
         "status": "AVAILABLE",
         "shadow_only": True,
-        "active_sizing": False,
+        "active_sizing": active_expected_live_sizing_enabled(),
+        "minimum_live_trades_for_active_sizing": 5,
         "rows": rows,
         "summary": {
             "models": len(rows),
