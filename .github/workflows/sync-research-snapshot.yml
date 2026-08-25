@@ -13,14 +13,14 @@ permissions:
 
 concurrency:
   group: sync-research-snapshot
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout snapshot branch
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           ref: snapshot-data
           fetch-depth: 0
@@ -32,6 +32,7 @@ jobs:
           base='https://v6-quant-lab-production.up.railway.app/app/static'
           research_tmp="$(mktemp)"
           storage_tmp="$(mktemp)"
+          sizing_tmp="$(mktemp)"
 
           curl --fail --silent --show-error --location \
             --retry 3 --retry-delay 5 --max-time 30 \
@@ -43,11 +44,18 @@ jobs:
             printf '%s\n' '{"status":"UNAVAILABLE","persistence_status":"UNKNOWN"}' > "$storage_tmp"
           fi
 
-          python - "$research_tmp" "$storage_tmp" <<'PY'
+          if ! curl --fail --silent --show-error --location \
+            --retry 2 --retry-delay 2 --max-time 15 \
+            "$base/risk_sizing_audit.json" -o "$sizing_tmp"; then
+            printf '%s\n' '{"status":"UNAVAILABLE","scope":"PUBLIC_READ_ONLY_RISK_SIZING_AUDIT","contains_secrets":false,"summary":{"entries":0,"broker_order_api_calls":0},"entries":[]}' > "$sizing_tmp"
+          fi
+
+          python - "$research_tmp" "$storage_tmp" "$sizing_tmp" <<'PY'
           import json, pathlib, sys
 
           research_path = pathlib.Path(sys.argv[1])
           storage_path = pathlib.Path(sys.argv[2])
+          sizing_path = pathlib.Path(sys.argv[3])
           data = json.loads(research_path.read_text(encoding='utf-8'))
 
           if data.get('contains_secrets') is not False:
@@ -74,6 +82,24 @@ jobs:
               data['storage_persistence']['status'] = 'UNAVAILABLE'
           if 'persistence_status' not in data['storage_persistence']:
               data['storage_persistence']['persistence_status'] = 'UNKNOWN'
+
+          try:
+              sizing = json.loads(sizing_path.read_text(encoding='utf-8'))
+          except Exception:
+              sizing = None
+          if (
+              not isinstance(sizing, dict)
+              or sizing.get('contains_secrets') is not False
+              or str(sizing.get('scope') or '') != 'PUBLIC_READ_ONLY_RISK_SIZING_AUDIT'
+          ):
+              sizing = {
+                  'status': 'UNAVAILABLE',
+                  'scope': 'PUBLIC_READ_ONLY_RISK_SIZING_AUDIT',
+                  'contains_secrets': False,
+                  'summary': {'entries': 0, 'broker_order_api_calls': 0},
+                  'entries': [],
+              }
+          data['risk_sizing_audit'] = sizing
 
           pathlib.Path('research_snapshot.json').write_text(
               json.dumps(data, ensure_ascii=False, indent=2, sort_keys=True) + '\n',
