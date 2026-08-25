@@ -39,6 +39,10 @@ TRIAL_LEDGER_PID=$!
 # snapshot errors internally; the shell also treats sidecar exit as non-fatal.
 python storage_rescue.py watch &
 STORAGE_RESCUE_PID=$!
+# Export only a strict whitelist of non-sensitive persistence diagnostics into
+# the public read-only research snapshot. This sidecar is also non-critical.
+python storage_status_exporter.py &
+STORAGE_STATUS_PID=$!
 
 cleanup() {
   kill "$SUPERVISOR_PID" 2>/dev/null || true
@@ -46,6 +50,7 @@ cleanup() {
   kill "$TCA_SUPERVISOR_PID" 2>/dev/null || true
   kill "$TRIAL_LEDGER_PID" 2>/dev/null || true
   kill "$STORAGE_RESCUE_PID" 2>/dev/null || true
+  kill "$STORAGE_STATUS_PID" 2>/dev/null || true
 }
 trap cleanup EXIT INT TERM
 
