@@ -5,6 +5,7 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+THIS_FILE = Path(__file__).resolve()
 SKIP_DIRS = {".git", ".venv", "venv", "node_modules", "__pycache__"}
 
 REPLACEMENTS = (
@@ -15,6 +16,8 @@ REPLACEMENTS = (
 
 def iter_python_files():
     for path in ROOT.rglob("*.py"):
+        if path.resolve() == THIS_FILE:
+            continue
         if any(part in SKIP_DIRS for part in path.parts):
             continue
         yield path
