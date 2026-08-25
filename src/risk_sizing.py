@@ -5,6 +5,7 @@ import os
 from .backtest import ExecutionCosts
 from .data_quality_drift import assess_pair
 from .decision_engine import HORIZON_SPECS
+from .expected_live_sizing import expected_live_sizing_assessment
 from .leverage_guard import cost_aware_leverage_room, projected_post_fill
 from .meta_model import meta_entry_assessment
 from .pretrade_risk import build_pretrade_risk_snapshot
@@ -74,10 +75,10 @@ def active_entry_sizing(db, cache, market: str, symbol: str, horizon: str, decis
     """Return the notional to use for a virtual BUY fill.
 
     Independent evidence layers are combined at the last possible moment:
-    portfolio/pre-trade risk, strategy health, symbol×strategy health, second-layer
-    Meta Model, and data-quality/concept-drift health. A final cost-aware leverage
-    hard guard can reduce the virtual fill further. The original model decision is
-    preserved and no broker order API is used.
+    portfolio/pre-trade risk, strategy health, symbol×strategy health, OOS-vs-live
+    generalization health, second-layer Meta Model, and data-quality/concept-drift
+    health. A final cost-aware leverage hard guard can reduce the virtual fill
+    further. The original model decision is preserved and no broker order API is used.
     """
     original = max(0.0, float(requested_notional or 0.0))
     result = {
@@ -100,6 +101,13 @@ def active_entry_sizing(db, cache, market: str, symbol: str, horizon: str, decis
         "symbol_strategy_weighted_win_rate": None,
         "symbol_strategy_weighted_avg_return": None,
         "symbol_strategy_performance_key": None,
+        "expected_live_multiplier": 1.0,
+        "expected_live_state": "LEARNING",
+        "expected_live_samples": 0,
+        "expected_live_deviation_score": None,
+        "expected_live_reasons": [],
+        "expected_live_performance_key": None,
+        "expected_live_evidence_weight": 0.0,
         "meta_multiplier": 1.0,
         "meta_score": None,
         "meta_probability": None,
@@ -123,6 +131,7 @@ def active_entry_sizing(db, cache, market: str, symbol: str, horizon: str, decis
         "active_portfolio_sizing": _flag("V6_ACTIVE_PORTFOLIO_SIZING", True),
         "active_strategy_health_sizing": _flag("V6_ACTIVE_STRATEGY_HEALTH_SIZING", True),
         "active_symbol_strategy_health_sizing": _flag("V6_ACTIVE_SYMBOL_STRATEGY_HEALTH_SIZING", True),
+        "active_expected_live_sizing": _flag("V6_ACTIVE_EXPECTED_LIVE_SIZING", True),
         "active_meta_sizing": _flag("V6_ACTIVE_META_SIZING", True),
         "active_data_quality_sizing": _flag("V6_ACTIVE_DATA_QUALITY_SIZING", True),
         "active_leverage_hard_guard": _flag("V6_ACTIVE_LEVERAGE_HARD_GUARD", True),
@@ -139,6 +148,7 @@ def active_entry_sizing(db, cache, market: str, symbol: str, horizon: str, decis
         "meta_error": None,
         "quality_error": None,
         "symbol_strategy_error": None,
+        "expected_live_error": None,
         "error": None,
     }
     if original <= 0:
@@ -202,6 +212,25 @@ def active_entry_sizing(db, cache, market: str, symbol: str, horizon: str, decis
             except Exception as exc:
                 result["symbol_strategy_error"] = f"{type(exc).__name__}: {exc}"
 
+        expected_live_multiplier = 1.0
+        if result["active_expected_live_sizing"]:
+            try:
+                strategy = str(decision.get("strategy") or "")
+                deviation = expected_live_sizing_assessment(db, market, symbol, horizon, strategy)
+                result["expected_live_multiplier"] = float(deviation.get("expected_live_multiplier", 1.0) or 1.0)
+                result["expected_live_state"] = str(deviation.get("expected_live_state") or "LEARNING")
+                result["expected_live_samples"] = int(deviation.get("expected_live_samples", 0) or 0)
+                result["expected_live_deviation_score"] = deviation.get("expected_live_deviation_score")
+                result["expected_live_reasons"] = list(deviation.get("expected_live_reasons") or [])
+                result["expected_live_performance_key"] = deviation.get("expected_live_performance_key")
+                result["expected_live_evidence_weight"] = float(deviation.get("expected_live_evidence_weight", 0.0) or 0.0)
+                expected_live_multiplier = result["expected_live_multiplier"]
+            except Exception as exc:
+                # Generalization diagnostics are fail-open so a read/analytics
+                # problem cannot erase an otherwise valid forward virtual trade.
+                result["expected_live_error"] = f"{type(exc).__name__}: {exc}"
+                expected_live_multiplier = 1.0
+
         meta_multiplier = 1.0
         if result["active_meta_sizing"]:
             try:
@@ -233,7 +262,17 @@ def active_entry_sizing(db, cache, market: str, symbol: str, horizon: str, decis
                 result["quality_error"] = f"{type(exc).__name__}: {exc}"
                 quality_multiplier = 1.0
 
-        combined = result["portfolio_multiplier"] * health_multiplier * meta_multiplier * quality_multiplier
+        # Expected-vs-live is an additional generalization test: absolute realized
+        # health can be weak while the more important question is whether live
+        # behavior materially contradicts the model's own OOS expectation. It only
+        # activates after >=5 closed trades, so small-sample combinations remain 1x.
+        combined = (
+            result["portfolio_multiplier"]
+            * health_multiplier
+            * expected_live_multiplier
+            * meta_multiplier
+            * quality_multiplier
+        )
         combined = max(_min_multiplier(), min(1.0, float(combined)))
         result["combined_multiplier"] = combined
         result["adjusted_notional"] = original * combined
