@@ -30,17 +30,17 @@
     },
     {
       "account_id": "crypto_short",
-      "as_of": "2026-08-26T09:00:00+00:00",
-      "cash": 35268.24086016844,
+      "as_of": "2026-08-26T10:00:00+00:00",
+      "cash": 31828.423163176823,
       "closed_trades": 71,
-      "drawdown": -0.06363426821269258,
-      "equity": 96371.78602981879,
-      "gross_exposure": 61103.54516965035,
+      "drawdown": -0.057146006028137686,
+      "equity": 97039.56507568558,
+      "gross_exposure": 65211.141912508756,
       "horizon": "short",
       "initial_equity": 100000.0,
-      "leverage": 0.6340397712536329,
+      "leverage": 0.6720057108834692,
       "market": "crypto",
-      "return_pct": -0.036282139701812155
+      "return_pct": -0.029604349243144257
     },
     {
       "account_id": "stock_long",
@@ -132,7 +132,7 @@
   "expected_live_deviation": {
     "active_sizing": true,
     "contains_secrets": false,
-    "generated_at": "2026-08-26T10:05:58.979958+00:00",
+    "generated_at": "2026-08-26T11:47:53.264958+00:00",
     "minimum_live_trades_for_active_sizing": 5,
     "rows": [
       {
@@ -9073,7 +9073,7 @@
       }
     ]
   },
-  "generated_at": "2026-08-26T10:05:43.697864+00:00",
+  "generated_at": "2026-08-26T11:47:44.473945+00:00",
   "governance": {
     "arenas": [
       {
@@ -21976,7 +21976,7 @@
         "total_reduction_notional": 1227.0364776019996
       }
     ],
-    "generated_at": "2026-08-26T10:06:03.997396+00:00",
+    "generated_at": "2026-08-26T11:47:58.284447+00:00",
     "scope": "PUBLIC_READ_ONLY_RISK_SIZING_AUDIT",
     "status": "AVAILABLE",
     "summary": {
@@ -21999,14 +21999,14 @@
   "schema_version": 2,
   "scope": "PUBLIC_READ_ONLY_RESEARCH_SUMMARY",
   "storage_persistence": {
-    "bootstrap_at": "2026-08-26T09:21:41.343512+00:00",
+    "bootstrap_at": "2026-08-26T11:18:43.373381+00:00",
     "bootstrap_warnings": [],
     "mode": "RESCUE_RUNTIME",
     "persistence_status": "UNKNOWN",
     "persistent_disk": {
-      "free": 2737061888,
+      "free": 2736984064,
       "total": 4685873152,
-      "used": 1932034048
+      "used": 1932111872
     },
     "restored": [
       {
@@ -22042,7 +22042,7 @@
     "snapshot_interval_seconds": 60,
     "snapshot_keep_archives": 0,
     "status": "AVAILABLE",
-    "updated_at": "2026-08-26T09:21:41.462711+00:00"
+    "updated_at": "2026-08-26T11:18:43.488493+00:00"
   },
   "strategy_performance": [
     {
@@ -23144,31 +23144,31 @@
   ],
   "trial_ledger": {
     "challenges": 2,
-    "cycles": 293,
+    "cycles": 291,
     "distinct_hypotheses": 18,
-    "events": 26,
-    "last_event_at": "2026-08-26T09:22:39.152861+00:00",
+    "events": 23,
+    "last_event_at": "2026-08-26T09:19:20.613573+00:00",
     "promotions": 0,
-    "research_trials": 22
+    "research_trials": 19
   },
   "worker": {
     "assets_checked": 212,
-    "bars_processed": 37,
+    "bars_processed": 0,
     "broker_order_api_calls": 0,
-    "concept_drift_pairs": 3,
+    "concept_drift_pairs": 1,
     "data_quality": "OK",
     "data_quality_critical": 0,
-    "data_quality_warnings": 23,
-    "heartbeat_at": "2026-08-26T10:05:33.942681+00:00",
-    "last_cycle_finished_at": "2026-08-26T10:03:11.308421+00:00",
-    "last_cycle_started_at": "2026-08-26T10:04:11.326038+00:00",
-    "market_data_api_calls": 5,
-    "portfolio_risk": "MEDIUM",
+    "data_quality_warnings": 24,
+    "heartbeat_at": "2026-08-26T11:47:34.999932+00:00",
+    "last_cycle_finished_at": "2026-08-26T11:47:04.860614+00:00",
+    "last_cycle_started_at": "2026-08-26T11:44:36.013505+00:00",
+    "market_data_api_calls": 0,
+    "portfolio_risk": "HIGH",
     "realtime_watchlist_sync": "ONLINE",
     "realtime_watchlist_total": 59,
     "risk_layer": "ONLINE",
     "risk_sizing": "ACTIVE",
-    "status": "RUNNING",
+    "status": "ONLINE",
     "true_errors": 0
   }
 }
