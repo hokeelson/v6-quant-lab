@@ -6,6 +6,7 @@ from pathlib import Path
 import pandas as pd
 import streamlit as st
 
+from src.crypto_v2.risk import portfolio_status
 from src.crypto_v2.shadow_db import CryptoV2ShadowDB
 from src.market_cache import MarketCache, TIMEFRAME_MAP
 from src.paths import data_dir, db_path
@@ -58,6 +59,22 @@ status_path = Path(data_dir()) / "crypto_v2_shadow_worker_status.json"
     "OFFLINE": "離線",
     "STARTING": "啟動中",
     "ERROR": "錯誤",
+}
+
+風控狀態中文 = {
+    "NORMAL": "正常",
+    "LIMITED": "已限制新部位",
+}
+
+風控原因中文 = {
+    "MAX_POSITIONS": "同週期持倉／預約槽位已滿",
+    "MAX_GROSS_EXPOSURE": "總曝險已達上限",
+    "MAX_STRATEGY_EXPOSURE": "同策略曝險已達上限",
+    "MAX_REGIME_EXPOSURE": "同市場狀態曝險已達上限",
+    "BELOW_MIN_ENTRY": "可用風險額度低於最小有效部位",
+    "NO_CAPITAL": "可用資金不足",
+    "DOWNSIZED_BY_PORTFOLIO_RISK": "組合風控已縮小部位",
+    "APPROVED": "通過",
 }
 
 出場原因中文 = {
@@ -128,6 +145,11 @@ def zh_market_reason(value) -> str:
     return 市場原因中文.get(raw, raw or "等待 V2 第一輪資料")
 
 
+def zh_risk_reason(value) -> str:
+    raw = str(value or "")
+    return 風控原因中文.get(raw, raw)
+
+
 def zh_decision_reason(value) -> str:
     raw = str(value or "")
     if raw in 決策原因中文:
@@ -138,6 +160,14 @@ def zh_decision_reason(value) -> str:
     if raw.startswith("No V2 setup in "):
         state = raw.removeprefix("No V2 setup in ")
         return f"{zh_market(state)}目前沒有符合 V2 條件的交易機會"
+    if raw.startswith("Portfolio risk governor blocked entry: "):
+        reason = raw.removeprefix("Portfolio risk governor blocked entry: ")
+        return f"組合風控阻擋進場：{zh_risk_reason(reason)}"
+    suffix = "; portfolio risk governor downsized entry"
+    if raw.endswith(suffix):
+        base = raw[: -len(suffix)]
+        base_zh = 決策原因中文.get(base, base)
+        return f"{base_zh}；組合風控已縮小部位"
     return raw
 
 
@@ -183,6 +213,27 @@ r2.metric("BTC 趨勢強度", f"{float(regime.get('trend') or 0)*100:.2f}%")
 r3.metric("波動率倍數", f"{float(regime.get('vol_ratio') or 0):.2f} 倍")
 r4.metric("BTC 24 小時報酬", f"{float(regime.get('ret_slow') or 0)*100:.2f}%")
 st.caption(zh_market_reason(regime.get("reason")))
+
+st.subheader("V2 組合風控")
+risk_rows = []
+for h in ("short", "medium", "long"):
+    risk = portfolio_status(shadow.initial_equity, shadow.portfolio_state(h), h)
+    reasons = "、".join(zh_risk_reason(x) for x in risk.get("breaches") or []) or "無"
+    limits = risk.get("limits") or {}
+    risk_rows.append({
+        "交易週期": zh_horizon(h),
+        "風控狀態": 風控狀態中文.get(str(risk.get("status") or ""), str(risk.get("status") or "")),
+        "目前持倉": int(risk.get("open_positions") or 0),
+        "等待成交": int(risk.get("pending_orders") or 0),
+        "總曝險%": float(risk.get("gross_pct") or 0.0) * 100,
+        "總曝險上限%": float(limits.get("max_gross_pct") or 0.0) * 100,
+        "同策略上限%": float(limits.get("max_strategy_pct") or 0.0) * 100,
+        "同市場狀態上限%": float(limits.get("max_regime_pct") or 0.0) * 100,
+        "最多部位／預約": int(limits.get("max_positions") or 0),
+        "目前限制原因": reasons,
+    })
+st.dataframe(pd.DataFrame(risk_rows), width="stretch", hide_index=True)
+st.caption("組合風控會同時計入已持倉與尚未成交的進場單；達到上限時只會阻擋或縮小新部位，不會強制平掉既有 Shadow 持倉。")
 
 st.subheader("原版 vs V2 — 各交易週期")
 base_map = {x.get("horizon"): x for x in (baseline.get("accounts") or [])}
