@@ -289,6 +289,27 @@ class CryptoV2ShadowDB:
         with self._c() as c:
             return [dict(r) for r in c.execute("SELECT * FROM positions ORDER BY horizon,symbol")]
 
+    def portfolio_state(self, horizon: str) -> dict:
+        """Return entry-cost exposure plus reserved pending notional for one horizon."""
+        with self._c() as c:
+            positions = [dict(r) for r in c.execute(
+                """SELECT symbol,horizon,(qty*avg_entry) AS notional,
+                          strategy,regime_entry AS regime
+                   FROM positions WHERE horizon=? ORDER BY symbol""",
+                (horizon,),
+            ).fetchall()]
+            pending = [dict(r) for r in c.execute(
+                """SELECT o.symbol,o.horizon,o.requested_notional AS notional,
+                          COALESCE(d.strategy,'UNKNOWN') AS strategy,
+                          COALESCE(d.regime,'UNKNOWN') AS regime
+                   FROM orders o
+                   LEFT JOIN decisions d ON d.decision_id=o.decision_id
+                   WHERE o.horizon=? AND o.status='PENDING'
+                   ORDER BY o.created_at""",
+                (horizon,),
+            ).fetchall()]
+        return {"positions": positions, "pending_orders": pending}
+
     def summary(self) -> dict:
         out = {"accounts": [], "closed_trades": 0, "realized_pnl": 0.0, "wins": 0, "losses": 0}
         with self._c() as c:
