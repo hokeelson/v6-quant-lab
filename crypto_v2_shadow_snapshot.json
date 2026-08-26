@@ -33,7 +33,7 @@
   "contains_secrets": false,
   "errors": [],
   "forward_only": true,
-  "generated_at": "2026-08-26T12:23:52.847529+00:00",
+  "generated_at": "2026-08-26T12:28:58.466533+00:00",
   "latest_market_regime": {
     "realized_vol": 0.0,
     "reason": "Need >=96 BTC 1h bars",
@@ -44,6 +44,7 @@
     "vol_ratio": 1.0
   },
   "market_data_api_calls": 0,
+  "persistent_checkpoint": true,
   "portfolio_risk": {
     "long": {
       "breaches": [],
@@ -125,8 +126,8 @@
   "shared_cache_only": true,
   "status": "ONLINE",
   "symbols": 38,
-  "sync_checked_at": "2026-08-26T12:23:57.452597+00:00",
-  "sync_snapshot_age_seconds": 4.605068,
+  "sync_checked_at": "2026-08-26T12:29:26.702744+00:00",
+  "sync_snapshot_age_seconds": 28.236211,
   "v2": {
     "accounts": [
       {
