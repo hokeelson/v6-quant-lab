@@ -4,6 +4,7 @@ import json
 from datetime import datetime, timezone
 from pathlib import Path
 
+import numpy as np
 import pandas as pd
 
 from ..backtest import ExecutionCosts
@@ -15,9 +16,9 @@ from .shadow_db import CryptoV2ShadowDB
 
 HORIZONS = ("short", "medium", "long")
 BAR_DELTAS = {
-    "short": pd.Timedelta(hours=1),
-    "medium": pd.Timedelta(hours=4),
-    "long": pd.Timedelta(days=1),
+    "short": pd.Timedelta("1h"),
+    "medium": pd.Timedelta("4h"),
+    "long": pd.Timedelta("1d"),
 }
 CRYPTO_FEE_RATE = float(ExecutionCosts(10, 5, 4).one_way_rate)
 SNAPSHOT_PATH = Path(data_dir()) / "crypto_v2_shadow_snapshot.json"
@@ -30,6 +31,27 @@ def _utc(ts) -> pd.Timestamp:
 
 def _iso(ts) -> str:
     return _utc(ts).isoformat()
+
+
+def _through(df: pd.DataFrame, cutoff) -> pd.DataFrame:
+    """Return rows whose timestamp is <= cutoff using normalized UTC nanoseconds.
+
+    Some cached frames can surface an object-like index after pandas/numpy version
+    transitions. Comparing that index directly with a Timestamp may raise a
+    TypeError. Normalize once and compare integer nanoseconds instead.
+    """
+    if df is None or df.empty:
+        return df.copy() if df is not None else pd.DataFrame()
+    parsed = pd.to_datetime(list(df.index), utc=True, errors="coerce")
+    parsed = pd.DatetimeIndex(parsed)
+    valid = ~pd.isna(parsed)
+    if not bool(np.any(valid)):
+        return df.iloc[0:0].copy()
+    valid_pos = np.flatnonzero(np.asarray(valid, dtype=bool))
+    parsed_valid = parsed[valid_pos]
+    work = df.iloc[valid_pos].copy()
+    mask = np.asarray(parsed_valid.asi8 <= _utc(cutoff).value, dtype=bool)
+    return work.iloc[np.flatnonzero(mask)].copy()
 
 
 class CryptoV2ShadowEngine:
@@ -129,7 +151,7 @@ class CryptoV2ShadowEngine:
         bar_time = _iso(ts)
         row = hist.loc[ts]
         bar_end = _utc(ts) + BAR_DELTAS[horizon]
-        btc_cut = btc_1h.loc[btc_1h.index <= bar_end].copy()
+        btc_cut = _through(btc_1h, bar_end)
         regime = classify_market_regime(btc_cut)
         self.db.add_market_state(_iso(bar_end), regime)
 
@@ -144,9 +166,9 @@ class CryptoV2ShadowEngine:
             }
             # Recover exact routing parameters from the prior bar deterministically.
             prior_ts = _utc(pending["created_bar"])
-            prior_hist = hist.loc[hist.index <= prior_ts]
+            prior_hist = _through(hist, prior_ts)
             prior_btc_end = prior_ts + BAR_DELTAS[horizon]
-            prior_btc = btc_1h.loc[btc_1h.index <= prior_btc_end]
+            prior_btc = _through(btc_1h, prior_btc_end)
             prior_regime = classify_market_regime(prior_btc)
             prior_features = symbol_features(prior_hist, prior_btc)
             prior_decision.update(route_strategy(prior_regime, prior_features, horizon))
@@ -215,7 +237,7 @@ class CryptoV2ShadowEngine:
                         last_ts = _utc(last)
                         new_index = [ts for ts in closed.index if _utc(ts) > last_ts]
                     for ts in new_index:
-                        hist = closed.loc[closed.index <= ts].copy()
+                        hist = _through(closed, ts)
                         processed.append(self._process_bar(symbol, horizon, hist, btc, ts))
                 except Exception as exc:
                     errors.append({
