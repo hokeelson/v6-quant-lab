@@ -33,6 +33,6 @@ jobs:
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add src/simulation_db.py src/simulation_engine.py src/twstock_support.py storage_rescue.py tests/test_simulation_execution_safety.py .github/workflows/ci.yml
+          git add src/simulation_db.py src/simulation_engine.py src/twstock_support.py storage_rescue.py tests/test_simulation_execution_safety.py
           git commit -m 'Stabilize simulation execution core'
           git push
