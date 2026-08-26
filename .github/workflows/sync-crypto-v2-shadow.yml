@@ -61,6 +61,8 @@ jobs:
               raise SystemExit('Crypto V2 broker API safety invariant violated')
           if int(data.get('market_data_api_calls', -1)) != 0:
               raise SystemExit('Crypto V2 must remain shared-cache-only')
+          if data.get('persistent_checkpoint') is not True:
+              raise SystemExit('Crypto V2 persistent checkpoint is not healthy')
 
           generated = data.get('generated_at')
           if not generated:
