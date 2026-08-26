@@ -1,9 +1,12 @@
 from __future__ import annotations
-import json, sqlite3, uuid
+import json, os, sqlite3, uuid
+from pathlib import Path
 from datetime import datetime, timezone
 
 
 def now_iso(): return datetime.now(timezone.utc).isoformat()
+
+SCHEMA_VERSION = 1
 
 
 class SimulationDB:
@@ -59,7 +62,7 @@ class SimulationDB:
               entry_bar TEXT NOT NULL, exit_bar TEXT NOT NULL, qty REAL NOT NULL,
               entry_price REAL NOT NULL, exit_price REAL NOT NULL, realized_pnl REAL NOT NULL,
               return_pct REAL NOT NULL, strategy TEXT, horizon TEXT, regime_entry TEXT,
-              exit_reason TEXT, leverage REAL, created_at TEXT NOT NULL);
+              exit_reason TEXT, leverage REAL, exit_order_id TEXT, created_at TEXT NOT NULL);
             CREATE TABLE IF NOT EXISTS equity_history(
               account_id TEXT NOT NULL, bar_time TEXT NOT NULL, equity REAL NOT NULL,
               cash REAL NOT NULL, gross_exposure REAL NOT NULL, leverage REAL NOT NULL,
@@ -74,6 +77,56 @@ class SimulationDB:
               account_id TEXT NOT NULL, symbol TEXT NOT NULL, last_processed_bar TEXT,
               PRIMARY KEY(account_id,symbol));
             """)
+            self._migrate(c)
+
+    def _migrate(self, c):
+        current = int(c.execute("PRAGMA user_version").fetchone()[0])
+        if current < 1:
+            cols = {str(r[1]) for r in c.execute("PRAGMA table_info(trades)").fetchall()}
+            if "exit_order_id" not in cols:
+                c.execute("ALTER TABLE trades ADD COLUMN exit_order_id TEXT")
+            c.execute("CREATE UNIQUE INDEX IF NOT EXISTS ux_trades_exit_order_id ON trades(exit_order_id) WHERE exit_order_id IS NOT NULL")
+            c.execute("PRAGMA user_version=1")
+        else:
+            c.execute("CREATE UNIQUE INDEX IF NOT EXISTS ux_trades_exit_order_id ON trades(exit_order_id) WHERE exit_order_id IS NOT NULL")
+        if current > SCHEMA_VERSION:
+            raise RuntimeError(f"simulation DB schema {current} is newer than supported {SCHEMA_VERSION}")
+
+    def _checkpoint_persistent(self):
+        persist_root = os.getenv("V6_PERSISTENT_DATA_DIR")
+        if not persist_root:
+            return False
+        src = Path(self.path)
+        if src.name != "simulation_lab.sqlite3" or not src.exists():
+            return False
+        current = Path(persist_root) / "v6-snapshots" / "current"
+        current.mkdir(parents=True, exist_ok=True)
+        target = current / src.name
+        tmp = current / f".{src.name}.{os.getpid()}.{uuid.uuid4().hex}.tmp"
+        src_con = dst_con = None
+        try:
+            src_con = sqlite3.connect(str(src), timeout=30)
+            dst_con = sqlite3.connect(str(tmp), timeout=30)
+            src_con.backup(dst_con, pages=256, sleep=0.01)
+            dst_con.commit()
+            row = dst_con.execute("PRAGMA quick_check").fetchone()
+            if not row or str(row[0]).lower() != "ok":
+                raise sqlite3.DatabaseError("checkpoint quick_check failed")
+            dst_con.close(); dst_con = None
+            src_con.close(); src_con = None
+            os.replace(tmp, target)
+            return True
+        except Exception:
+            return False
+        finally:
+            if dst_con is not None:
+                dst_con.close()
+            if src_con is not None:
+                src_con.close()
+            try:
+                tmp.unlink(missing_ok=True)
+            except Exception:
+                pass
 
     def ensure_accounts(self, initial_equity: float = 100000.0):
         rows=[]
@@ -188,10 +241,11 @@ class SimulationDB:
             ON CONFLICT(account_id,symbol) DO UPDATE SET qty=excluded.qty,avg_entry=excluded.avg_entry,entry_bar=excluded.entry_bar,
             strategy=excluded.strategy,horizon=excluded.horizon,regime_entry=excluded.regime_entry,stop_price=excluded.stop_price,target_price=excluded.target_price,
             max_holding_bars=excluded.max_holding_bars,bars_held=excluded.bars_held,leverage_at_entry=excluded.leverage_at_entry""",p)
+        self._checkpoint_persistent()
         return True
 
     def fill_sell_atomic(self, aid, oid, bar, price, fees, slippage, new_cash, trade, symbol):
-        x=dict(trade); x.setdefault("trade_id",uuid.uuid4().hex); x.setdefault("created_at",now_iso())
+        x=dict(trade); x.setdefault("trade_id",uuid.uuid4().hex); x.setdefault("created_at",now_iso()); x["exit_order_id"]=oid
         with self._c() as c:
             c.execute("BEGIN IMMEDIATE")
             cur=c.execute("UPDATE orders SET status='FILLED',filled_bar=?,fill_price=?,fees=?,slippage_cost=? WHERE order_id=? AND status='PENDING'",
@@ -199,29 +253,31 @@ class SimulationDB:
             if cur.rowcount != 1:
                 return False
             c.execute("UPDATE accounts SET cash=? WHERE account_id=?",(float(new_cash),aid))
-            c.execute("""INSERT INTO trades(trade_id,account_id,symbol,entry_bar,exit_bar,qty,entry_price,exit_price,realized_pnl,return_pct,strategy,horizon,regime_entry,exit_reason,leverage,created_at)
-            VALUES(:trade_id,:account_id,:symbol,:entry_bar,:exit_bar,:qty,:entry_price,:exit_price,:realized_pnl,:return_pct,:strategy,:horizon,:regime_entry,:exit_reason,:leverage,:created_at)""",x)
+            c.execute("""INSERT INTO trades(trade_id,account_id,symbol,entry_bar,exit_bar,qty,entry_price,exit_price,realized_pnl,return_pct,strategy,horizon,regime_entry,exit_reason,leverage,exit_order_id,created_at)
+            VALUES(:trade_id,:account_id,:symbol,:entry_bar,:exit_bar,:qty,:entry_price,:exit_price,:realized_pnl,:return_pct,:strategy,:horizon,:regime_entry,:exit_reason,:leverage,:exit_order_id,:created_at)""",x)
             c.execute("DELETE FROM positions WHERE account_id=? AND symbol=?",(aid,str(symbol).upper()))
+        self._checkpoint_persistent()
         return True
 
     def close_position_atomic(self, aid, new_cash, trade, symbol):
-        x=dict(trade); x.setdefault("trade_id",uuid.uuid4().hex); x.setdefault("created_at",now_iso())
+        x=dict(trade); x.setdefault("trade_id",uuid.uuid4().hex); x.setdefault("created_at",now_iso()); x.setdefault("exit_order_id",None)
         with self._c() as c:
             c.execute("BEGIN IMMEDIATE")
             exists=c.execute("SELECT 1 FROM positions WHERE account_id=? AND symbol=?",(aid,str(symbol).upper())).fetchone()
             if not exists:
                 return False
             c.execute("UPDATE accounts SET cash=? WHERE account_id=?",(float(new_cash),aid))
-            c.execute("""INSERT INTO trades(trade_id,account_id,symbol,entry_bar,exit_bar,qty,entry_price,exit_price,realized_pnl,return_pct,strategy,horizon,regime_entry,exit_reason,leverage,created_at)
-            VALUES(:trade_id,:account_id,:symbol,:entry_bar,:exit_bar,:qty,:entry_price,:exit_price,:realized_pnl,:return_pct,:strategy,:horizon,:regime_entry,:exit_reason,:leverage,:created_at)""",x)
+            c.execute("""INSERT INTO trades(trade_id,account_id,symbol,entry_bar,exit_bar,qty,entry_price,exit_price,realized_pnl,return_pct,strategy,horizon,regime_entry,exit_reason,leverage,exit_order_id,created_at)
+            VALUES(:trade_id,:account_id,:symbol,:entry_bar,:exit_bar,:qty,:entry_price,:exit_price,:realized_pnl,:return_pct,:strategy,:horizon,:regime_entry,:exit_reason,:leverage,:exit_order_id,:created_at)""",x)
             c.execute("DELETE FROM positions WHERE account_id=? AND symbol=?",(aid,str(symbol).upper()))
+        self._checkpoint_persistent()
         return True
 
     def add_trade(self,t):
-        x=dict(t); x.setdefault("trade_id",uuid.uuid4().hex); x.setdefault("created_at",now_iso())
+        x=dict(t); x.setdefault("trade_id",uuid.uuid4().hex); x.setdefault("created_at",now_iso()); x.setdefault("exit_order_id",None)
         with self._c() as c:
-            c.execute("""INSERT INTO trades(trade_id,account_id,symbol,entry_bar,exit_bar,qty,entry_price,exit_price,realized_pnl,return_pct,strategy,horizon,regime_entry,exit_reason,leverage,created_at)
-            VALUES(:trade_id,:account_id,:symbol,:entry_bar,:exit_bar,:qty,:entry_price,:exit_price,:realized_pnl,:return_pct,:strategy,:horizon,:regime_entry,:exit_reason,:leverage,:created_at)""",x)
+            c.execute("""INSERT INTO trades(trade_id,account_id,symbol,entry_bar,exit_bar,qty,entry_price,exit_price,realized_pnl,return_pct,strategy,horizon,regime_entry,exit_reason,leverage,exit_order_id,created_at)
+            VALUES(:trade_id,:account_id,:symbol,:entry_bar,:exit_bar,:qty,:entry_price,:exit_price,:realized_pnl,:return_pct,:strategy,:horizon,:regime_entry,:exit_reason,:leverage,:exit_order_id,:created_at)""",x)
     def save_equity(self,aid,bar,equity,cash,gross,lev,dd):
         with self._c() as c: c.execute("INSERT INTO equity_history(account_id,bar_time,equity,cash,gross_exposure,leverage,drawdown) VALUES(?,?,?,?,?,?,?) ON CONFLICT(account_id,bar_time) DO UPDATE SET equity=excluded.equity,cash=excluded.cash,gross_exposure=excluded.gross_exposure,leverage=excluded.leverage,drawdown=excluded.drawdown",(aid,bar,float(equity),float(cash),float(gross),float(lev),float(dd)))
     def peak_equity(self,aid):

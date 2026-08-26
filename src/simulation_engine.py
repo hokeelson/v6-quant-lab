@@ -46,6 +46,12 @@ class SimulationLab:
         c=ExecutionCosts(0,3,2) if market=="stock" else ExecutionCosts(10,5,4)
         return c.one_way_rate
 
+    def _buy_cost_rate(self, market):
+        return self._cost_rate(market)
+
+    def _sell_cost_rate(self, market):
+        return self._cost_rate(market)
+
     def _account_marks(self, aid, prices=None):
         acct=self.db.account(aid); cash=float(acct["cash"]); gross=0.0
         marks=self.db.marks(aid); marks.update(prices or {})
@@ -58,7 +64,7 @@ class SimulationLab:
         o=self.db.pending_order(aid,symbol)
         if not o:return None
         decision_context=self.db.decision(o.get("decision_id")) or {}
-        acct=self.db.account(aid); pos=self.db.position(aid,symbol); rate=self._cost_rate(market)
+        acct=self.db.account(aid); pos=self.db.position(aid,symbol)
         open_px=float(row.open)
         hz=decision_context.get("horizon",aid.split("_",1)[1])
         if o["side"]=="BUY" and pos is not None:
@@ -91,6 +97,7 @@ class SimulationLab:
                     "broker_order_api_calls":0,
                 })
                 return "CANCELLED"
+            rate=self._buy_cost_rate(market)
             fill=open_px*(1+rate); qty=notional/fill; fees=notional*rate
             position={"account_id":aid,"symbol":symbol,"qty":qty,"avg_entry":fill,"entry_bar":ts.isoformat(),
                 "strategy":decision_context.get("strategy"),"horizon":hz,"regime_entry":decision_context.get("regime"),
@@ -104,6 +111,7 @@ class SimulationLab:
             })
             return "BUY"
         if o["side"]=="SELL" and pos is not None:
+            rate=self._sell_cost_rate(market)
             fill=open_px*(1-rate); proceeds=float(pos["qty"])*fill; cash=float(acct["cash"])+proceeds
             pnl=float(pos["qty"])*(fill-float(pos["avg_entry"])); ret=fill/float(pos["avg_entry"])-1
             trade={"account_id":aid,"symbol":symbol,"entry_bar":pos["entry_bar"],"exit_bar":ts.isoformat(),"qty":pos["qty"],"entry_price":pos["avg_entry"],"exit_price":fill,"realized_pnl":pnl,"return_pct":ret,
@@ -128,7 +136,7 @@ class SimulationLab:
         elif pos["bars_held"]>=int(pos["max_holding_bars"]): exit_px=float(row.close); reason="TIME_EXIT"
         if exit_px is None:
             self.db.upsert_position(pos); return None
-        rate=self._cost_rate(market); fill=exit_px*(1-rate); acct=self.db.account(aid)
+        rate=self._sell_cost_rate(market); fill=exit_px*(1-rate); acct=self.db.account(aid)
         proceeds=float(pos["qty"])*fill; pnl=float(pos["qty"])*(fill-float(pos["avg_entry"])); ret=fill/float(pos["avg_entry"])-1
         trade={"account_id":aid,"symbol":symbol,"entry_bar":pos["entry_bar"],"exit_bar":ts.isoformat(),"qty":pos["qty"],"entry_price":pos["avg_entry"],"exit_price":fill,"realized_pnl":pnl,"return_pct":ret,
             "strategy":pos["strategy"],"horizon":pos["horizon"],"regime_entry":pos.get("regime_entry"),"exit_reason":reason,"leverage":pos["leverage_at_entry"]}
@@ -156,7 +164,7 @@ class SimulationLab:
         ratio=equity/gross
         if ratio >= maintenance:
             return False
-        rate=self._cost_rate(market)
+        rate=self._sell_cost_rate(market)
         marks=self.db.marks(aid)
         for pos in list(self.db.positions(aid)):
             px=float(marks.get(pos["symbol"],pos["avg_entry"]))

@@ -185,9 +185,10 @@ class TaiwanSimulationDB(SimulationDB):
 
 
 def _tw_costs() -> ExecutionCosts:
-    # Conservative symmetric approximation: nominal broker commission plus half of
-    # the stock transaction tax distributed across both sides, then slippage/spread.
-    return ExecutionCosts(commission_bps=29.25, slippage_bps=5.0, spread_bps=4.0)
+    # Taiwan cash-stock model: broker commission on both sides and the regular
+    # 0.3% securities transaction tax only on the sell side. Day-trade tax relief
+    # is intentionally not assumed because this simulator is not day-trade-only.
+    return ExecutionCosts(commission_bps=14.25, slippage_bps=5.0, spread_bps=4.0, sell_tax_bps=30.0)
 
 
 def calibrate_twstock(df: pd.DataFrame, horizon: str, initial_capital: float = 100000.0):
@@ -285,6 +286,16 @@ class TaiwanSimulationLab(SimulationLab):
             return _tw_costs().one_way_rate
         return super()._cost_rate(market)
 
+    def _buy_cost_rate(self, market):
+        if market == TW_MARKET:
+            return _tw_costs().buy_rate
+        return super()._buy_cost_rate(market)
+
+    def _sell_cost_rate(self, market):
+        if market == TW_MARKET:
+            return _tw_costs().sell_rate
+        return super()._sell_cost_rate(market)
+
     def _accrue_financing(self, aid, market, horizon):
         if market == TW_MARKET:
             return 0.0
@@ -304,7 +315,6 @@ class TaiwanSimulationLab(SimulationLab):
         decision_context = self.db.decision(o.get("decision_id")) or {}
         acct = self.db.account(aid)
         pos = self.db.position(aid, symbol)
-        rate = self._cost_rate(market)
         open_px = float(row.open)
         hz = decision_context.get("horizon", aid.rsplit("_", 1)[-1])
         if o["side"] == "BUY" and pos is not None:
@@ -323,6 +333,7 @@ class TaiwanSimulationLab(SimulationLab):
             sizing = active_entry_sizing(self.db, self.cache, market, symbol, hz, decision_context, original_notional)
             risk_adjusted = float(sizing.get("adjusted_notional", original_notional) or 0)
             notional = min(risk_adjusted, max(0.0, cash))
+            rate = self._buy_cost_rate(market)
             fill = open_px * (1 + rate)
             qty = math.floor(notional / fill) if fill > 0 else 0
             if qty <= 0:
@@ -351,6 +362,7 @@ class TaiwanSimulationLab(SimulationLab):
             })
             return "BUY"
         if o["side"] == "SELL" and pos is not None:
+            rate = self._sell_cost_rate(market)
             fill = open_px * (1 - rate)
             proceeds = float(pos["qty"]) * fill
             cash = float(acct["cash"]) + proceeds

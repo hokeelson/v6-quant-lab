@@ -9,11 +9,20 @@ class ExecutionCosts:
     commission_bps: float = 0.0
     slippage_bps: float = 0.0
     spread_bps: float = 0.0
+    sell_tax_bps: float = 0.0
+
+    @property
+    def buy_rate(self) -> float:
+        return (self.commission_bps + self.slippage_bps + self.spread_bps / 2.0) / 10000.0
+
+    @property
+    def sell_rate(self) -> float:
+        return (self.commission_bps + self.slippage_bps + self.spread_bps / 2.0 + self.sell_tax_bps) / 10000.0
 
     @property
     def one_way_rate(self) -> float:
-        # Conservative model: half-spread + slippage + commission.
-        return (self.commission_bps + self.slippage_bps + self.spread_bps / 2.0) / 10000.0
+        # Compatibility value for callers that still require a symmetric rate.
+        return (self.buy_rate + self.sell_rate) / 2.0
 
 @dataclass(frozen=True)
 class RiskRules:
@@ -42,7 +51,8 @@ def run_backtest(df: pd.DataFrame, signal: pd.Series, initial_capital: float,
     trades = []
     equity_vals = [cash]
     equity_idx = [data.index[0]]
-    cost_rate = costs.one_way_rate
+    buy_cost_rate = costs.buy_rate
+    sell_cost_rate = costs.sell_rate
 
     # pending target desired after prior bar close: 0 or 1
     pending_target = int(sig.iloc[0] > 0)
@@ -53,7 +63,7 @@ def run_backtest(df: pd.DataFrame, signal: pd.Series, initial_capital: float,
 
         # Execute prior signal at current OPEN.
         if pending_target == 1 and qty == 0:
-            fill = o * (1 + cost_rate)
+            fill = o * (1 + buy_cost_rate)
             allocation = min(cash, initial_capital * risk.max_position_pct)
             new_qty = allocation / fill if fill > 0 else 0.0
             if new_qty > 0:
@@ -65,7 +75,7 @@ def run_backtest(df: pd.DataFrame, signal: pd.Series, initial_capital: float,
                 trades.append({"timestamp": ts, "action": "BUY", "fill_price": fill, "qty": qty, "realized_pnl": 0.0})
 
         elif pending_target == 0 and qty > 0:
-            fill = o * (1 - cost_rate)
+            fill = o * (1 - sell_cost_rate)
             proceeds = qty * fill
             pnl = proceeds - entry_cost_basis
             cash += proceeds
@@ -80,9 +90,9 @@ def run_backtest(df: pd.DataFrame, signal: pd.Series, initial_capital: float,
             reason = None
             # Conservative tie-break: if both touched in the same bar, assume stop first.
             if l <= stop:
-                exit_price, reason = stop * (1 - cost_rate), "STOP"
+                exit_price, reason = stop * (1 - sell_cost_rate), "STOP"
             elif h >= target:
-                exit_price, reason = target * (1 - cost_rate), "TAKE_PROFIT"
+                exit_price, reason = target * (1 - sell_cost_rate), "TAKE_PROFIT"
             if exit_price is not None:
                 proceeds = qty * exit_price
                 pnl = proceeds - entry_cost_basis
@@ -99,7 +109,7 @@ def run_backtest(df: pd.DataFrame, signal: pd.Series, initial_capital: float,
     # Liquidate at final close with costs to avoid hiding open risk.
     if qty > 0:
         ts = data.index[-1]
-        fill = float(data["close"].iloc[-1]) * (1 - cost_rate)
+        fill = float(data["close"].iloc[-1]) * (1 - sell_cost_rate)
         proceeds = qty * fill
         pnl = proceeds - entry_cost_basis
         cash += proceeds
