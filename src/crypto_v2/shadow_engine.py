@@ -11,6 +11,7 @@ from ..backtest import ExecutionCosts
 from ..market_cache import MarketCache, TIMEFRAME_MAP
 from ..paths import data_dir
 from .core import classify_market_regime, route_strategy, symbol_features
+from .risk import govern_entry, portfolio_status
 from .shadow_db import CryptoV2ShadowDB
 
 
@@ -192,17 +193,36 @@ class CryptoV2ShadowEngine:
         else:
             decision = route_strategy(regime, features, horizon)
 
-        did = self.db.add_decision(symbol, horizon, bar_time, decision, regime, features)
+        approved_notional = 0.0
+        risk_result = None
         if decision.get("action") == "ENTER":
             acct = self.db.account(horizon)
             cash = float(acct.get("cash") or 0.0)
             confidence = float(decision.get("confidence") or 0.0)
-            # Cash-only V2: keep individual entries intentionally small while the
-            # experiment is young. No V2 position can consume more than 10% of the
-            # horizon account before fees.
+            # Individual entry sizing remains conservative, then the portfolio
+            # governor additionally caps total, same-strategy and same-regime risk.
             requested = min(cash, self.db.initial_equity * 0.10 * max(0.50, confidence))
-            if requested > 0:
-                self.db.add_buy_order(symbol, horizon, bar_time, requested, did)
+            risk_result = govern_entry(
+                self.db.initial_equity,
+                requested,
+                self.db.portfolio_state(horizon),
+                horizon,
+                str(decision.get("strategy") or "UNKNOWN"),
+                str(regime.get("state") or "UNKNOWN"),
+            )
+            approved_notional = float(risk_result.get("approved_notional") or 0.0)
+            decision = dict(decision)
+            if approved_notional <= 0:
+                decision["action"] = "NO_TRADE"
+                decision["reason"] = f"Portfolio risk governor blocked entry: {risk_result.get('reason')}"
+            elif approved_notional + 1e-9 < requested:
+                decision["reason"] = (
+                    f"{decision.get('reason') or 'V2 setup'}; portfolio risk governor downsized entry"
+                )
+
+        did = self.db.add_decision(symbol, horizon, bar_time, decision, regime, features)
+        if decision.get("action") == "ENTER" and approved_notional > 0:
+            self.db.add_buy_order(symbol, horizon, bar_time, approved_notional, did)
 
         self.db.set_last_processed(symbol, horizon, bar_time)
         return {
@@ -213,6 +233,8 @@ class CryptoV2ShadowEngine:
             "action": decision.get("action"),
             "strategy": decision.get("strategy"),
             "exit_reason": exit_reason,
+            "portfolio_risk_reason": risk_result.get("reason") if risk_result else None,
+            "approved_notional": approved_notional if risk_result else None,
         }
 
     def cycle(self, now=None) -> dict:
@@ -245,6 +267,14 @@ class CryptoV2ShadowEngine:
                         "error": f"{type(exc).__name__}: {exc}",
                     })
 
+        portfolio_risk = {
+            horizon: portfolio_status(
+                self.db.initial_equity,
+                self.db.portfolio_state(horizon),
+                horizon,
+            )
+            for horizon in HORIZONS
+        }
         payload = {
             "generated_at": datetime.now(timezone.utc).isoformat(),
             "status": "ONLINE" if not errors else "DEGRADED",
@@ -257,6 +287,7 @@ class CryptoV2ShadowEngine:
             "bars_processed": len(processed),
             "errors": errors,
             "latest_market_regime": classify_market_regime(btc),
+            "portfolio_risk": portfolio_risk,
             "v2": self.db.summary(),
             "baseline": self._baseline_summary(),
             "positions": self.db.positions(),
