@@ -1,0 +1,104 @@
+{
+  "bars_processed": 0,
+  "baseline": {
+    "accounts": [
+      {
+        "closed_trades": 70,
+        "equity": 96724.5654801848,
+        "horizon": "short",
+        "initial_equity": 100000.0,
+        "return_pct": -0.03275434519815201
+      },
+      {
+        "closed_trades": 13,
+        "equity": 96772.36203709237,
+        "horizon": "medium",
+        "initial_equity": 100000.0,
+        "return_pct": -0.03227637962907626
+      },
+      {
+        "closed_trades": 0,
+        "equity": 97787.94241493256,
+        "horizon": "long",
+        "initial_equity": 100000.0,
+        "return_pct": -0.022120575850674395
+      }
+    ],
+    "closed_trades": 83,
+    "equity": 291284.8699322097,
+    "initial_equity": 300000.0,
+    "return_pct": -0.029050433559300926
+  },
+  "broker_order_api_calls": 0,
+  "contains_secrets": false,
+  "errors": [
+    {
+      "error": "TypeError: '<=' not supported between instances of 'numpy.ndarray' and 'Timestamp'",
+      "horizon": "long",
+      "symbol": "CRCLBUSDT"
+    },
+    {
+      "error": "TypeError: '<=' not supported between instances of 'numpy.ndarray' and 'Timestamp'",
+      "horizon": "short",
+      "symbol": "PYTHUSDT"
+    }
+  ],
+  "forward_only": true,
+  "generated_at": "2026-08-26T09:17:53.853365+00:00",
+  "latest_market_regime": {
+    "realized_vol": 0.0,
+    "reason": "Need >=96 BTC 1h bars",
+    "ret_fast": 0.0,
+    "ret_slow": 0.0,
+    "state": "INSUFFICIENT_DATA",
+    "trend": 0.0,
+    "vol_ratio": 1.0
+  },
+  "market_data_api_calls": 0,
+  "positions": [],
+  "recent_decisions": [],
+  "recent_trades": [],
+  "scope": "PUBLIC_READ_ONLY_CRYPTO_V2_SHADOW",
+  "shared_cache_only": true,
+  "status": "DEGRADED",
+  "symbols": 38,
+  "v2": {
+    "accounts": [
+      {
+        "cash": 100000.0,
+        "closed_trades": 0,
+        "horizon": "short",
+        "initial_equity": 100000.0,
+        "losses": 0,
+        "open_positions": 0,
+        "realized_pnl": 0,
+        "wins": 0
+      },
+      {
+        "cash": 100000.0,
+        "closed_trades": 0,
+        "horizon": "medium",
+        "initial_equity": 100000.0,
+        "losses": 0,
+        "open_positions": 0,
+        "realized_pnl": 0,
+        "wins": 0
+      },
+      {
+        "cash": 100000.0,
+        "closed_trades": 0,
+        "horizon": "long",
+        "initial_equity": 100000.0,
+        "losses": 0,
+        "open_positions": 0,
+        "realized_pnl": 0,
+        "wins": 0
+      }
+    ],
+    "closed_trades": 0,
+    "losses": 0,
+    "realized_pnl": 0.0,
+    "win_rate": null,
+    "wins": 0
+  }
+}
