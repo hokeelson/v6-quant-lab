@@ -1,10 +1,12 @@
 from __future__ import annotations
 
 import json
+import signal
 import time
 from datetime import datetime, timezone
 from pathlib import Path
 
+from src.crypto_v2.persistence import checkpoint_shadow_db
 from src.crypto_v2.shadow_db import CryptoV2ShadowDB
 from src.crypto_v2.shadow_engine import CryptoV2ShadowEngine
 from src.market_cache import MarketCache
@@ -32,6 +34,31 @@ def write_status(payload: dict):
     write_json(STATUS_PATH, payload)
 
 
+def checkpoint() -> bool:
+    return bool(checkpoint_shadow_db(shadow_db.path))
+
+
+def shutdown_handler(signum, _frame):
+    ok = checkpoint()
+    finished = datetime.now(timezone.utc).isoformat()
+    try:
+        write_status({
+            "status": "STOPPING",
+            "finished_at": finished,
+            "persistent_checkpoint": ok,
+            "market_data_api_calls": 0,
+            "broker_order_api_calls": 0,
+            "message": f"Crypto V2 worker stopping on signal {signum}",
+        })
+    except Exception:
+        pass
+    print(finished, "CRYPTO_V2_STOPPING", "checkpoint", ok, flush=True)
+    raise SystemExit(0)
+
+
+signal.signal(signal.SIGTERM, shutdown_handler)
+signal.signal(signal.SIGINT, shutdown_handler)
+
 print("Crypto V2 Shadow Worker started.", flush=True)
 print("Shared cache only. Market data API calls = 0. Broker order API calls = 0.", flush=True)
 
@@ -39,9 +66,11 @@ while True:
     started = datetime.now(timezone.utc).isoformat()
     try:
         result = engine.cycle()
+        checkpoint_ok = checkpoint()
         public_result = dict(result)
         public_result["contains_secrets"] = False
         public_result["scope"] = "PUBLIC_READ_ONLY_CRYPTO_V2_SHADOW"
+        public_result["persistent_checkpoint"] = checkpoint_ok
         write_json(PUBLIC_SNAPSHOT_PATH, public_result)
         write_status({
             "status": result.get("status", "UNKNOWN"),
@@ -50,12 +79,23 @@ while True:
             "bars_processed": int(result.get("bars_processed", 0) or 0),
             "symbols": int(result.get("symbols", 0) or 0),
             "errors": result.get("errors") or [],
+            "persistent_checkpoint": checkpoint_ok,
             "market_data_api_calls": 0,
             "broker_order_api_calls": 0,
             "message": "Crypto V2 shadow cycle completed",
         })
-        print(started, "CRYPTO_V2", result.get("status"), "bars", result.get("bars_processed"), flush=True)
+        print(
+            started,
+            "CRYPTO_V2",
+            result.get("status"),
+            "bars",
+            result.get("bars_processed"),
+            "checkpoint",
+            checkpoint_ok,
+            flush=True,
+        )
     except Exception as exc:
+        checkpoint_ok = checkpoint()
         payload = {
             "status": "ERROR",
             "started_at": started,
@@ -63,6 +103,7 @@ while True:
             "bars_processed": 0,
             "symbols": 0,
             "errors": [f"{type(exc).__name__}: {exc}"],
+            "persistent_checkpoint": checkpoint_ok,
             "market_data_api_calls": 0,
             "broker_order_api_calls": 0,
             "message": "Crypto V2 shadow cycle failed",
@@ -74,8 +115,17 @@ while True:
             "contains_secrets": False,
             "generated_at": datetime.now(timezone.utc).isoformat(),
             "errors": payload["errors"],
+            "persistent_checkpoint": checkpoint_ok,
             "market_data_api_calls": 0,
             "broker_order_api_calls": 0,
         })
-        print(started, "CRYPTO_V2_ERROR", type(exc).__name__, exc, flush=True)
+        print(
+            started,
+            "CRYPTO_V2_ERROR",
+            type(exc).__name__,
+            exc,
+            "checkpoint",
+            checkpoint_ok,
+            flush=True,
+        )
     time.sleep(POLL_SECONDS)
