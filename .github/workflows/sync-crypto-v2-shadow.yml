@@ -1,0 +1,78 @@
+name: Sync Crypto V2 shadow snapshot
+
+on:
+  push:
+    paths:
+      - '.github/workflows/sync-crypto-v2-shadow.yml'
+  schedule:
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-crypto-v2-shadow
+  cancel-in-progress: true
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout snapshot branch
+        uses: actions/checkout@v5
+        with:
+          ref: snapshot-data
+          fetch-depth: 0
+
+      - name: Fetch and validate Crypto V2 shadow snapshot
+        shell: bash
+        run: |
+          set -euo pipefail
+          url='https://v6-quant-lab-production.up.railway.app/app/static/crypto_v2_shadow_snapshot.json'
+          tmp="$(mktemp)"
+          ok=0
+          for attempt in 1 2 3 4 5 6; do
+            if curl --fail --silent --show-error --location --max-time 20 "$url" -o "$tmp"; then
+              ok=1
+              break
+            fi
+            echo "Crypto V2 snapshot not ready (attempt ${attempt}/6)."
+            sleep 10
+          done
+          if [ "$ok" -ne 1 ]; then
+            echo 'Crypto V2 snapshot unavailable.' >&2
+            exit 1
+          fi
+
+          python - "$tmp" <<'PY'
+          import json, pathlib, sys
+          src = pathlib.Path(sys.argv[1])
+          data = json.loads(src.read_text(encoding='utf-8'))
+          if data.get('contains_secrets') is not False:
+              raise SystemExit('Crypto V2 secret-safety flag missing or unsafe')
+          if str(data.get('scope') or '') != 'PUBLIC_READ_ONLY_CRYPTO_V2_SHADOW':
+              raise SystemExit('Unexpected Crypto V2 snapshot scope')
+          if int(data.get('broker_order_api_calls', -1)) != 0:
+              raise SystemExit('Crypto V2 broker API safety invariant violated')
+          if int(data.get('market_data_api_calls', -1)) != 0:
+              raise SystemExit('Crypto V2 must remain shared-cache-only')
+          pathlib.Path('crypto_v2_shadow_snapshot.json').write_text(
+              json.dumps(data, ensure_ascii=False, indent=2, sort_keys=True, allow_nan=False) + '\n',
+              encoding='utf-8'
+          )
+          PY
+
+      - name: Commit snapshot to snapshot-data only
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -z "$(git status --porcelain -- crypto_v2_shadow_snapshot.json)" ]; then
+            echo 'No Crypto V2 snapshot changes.'
+            exit 0
+          fi
+          git config user.name 'v6-snapshot-bot'
+          git config user.email 'v6-snapshot-bot@users.noreply.github.com'
+          git add crypto_v2_shadow_snapshot.json
+          git commit -m 'Update Crypto V2 shadow snapshot'
+          git push origin HEAD:snapshot-data
