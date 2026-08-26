@@ -1,0 +1,37 @@
+name: Final hardening
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'tools/final_hardening_patch.py'
+      - '.github/workflows/final-hardening.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  harden:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: requirements.lock
+      - name: Apply hardening patch
+        run: python tools/final_hardening_patch.py
+      - name: Install locked dependencies
+        run: pip install -r requirements.lock
+      - name: Run tests
+        run: pytest -q
+      - name: Commit hardened core
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add src/backtest.py src/simulation_engine.py src/simulation_db.py src/twstock_support.py tests/test_final_hardening.py
+          git commit -m 'Finish production hardening'
+          git push
