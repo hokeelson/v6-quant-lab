@@ -60,10 +60,22 @@ class SimulationLab:
         decision_context=self.db.decision(o.get("decision_id")) or {}
         acct=self.db.account(aid); pos=self.db.position(aid,symbol); rate=self._cost_rate(market)
         open_px=float(row.open)
+        hz=decision_context.get("horizon",aid.split("_",1)[1])
+        if o["side"]=="BUY" and pos is not None:
+            self.db.cancel_order(o["order_id"], "STALE_BUY_POSITION_EXISTS")
+            self.db.add_diagnostic(aid,symbol,hz,ts.isoformat(),"ORDER_CANCELLED","Stale BUY cancelled because position already exists",{
+                "cancel_reason":"STALE_BUY_POSITION_EXISTS","broker_order_api_calls":0,
+            })
+            return "CANCELLED"
+        if o["side"]=="SELL" and pos is None:
+            self.db.cancel_order(o["order_id"], "STALE_SELL_NO_POSITION")
+            self.db.add_diagnostic(aid,symbol,hz,ts.isoformat(),"ORDER_CANCELLED","Stale SELL cancelled because position no longer exists",{
+                "cancel_reason":"STALE_SELL_NO_POSITION","broker_order_api_calls":0,
+            })
+            return "CANCELLED"
         if o["side"]=="BUY" and pos is None:
             # Enforce gross leverage cap at fill using current account marks.
             prices={symbol:open_px}; cash,gross,equity=self._account_marks(aid,prices)
-            hz=decision_context.get("horizon",aid.split("_",1)[1])
             maxlev=HORIZON_SPECS[hz]["max_leverage"]
             room=max(0.0,equity*maxlev-gross)
             original_notional=float(o["requested_notional"] or 0)
