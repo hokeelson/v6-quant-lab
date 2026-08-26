@@ -10,6 +10,9 @@ export V6_PERSISTENT_DATA_DIR="$PERSIST_DIR"
 export V6_RUNTIME_DATA_DIR="$RUNTIME_DIR"
 export V6_DATA_DIR="$RUNTIME_DIR"
 export V6_STORAGE_DEGRADED="1"
+# Keep the independent V2 shadow ledger in the same rescue mechanism without
+# giving it any access to the production simulation ledger.
+export V6_SNAPSHOT_DBS="${V6_SNAPSHOT_DBS:-crypto_v2_shadow.sqlite3,data_quality.sqlite3,forward_validation.sqlite3,model_governance.sqlite3,realtime_execution.sqlite3,simulation_lab.sqlite3,trial_ledger.sqlite3}"
 
 # Restore critical SQLite state before any worker starts. storage_rescue.py checks
 # both the latest snapshot and original /data copy with PRAGMA quick_check and
