@@ -25,16 +25,29 @@ Production supports Crypto, US stocks and Taiwan stocks. Each market has short /
 - Zero-size / non-fillable pending entries are cancelled instead of remaining pending forever.
 - BUY fills update order + cash + position in one SQLite transaction.
 - SELL fills update order + cash + realized trade + position deletion in one SQLite transaction.
+- Signal SELL trades record a unique `exit_order_id` so one broker/simulator order cannot create duplicate realized trades.
 - Protective exits and margin liquidations update cash + realized trade + position deletion atomically.
 - Gap-down stop exits use the opening price rather than assuming execution at the stale stop trigger.
 
+## Cost model
+
+Execution costs support asymmetric buy/sell rates. Taiwan cash stocks model broker commission on both sides and the regular 0.3% securities transaction tax on the sell side only. Day-trade tax relief is not assumed because the simulator is not day-trade-only.
+
+## Database migrations
+
+`src/simulation_db.py` uses SQLite `PRAGMA user_version` as the schema-version gate. Existing databases are migrated in place before normal use. The current migration adds `trades.exit_order_id` plus its partial unique index while preserving historical rows.
+
 ## Persistence
 
-Runtime SQLite databases operate from the runtime data directory and critical state is rescued to persistent storage. The default snapshot interval is 60 seconds. `storage_rescue.py` validates restore candidates with SQLite `PRAGMA quick_check` before bootstrap.
+Runtime SQLite databases operate from the runtime data directory and critical state is rescued to persistent storage. The scheduled snapshot interval is 60 seconds. In addition, successful BUY, SELL, protective-exit and liquidation transactions checkpoint `simulation_lab.sqlite3` immediately to the current persistent snapshot using SQLite backup + `PRAGMA quick_check`. `storage_rescue.py` still performs the periodic full critical-state rescue and validates restore candidates before bootstrap.
+
+## Reproducible dependencies
+
+`requirements.txt` remains the human-maintained compatibility range. `requirements.lock` is the production/test lockfile with exact versions. Both the Docker image and GitHub CI install from `requirements.lock`, so a redeploy does not silently adopt newer dependency versions.
 
 ## Validation and CI
 
-`.github/workflows/ci.yml` runs the pytest suite on every push to `main` and on pull requests. Execution regression tests include stale-order cancellation, atomic/idempotent sell behavior and gap-stop handling.
+`.github/workflows/ci.yml` runs the pytest suite on every push to `main` and on pull requests using the locked dependency set. Regression tests cover stale-order cancellation, atomic/idempotent sell behavior, gap-stop handling, legacy-schema migration, unique exit-order linkage, Taiwan asymmetric costs and immediate persistent trade checkpoints.
 
 ## Long-term workflows
 
