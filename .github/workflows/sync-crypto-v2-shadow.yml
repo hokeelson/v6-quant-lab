@@ -5,7 +5,9 @@ on:
     paths:
       - '.github/workflows/sync-crypto-v2-shadow.yml'
   schedule:
-    - cron: '*/5 * * * *'
+    # Stagger from the main research snapshot job so both jobs do not normally
+    # push snapshot-data at the same instant.
+    - cron: '2-57/5 * * * *'
   workflow_dispatch:
 
 permissions:
@@ -47,6 +49,8 @@ jobs:
 
           python - "$tmp" <<'PY'
           import json, pathlib, sys
+          from datetime import datetime, timezone
+
           src = pathlib.Path(sys.argv[1])
           data = json.loads(src.read_text(encoding='utf-8'))
           if data.get('contains_secrets') is not False:
@@ -57,6 +61,20 @@ jobs:
               raise SystemExit('Crypto V2 broker API safety invariant violated')
           if int(data.get('market_data_api_calls', -1)) != 0:
               raise SystemExit('Crypto V2 must remain shared-cache-only')
+
+          generated = data.get('generated_at')
+          if not generated:
+              raise SystemExit('Crypto V2 generated_at missing')
+          generated_dt = datetime.fromisoformat(str(generated).replace('Z', '+00:00'))
+          if generated_dt.tzinfo is None:
+              generated_dt = generated_dt.replace(tzinfo=timezone.utc)
+          now = datetime.now(timezone.utc)
+          age = max(0.0, (now - generated_dt.astimezone(timezone.utc)).total_seconds())
+          if age > 300:
+              raise SystemExit(f'Crypto V2 runtime snapshot is stale: {age:.1f}s old')
+
+          data['sync_checked_at'] = now.isoformat()
+          data['sync_snapshot_age_seconds'] = age
           pathlib.Path('crypto_v2_shadow_snapshot.json').write_text(
               json.dumps(data, ensure_ascii=False, indent=2, sort_keys=True, allow_nan=False) + '\n',
               encoding='utf-8'
@@ -75,4 +93,17 @@ jobs:
           git config user.email 'v6-snapshot-bot@users.noreply.github.com'
           git add crypto_v2_shadow_snapshot.json
           git commit -m 'Update Crypto V2 shadow snapshot'
-          git push origin HEAD:snapshot-data
+
+          # research_snapshot.json is written by a separate scheduled workflow on
+          # the same branch. Rebase-and-retry prevents harmless concurrent updates
+          # to different files from leaving the V2 snapshot stale.
+          for attempt in 1 2 3; do
+            git pull --rebase origin snapshot-data
+            if git push origin HEAD:snapshot-data; then
+              exit 0
+            fi
+            echo "snapshot-data moved during push (attempt ${attempt}/3); retrying."
+            sleep 5
+          done
+          echo 'Unable to update Crypto V2 snapshot after retries.' >&2
+          exit 1
