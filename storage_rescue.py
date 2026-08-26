@@ -15,7 +15,7 @@ SNAPSHOT_DIR = PERSIST_DIR / "v6-snapshots"
 CURRENT_DIR = SNAPSHOT_DIR / "current"
 ARCHIVE_DIR = SNAPSHOT_DIR / "archive"
 STATUS_PATH = RUNTIME_DIR / "storage_persistence_status.json"
-INTERVAL = max(60, int(os.getenv("V6_SNAPSHOT_INTERVAL_SECONDS", "300")))
+INTERVAL = max(60, int(os.getenv("V6_SNAPSHOT_INTERVAL_SECONDS", "60")))
 # Rescue mode keeps only the latest current snapshot. Historical archives are
 # disabled because the Railway persistent volume is space constrained.
 KEEP_ARCHIVES = max(0, int(os.getenv("V6_SNAPSHOT_KEEP", "0")))

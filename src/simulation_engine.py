@@ -92,12 +92,12 @@ class SimulationLab:
                 })
                 return "CANCELLED"
             fill=open_px*(1+rate); qty=notional/fill; fees=notional*rate
-            self.db.set_cash(aid,cash-notional)
-            self.db.upsert_position({"account_id":aid,"symbol":symbol,"qty":qty,"avg_entry":fill,"entry_bar":ts.isoformat(),
+            position={"account_id":aid,"symbol":symbol,"qty":qty,"avg_entry":fill,"entry_bar":ts.isoformat(),
                 "strategy":decision_context.get("strategy"),"horizon":hz,"regime_entry":decision_context.get("regime"),
                 "stop_price":fill*(1-float(decision_context.get("stop_distance",0.08))),"target_price":fill*(1+float(decision_context.get("target_distance",0.20))),
-                "max_holding_bars":int(decision_context.get("diagnostics",{}).get("max_holding_bars",HORIZON_SPECS[hz]["max_holding_stock"] if market=="stock" else HORIZON_SPECS[hz]["max_holding_crypto"])),"bars_held":0,"leverage_at_entry":float(decision_context.get("leverage",1.0))})
-            self.db.fill_order(o["order_id"],ts.isoformat(),fill,fees,fill-open_px)
+                "max_holding_bars":int(decision_context.get("diagnostics",{}).get("max_holding_bars",HORIZON_SPECS[hz]["max_holding_stock"] if market=="stock" else HORIZON_SPECS[hz]["max_holding_crypto"])),"bars_held":0,"leverage_at_entry":float(decision_context.get("leverage",1.0))}
+            if not self.db.fill_buy_atomic(aid,o["order_id"],ts.isoformat(),fill,fees,fill-open_px,cash-notional,position):
+                return None
             self.db.add_diagnostic(aid,symbol,hz,ts.isoformat(),"RISK_SIZING","Active portfolio/strategy sizing applied",{
                 **sizing,"leverage_room":room,"filled_notional":notional,"fill_price":fill,
                 "broker_order_api_calls":0,
@@ -106,12 +106,13 @@ class SimulationLab:
         if o["side"]=="SELL" and pos is not None:
             fill=open_px*(1-rate); proceeds=float(pos["qty"])*fill; cash=float(acct["cash"])+proceeds
             pnl=float(pos["qty"])*(fill-float(pos["avg_entry"])); ret=fill/float(pos["avg_entry"])-1
-            self.db.set_cash(aid,cash); self.db.fill_order(o["order_id"],ts.isoformat(),fill,proceeds*rate,open_px-fill)
-            self.db.add_trade({"account_id":aid,"symbol":symbol,"entry_bar":pos["entry_bar"],"exit_bar":ts.isoformat(),"qty":pos["qty"],"entry_price":pos["avg_entry"],"exit_price":fill,"realized_pnl":pnl,"return_pct":ret,
-                "strategy":pos["strategy"],"horizon":pos["horizon"],"regime_entry":pos.get("regime_entry"),"exit_reason":o["reason"] or "SIGNAL_EXIT","leverage":pos["leverage_at_entry"]})
+            trade={"account_id":aid,"symbol":symbol,"entry_bar":pos["entry_bar"],"exit_bar":ts.isoformat(),"qty":pos["qty"],"entry_price":pos["avg_entry"],"exit_price":fill,"realized_pnl":pnl,"return_pct":ret,
+                "strategy":pos["strategy"],"horizon":pos["horizon"],"regime_entry":pos.get("regime_entry"),"exit_reason":o["reason"] or "SIGNAL_EXIT","leverage":pos["leverage_at_entry"]}
+            if not self.db.fill_sell_atomic(aid,o["order_id"],ts.isoformat(),fill,proceeds*rate,open_px-fill,cash,trade,symbol):
+                return None
             if pnl < 0:
                 self.db.add_diagnostic(aid,symbol,pos["horizon"],ts.isoformat(),"LOSS","Losing model exit",{"pnl":pnl,"return_pct":ret,"strategy":pos["strategy"],"regime_entry":pos.get("regime_entry"),"leverage":pos["leverage_at_entry"],"bars_held":pos["bars_held"],"exit_reason":o["reason"] or "SIGNAL_EXIT"})
-            self.db.delete_position(aid,symbol); return "SELL"
+            return "SELL"
         return None
 
     def _protect_position(self, aid, market, symbol, ts, row):
@@ -119,18 +120,20 @@ class SimulationLab:
         if not pos:return None
         pos["bars_held"]=int(pos["bars_held"])+1
         exit_px=None; reason=None
-        # conservative same-bar tie-break: stop before target
-        if float(row.low)<=float(pos["stop_price"]): exit_px=float(pos["stop_price"]); reason="ATR_STOP"
+        # conservative same-bar tie-break: stop before target. If price gaps below
+        # the stop, the stop cannot fill at the stale trigger price; use the open.
+        if float(row.open)<=float(pos["stop_price"]): exit_px=float(row.open); reason="ATR_STOP_GAP"
+        elif float(row.low)<=float(pos["stop_price"]): exit_px=float(pos["stop_price"]); reason="ATR_STOP"
         elif float(row.high)>=float(pos["target_price"]): exit_px=float(pos["target_price"]); reason="ATR_TARGET"
         elif pos["bars_held"]>=int(pos["max_holding_bars"]): exit_px=float(row.close); reason="TIME_EXIT"
         if exit_px is None:
             self.db.upsert_position(pos); return None
         rate=self._cost_rate(market); fill=exit_px*(1-rate); acct=self.db.account(aid)
         proceeds=float(pos["qty"])*fill; pnl=float(pos["qty"])*(fill-float(pos["avg_entry"])); ret=fill/float(pos["avg_entry"])-1
-        self.db.set_cash(aid,float(acct["cash"])+proceeds)
-        self.db.add_trade({"account_id":aid,"symbol":symbol,"entry_bar":pos["entry_bar"],"exit_bar":ts.isoformat(),"qty":pos["qty"],"entry_price":pos["avg_entry"],"exit_price":fill,"realized_pnl":pnl,"return_pct":ret,
-            "strategy":pos["strategy"],"horizon":pos["horizon"],"regime_entry":pos.get("regime_entry"),"exit_reason":reason,"leverage":pos["leverage_at_entry"]})
-        self.db.delete_position(aid,symbol)
+        trade={"account_id":aid,"symbol":symbol,"entry_bar":pos["entry_bar"],"exit_bar":ts.isoformat(),"qty":pos["qty"],"entry_price":pos["avg_entry"],"exit_price":fill,"realized_pnl":pnl,"return_pct":ret,
+            "strategy":pos["strategy"],"horizon":pos["horizon"],"regime_entry":pos.get("regime_entry"),"exit_reason":reason,"leverage":pos["leverage_at_entry"]}
+        if not self.db.close_position_atomic(aid,float(acct["cash"])+proceeds,trade,symbol):
+            return None
         self.db.add_diagnostic(aid,symbol,pos["horizon"],ts.isoformat(),"EXIT",reason,{"pnl":pnl,"return_pct":ret})
         if pnl < 0:
             self.db.add_diagnostic(aid,symbol,pos["horizon"],ts.isoformat(),"LOSS","Losing protective/time exit",{"pnl":pnl,"return_pct":ret,"strategy":pos["strategy"],"regime_entry":pos.get("regime_entry"),"leverage":pos["leverage_at_entry"],"bars_held":pos["bars_held"],"exit_reason":reason})
@@ -158,11 +161,12 @@ class SimulationLab:
         for pos in list(self.db.positions(aid)):
             px=float(marks.get(pos["symbol"],pos["avg_entry"]))
             fill=px*(1-rate); proceeds=float(pos["qty"])*fill
-            acct=self.db.account(aid); self.db.set_cash(aid,float(acct["cash"])+proceeds)
+            acct=self.db.account(aid)
             pnl=float(pos["qty"])*(fill-float(pos["avg_entry"])); ret=fill/float(pos["avg_entry"])-1
-            self.db.add_trade({"account_id":aid,"symbol":pos["symbol"],"entry_bar":pos["entry_bar"],"exit_bar":ts.isoformat(),"qty":pos["qty"],"entry_price":pos["avg_entry"],"exit_price":fill,"realized_pnl":pnl,"return_pct":ret,"strategy":pos["strategy"],"horizon":pos["horizon"],"regime_entry":pos.get("regime_entry"),"exit_reason":"MARGIN_LIQUIDATION","leverage":pos["leverage_at_entry"]})
+            trade={"account_id":aid,"symbol":pos["symbol"],"entry_bar":pos["entry_bar"],"exit_bar":ts.isoformat(),"qty":pos["qty"],"entry_price":pos["avg_entry"],"exit_price":fill,"realized_pnl":pnl,"return_pct":ret,"strategy":pos["strategy"],"horizon":pos["horizon"],"regime_entry":pos.get("regime_entry"),"exit_reason":"MARGIN_LIQUIDATION","leverage":pos["leverage_at_entry"]}
+            if not self.db.close_position_atomic(aid,float(acct["cash"])+proceeds,trade,pos["symbol"]):
+                continue
             self.db.add_diagnostic(aid,pos["symbol"],pos["horizon"],ts.isoformat(),"LIQUIDATION","Maintenance margin breached",{"margin_ratio":ratio,"maintenance":maintenance,"pnl":pnl})
-            self.db.delete_position(aid,pos["symbol"])
         return True
 
     def process_asset_horizon(self, market, symbol, horizon, now=None):

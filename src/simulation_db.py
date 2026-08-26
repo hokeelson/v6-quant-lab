@@ -174,6 +174,49 @@ class SimulationDB:
                 c.execute("UPDATE orders SET status='CANCELLED' WHERE order_id=? AND status='PENDING'",(oid,))
             else:
                 c.execute("UPDATE orders SET status='CANCELLED',reason=? WHERE order_id=? AND status='PENDING'",(str(reason),oid))
+    def fill_buy_atomic(self, aid, oid, bar, price, fees, slippage, new_cash, position):
+        p=dict(position)
+        with self._c() as c:
+            c.execute("BEGIN IMMEDIATE")
+            cur=c.execute("UPDATE orders SET status='FILLED',filled_bar=?,fill_price=?,fees=?,slippage_cost=? WHERE order_id=? AND status='PENDING'",
+                          (bar,float(price),float(fees),float(slippage),oid))
+            if cur.rowcount != 1:
+                return False
+            c.execute("UPDATE accounts SET cash=? WHERE account_id=?",(float(new_cash),aid))
+            c.execute("""INSERT INTO positions(account_id,symbol,qty,avg_entry,entry_bar,strategy,horizon,regime_entry,stop_price,target_price,max_holding_bars,bars_held,leverage_at_entry)
+            VALUES(:account_id,:symbol,:qty,:avg_entry,:entry_bar,:strategy,:horizon,:regime_entry,:stop_price,:target_price,:max_holding_bars,:bars_held,:leverage_at_entry)
+            ON CONFLICT(account_id,symbol) DO UPDATE SET qty=excluded.qty,avg_entry=excluded.avg_entry,entry_bar=excluded.entry_bar,
+            strategy=excluded.strategy,horizon=excluded.horizon,regime_entry=excluded.regime_entry,stop_price=excluded.stop_price,target_price=excluded.target_price,
+            max_holding_bars=excluded.max_holding_bars,bars_held=excluded.bars_held,leverage_at_entry=excluded.leverage_at_entry""",p)
+        return True
+
+    def fill_sell_atomic(self, aid, oid, bar, price, fees, slippage, new_cash, trade, symbol):
+        x=dict(trade); x.setdefault("trade_id",uuid.uuid4().hex); x.setdefault("created_at",now_iso())
+        with self._c() as c:
+            c.execute("BEGIN IMMEDIATE")
+            cur=c.execute("UPDATE orders SET status='FILLED',filled_bar=?,fill_price=?,fees=?,slippage_cost=? WHERE order_id=? AND status='PENDING'",
+                          (bar,float(price),float(fees),float(slippage),oid))
+            if cur.rowcount != 1:
+                return False
+            c.execute("UPDATE accounts SET cash=? WHERE account_id=?",(float(new_cash),aid))
+            c.execute("""INSERT INTO trades(trade_id,account_id,symbol,entry_bar,exit_bar,qty,entry_price,exit_price,realized_pnl,return_pct,strategy,horizon,regime_entry,exit_reason,leverage,created_at)
+            VALUES(:trade_id,:account_id,:symbol,:entry_bar,:exit_bar,:qty,:entry_price,:exit_price,:realized_pnl,:return_pct,:strategy,:horizon,:regime_entry,:exit_reason,:leverage,:created_at)""",x)
+            c.execute("DELETE FROM positions WHERE account_id=? AND symbol=?",(aid,str(symbol).upper()))
+        return True
+
+    def close_position_atomic(self, aid, new_cash, trade, symbol):
+        x=dict(trade); x.setdefault("trade_id",uuid.uuid4().hex); x.setdefault("created_at",now_iso())
+        with self._c() as c:
+            c.execute("BEGIN IMMEDIATE")
+            exists=c.execute("SELECT 1 FROM positions WHERE account_id=? AND symbol=?",(aid,str(symbol).upper())).fetchone()
+            if not exists:
+                return False
+            c.execute("UPDATE accounts SET cash=? WHERE account_id=?",(float(new_cash),aid))
+            c.execute("""INSERT INTO trades(trade_id,account_id,symbol,entry_bar,exit_bar,qty,entry_price,exit_price,realized_pnl,return_pct,strategy,horizon,regime_entry,exit_reason,leverage,created_at)
+            VALUES(:trade_id,:account_id,:symbol,:entry_bar,:exit_bar,:qty,:entry_price,:exit_price,:realized_pnl,:return_pct,:strategy,:horizon,:regime_entry,:exit_reason,:leverage,:created_at)""",x)
+            c.execute("DELETE FROM positions WHERE account_id=? AND symbol=?",(aid,str(symbol).upper()))
+        return True
+
     def add_trade(self,t):
         x=dict(t); x.setdefault("trade_id",uuid.uuid4().hex); x.setdefault("created_at",now_iso())
         with self._c() as c:

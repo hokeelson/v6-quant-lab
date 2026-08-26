@@ -306,9 +306,19 @@ class TaiwanSimulationLab(SimulationLab):
         pos = self.db.position(aid, symbol)
         rate = self._cost_rate(market)
         open_px = float(row.open)
+        hz = decision_context.get("horizon", aid.rsplit("_", 1)[-1])
+        if o["side"] == "BUY" and pos is not None:
+            self.db.cancel_order(o["order_id"], "STALE_BUY_POSITION_EXISTS")
+            self.db.add_diagnostic(aid, symbol, hz, ts.isoformat(), "ORDER_CANCELLED", "Stale BUY cancelled because position already exists",
+                                   {"cancel_reason": "STALE_BUY_POSITION_EXISTS", "broker_order_api_calls": 0})
+            return "CANCELLED"
+        if o["side"] == "SELL" and pos is None:
+            self.db.cancel_order(o["order_id"], "STALE_SELL_NO_POSITION")
+            self.db.add_diagnostic(aid, symbol, hz, ts.isoformat(), "ORDER_CANCELLED", "Stale SELL cancelled because position no longer exists",
+                                   {"cancel_reason": "STALE_SELL_NO_POSITION", "broker_order_api_calls": 0})
+            return "CANCELLED"
         if o["side"] == "BUY" and pos is None:
             cash, gross, equity = self._account_marks(aid, {symbol: open_px})
-            hz = decision_context.get("horizon", aid.rsplit("_", 1)[-1])
             original_notional = float(o["requested_notional"] or 0)
             sizing = active_entry_sizing(self.db, self.cache, market, symbol, hz, decision_context, original_notional)
             risk_adjusted = float(sizing.get("adjusted_notional", original_notional) or 0)
@@ -316,11 +326,15 @@ class TaiwanSimulationLab(SimulationLab):
             fill = open_px * (1 + rate)
             qty = math.floor(notional / fill) if fill > 0 else 0
             if qty <= 0:
-                return None
+                cancel_reason = "RISK_SIZING_ZERO_NOTIONAL" if risk_adjusted <= 0 else "INSUFFICIENT_CASH_FOR_BOARD_LOT"
+                self.db.cancel_order(o["order_id"], cancel_reason)
+                self.db.add_diagnostic(aid, symbol, hz, ts.isoformat(), "ORDER_CANCELLED", "Pending Taiwan BUY cancelled before fill",
+                                       {**sizing, "cash_room": max(0.0, cash), "risk_adjusted_notional": risk_adjusted,
+                                        "requested_notional": original_notional, "cancel_reason": cancel_reason, "broker_order_api_calls": 0})
+                return "CANCELLED"
             spent = qty * fill
             fees = qty * open_px * rate
-            self.db.set_cash(aid, cash - spent)
-            self.db.upsert_position({
+            position={
                 "account_id": aid, "symbol": symbol, "qty": qty, "avg_entry": fill,
                 "entry_bar": ts.isoformat(), "strategy": decision_context.get("strategy"),
                 "horizon": hz, "regime_entry": decision_context.get("regime"),
@@ -328,8 +342,9 @@ class TaiwanSimulationLab(SimulationLab):
                 "target_price": fill * (1 + float(decision_context.get("target_distance", 0.20))),
                 "max_holding_bars": int((decision_context.get("diagnostics") or {}).get("max_holding_bars", TW_MAX_HOLDING[hz])),
                 "bars_held": 0, "leverage_at_entry": 1.0,
-            })
-            self.db.fill_order(o["order_id"], ts.isoformat(), fill, fees, fill - open_px)
+            }
+            if not self.db.fill_buy_atomic(aid, o["order_id"], ts.isoformat(), fill, fees, fill - open_px, cash - spent, position):
+                return None
             self.db.add_diagnostic(aid, symbol, hz, ts.isoformat(), "RISK_SIZING", "Active portfolio/strategy sizing applied", {
                 **sizing, "cash_room": max(0.0, cash), "filled_notional": spent, "fill_price": fill,
                 "broker_order_api_calls": 0,
@@ -341,22 +356,21 @@ class TaiwanSimulationLab(SimulationLab):
             cash = float(acct["cash"]) + proceeds
             pnl = float(pos["qty"]) * (fill - float(pos["avg_entry"]))
             ret = fill / float(pos["avg_entry"]) - 1
-            self.db.set_cash(aid, cash)
-            self.db.fill_order(o["order_id"], ts.isoformat(), fill, proceeds * rate, open_px - fill)
-            self.db.add_trade({
+            trade={
                 "account_id": aid, "symbol": symbol, "entry_bar": pos["entry_bar"],
                 "exit_bar": ts.isoformat(), "qty": pos["qty"], "entry_price": pos["avg_entry"],
                 "exit_price": fill, "realized_pnl": pnl, "return_pct": ret,
                 "strategy": pos["strategy"], "horizon": pos["horizon"],
                 "regime_entry": pos.get("regime_entry"), "exit_reason": o["reason"] or "SIGNAL_EXIT",
                 "leverage": 1.0,
-            })
+            }
+            if not self.db.fill_sell_atomic(aid, o["order_id"], ts.isoformat(), fill, proceeds * rate, open_px - fill, cash, trade, symbol):
+                return None
             if pnl < 0:
                 self.db.add_diagnostic(aid, symbol, pos["horizon"], ts.isoformat(), "LOSS", "Losing model exit",
                                        {"pnl": pnl, "return_pct": ret, "strategy": pos["strategy"],
                                         "regime_entry": pos.get("regime_entry"), "leverage": 1.0,
                                         "bars_held": pos["bars_held"], "exit_reason": o["reason"] or "SIGNAL_EXIT"})
-            self.db.delete_position(aid, symbol)
             return "SELL"
         return None
 
