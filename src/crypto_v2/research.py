@@ -409,3 +409,59 @@ def recent_blocked_candidates(db, limit: int = 100) -> list[dict]:
         return [dict(r) for r in c.execute(
             "SELECT * FROM blocked_candidates ORDER BY created_at DESC LIMIT ?", (int(limit),)
         ).fetchall()]
+
+
+from .shadow_db import CryptoV2ShadowDB
+
+
+class ResearchCryptoV2ShadowDB(CryptoV2ShadowDB):
+    """V2 ledger with write-only research hooks; core accounting stays in the parent."""
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        ensure_research_schema(self)
+        self._research_context: dict = {}
+
+    def set_research_context(self, context: dict | None) -> None:
+        self._research_context = dict(context or {})
+
+    def add_decision(self, symbol: str, horizon: str, bar_time: str, decision: dict, regime: dict, features: dict):
+        enriched = dict(features or {})
+        enriched["_research"] = dict(self._research_context or {})
+        did = super().add_decision(symbol, horizon, bar_time, decision, regime, enriched)
+        if str(decision.get("action") or "") == "NO_TRADE" and str(decision.get("reason") or "").startswith(
+            "Portfolio risk governor blocked entry: "
+        ):
+            acct = self.account(horizon)
+            cash = float(acct.get("cash") or 0.0)
+            confidence = float(decision.get("confidence") or 0.0)
+            requested = min(cash, self.initial_equity * 0.10 * max(0.50, confidence))
+            if requested > 0:
+                add_blocked_candidate(
+                    self, symbol, horizon, bar_time, requested, decision, regime, self._research_context
+                )
+        return did
+
+    def fill_buy(self, order: dict, bar_time: str, price: float, fee_rate: float, decision: dict, regime: dict):
+        ok = super().fill_buy(order, bar_time, price, fee_rate, decision, regime)
+        if not ok:
+            return False
+        context = {}
+        try:
+            with self._c() as c:
+                r = c.execute("SELECT features_json FROM decisions WHERE decision_id=?", (order.get("decision_id"),)).fetchone()
+            if r:
+                context = (json.loads(r[0]) or {}).get("_research") or {}
+        except Exception:
+            context = {}
+        record_position_open(
+            self, str(order.get("symbol") or ""), str(order.get("horizon") or ""), bar_time, float(price),
+            str(decision.get("strategy") or "UNKNOWN"), str(regime.get("state") or "UNKNOWN"), context,
+        )
+        return True
+
+    def close_position(self, symbol: str, horizon: str, bar_time: str, exit_price: float, fee_rate: float, reason: str):
+        ok = super().close_position(symbol, horizon, bar_time, exit_price, fee_rate, reason)
+        if ok:
+            record_position_close(self, symbol, horizon, bar_time)
+        return ok
