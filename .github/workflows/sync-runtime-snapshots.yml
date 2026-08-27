@@ -1,0 +1,174 @@
+name: Sync runtime snapshots
+
+on:
+  push:
+    paths:
+      - '.github/workflows/sync-runtime-snapshots.yml'
+  schedule:
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-runtime-snapshots
+  cancel-in-progress: true
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout snapshot branch
+        uses: actions/checkout@v5
+        with:
+          ref: snapshot-data
+          fetch-depth: 0
+
+      - name: Fetch and validate public runtime snapshots
+        shell: bash
+        run: |
+          set -euo pipefail
+          base='https://v6-quant-lab-production.up.railway.app/app/static'
+          research_tmp="$(mktemp)"
+          v2_tmp="$(mktemp)"
+          storage_tmp="$(mktemp)"
+          sizing_tmp="$(mktemp)"
+          expected_tmp="$(mktemp)"
+
+          curl --fail --silent --show-error --location --retry 3 --retry-delay 3 --max-time 30 \
+            "$base/research_snapshot.json" -o "$research_tmp"
+          curl --fail --silent --show-error --location --retry 3 --retry-delay 3 --max-time 30 \
+            "$base/crypto_v2_shadow_snapshot.json" -o "$v2_tmp"
+
+          curl --fail --silent --show-error --location --retry 2 --retry-delay 2 --max-time 15 \
+            "$base/storage_persistence.json" -o "$storage_tmp" || printf '%s\n' '{}' > "$storage_tmp"
+          curl --fail --silent --show-error --location --retry 2 --retry-delay 2 --max-time 15 \
+            "$base/risk_sizing_audit.json" -o "$sizing_tmp" || printf '%s\n' '{}' > "$sizing_tmp"
+          curl --fail --silent --show-error --location --retry 2 --retry-delay 2 --max-time 15 \
+            "$base/expected_live_deviation.json" -o "$expected_tmp" || printf '%s\n' '{}' > "$expected_tmp"
+
+          python - "$research_tmp" "$v2_tmp" "$storage_tmp" "$sizing_tmp" "$expected_tmp" <<'PY'
+          import json, pathlib, sys
+          from datetime import datetime, timezone
+
+          now = datetime.now(timezone.utc)
+
+          def load(path):
+              try:
+                  value = json.loads(pathlib.Path(path).read_text(encoding='utf-8'))
+                  return value if isinstance(value, dict) else {}
+              except Exception:
+                  return {}
+
+          def utc_dt(value):
+              if not value:
+                  return None
+              dt = datetime.fromisoformat(str(value).replace('Z', '+00:00'))
+              if dt.tzinfo is None:
+                  dt = dt.replace(tzinfo=timezone.utc)
+              return dt.astimezone(timezone.utc)
+
+          old_research = load('research_snapshot.json') if pathlib.Path('research_snapshot.json').exists() else {}
+          research = load(sys.argv[1])
+          v2 = load(sys.argv[2])
+          storage = load(sys.argv[3])
+          sizing = load(sys.argv[4])
+          expected = load(sys.argv[5])
+
+          if research.get('contains_secrets') is not False:
+              raise SystemExit('Research snapshot secret-safety flag missing or unsafe')
+          if str(research.get('scope') or '') != 'PUBLIC_READ_ONLY_RESEARCH_SUMMARY':
+              raise SystemExit('Unexpected research snapshot scope')
+          research_generated = utc_dt(research.get('generated_at'))
+          if research_generated is None:
+              raise SystemExit('Research generated_at missing')
+          research_age = max(0.0, (now - research_generated).total_seconds())
+          if research_age > 900:
+              raise SystemExit(f'Research runtime snapshot is stale: {research_age:.1f}s old')
+
+          if v2.get('contains_secrets') is not False:
+              raise SystemExit('Crypto V2 secret-safety flag missing or unsafe')
+          if str(v2.get('scope') or '') != 'PUBLIC_READ_ONLY_CRYPTO_V2_SHADOW':
+              raise SystemExit('Unexpected Crypto V2 snapshot scope')
+          if int(v2.get('broker_order_api_calls', -1)) != 0:
+              raise SystemExit('Crypto V2 broker API safety invariant violated')
+          if int(v2.get('market_data_api_calls', -1)) != 0:
+              raise SystemExit('Crypto V2 must remain shared-cache-only')
+          if v2.get('persistent_checkpoint') is not True:
+              raise SystemExit('Crypto V2 persistent checkpoint is not healthy')
+          v2_generated = utc_dt(v2.get('generated_at'))
+          if v2_generated is None:
+              raise SystemExit('Crypto V2 generated_at missing')
+          v2_age = max(0.0, (now - v2_generated).total_seconds())
+          if v2_age > 300:
+              raise SystemExit(f'Crypto V2 runtime snapshot is stale: {v2_age:.1f}s old')
+
+          # Keep the useful public enrichments from the old research pipeline.
+          if storage:
+              allowed = {
+                  'status', 'mode', 'persistence_status', 'last_snapshot_at',
+                  'last_snapshot_success', 'last_snapshot_failed',
+                  'snapshot_interval_seconds', 'snapshot_db_count',
+                  'snapshot_keep_archives', 'skipped_rebuildable', 'persistent_disk',
+                  'bootstrap_at', 'restored', 'bootstrap_warnings', 'updated_at'
+              }
+              research['storage_persistence'] = {k: storage.get(k) for k in allowed if k in storage}
+          elif old_research.get('storage_persistence'):
+              research['storage_persistence'] = old_research['storage_persistence']
+
+          if (
+              sizing.get('contains_secrets') is False
+              and str(sizing.get('scope') or '') == 'PUBLIC_READ_ONLY_RISK_SIZING_AUDIT'
+          ):
+              research['risk_sizing_audit'] = sizing
+          elif old_research.get('risk_sizing_audit'):
+              research['risk_sizing_audit'] = old_research['risk_sizing_audit']
+
+          if (
+              expected.get('contains_secrets') is False
+              and str(expected.get('scope') or '') == 'PUBLIC_READ_ONLY_EXPECTED_LIVE_DEVIATION'
+          ):
+              research['expected_live_deviation'] = expected
+          elif old_research.get('expected_live_deviation'):
+              research['expected_live_deviation'] = old_research['expected_live_deviation']
+
+          checked = now.isoformat()
+          research['sync_checked_at'] = checked
+          research['sync_snapshot_age_seconds'] = research_age
+          v2['sync_checked_at'] = checked
+          v2['sync_snapshot_age_seconds'] = v2_age
+
+          pathlib.Path('research_snapshot.json').write_text(
+              json.dumps(research, ensure_ascii=False, indent=2, sort_keys=True, allow_nan=False) + '\n',
+              encoding='utf-8'
+          )
+          pathlib.Path('crypto_v2_shadow_snapshot.json').write_text(
+              json.dumps(v2, ensure_ascii=False, indent=2, sort_keys=True, allow_nan=False) + '\n',
+              encoding='utf-8'
+          )
+          PY
+
+      - name: Commit both snapshots together
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -z "$(git status --porcelain -- research_snapshot.json crypto_v2_shadow_snapshot.json)" ]; then
+            echo 'No runtime snapshot changes.'
+            exit 0
+          fi
+          git config user.name 'v6-snapshot-bot'
+          git config user.email 'v6-snapshot-bot@users.noreply.github.com'
+          git add research_snapshot.json crypto_v2_shadow_snapshot.json
+          git commit -m 'Update runtime snapshots'
+
+          for attempt in 1 2 3; do
+            git pull --rebase origin snapshot-data
+            if git push origin HEAD:snapshot-data; then
+              exit 0
+            fi
+            echo "snapshot-data moved during push (attempt ${attempt}/3); retrying."
+            sleep 5
+          done
+          echo 'Unable to update runtime snapshots after retries.' >&2
+          exit 1
