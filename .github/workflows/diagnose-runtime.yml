@@ -1,0 +1,93 @@
+name: Diagnose runtime snapshots
+
+on:
+  push:
+    paths:
+      - '.github/workflows/diagnose-runtime.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout snapshot branch
+        uses: actions/checkout@v5
+        with:
+          ref: snapshot-data
+          fetch-depth: 0
+
+      - name: Probe public Railway snapshots
+        shell: bash
+        run: |
+          set -euo pipefail
+          base='https://v6-quant-lab-production.up.railway.app/app/static'
+          v2="$(mktemp)"
+          research="$(mktemp)"
+          v2_status='ERROR'
+          research_status='ERROR'
+
+          if curl --fail --silent --show-error --location --max-time 30 "$base/crypto_v2_shadow_snapshot.json" -o "$v2"; then
+            v2_status='OK'
+          fi
+          if curl --fail --silent --show-error --location --max-time 30 "$base/research_snapshot.json" -o "$research"; then
+            research_status='OK'
+          fi
+
+          python - "$v2" "$research" "$v2_status" "$research_status" <<'PY'
+          import json, pathlib, sys
+          from datetime import datetime, timezone
+
+          def load(path, status, kind):
+              if status != 'OK':
+                  return {'http': 'ERROR'}
+              try:
+                  d = json.loads(pathlib.Path(path).read_text(encoding='utf-8'))
+              except Exception as exc:
+                  return {'http': 'OK', 'json_error': f'{type(exc).__name__}: {exc}'}
+              if kind == 'v2':
+                  return {
+                      'http': 'OK',
+                      'generated_at': d.get('generated_at'),
+                      'status': d.get('status'),
+                      'catchup': d.get('catchup'),
+                      'persistent_checkpoint': d.get('persistent_checkpoint'),
+                      'scope': d.get('scope'),
+                      'broker_order_api_calls': d.get('broker_order_api_calls'),
+                      'market_data_api_calls': d.get('market_data_api_calls'),
+                  }
+              accounts = d.get('accounts') or []
+              as_of = [str(x.get('as_of')) for x in accounts if isinstance(x, dict) and x.get('as_of')]
+              expected = d.get('expected_live_deviation') or {}
+              return {
+                  'http': 'OK',
+                  'generated_at': d.get('generated_at'),
+                  'expected_generated_at': expected.get('generated_at') if isinstance(expected, dict) else None,
+                  'latest_account_as_of': max(as_of) if as_of else None,
+                  'scope': d.get('scope'),
+                  'contains_secrets': d.get('contains_secrets'),
+              }
+
+          out = {
+              'checked_at': datetime.now(timezone.utc).isoformat(),
+              'contains_secrets': False,
+              'v2': load(sys.argv[1], sys.argv[3], 'v2'),
+              'research': load(sys.argv[2], sys.argv[4], 'research'),
+          }
+          pathlib.Path('runtime_diagnostic.json').write_text(
+              json.dumps(out, ensure_ascii=False, indent=2, sort_keys=True) + '\n',
+              encoding='utf-8',
+          )
+          PY
+
+      - name: Commit diagnostic
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'v6-diagnostic-bot'
+          git config user.email 'v6-diagnostic-bot@users.noreply.github.com'
+          git add runtime_diagnostic.json
+          git commit -m 'Update runtime diagnostic' || exit 0
+          git push origin HEAD:snapshot-data
