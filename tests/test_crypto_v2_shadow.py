@@ -3,6 +3,7 @@ from __future__ import annotations
 import numpy as np
 import pandas as pd
 
+from src.crypto_v2 import shadow_engine as shadow_engine_module
 from src.crypto_v2.core import classify_market_regime, route_strategy, symbol_features
 from src.crypto_v2.shadow_db import CryptoV2ShadowDB
 from src.crypto_v2.shadow_engine import CryptoV2ShadowEngine
@@ -87,6 +88,46 @@ def test_crypto_v2_first_cycle_does_not_backfill_history(tmp_path):
     assert result["market_data_api_calls"] == 0
     assert len(decisions) <= 2  # one registration decision per available short-horizon symbol
     assert len(shadow.recent_trades(1000)) == 0
+
+
+def test_crypto_v2_catchup_is_chronological_and_bounded(tmp_path, monkeypatch):
+    baseline = SimulationDB(str(tmp_path / "simulation_lab.sqlite3"))
+    baseline.ensure_accounts(100000.0)
+    baseline.add_asset("crypto", "BTCUSDT")
+    baseline.add_asset("crypto", "ETHUSDT")
+
+    cache = MarketCache(str(tmp_path / "market_cache.sqlite3"))
+    btc = bars(np.linspace(100.0, 150.0, 150))
+    eth = bars(np.linspace(50.0, 90.0, 150))
+    cache.upsert("crypto", "BTCUSDT", "1h", btc)
+    cache.upsert("crypto", "ETHUSDT", "1h", eth)
+
+    shadow = CryptoV2ShadowDB(str(tmp_path / "crypto_v2_shadow.sqlite3"), initial_equity=100000.0)
+    engine = CryptoV2ShadowEngine(baseline, cache, shadow)
+
+    # Register both series at an earlier forward point, then create a backlog.
+    first_now = btc.index[-7] + pd.Timedelta(hours=2)
+    engine.cycle(now=first_now)
+    before_btc = shadow.last_processed("BTCUSDT", "short")
+    before_eth = shadow.last_processed("ETHUSDT", "short")
+    assert before_btc == before_eth
+
+    monkeypatch.setattr(shadow_engine_module, "MAX_EVENTS_PER_CYCLE", 2)
+    later_now = btc.index[-1] + pd.Timedelta(hours=2)
+    result = engine.cycle(now=later_now)
+
+    catchup = result["catchup"]
+    assert catchup["processed_events"] == 2
+    assert catchup["is_catching_up"] is True
+    assert catchup["remaining_events_estimate"] > 0
+    # The bound must finish the whole earliest timestamp group instead of
+    # racing one symbol several bars ahead of the other.
+    assert catchup["oldest_selected_bar"] == catchup["newest_selected_bar"]
+    after_btc = shadow.last_processed("BTCUSDT", "short")
+    after_eth = shadow.last_processed("ETHUSDT", "short")
+    assert after_btc == after_eth
+    assert pd.Timestamp(after_btc) > pd.Timestamp(before_btc)
+    assert pd.Timestamp(after_btc) < btc.index[-1]
 
 
 def test_symbol_features_and_router_can_select_trend_entry():
