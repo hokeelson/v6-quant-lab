@@ -48,6 +48,9 @@ jobs:
               except Exception as exc:
                   return {'http': 'OK', 'json_error': f'{type(exc).__name__}: {exc}'}
               if kind == 'v2':
+                  layer = d.get('research_layer') or {}
+                  excursion = layer.get('trade_excursion_tracking') or {}
+                  counterfactual = layer.get('risk_block_counterfactual') or {}
                   return {
                       'http': 'OK',
                       'generated_at': d.get('generated_at'),
@@ -57,6 +60,10 @@ jobs:
                       'scope': d.get('scope'),
                       'broker_order_api_calls': d.get('broker_order_api_calls'),
                       'market_data_api_calls': d.get('market_data_api_calls'),
+                      'research_layer_present': bool(layer),
+                      'tracked_research_trades': excursion.get('tracked_closed_trades'),
+                      'active_blocked_candidates': counterfactual.get('active_candidates'),
+                      'external_signals': layer.get('external_signals'),
                   }
               accounts = d.get('accounts') or []
               as_of = [str(x.get('as_of')) for x in accounts if isinstance(x, dict) and x.get('as_of')]
