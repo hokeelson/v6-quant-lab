@@ -34,7 +34,7 @@ fi
 APP_PORT="${PORT:-8501}"
 echo "Starting V6 unified Streamlit dashboard on 0.0.0.0:${APP_PORT}"
 echo "Virtual simulation only; broker order API remains disabled."
-echo "Crypto V2 Shadow = isolated ledger, shared cache only, no extra market-data API calls."
+echo "Crypto V2 Shadow = isolated ledger, shared cache only, no extra market-data API calls, supervised auto-restart enabled."
 echo "SQLite rescue mode: persistent state=${PERSIST_DIR}; runtime DBs=${RUNTIME_DIR}; bootstrap=${BOOTSTRAP_OK}."
 echo "SQLite snapshot sidecar: best-effort only; failures never stop the dashboard."
 
@@ -46,8 +46,8 @@ python tca_supervisor.py &
 TCA_SUPERVISOR_PID=$!
 python trial_ledger_worker.py &
 TRIAL_LEDGER_PID=$!
-python crypto_v2_shadow_worker.py &
-CRYPTO_V2_PID=$!
+python crypto_v2_shadow_supervisor.py &
+CRYPTO_V2_SUPERVISOR_PID=$!
 # Persistence is deliberately a non-critical sidecar. storage_rescue.py catches
 # snapshot errors internally; the shell also treats sidecar exit as non-fatal.
 python storage_rescue.py watch &
@@ -62,7 +62,7 @@ cleanup() {
   kill "$REALTIME_SUPERVISOR_PID" 2>/dev/null || true
   kill "$TCA_SUPERVISOR_PID" 2>/dev/null || true
   kill "$TRIAL_LEDGER_PID" 2>/dev/null || true
-  kill "$CRYPTO_V2_PID" 2>/dev/null || true
+  kill "$CRYPTO_V2_SUPERVISOR_PID" 2>/dev/null || true
   kill "$STORAGE_RESCUE_PID" 2>/dev/null || true
   kill "$STORAGE_STATUS_PID" 2>/dev/null || true
 }
