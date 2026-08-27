@@ -14,6 +14,7 @@ from src.paths import data_dir, db_path
 from src.simulation_db import SimulationDB
 
 POLL_SECONDS = 60
+CATCHUP_POLL_SECONDS = 5
 STATUS_PATH = Path(data_dir()) / "crypto_v2_shadow_worker_status.json"
 PUBLIC_SNAPSHOT_PATH = Path("static") / "crypto_v2_shadow_snapshot.json"
 
@@ -65,8 +66,7 @@ print("Shared cache only. Market data API calls = 0. Broker order API calls = 0.
 while True:
     started = datetime.now(timezone.utc).isoformat()
     # Publish RUNNING before the potentially long catch-up cycle. The supervisor
-    # must distinguish a healthy long-running cycle from a dead worker; using only
-    # the previous finished_at caused legitimate catch-up work to be restarted.
+    # must distinguish a healthy long-running cycle from a dead worker.
     write_status({
         "status": "RUNNING",
         "started_at": started,
@@ -79,6 +79,7 @@ while True:
         "broker_order_api_calls": 0,
         "message": "Crypto V2 shadow cycle running",
     })
+    sleep_seconds = POLL_SECONDS
     try:
         result = engine.cycle()
         checkpoint_ok = checkpoint()
@@ -87,6 +88,10 @@ while True:
         public_result["scope"] = "PUBLIC_READ_ONLY_CRYPTO_V2_SHADOW"
         public_result["persistent_checkpoint"] = checkpoint_ok
         write_json(PUBLIC_SNAPSHOT_PATH, public_result)
+        catchup = result.get("catchup") or {}
+        catching_up = bool(catchup.get("is_catching_up"))
+        if catching_up:
+            sleep_seconds = CATCHUP_POLL_SECONDS
         write_status({
             "status": result.get("status", "UNKNOWN"),
             "started_at": started,
@@ -94,6 +99,7 @@ while True:
             "bars_processed": int(result.get("bars_processed", 0) or 0),
             "symbols": int(result.get("symbols", 0) or 0),
             "errors": result.get("errors") or [],
+            "catchup": catchup,
             "persistent_checkpoint": checkpoint_ok,
             "market_data_api_calls": 0,
             "broker_order_api_calls": 0,
@@ -105,6 +111,8 @@ while True:
             result.get("status"),
             "bars",
             result.get("bars_processed"),
+            "remaining",
+            catchup.get("remaining_events_estimate"),
             "checkpoint",
             checkpoint_ok,
             flush=True,
@@ -143,4 +151,4 @@ while True:
             checkpoint_ok,
             flush=True,
         )
-    time.sleep(POLL_SECONDS)
+    time.sleep(sleep_seconds)
