@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import os
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -21,8 +22,10 @@ BAR_DELTAS = {
     "medium": pd.Timedelta("4h"),
     "long": pd.Timedelta("1d"),
 }
+HORIZON_RANK = {name: i for i, name in enumerate(HORIZONS)}
 CRYPTO_FEE_RATE = float(ExecutionCosts(10, 5, 4).one_way_rate)
 SNAPSHOT_PATH = Path(data_dir()) / "crypto_v2_shadow_snapshot.json"
+MAX_EVENTS_PER_CYCLE = max(25, int(os.getenv("V6_CRYPTO_V2_MAX_EVENTS_PER_CYCLE", "160")))
 
 
 def _utc(ts) -> pd.Timestamp:
@@ -34,25 +37,42 @@ def _iso(ts) -> str:
     return _utc(ts).isoformat()
 
 
-def _through(df: pd.DataFrame, cutoff) -> pd.DataFrame:
-    """Return rows whose timestamp is <= cutoff using normalized UTC nanoseconds.
+def _normalized_index(index) -> pd.DatetimeIndex:
+    """Normalize an arbitrary cached index to UTC without forcing Python objects."""
+    if isinstance(index, pd.DatetimeIndex):
+        parsed = index
+        return parsed.tz_localize("UTC") if parsed.tz is None else parsed.tz_convert("UTC")
+    return pd.DatetimeIndex(pd.to_datetime(index, utc=True, errors="coerce"))
 
-    Some cached frames can surface an object-like index after pandas/numpy version
-    transitions. Comparing that index directly with a Timestamp may raise a
-    TypeError. Normalize once and compare integer nanoseconds instead.
-    """
+
+def _through(df: pd.DataFrame, cutoff) -> pd.DataFrame:
+    """Return rows whose timestamp is <= cutoff using normalized UTC nanoseconds."""
     if df is None or df.empty:
         return df.copy() if df is not None else pd.DataFrame()
-    parsed = pd.to_datetime(list(df.index), utc=True, errors="coerce")
-    parsed = pd.DatetimeIndex(parsed)
+    parsed = _normalized_index(df.index)
     valid = ~pd.isna(parsed)
     if not bool(np.any(valid)):
         return df.iloc[0:0].copy()
     valid_pos = np.flatnonzero(np.asarray(valid, dtype=bool))
     parsed_valid = parsed[valid_pos]
-    work = df.iloc[valid_pos].copy()
     mask = np.asarray(parsed_valid.asi8 <= _utc(cutoff).value, dtype=bool)
-    return work.iloc[np.flatnonzero(mask)].copy()
+    return df.iloc[valid_pos[np.flatnonzero(mask)]].copy()
+
+
+def _new_index(df: pd.DataFrame, last) -> list:
+    if df is None or df.empty:
+        return []
+    if last is None:
+        # Registration point: do not fabricate pre-registration history.
+        return [df.index[-1]]
+    parsed = _normalized_index(df.index)
+    valid = ~pd.isna(parsed)
+    positions = np.flatnonzero(np.asarray(valid, dtype=bool))
+    if positions.size == 0:
+        return []
+    parsed_valid = parsed[positions]
+    mask = np.asarray(parsed_valid.asi8 > _utc(last).value, dtype=bool)
+    return [df.index[int(i)] for i in positions[np.flatnonzero(mask)]]
 
 
 class CryptoV2ShadowEngine:
@@ -237,35 +257,65 @@ class CryptoV2ShadowEngine:
             "approved_notional": approved_notional if risk_result else None,
         }
 
-    def cycle(self, now=None) -> dict:
-        now = _utc(now or pd.Timestamp.now(tz="UTC"))
-        btc = self._btc_1h(now)
-        symbols = self._symbols()
-        processed = []
-        errors = []
+    def _build_event_plan(self, symbols: list[str], now) -> tuple[list[tuple], dict, list[dict]]:
+        """Build a global chronological catch-up plan across every symbol/horizon.
 
+        Processing a whole backlog for symbol A before symbol B makes portfolio
+        state depend on symbol iteration order. Sorting all bars by timestamp keeps
+        portfolio risk decisions temporally coherent after a deployment outage.
+        """
+        events = []
+        frames = {}
+        errors = []
         for symbol in symbols:
             for horizon in HORIZONS:
                 try:
                     closed = self._closed(symbol, horizon, now)
                     if closed is None or closed.empty:
                         continue
+                    frames[(symbol, horizon)] = closed
                     last = self.db.last_processed(symbol, horizon)
-                    if last is None:
-                        # Registration point: only the latest already-closed bar is
-                        # eligible. No historical V2 decisions/trades are fabricated.
-                        new_index = [closed.index[-1]]
-                    else:
-                        last_ts = _utc(last)
-                        new_index = [ts for ts in closed.index if _utc(ts) > last_ts]
-                    for ts in new_index:
-                        hist = _through(closed, ts)
-                        processed.append(self._process_bar(symbol, horizon, hist, btc, ts))
+                    for ts in _new_index(closed, last):
+                        events.append((ts, symbol, horizon))
                 except Exception as exc:
                     errors.append({
-                        "symbol": symbol, "horizon": horizon,
+                        "symbol": symbol,
+                        "horizon": horizon,
                         "error": f"{type(exc).__name__}: {exc}",
                     })
+
+        events.sort(key=lambda item: (_utc(item[0]).value, HORIZON_RANK[item[2]], item[1]))
+        return events, frames, errors
+
+    @staticmethod
+    def _bounded_events(events: list[tuple]) -> list[tuple]:
+        """Bound work per cycle without splitting one market timestamp in half."""
+        if len(events) <= MAX_EVENTS_PER_CYCLE:
+            return events
+        cutoff_ns = _utc(events[MAX_EVENTS_PER_CYCLE - 1][0]).value
+        return [event for event in events if _utc(event[0]).value <= cutoff_ns]
+
+    def cycle(self, now=None) -> dict:
+        now = _utc(now or pd.Timestamp.now(tz="UTC"))
+        btc = self._btc_1h(now)
+        symbols = self._symbols()
+        processed = []
+
+        events, frames, errors = self._build_event_plan(symbols, now)
+        selected = self._bounded_events(events)
+
+        for ts, symbol, horizon in selected:
+            try:
+                closed = frames[(symbol, horizon)]
+                hist = _through(closed, ts)
+                processed.append(self._process_bar(symbol, horizon, hist, btc, ts))
+            except Exception as exc:
+                errors.append({
+                    "symbol": symbol,
+                    "horizon": horizon,
+                    "bar_time": _iso(ts),
+                    "error": f"{type(exc).__name__}: {exc}",
+                })
 
         portfolio_risk = {
             horizon: portfolio_status(
@@ -274,6 +324,17 @@ class CryptoV2ShadowEngine:
                 horizon,
             )
             for horizon in HORIZONS
+        }
+        remaining = max(0, len(events) - len(selected))
+        catchup = {
+            "pending_events_at_cycle_start": len(events),
+            "processed_events": len(processed),
+            "selected_events": len(selected),
+            "remaining_events_estimate": remaining,
+            "cycle_event_limit": MAX_EVENTS_PER_CYCLE,
+            "is_catching_up": remaining > 0,
+            "oldest_selected_bar": _iso(selected[0][0]) if selected else None,
+            "newest_selected_bar": _iso(selected[-1][0]) if selected else None,
         }
         payload = {
             "generated_at": datetime.now(timezone.utc).isoformat(),
@@ -285,6 +346,7 @@ class CryptoV2ShadowEngine:
             "broker_order_api_calls": 0,
             "symbols": len(symbols),
             "bars_processed": len(processed),
+            "catchup": catchup,
             "errors": errors,
             "latest_market_regime": classify_market_regime(btc),
             "portfolio_risk": portfolio_risk,
