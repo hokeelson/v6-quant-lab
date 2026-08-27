@@ -7,8 +7,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from src.crypto_v2.persistence import checkpoint_shadow_db
-from src.crypto_v2.shadow_db import CryptoV2ShadowDB
-from src.crypto_v2.shadow_engine import CryptoV2ShadowEngine
+from src.crypto_v2.research import ResearchCryptoV2ShadowDB
+from src.crypto_v2.research_engine import ResearchCryptoV2ShadowEngine
 from src.market_cache import MarketCache
 from src.paths import data_dir, db_path
 from src.simulation_db import SimulationDB
@@ -20,8 +20,8 @@ PUBLIC_SNAPSHOT_PATH = Path("static") / "crypto_v2_shadow_snapshot.json"
 
 baseline_db = SimulationDB(db_path("simulation_lab.sqlite3"))
 cache = MarketCache(db_path("market_cache.sqlite3"))
-shadow_db = CryptoV2ShadowDB(db_path("crypto_v2_shadow.sqlite3"), initial_equity=100000.0)
-engine = CryptoV2ShadowEngine(baseline_db, cache, shadow_db)
+shadow_db = ResearchCryptoV2ShadowDB(db_path("crypto_v2_shadow.sqlite3"), initial_equity=100000.0)
+engine = ResearchCryptoV2ShadowEngine(baseline_db, cache, shadow_db)
 
 
 def write_json(path: Path, payload: dict):
@@ -62,6 +62,7 @@ signal.signal(signal.SIGINT, shutdown_handler)
 
 print("Crypto V2 Shadow Worker started.", flush=True)
 print("Shared cache only. Market data API calls = 0. Broker order API calls = 0.", flush=True)
+print("Research overlay = observation only; it cannot alter V2 routing, sizing, or execution.", flush=True)
 
 while True:
     started = datetime.now(timezone.utc).isoformat()
