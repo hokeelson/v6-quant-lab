@@ -64,6 +64,21 @@ print("Shared cache only. Market data API calls = 0. Broker order API calls = 0.
 
 while True:
     started = datetime.now(timezone.utc).isoformat()
+    # Publish RUNNING before the potentially long catch-up cycle. The supervisor
+    # must distinguish a healthy long-running cycle from a dead worker; using only
+    # the previous finished_at caused legitimate catch-up work to be restarted.
+    write_status({
+        "status": "RUNNING",
+        "started_at": started,
+        "finished_at": None,
+        "bars_processed": 0,
+        "symbols": 0,
+        "errors": [],
+        "persistent_checkpoint": None,
+        "market_data_api_calls": 0,
+        "broker_order_api_calls": 0,
+        "message": "Crypto V2 shadow cycle running",
+    })
     try:
         result = engine.cycle()
         checkpoint_ok = checkpoint()
