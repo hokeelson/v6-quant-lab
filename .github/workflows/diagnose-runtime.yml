@@ -130,4 +130,4 @@ jobs:
           git commit -m 'Update runtime diagnostic' || exit 0
           git push origin HEAD:snapshot-data
 
-# diagnostic trigger: direct-runtime-health-2026-08-28
+# diagnostic trigger: direct-runtime-health-recheck-2026-08-28
