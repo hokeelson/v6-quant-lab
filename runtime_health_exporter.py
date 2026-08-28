@@ -127,6 +127,11 @@ def _v2_health(raw: dict, snapshot: dict) -> dict:
         and market_calls == 0
     )
     catchup = snapshot.get("catchup") if isinstance(snapshot.get("catchup"), dict) else {}
+    research_layer = snapshot.get("research_layer") if isinstance(snapshot.get("research_layer"), dict) else {}
+    excursion = research_layer.get("trade_excursion_tracking") if isinstance(research_layer.get("trade_excursion_tracking"), dict) else {}
+    counterfactual = research_layer.get("risk_block_counterfactual") if isinstance(research_layer.get("risk_block_counterfactual"), dict) else {}
+    tracked_research_trades = excursion.get("tracked_closed_trades", snapshot.get("tracked_research_trades", 0))
+    active_blocked_candidates = counterfactual.get("active_candidates", snapshot.get("active_blocked_candidates", 0))
     return {
         "healthy": healthy,
         "status": status,
@@ -139,9 +144,9 @@ def _v2_health(raw: dict, snapshot: dict) -> dict:
         "persistent_checkpoint": checkpoint is True,
         "backlog_remaining": int(catchup.get("remaining_events_estimate", 0) or 0),
         "is_catching_up": bool(catchup.get("is_catching_up", False)),
-        "research_layer_present": bool(snapshot.get("research_layer_present", False)),
-        "tracked_research_trades": int(snapshot.get("tracked_research_trades", 0) or 0),
-        "active_blocked_candidates": int(snapshot.get("active_blocked_candidates", 0) or 0),
+        "research_layer_present": bool(research_layer) or bool(snapshot.get("research_layer_present", False)),
+        "tracked_research_trades": int(tracked_research_trades or 0),
+        "active_blocked_candidates": int(active_blocked_candidates or 0),
         "broker_order_api_calls": broker_calls,
         "market_data_api_calls": market_calls,
     }
