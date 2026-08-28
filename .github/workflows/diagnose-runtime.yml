@@ -64,6 +64,8 @@ jobs:
               layer = v2.get('research_layer') or {}
               excursion = layer.get('trade_excursion_tracking') or {}
               counterfactual = layer.get('risk_block_counterfactual') or {}
+              bidirectional = layer.get('bidirectional_decision_shadow') or {}
+              registration = layer.get('bidirectional_registration') or {}
               v2_out = {
                   'http': 'OK',
                   'generated_at': v2.get('generated_at'),
@@ -77,6 +79,18 @@ jobs:
                   'tracked_research_trades': excursion.get('tracked_closed_trades'),
                   'active_blocked_candidates': counterfactual.get('active_candidates'),
                   'external_signals': layer.get('external_signals'),
+                  'bidirectional_shadow': {
+                      'status': bidirectional.get('status'),
+                      'method': bidirectional.get('method'),
+                      'total_decisions': bidirectional.get('total_decisions'),
+                      'active_evaluations': bidirectional.get('active_evaluations'),
+                      'closed_evaluations': bidirectional.get('closed_evaluations'),
+                      'decision_accuracy': bidirectional.get('decision_accuracy'),
+                      'by_selected_action': bidirectional.get('by_selected_action'),
+                      'changes_v2_execution': bidirectional.get('changes_v2_execution'),
+                      'ev_is_calibrated': bidirectional.get('ev_is_calibrated'),
+                      'registration': registration,
+                  },
               }
 
           if research is None:
@@ -130,4 +144,4 @@ jobs:
           git commit -m 'Update runtime diagnostic' || exit 0
           git push origin HEAD:snapshot-data
 
-# diagnostic trigger: direct-runtime-health-recheck-2026-08-28
+# diagnostic trigger: bidirectional-shadow-2026-08-29
