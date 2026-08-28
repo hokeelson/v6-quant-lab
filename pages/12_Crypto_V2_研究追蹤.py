@@ -5,6 +5,7 @@ import json
 import pandas as pd
 import streamlit as st
 
+from src.crypto_v2.bidirectional_shadow import bidirectional_summary, recent_bidirectional_decisions
 from src.crypto_v2.research import recent_blocked_candidates, recent_research_trades, research_summary
 from src.crypto_v2.shadow_db import CryptoV2ShadowDB
 from src.paths import db_path
@@ -18,6 +19,7 @@ summary = research_summary(db)
 exc = summary.get("trade_excursion_tracking") or {}
 blocked = summary.get("risk_block_counterfactual") or {}
 external = summary.get("external_signals") or {}
+bidir = bidirectional_summary(db)
 
 c1, c2, c3, c4 = st.columns(4)
 c1.metric("已追蹤平倉", int(exc.get("tracked_closed_trades") or 0))
@@ -26,6 +28,63 @@ c3.metric("平均 MAE", "—" if exc.get("avg_mae_pct") is None else f"{float(ex
 c4.metric("風控反事實已結束", int(blocked.get("closed_candidates") or 0))
 
 st.caption("MFE = 進場後曾經到過的最大浮盈；MAE = 進場後曾經到過的最大浮虧。這兩個值用來研究停損、停利與持有時間，而不是直接改策略。")
+
+st.subheader("雙向決策 Shadow：LONG / SHORT / NO_TRADE")
+b1, b2, b3, b4 = st.columns(4)
+b1.metric("累積決策", int(bidir.get("total_decisions") or 0))
+b2.metric("等待/評估中", int(bidir.get("active_evaluations") or 0))
+b3.metric("已完成 Forward 評估", int(bidir.get("closed_evaluations") or 0))
+b4.metric(
+    "三選一命中率",
+    "—" if bidir.get("decision_accuracy") is None else f"{float(bidir['decision_accuracy'])*100:.1f}%",
+)
+st.caption(
+    "每個決策點同時計算 LONG、SHORT、NO_TRADE。EV 目前是未校準的研究 proxy，不當成真實勝率；"
+    "決策只進研究表，下一根 K 開盤才開始反事實評估，完全不建立 V2 訂單或改動資金。"
+)
+
+b5, b6, b7 = st.columns(3)
+b5.metric("NO_TRADE 避開雙邊虧損", int(bidir.get("no_trade_avoided_losses") or 0))
+b6.metric("NO_TRADE 錯過明顯機會", int(bidir.get("no_trade_missed_opportunities") or 0))
+b7.metric(
+    "決策平均 Forward 報酬",
+    "—" if bidir.get("avg_selected_return_pct") is None else f"{float(bidir['avg_selected_return_pct'])*100:.3f}%",
+)
+
+by_action_rows = []
+for action, data in (bidir.get("by_selected_action") or {}).items():
+    by_action_rows.append({
+        "決策": action,
+        "完成評估": int(data.get("closed") or 0),
+        "命中率%": None if data.get("accuracy") is None else float(data["accuracy"]) * 100,
+        "平均 Forward 報酬%": None if data.get("avg_selected_return_pct") is None else float(data["avg_selected_return_pct"]) * 100,
+    })
+if by_action_rows:
+    st.dataframe(pd.DataFrame(by_action_rows), width="stretch", hide_index=True)
+else:
+    st.info("雙向 Shadow 剛啟用；需要等新決策完成 forward window 才會開始出現命中率。")
+
+latest_bidir = recent_bidirectional_decisions(db, 100)
+latest_bidir_rows = []
+for r in latest_bidir:
+    latest_bidir_rows.append({
+        "交易對": r.get("symbol"),
+        "週期": r.get("horizon"),
+        "決策時間": r.get("decision_bar"),
+        "市場狀態": r.get("regime"),
+        "決策": r.get("selected_action"),
+        "LONG分數": float(r.get("long_score") or 0.0),
+        "SHORT分數": float(r.get("short_score") or 0.0),
+        "LONG EV proxy%": float(r.get("long_ev_proxy") or 0.0) * 100,
+        "SHORT EV proxy%": float(r.get("short_ev_proxy") or 0.0) * 100,
+        "評估狀態": r.get("status"),
+        "實際最佳": r.get("best_realized_action"),
+        "決策正確": None if r.get("decision_correct") is None else bool(r.get("decision_correct")),
+        "選擇 Forward 報酬%": None if r.get("selected_return_pct") is None else float(r["selected_return_pct"]) * 100,
+        "原因": r.get("reason"),
+    })
+if latest_bidir_rows:
+    st.dataframe(pd.DataFrame(latest_bidir_rows), width="stretch", hide_index=True)
 
 st.subheader("組合風控到底有沒有擋對？")
 r1, r2, r3, r4 = st.columns(4)
