@@ -5,6 +5,7 @@ from datetime import datetime, timezone
 
 import pandas as pd
 
+from .bidirectional_registration import is_forward_eligible, registration_state
 from .bidirectional_shadow import (
     advance_bidirectional_evaluations,
     bidirectional_summary,
@@ -66,16 +67,27 @@ class ResearchCryptoV2ShadowEngine(CryptoV2ShadowEngine):
         regime = classify_market_regime(btc_cut)
         features = symbol_features(hist, btc_cut)
         context = dict(getattr(self.db, "_research_context", {}) or {})
-        shadow = record_bidirectional_decision(
-            self.db,
-            symbol,
-            horizon,
-            bar_time,
-            regime,
-            features,
-            context,
-            CRYPTO_FEE_RATE,
-        )
+
+        # A newly deployed research model must not turn catch-up bars into fake
+        # historical decisions. The next executable open (bar_end) must occur at
+        # or after this shadow's persisted registration time.
+        if is_forward_eligible(self.db, bar_end):
+            shadow = record_bidirectional_decision(
+                self.db,
+                symbol,
+                horizon,
+                bar_time,
+                regime,
+                features,
+                context,
+                CRYPTO_FEE_RATE,
+            )
+        else:
+            shadow = {
+                "selected_action": "SKIPPED_PRE_REGISTRATION",
+                "long_ev_proxy": None,
+                "short_ev_proxy": None,
+            }
 
         out = super()._process_bar(symbol, horizon, hist, btc_1h, ts)
         out["bidirectional_shadow_action"] = shadow.get("selected_action")
@@ -85,6 +97,7 @@ class ResearchCryptoV2ShadowEngine(CryptoV2ShadowEngine):
 
     def cycle(self, now=None) -> dict:
         now = _utc(now or pd.Timestamp.now(tz="UTC"))
+        registration = registration_state(self.db)
         btc = self._btc_1h(now)
         symbols = self._symbols()
         processed = []
@@ -137,6 +150,7 @@ class ResearchCryptoV2ShadowEngine(CryptoV2ShadowEngine):
         }
         research = research_summary(self.db)
         research["bidirectional_decision_shadow"] = bidirectional_summary(self.db)
+        research["bidirectional_registration"] = registration
         payload = {
             "generated_at": datetime.now(timezone.utc).isoformat(),
             "status": "ONLINE" if not errors else "DEGRADED",
