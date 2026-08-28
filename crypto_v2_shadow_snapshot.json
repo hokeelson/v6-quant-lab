@@ -1,13 +1,13 @@
 {
-  "bars_processed": 38,
+  "bars_processed": 0,
   "baseline": {
     "accounts": [
       {
-        "closed_trades": 175,
-        "equity": 94502.3589783876,
+        "closed_trades": 176,
+        "equity": 94244.53475891863,
         "horizon": "short",
         "initial_equity": 100000.0,
-        "return_pct": -0.054976410216124094
+        "return_pct": -0.0575546524108137
       },
       {
         "closed_trades": 34,
@@ -24,34 +24,34 @@
         "return_pct": -0.001210618724061474
       }
     ],
-    "closed_trades": 209,
-    "equity": 290903.6798589157,
+    "closed_trades": 210,
+    "equity": 290645.85563944676,
     "initial_equity": 300000.0,
-    "return_pct": -0.03032106713694771
+    "return_pct": -0.031180481201844135
   },
   "broker_order_api_calls": 0,
   "catchup": {
     "cycle_event_limit": 160,
     "is_catching_up": false,
-    "newest_selected_bar": "2026-08-28T21:00:00+00:00",
-    "oldest_selected_bar": "2026-08-28T21:00:00+00:00",
-    "pending_events_at_cycle_start": 38,
-    "processed_events": 38,
+    "newest_selected_bar": null,
+    "oldest_selected_bar": null,
+    "pending_events_at_cycle_start": 0,
+    "processed_events": 0,
     "remaining_events_estimate": 0,
-    "selected_events": 38
+    "selected_events": 0
   },
   "contains_secrets": false,
   "errors": [],
   "forward_only": true,
-  "generated_at": "2026-08-28T22:01:01.605797+00:00",
+  "generated_at": "2026-08-28T22:12:25.504053+00:00",
   "latest_market_regime": {
-    "realized_vol": 0.019677785866087726,
+    "realized_vol": 0.019688931481862685,
     "reason": "No dominant directional regime",
-    "ret_fast": -0.012621291177594363,
-    "ret_slow": -0.03543736905118222,
+    "ret_fast": -0.012346687708960746,
+    "ret_slow": -0.03516911104459741,
     "state": "SIDEWAYS",
-    "trend": -0.0026088630000365987,
-    "vol_ratio": 1.146048287795262
+    "trend": -0.0025945172435563046,
+    "vol_ratio": 1.1466974164097434
   },
   "market_data_api_calls": 0,
   "persistent_checkpoint": true,
@@ -8959,8 +8959,8 @@
   "shared_cache_only": true,
   "status": "ONLINE",
   "symbols": 38,
-  "sync_checked_at": "2026-08-28T22:01:08.442228+00:00",
-  "sync_snapshot_age_seconds": 6.836431,
+  "sync_checked_at": "2026-08-28T22:12:31.949488+00:00",
+  "sync_snapshot_age_seconds": 6.445435,
   "v2": {
     "accounts": [
       {
