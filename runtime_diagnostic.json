@@ -1,16 +1,16 @@
 {
-  "checked_at": "2026-08-27T15:16:55.631372+00:00",
+  "checked_at": "2026-08-28T07:11:52.254722+00:00",
   "contains_secrets": false,
   "research": {
     "contains_secrets": false,
     "expected_generated_at": null,
-    "generated_at": "2026-08-27T15:16:14.350317+00:00",
+    "generated_at": "2026-08-28T07:10:53.077617+00:00",
     "http": "OK",
-    "latest_account_as_of": "2026-08-27T14:00:00+00:00",
+    "latest_account_as_of": "2026-08-28T06:00:00+00:00",
     "scope": "PUBLIC_READ_ONLY_RESEARCH_SUMMARY"
   },
   "v2": {
-    "active_blocked_candidates": 0,
+    "active_blocked_candidates": 12,
     "broker_order_api_calls": 0,
     "catchup": {
       "cycle_event_limit": 160,
@@ -28,13 +28,13 @@
       "open_interest": "NOT_CONNECTED",
       "policy": "OBSERVE_FIRST_NO_STRATEGY_INPUT"
     },
-    "generated_at": "2026-08-27T15:16:16.142985+00:00",
+    "generated_at": "2026-08-28T07:11:36.649366+00:00",
     "http": "OK",
     "market_data_api_calls": 0,
     "persistent_checkpoint": true,
     "research_layer_present": true,
     "scope": "PUBLIC_READ_ONLY_CRYPTO_V2_SHADOW",
     "status": "ONLINE",
-    "tracked_research_trades": 0
+    "tracked_research_trades": 6
   }
 }
