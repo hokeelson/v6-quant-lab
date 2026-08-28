@@ -37,6 +37,7 @@ echo "Virtual simulation only; broker order API remains disabled."
 echo "Crypto V2 Shadow = isolated ledger, shared cache only, no extra market-data API calls, supervised auto-restart enabled."
 echo "SQLite rescue mode: persistent state=${PERSIST_DIR}; runtime DBs=${RUNTIME_DIR}; bootstrap=${BOOTSTRAP_OK}."
 echo "SQLite snapshot sidecar: best-effort only; failures never stop the dashboard."
+echo "Runtime health: Railway publishes static/runtime_health.json every 5 seconds; GitHub snapshots are backup only."
 
 python worker_supervisor_v8.py &
 SUPERVISOR_PID=$!
@@ -56,6 +57,10 @@ STORAGE_RESCUE_PID=$!
 # research snapshot writer; GitHub Actions merges both read-only files later.
 python storage_status_exporter.py &
 STORAGE_STATUS_PID=$!
+# Direct runtime heartbeat is the primary observability source. It only reads
+# already-public status/snapshot data and never touches strategy or broker state.
+python runtime_health_exporter.py &
+RUNTIME_HEALTH_PID=$!
 
 cleanup() {
   kill "$SUPERVISOR_PID" 2>/dev/null || true
@@ -65,6 +70,7 @@ cleanup() {
   kill "$CRYPTO_V2_SUPERVISOR_PID" 2>/dev/null || true
   kill "$STORAGE_RESCUE_PID" 2>/dev/null || true
   kill "$STORAGE_STATUS_PID" 2>/dev/null || true
+  kill "$RUNTIME_HEALTH_PID" 2>/dev/null || true
 }
 trap cleanup EXIT INT TERM
 
