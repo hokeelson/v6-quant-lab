@@ -98,3 +98,5 @@ jobs:
           git add runtime_diagnostic.json
           git commit -m 'Update runtime diagnostic' || exit 0
           git push origin HEAD:snapshot-data
+
+# diagnostic trigger: 2026-08-28T15:10+08:00
