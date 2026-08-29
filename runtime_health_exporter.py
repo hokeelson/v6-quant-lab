@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import math
+import re
 import time
 from datetime import datetime, timezone
 from pathlib import Path
@@ -83,6 +84,37 @@ def _round_age(value):
     return None if value is None else round(float(value), 1)
 
 
+def _safe_error_text(value) -> str:
+    text = str(value or "")[:500]
+    text = re.sub(r"(?i)(bearer)\s+[^\s]+", r"\1 <redacted>", text)
+    text = re.sub(
+        r"(?i)\b(api[_-]?key|token|secret|password)\b\s*[:=]\s*[^\s,;]+",
+        r"\1=<redacted>",
+        text,
+    )
+    return text
+
+
+def _public_error_samples(raw: dict, limit=8) -> list[dict]:
+    rows = raw.get("true_error_details")
+    if not isinstance(rows, list):
+        return []
+    out = []
+    for row in rows[:limit]:
+        if not isinstance(row, dict):
+            out.append({"error": _safe_error_text(row)})
+            continue
+        item = {}
+        for key in ("market", "symbol", "horizon"):
+            if row.get(key) is not None:
+                item[key] = str(row.get(key))[:80]
+        if row.get("error") is not None:
+            item["error"] = _safe_error_text(row.get("error"))
+        if item:
+            out.append(item)
+    return out
+
+
 def _main_health(raw: dict) -> dict:
     status = str(raw.get("status") or "UNKNOWN").upper()
     heartbeat_age = _age(raw.get("heartbeat_at"))
@@ -93,9 +125,34 @@ def _main_health(raw: dict) -> dict:
         activity_ok = cycle_age is not None and cycle_age <= MAIN_RUNNING_MAX_AGE
     else:
         activity_ok = completed_age is not None and completed_age <= MAIN_COMPLETED_MAX_AGE
-    healthy = heartbeat_ok and activity_ok and status not in {"ERROR", "STOPPED"}
+
+    true_errors = int(raw.get("true_errors", 0) or 0)
+    risk_layer = str(raw.get("risk_layer") or "UNKNOWN").upper()
+    data_quality = str(raw.get("data_quality") or "UNKNOWN").upper()
+    realtime_sync = str(raw.get("realtime_watchlist_sync") or "UNKNOWN").upper()
+
+    operational = heartbeat_ok and activity_ok and status not in {"ERROR", "STOPPED"}
+    degraded_reasons = []
+    if status == "DEGRADED":
+        degraded_reasons.append("worker_status_degraded")
+    if true_errors > 0:
+        degraded_reasons.append(f"true_errors:{true_errors}")
+    if risk_layer == "ERROR":
+        degraded_reasons.append("risk_layer_error")
+    if data_quality == "ERROR":
+        degraded_reasons.append("data_quality_error")
+    if realtime_sync == "ERROR":
+        degraded_reasons.append("realtime_watchlist_sync_error")
+
+    degraded = operational and bool(degraded_reasons)
+    healthy = operational and not degraded
+    hard_failure = not operational
+
     return {
         "healthy": healthy,
+        "degraded": degraded,
+        "hard_failure": hard_failure,
+        "degraded_reasons": degraded_reasons,
         "status": status,
         "heartbeat_at": raw.get("heartbeat_at"),
         "heartbeat_age_seconds": _round_age(heartbeat_age),
@@ -105,10 +162,11 @@ def _main_health(raw: dict) -> dict:
         "completed_age_seconds": _round_age(completed_age),
         "bars_processed": int(raw.get("bars_processed", 0) or 0),
         "assets_checked": int(raw.get("assets_checked", 0) or 0),
-        "true_errors": int(raw.get("true_errors", 0) or 0),
-        "risk_layer": str(raw.get("risk_layer") or "UNKNOWN"),
-        "data_quality": str(raw.get("data_quality") or "UNKNOWN"),
-        "realtime_watchlist_sync": str(raw.get("realtime_watchlist_sync") or "UNKNOWN"),
+        "true_errors": true_errors,
+        "error_samples": _public_error_samples(raw),
+        "risk_layer": risk_layer,
+        "data_quality": data_quality,
+        "realtime_watchlist_sync": realtime_sync,
         "broker_order_api_calls": int(raw.get("broker_order_api_calls", 0) or 0),
         "market_data_api_calls": int(raw.get("market_data_api_calls", 0) or 0),
     }
@@ -214,14 +272,15 @@ def build_snapshot() -> dict:
 
     broker_calls = int(main.get("broker_order_api_calls", 0) or 0) + int(v2.get("broker_order_api_calls", 0) or 0)
     safety_ok = broker_calls == 0 and int(v2.get("market_data_api_calls", 0) or 0) == 0
-    critical_ok = bool(main.get("healthy")) and bool(v2.get("healthy")) and safety_ok
-    observation_ok = bool(research.get("healthy")) and bool(storage.get("healthy"))
-    if critical_ok and observation_ok:
-        overall = "HEALTHY"
-    elif critical_ok:
+    hard_failure = bool(main.get("hard_failure")) or not bool(v2.get("healthy")) or not safety_ok
+    degraded = bool(main.get("degraded")) or not bool(research.get("healthy")) or not bool(storage.get("healthy"))
+
+    if hard_failure:
+        overall = "ERROR"
+    elif degraded:
         overall = "DEGRADED"
     else:
-        overall = "ERROR"
+        overall = "HEALTHY"
 
     return {
         "scope": "PUBLIC_READ_ONLY_RUNTIME_HEALTH",

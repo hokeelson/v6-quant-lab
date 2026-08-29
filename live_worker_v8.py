@@ -34,6 +34,8 @@ worker_state = {
     "market_data_api_calls": 0,
     "broker_order_api_calls": 0,
     "true_errors": 0,
+    "true_error_details": [],
+    "auxiliary_error_details": [],
     "risk_layer": "STARTING",
     "risk_sizing": "ACTIVE",
     "data_quality": "STARTING",
@@ -46,6 +48,21 @@ worker_state = {
     "last_request_at": None,
     "message": "Worker starting",
 }
+
+
+def _compact_errors(rows, limit=12):
+    out = []
+    for row in list(rows or [])[:limit]:
+        if isinstance(row, dict):
+            item = {}
+            for key in ("market", "symbol", "horizon", "error"):
+                value = row.get(key)
+                if value is not None:
+                    item[key] = str(value)[:500]
+            out.append(item or {"error": str(row)[:500]})
+        else:
+            out.append({"error": str(row)[:500]})
+    return out
 
 
 def _write_status():
@@ -167,7 +184,8 @@ while True:
             print(stamp, "DATA_QUALITY_ERROR", auxiliary_errors[-1], flush=True)
 
         finished = datetime.now(timezone.utc).isoformat()
-        core_errors = len(r.get("true_errors", []) or [])
+        core_error_rows = r.get("true_errors", []) or []
+        core_errors = len(core_error_rows)
         with status_lock:
             worker_state.update({
                 "status": "ONLINE" if core_errors == 0 and not auxiliary_errors else "DEGRADED",
@@ -177,6 +195,8 @@ while True:
                 "market_data_api_calls": int(sim.get("market_data_api_calls", 0) or 0),
                 "broker_order_api_calls": 0,
                 "true_errors": core_errors,
+                "true_error_details": _compact_errors(core_error_rows),
+                "auxiliary_error_details": [{"error": str(x)[:500]} for x in auxiliary_errors[:12]],
                 "risk_layer": "ONLINE" if not any(x.startswith(("professional:", "pretrade:")) for x in auxiliary_errors) else "ERROR",
                 "risk_sizing": "ACTIVE",
                 "data_quality": str(quality_result.get("status") or "UNKNOWN"),
@@ -199,6 +219,8 @@ while True:
                 "status": "ERROR",
                 "last_cycle_finished_at": finished,
                 "true_errors": 1,
+                "true_error_details": [{"error": f"{type(e).__name__}: {e}"[:500]}],
+                "auxiliary_error_details": [],
                 "message": f"{type(e).__name__}: {e}",
             })
         _write_status()
