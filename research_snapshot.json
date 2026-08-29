@@ -132,7 +132,7 @@
   "expected_live_deviation": {
     "active_sizing": true,
     "contains_secrets": false,
-    "generated_at": "2026-08-29T18:11:08.876254+00:00",
+    "generated_at": "2026-08-29T18:22:11.662894+00:00",
     "minimum_live_trades_for_active_sizing": 5,
     "rows": [
       {
@@ -10409,7 +10409,7 @@
       }
     ]
   },
-  "generated_at": "2026-08-29T18:11:33.683487+00:00",
+  "generated_at": "2026-08-29T18:22:34.155664+00:00",
   "governance": {
     "arenas": [
       {
@@ -24795,7 +24795,7 @@
         "total_reduction_notional": 1558.7156538438335
       }
     ],
-    "generated_at": "2026-08-29T18:11:49.007245+00:00",
+    "generated_at": "2026-08-29T18:22:51.836041+00:00",
     "scope": "PUBLIC_READ_ONLY_RISK_SIZING_AUDIT",
     "status": "AVAILABLE",
     "summary": {
@@ -27062,11 +27062,11 @@
       "worst_trade_return": -0.00029986839109497065
     }
   ],
-  "sync_checked_at": "2026-08-29T18:11:53.109250+00:00",
-  "sync_snapshot_age_seconds": 19.425763,
+  "sync_checked_at": "2026-08-29T18:22:55.100938+00:00",
+  "sync_snapshot_age_seconds": 20.945274,
   "trial_ledger": {
     "challenges": 29,
-    "cycles": 579,
+    "cycles": 582,
     "distinct_hypotheses": 51,
     "events": 114,
     "last_event_at": "2026-08-29T16:11:16.387030+00:00",
@@ -27081,16 +27081,16 @@
     "data_quality": "OK",
     "data_quality_critical": 0,
     "data_quality_warnings": 38,
-    "heartbeat_at": "2026-08-29T18:11:25.825644+00:00",
-    "last_cycle_finished_at": "2026-08-29T18:10:41.245928+00:00",
-    "last_cycle_started_at": "2026-08-29T18:08:20.694847+00:00",
-    "market_data_api_calls": 0,
+    "heartbeat_at": "2026-08-29T18:22:26.052137+00:00",
+    "last_cycle_finished_at": "2026-08-29T18:20:58.355682+00:00",
+    "last_cycle_started_at": "2026-08-29T18:21:58.370389+00:00",
+    "market_data_api_calls": 5,
     "portfolio_risk": "HIGH",
     "realtime_watchlist_sync": "ONLINE",
     "realtime_watchlist_total": 63,
     "risk_layer": "ONLINE",
     "risk_sizing": "ACTIVE",
-    "status": "DEGRADED",
+    "status": "RUNNING",
     "true_errors": 2
   }
 }
