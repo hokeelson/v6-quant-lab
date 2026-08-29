@@ -1,57 +1,57 @@
 {
-  "checked_at": "2026-08-28T20:11:58.386370+00:00",
+  "checked_at": "2026-08-29T00:52:33.921992+00:00",
   "contains_secrets": false,
   "research": {
     "contains_secrets": false,
     "expected_generated_at": null,
-    "generated_at": "2026-08-28T20:11:23.819416+00:00",
+    "generated_at": "2026-08-29T00:51:35.312207+00:00",
     "http": "OK",
-    "latest_account_as_of": "2026-08-28T19:00:00+00:00",
+    "latest_account_as_of": "2026-08-28T23:00:00+00:00",
     "scope": "PUBLIC_READ_ONLY_RESEARCH_SUMMARY"
   },
   "runtime_health": {
     "components": {
       "crypto_v2": {
-        "active_blocked_candidates": 34,
+        "active_blocked_candidates": 24,
         "backlog_remaining": 0,
         "broker_order_api_calls": 0,
-        "finished_age_seconds": 29.9,
-        "finished_at": "2026-08-28T20:11:25.918701+00:00",
+        "finished_age_seconds": 33.2,
+        "finished_at": "2026-08-29T00:51:58.039552+00:00",
         "healthy": true,
         "is_catching_up": false,
         "market_data_api_calls": 0,
         "persistent_checkpoint": true,
         "research_layer_present": true,
-        "snapshot_age_seconds": 30.0,
-        "snapshot_generated_at": "2026-08-28T20:11:25.856591+00:00",
-        "started_age_seconds": 30.2,
-        "started_at": "2026-08-28T20:11:25.691217+00:00",
+        "snapshot_age_seconds": 33.3,
+        "snapshot_generated_at": "2026-08-29T00:51:57.954689+00:00",
+        "started_age_seconds": 36.1,
+        "started_at": "2026-08-29T00:51:55.154113+00:00",
         "status": "ONLINE",
-        "tracked_research_trades": 19
+        "tracked_research_trades": 23
       },
       "main_v8": {
-        "assets_checked": 0,
+        "assets_checked": 239,
         "bars_processed": 0,
         "broker_order_api_calls": 0,
-        "completed_age_seconds": null,
-        "cycle_age_seconds": 66.2,
-        "data_quality": "STARTING",
+        "completed_age_seconds": 176.7,
+        "cycle_age_seconds": 116.7,
+        "data_quality": "OK",
         "healthy": true,
-        "heartbeat_age_seconds": 6.2,
-        "heartbeat_at": "2026-08-28T20:11:49.673297+00:00",
-        "last_cycle_finished_at": null,
-        "last_cycle_started_at": "2026-08-28T20:10:49.658899+00:00",
+        "heartbeat_age_seconds": 1.3,
+        "heartbeat_at": "2026-08-29T00:52:29.969167+00:00",
+        "last_cycle_finished_at": "2026-08-29T00:49:34.514112+00:00",
+        "last_cycle_started_at": "2026-08-29T00:50:34.531570+00:00",
         "market_data_api_calls": 0,
-        "realtime_watchlist_sync": "STARTING",
-        "risk_layer": "STARTING",
+        "realtime_watchlist_sync": "ONLINE",
+        "risk_layer": "ONLINE",
         "status": "RUNNING",
         "true_errors": 0
       },
       "research": {
-        "age_seconds": 32.0,
-        "generated_at": "2026-08-28T20:11:23.819416+00:00",
+        "age_seconds": 55.9,
+        "generated_at": "2026-08-29T00:51:35.312207+00:00",
         "healthy": true,
-        "latest_account_as_of": "2026-08-28T19:00:00+00:00"
+        "latest_account_as_of": "2026-08-28T23:00:00+00:00"
       },
       "storage": {
         "healthy": true,
@@ -62,7 +62,7 @@
         "updated_at": "2026-08-28T20:10:23.762909+00:00"
       }
     },
-    "generated_at": "2026-08-28T20:11:55.842799+00:00",
+    "generated_at": "2026-08-29T00:52:31.219401+00:00",
     "http": "OK",
     "overall_status": "HEALTHY",
     "safety": {
@@ -74,9 +74,9 @@
     "source": "RAILWAY_RUNTIME_DIRECT"
   },
   "v2": {
-    "active_blocked_candidates": 34,
+    "active_blocked_candidates": 24,
     "bidirectional_shadow": {
-      "active_evaluations": 0,
+      "active_evaluations": 228,
       "by_selected_action": {},
       "changes_v2_execution": false,
       "closed_evaluations": 0,
@@ -89,7 +89,7 @@
         "registered_at": "2026-08-28T20:10:25.249866+00:00"
       },
       "status": "ACTIVE",
-      "total_decisions": 0
+      "total_decisions": 228
     },
     "broker_order_api_calls": 0,
     "catchup": {
@@ -108,13 +108,13 @@
       "open_interest": "NOT_CONNECTED",
       "policy": "OBSERVE_FIRST_NO_STRATEGY_INPUT"
     },
-    "generated_at": "2026-08-28T20:11:25.856591+00:00",
+    "generated_at": "2026-08-29T00:51:57.954689+00:00",
     "http": "OK",
     "market_data_api_calls": 0,
     "persistent_checkpoint": true,
     "research_layer_present": true,
     "scope": "PUBLIC_READ_ONLY_CRYPTO_V2_SHADOW",
     "status": "ONLINE",
-    "tracked_research_trades": 19
+    "tracked_research_trades": 23
   }
 }
