@@ -35,11 +35,14 @@ jobs:
           storage_tmp="$(mktemp)"
           sizing_tmp="$(mktemp)"
           expected_tmp="$(mktemp)"
+          health_tmp="$(mktemp)"
 
           curl --fail --silent --show-error --location --retry 3 --retry-delay 3 --max-time 30 \
             "$base/research_snapshot.json" -o "$research_tmp"
           curl --fail --silent --show-error --location --retry 3 --retry-delay 3 --max-time 30 \
             "$base/crypto_v2_shadow_snapshot.json" -o "$v2_tmp"
+          curl --fail --silent --show-error --location --retry 3 --retry-delay 3 --max-time 30 \
+            "$base/runtime_health.json" -o "$health_tmp"
 
           curl --fail --silent --show-error --location --retry 2 --retry-delay 2 --max-time 15 \
             "$base/storage_persistence.json" -o "$storage_tmp" || printf '%s\n' '{}' > "$storage_tmp"
@@ -48,7 +51,7 @@ jobs:
           curl --fail --silent --show-error --location --retry 2 --retry-delay 2 --max-time 15 \
             "$base/expected_live_deviation.json" -o "$expected_tmp" || printf '%s\n' '{}' > "$expected_tmp"
 
-          python - "$research_tmp" "$v2_tmp" "$storage_tmp" "$sizing_tmp" "$expected_tmp" <<'PY'
+          python - "$research_tmp" "$v2_tmp" "$storage_tmp" "$sizing_tmp" "$expected_tmp" "$health_tmp" <<'PY'
           import json, pathlib, sys
           from datetime import datetime, timezone
 
@@ -75,6 +78,7 @@ jobs:
           storage = load(sys.argv[3])
           sizing = load(sys.argv[4])
           expected = load(sys.argv[5])
+          health = load(sys.argv[6])
 
           if research.get('contains_secrets') is not False:
               raise SystemExit('Research snapshot secret-safety flag missing or unsafe')
@@ -104,7 +108,20 @@ jobs:
           if v2_age > 300:
               raise SystemExit(f'Crypto V2 runtime snapshot is stale: {v2_age:.1f}s old')
 
-          # Keep the useful public enrichments from the old research pipeline.
+          if health.get('contains_secrets') is not False:
+              raise SystemExit('Runtime health secret-safety flag missing or unsafe')
+          if str(health.get('scope') or '') != 'PUBLIC_READ_ONLY_RUNTIME_HEALTH':
+              raise SystemExit('Unexpected runtime health scope')
+          health_generated = utc_dt(health.get('generated_at'))
+          if health_generated is None:
+              raise SystemExit('Runtime health generated_at missing')
+          health_age = max(0.0, (now - health_generated).total_seconds())
+          if health_age > 60:
+              raise SystemExit(f'Runtime health heartbeat is stale: {health_age:.1f}s old')
+          safety = health.get('safety') if isinstance(health.get('safety'), dict) else {}
+          if int(safety.get('broker_order_api_calls', -1)) != 0:
+              raise SystemExit('Runtime health broker API safety invariant violated')
+
           if storage:
               allowed = {
                   'status', 'mode', 'persistence_status', 'last_snapshot_at',
@@ -117,18 +134,12 @@ jobs:
           elif old_research.get('storage_persistence'):
               research['storage_persistence'] = old_research['storage_persistence']
 
-          if (
-              sizing.get('contains_secrets') is False
-              and str(sizing.get('scope') or '') == 'PUBLIC_READ_ONLY_RISK_SIZING_AUDIT'
-          ):
+          if sizing.get('contains_secrets') is False and str(sizing.get('scope') or '') == 'PUBLIC_READ_ONLY_RISK_SIZING_AUDIT':
               research['risk_sizing_audit'] = sizing
           elif old_research.get('risk_sizing_audit'):
               research['risk_sizing_audit'] = old_research['risk_sizing_audit']
 
-          if (
-              expected.get('contains_secrets') is False
-              and str(expected.get('scope') or '') == 'PUBLIC_READ_ONLY_EXPECTED_LIVE_DEVIATION'
-          ):
+          if expected.get('contains_secrets') is False and str(expected.get('scope') or '') == 'PUBLIC_READ_ONLY_EXPECTED_LIVE_DEVIATION':
               research['expected_live_deviation'] = expected
           elif old_research.get('expected_live_deviation'):
               research['expected_live_deviation'] = old_research['expected_live_deviation']
@@ -138,28 +149,25 @@ jobs:
           research['sync_snapshot_age_seconds'] = research_age
           v2['sync_checked_at'] = checked
           v2['sync_snapshot_age_seconds'] = v2_age
+          health['sync_checked_at'] = checked
+          health['sync_snapshot_age_seconds'] = health_age
 
-          pathlib.Path('research_snapshot.json').write_text(
-              json.dumps(research, ensure_ascii=False, indent=2, sort_keys=True, allow_nan=False) + '\n',
-              encoding='utf-8'
-          )
-          pathlib.Path('crypto_v2_shadow_snapshot.json').write_text(
-              json.dumps(v2, ensure_ascii=False, indent=2, sort_keys=True, allow_nan=False) + '\n',
-              encoding='utf-8'
-          )
+          pathlib.Path('research_snapshot.json').write_text(json.dumps(research, ensure_ascii=False, indent=2, sort_keys=True, allow_nan=False) + '\n', encoding='utf-8')
+          pathlib.Path('crypto_v2_shadow_snapshot.json').write_text(json.dumps(v2, ensure_ascii=False, indent=2, sort_keys=True, allow_nan=False) + '\n', encoding='utf-8')
+          pathlib.Path('runtime_health.json').write_text(json.dumps(health, ensure_ascii=False, indent=2, sort_keys=True, allow_nan=False) + '\n', encoding='utf-8')
           PY
 
-      - name: Commit both snapshots together
+      - name: Commit snapshots together
         shell: bash
         run: |
           set -euo pipefail
-          if [ -z "$(git status --porcelain -- research_snapshot.json crypto_v2_shadow_snapshot.json)" ]; then
+          if [ -z "$(git status --porcelain -- research_snapshot.json crypto_v2_shadow_snapshot.json runtime_health.json)" ]; then
             echo 'No runtime snapshot changes.'
             exit 0
           fi
           git config user.name 'v6-snapshot-bot'
           git config user.email 'v6-snapshot-bot@users.noreply.github.com'
-          git add research_snapshot.json crypto_v2_shadow_snapshot.json
+          git add research_snapshot.json crypto_v2_shadow_snapshot.json runtime_health.json
           git commit -m 'Update runtime snapshots'
 
           for attempt in 1 2 3; do
