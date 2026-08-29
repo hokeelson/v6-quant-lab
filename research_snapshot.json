@@ -132,7 +132,7 @@
   "expected_live_deviation": {
     "active_sizing": true,
     "contains_secrets": false,
-    "generated_at": "2026-08-29T13:11:39.421011+00:00",
+    "generated_at": "2026-08-29T13:22:42.215146+00:00",
     "minimum_live_trades_for_active_sizing": 5,
     "rows": [
       {
@@ -10400,7 +10400,7 @@
       }
     ]
   },
-  "generated_at": "2026-08-29T13:11:30.616287+00:00",
+  "generated_at": "2026-08-29T13:22:31.065579+00:00",
   "governance": {
     "arenas": [
       {
@@ -24738,7 +24738,7 @@
         "total_reduction_notional": 6136.085600017266
       }
     ],
-    "generated_at": "2026-08-29T13:11:59.500893+00:00",
+    "generated_at": "2026-08-29T13:23:22.359820+00:00",
     "scope": "PUBLIC_READ_ONLY_RISK_SIZING_AUDIT",
     "status": "AVAILABLE",
     "summary": {
@@ -26969,11 +26969,11 @@
       "worst_trade_return": -0.00029986839109497065
     }
   ],
-  "sync_checked_at": "2026-08-29T13:12:04.214329+00:00",
-  "sync_snapshot_age_seconds": 33.598042,
+  "sync_checked_at": "2026-08-29T13:23:25.338314+00:00",
+  "sync_snapshot_age_seconds": 54.272735,
   "trial_ledger": {
     "challenges": 27,
-    "cycles": 547,
+    "cycles": 550,
     "distinct_hypotheses": 48,
     "events": 111,
     "last_event_at": "2026-08-29T12:55:30.936970+00:00",
@@ -26982,16 +26982,16 @@
   },
   "worker": {
     "assets_checked": 236,
-    "bars_processed": 36,
+    "bars_processed": 0,
     "broker_order_api_calls": 0,
     "concept_drift_pairs": 9,
     "data_quality": "OK",
     "data_quality_critical": 0,
     "data_quality_warnings": 41,
-    "heartbeat_at": "2026-08-29T13:11:20.887551+00:00",
-    "last_cycle_finished_at": "2026-08-29T13:08:08.989624+00:00",
-    "last_cycle_started_at": "2026-08-29T13:09:08.999843+00:00",
-    "market_data_api_calls": 5,
+    "heartbeat_at": "2026-08-29T13:22:21.085435+00:00",
+    "last_cycle_finished_at": "2026-08-29T13:19:58.566171+00:00",
+    "last_cycle_started_at": "2026-08-29T13:20:58.607914+00:00",
+    "market_data_api_calls": 0,
     "portfolio_risk": "HIGH",
     "realtime_watchlist_sync": "ONLINE",
     "realtime_watchlist_total": 64,
