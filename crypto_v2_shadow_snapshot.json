@@ -43,7 +43,7 @@
   "contains_secrets": false,
   "errors": [],
   "forward_only": true,
-  "generated_at": "2026-08-29T12:39:24.004083+00:00",
+  "generated_at": "2026-08-29T12:48:42.848955+00:00",
   "latest_market_regime": {
     "realized_vol": 0.01854369174238156,
     "reason": "No dominant directional regime",
@@ -1707,6 +1707,45 @@
       "stop_distance": 0.020494116394228202,
       "symbol": "ZECUSDT",
       "target_distance": 0.034156860657047004
+    },
+    {
+      "bars_held": 0,
+      "best_realized_action": null,
+      "conflict_margin": 0.0015,
+      "context_json": "{\"avg_pairwise_correlation\": 0.26509759300625063, \"breadth_above_ema20\": 0.25, \"btc_return_24h\": -0.025368784257801757, \"external_derivatives_data\": \"NOT_CONNECTED\", \"funding_rate\": null, \"horizon\": \"short\", \"liquidation_shock_score\": null, \"median_one_bar_return\": 0.000177619893428127, \"open_interest_change\": null, \"session\": \"EUROPE\", \"symbols_observed\": 8, \"version\": 1}",
+      "created_at": "2026-08-29T12:42:32.552450+00:00",
+      "decision_bar": "2026-08-29T11:00:00+00:00",
+      "decision_correct": null,
+      "entry_bar": null,
+      "entry_price": null,
+      "ev_is_calibrated": 0,
+      "evaluation_bars": 6,
+      "exit_bar": null,
+      "exit_price": null,
+      "features_json": "{\"atr_pct\": 0.014668367346938788, \"bars\": 4319, \"breakout_pct\": 0.0, \"price\": 0.896, \"ready\": true, \"realized_vol\": 0.052997657317918265, \"relative_strength\": 0.0819725578427074, \"ret_fast\": 0.032258064516129004, \"ret_slow\": 0.05660377358490565, \"volume_z\": 1.2056779994891065, \"zscore20\": 3.152473124411607}",
+      "horizon": "short",
+      "long_ev_proxy": 0.01731847731879936,
+      "long_mae_pct": 0.0,
+      "long_mfe_pct": 0.0,
+      "long_return_pct": null,
+      "long_score": 0.6692624314843965,
+      "method": "HEURISTIC_FORWARD_SHADOW_V1",
+      "min_trade_ev": 0.003,
+      "no_trade_ev": 0.0,
+      "reason": "LONG has the stronger cost-adjusted EV proxy",
+      "regime": "SIDEWAYS",
+      "selected_action": "LONG",
+      "selected_return_pct": null,
+      "shadow_id": "b9f3dfc9086c4da6b68a335d6258b142",
+      "short_ev_proxy": 0.004748869619976172,
+      "short_mae_pct": 0.0,
+      "short_mfe_pct": 0.0,
+      "short_return_pct": null,
+      "short_score": 0.4907375685156035,
+      "status": "PENDING_ENTRY",
+      "stop_distance": 0.02640306122448982,
+      "symbol": "ENSOUSDT",
+      "target_distance": 0.04400510204081637
     },
     {
       "bars_held": 1,
@@ -4125,45 +4164,6 @@
       "stop_distance": 0.017972350230414748,
       "symbol": "TAOUSDT",
       "target_distance": 0.029953917050691246
-    },
-    {
-      "bars_held": 2,
-      "best_realized_action": null,
-      "conflict_margin": 0.0015,
-      "context_json": "{\"avg_pairwise_correlation\": 0.34002638101111154, \"breadth_above_ema20\": 0.1891891891891892, \"btc_return_24h\": -0.020623776016681084, \"external_derivatives_data\": \"NOT_CONNECTED\", \"funding_rate\": null, \"horizon\": \"short\", \"liquidation_shock_score\": null, \"median_one_bar_return\": 0.001422812425895037, \"open_interest_change\": null, \"session\": \"EUROPE\", \"symbols_observed\": 37, \"version\": 1}",
-      "created_at": "2026-08-29T10:00:51.259241+00:00",
-      "decision_bar": "2026-08-29T09:00:00+00:00",
-      "decision_correct": null,
-      "entry_bar": "2026-08-29T10:00:00+00:00",
-      "entry_price": 2.751,
-      "ev_is_calibrated": 0,
-      "evaluation_bars": 6,
-      "exit_bar": null,
-      "exit_price": null,
-      "features_json": "{\"atr_pct\": 0.04074958471760797, \"bars\": 4320, \"breakout_pct\": -0.10299869621903535, \"price\": 2.752, \"ready\": true, \"realized_vol\": 0.11963583413202308, \"relative_strength\": 0.040260678573183495, \"ret_fast\": -0.030985915492957816, \"ret_slow\": 0.01963690255650241, \"volume_z\": -0.924848948159809, \"zscore20\": 0.04949732293063956}",
-      "horizon": "short",
-      "long_ev_proxy": 0.007024693728325988,
-      "long_mae_pct": -0.013449654671028655,
-      "long_mfe_pct": 0.008724100327153872,
-      "long_return_pct": null,
-      "long_score": 0.4282965233499129,
-      "method": "HEURISTIC_FORWARD_SHADOW_V1",
-      "min_trade_ev": 0.003,
-      "no_trade_ev": 0.0,
-      "reason": "SHORT has the stronger cost-adjusted EV proxy",
-      "regime": "SIDEWAYS",
-      "selected_action": "SHORT",
-      "selected_return_pct": null,
-      "shadow_id": "9ed97b8b731d421e90b2cc1758d6923e",
-      "short_ev_proxy": 0.03507480793280358,
-      "short_mae_pct": -0.008648648648648671,
-      "short_mfe_pct": 0.013633014001473764,
-      "short_return_pct": null,
-      "short_score": 0.5717034766500871,
-      "status": "OPEN",
-      "stop_distance": 0.07334925249169436,
-      "symbol": "TRUMPUSDT",
-      "target_distance": 0.12224875415282391
     }
   ],
   "recent_blocked_candidates": [
@@ -6948,6 +6948,19 @@
     },
     {
       "action": "NO_TRADE",
+      "bar_time": "2026-08-29T11:00:00+00:00",
+      "confidence": 0.0,
+      "created_at": "2026-08-29T12:42:32.560454+00:00",
+      "decision_id": "00d6114d3f5c44f899e42a4c44464e11",
+      "features_json": "{\"_research\": {\"avg_pairwise_correlation\": 0.26509759300625063, \"breadth_above_ema20\": 0.25, \"btc_return_24h\": -0.025368784257801757, \"external_derivatives_data\": \"NOT_CONNECTED\", \"funding_rate\": null, \"horizon\": \"short\", \"liquidation_shock_score\": null, \"median_one_bar_return\": 0.000177619893428127, \"open_interest_change\": null, \"session\": \"EUROPE\", \"symbols_observed\": 8, \"version\": 1}, \"atr_pct\": 0.014668367346938788, \"bars\": 4319, \"breakout_pct\": 0.0, \"price\": 0.896, \"ready\": true, \"realized_vol\": 0.052997657317918265, \"relative_strength\": 0.0819725578427074, \"ret_fast\": 0.032258064516129004, \"ret_slow\": 0.05660377358490565, \"volume_z\": 1.2056779994891065, \"zscore20\": 3.152473124411607}",
+      "horizon": "short",
+      "reason": "No V2 setup in SIDEWAYS",
+      "regime": "SIDEWAYS",
+      "strategy": "NONE",
+      "symbol": "ENSOUSDT"
+    },
+    {
+      "action": "NO_TRADE",
       "bar_time": "2026-08-29T10:00:00+00:00",
       "confidence": 0.0,
       "created_at": "2026-08-29T11:00:57.230158+00:00",
@@ -9051,19 +9064,6 @@
       "regime": "SIDEWAYS",
       "strategy": "NONE",
       "symbol": "LTCUSDT"
-    },
-    {
-      "action": "NO_TRADE",
-      "bar_time": "2026-08-29T07:00:00+00:00",
-      "confidence": 0.0,
-      "created_at": "2026-08-29T08:00:21.608688+00:00",
-      "decision_id": "5cce8cab1f6b4b51851dcbd96bcde013",
-      "features_json": "{\"_research\": {\"avg_pairwise_correlation\": 0.33815410631086473, \"breadth_above_ema20\": 0.1891891891891892, \"btc_return_24h\": -0.02525734371077082, \"external_derivatives_data\": \"NOT_CONNECTED\", \"funding_rate\": null, \"horizon\": \"short\", \"liquidation_shock_score\": null, \"median_one_bar_return\": -0.0006083958629081732, \"open_interest_change\": null, \"session\": \"ASIA\", \"symbols_observed\": 37, \"version\": 1}, \"atr_pct\": 0.008848852040816325, \"bars\": 4331, \"breakout_pct\": -0.048327137546468335, \"price\": 1.792, \"ready\": true, \"realized_vol\": 0.030001471183453546, \"relative_strength\": -0.01696606623043706, \"ret_fast\": -0.012127894156560126, \"ret_slow\": -0.04222340994120788, \"volume_z\": -0.6089682410091326, \"zscore20\": -1.3943388956259908}",
-      "horizon": "short",
-      "reason": "No V2 setup in SIDEWAYS",
-      "regime": "SIDEWAYS",
-      "strategy": "NONE",
-      "symbol": "NEARUSDT"
     }
   ],
   "recent_research_trades": [
@@ -10244,7 +10244,7 @@
   ],
   "research_layer": {
     "bidirectional_decision_shadow": {
-      "active_evaluations": 422,
+      "active_evaluations": 423,
       "avg_selected_return_pct": -0.0046054298662145665,
       "by_selected_action": {
         "LONG": {
@@ -10277,7 +10277,7 @@
       "no_trade_missed_opportunities": 5,
       "observation_only": true,
       "status": "ACTIVE",
-      "total_decisions": 788
+      "total_decisions": 789
     },
     "bidirectional_registration": {
       "forward_only": true,
@@ -10338,9 +10338,9 @@
   "scope": "PUBLIC_READ_ONLY_CRYPTO_V2_SHADOW",
   "shared_cache_only": true,
   "status": "ONLINE",
-  "symbols": 37,
-  "sync_checked_at": "2026-08-29T12:39:30.208647+00:00",
-  "sync_snapshot_age_seconds": 6.204564,
+  "symbols": 36,
+  "sync_checked_at": "2026-08-29T12:49:45.245075+00:00",
+  "sync_snapshot_age_seconds": 62.39612,
   "v2": {
     "accounts": [
       {
