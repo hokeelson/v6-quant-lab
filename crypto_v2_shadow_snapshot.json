@@ -10339,8 +10339,8 @@
   "shared_cache_only": true,
   "status": "ONLINE",
   "symbols": 37,
-  "sync_checked_at": "2026-08-29T12:38:49.628198+00:00",
-  "sync_snapshot_age_seconds": 27.902223,
+  "sync_checked_at": "2026-08-29T12:39:16.839806+00:00",
+  "sync_snapshot_age_seconds": 55.113831,
   "v2": {
     "accounts": [
       {

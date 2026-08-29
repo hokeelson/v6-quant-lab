@@ -132,7 +132,7 @@
   "expected_live_deviation": {
     "active_sizing": true,
     "contains_secrets": false,
-    "generated_at": "2026-08-29T12:38:09.198754+00:00",
+    "generated_at": "2026-08-29T12:39:09.551241+00:00",
     "minimum_live_trades_for_active_sizing": 5,
     "rows": [
       {
@@ -24555,7 +24555,7 @@
         "total_reduction_notional": 9298.13555244675
       }
     ],
-    "generated_at": "2026-08-29T12:38:44.386854+00:00",
+    "generated_at": "2026-08-29T12:39:14.572276+00:00",
     "scope": "PUBLIC_READ_ONLY_RISK_SIZING_AUDIT",
     "status": "AVAILABLE",
     "summary": {
@@ -26786,8 +26786,8 @@
       "worst_trade_return": -0.00029986839109497065
     }
   ],
-  "sync_checked_at": "2026-08-29T12:38:49.628198+00:00",
-  "sync_snapshot_age_seconds": 29.1205,
+  "sync_checked_at": "2026-08-29T12:39:16.839806+00:00",
+  "sync_snapshot_age_seconds": 56.332108,
   "trial_ledger": {
     "challenges": 27,
     "cycles": 592,
