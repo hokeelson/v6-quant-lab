@@ -132,7 +132,7 @@
   "expected_live_deviation": {
     "active_sizing": true,
     "contains_secrets": false,
-    "generated_at": "2026-08-29T08:11:40.945036+00:00",
+    "generated_at": "2026-08-29T08:22:44.062958+00:00",
     "minimum_live_trades_for_active_sizing": 5,
     "rows": [
       {
@@ -4319,6 +4319,72 @@
         "strategy": "Mean Reversion RSI",
         "suggested_confidence_multiplier": 1.0,
         "symbol": "BTCUSDT",
+        "win_rate_gap": null
+      },
+      {
+        "deviation_score": 0.0,
+        "evidence_weight": 0.0,
+        "horizon": "medium",
+        "live_closed_trades": 0,
+        "live_compound_return": null,
+        "live_losses": 0,
+        "live_max_loss_streak": 0,
+        "live_per_trade_return": null,
+        "live_profit_factor": null,
+        "live_profit_factor_infinite": false,
+        "live_win_rate": null,
+        "live_wins": 0,
+        "market": "crypto",
+        "oos_closed_trades": 2,
+        "oos_max_drawdown": -0.027482939638041826,
+        "oos_per_trade_return": 0.012588451925033217,
+        "oos_profit_factor": 5.352910456649547,
+        "oos_profit_factor_infinite": false,
+        "oos_sharpe": 1.7857572852737333,
+        "oos_total_return": 0.02533537297193522,
+        "oos_win_rate": 0.5,
+        "per_trade_return_gap": null,
+        "performance_key": "crypto:CHIPUSDT:medium:Mean Reversion RSI",
+        "profit_factor_gap": null,
+        "reasons": [],
+        "shadow_only": true,
+        "state": "LEARNING",
+        "strategy": "Mean Reversion RSI",
+        "suggested_confidence_multiplier": 1.0,
+        "symbol": "CHIPUSDT",
+        "win_rate_gap": null
+      },
+      {
+        "deviation_score": 0.0,
+        "evidence_weight": 0.0,
+        "horizon": "short",
+        "live_closed_trades": 0,
+        "live_compound_return": null,
+        "live_losses": 0,
+        "live_max_loss_streak": 0,
+        "live_per_trade_return": null,
+        "live_profit_factor": null,
+        "live_profit_factor_infinite": false,
+        "live_win_rate": null,
+        "live_wins": 0,
+        "market": "crypto",
+        "oos_closed_trades": 15,
+        "oos_max_drawdown": -0.016380851408036023,
+        "oos_per_trade_return": 0.006354336192206489,
+        "oos_profit_factor": 9.132524464326258,
+        "oos_profit_factor_infinite": false,
+        "oos_sharpe": 11.662028020377813,
+        "oos_total_return": 0.09967368715065872,
+        "oos_win_rate": 0.8,
+        "per_trade_return_gap": null,
+        "performance_key": "crypto:CHIPUSDT:short:Mean Reversion RSI",
+        "profit_factor_gap": null,
+        "reasons": [],
+        "shadow_only": true,
+        "state": "LEARNING",
+        "strategy": "Mean Reversion RSI",
+        "suggested_confidence_multiplier": 1.0,
+        "symbol": "CHIPUSDT",
         "win_rate_gap": null
       },
       {
@@ -10103,8 +10169,8 @@
     "summary": {
       "broker_order_api_calls": 0,
       "diverging": 8,
-      "learning": 276,
-      "models": 291,
+      "learning": 278,
+      "models": 293,
       "severe": 2,
       "watch": 2,
       "with_live_trades": 104
@@ -10234,7 +10300,7 @@
       }
     ]
   },
-  "generated_at": "2026-08-29T08:11:55.802753+00:00",
+  "generated_at": "2026-08-29T08:22:56.278490+00:00",
   "governance": {
     "arenas": [
       {
@@ -11267,6 +11333,46 @@
       "symbol": "BTCUSDT",
       "train_score": 82.82991432490995,
       "updated_at": "2026-08-23T12:15:20.932941+00:00"
+    },
+    {
+      "calibrated_through": "2026-08-29T04:00:00+00:00",
+      "calibration_score": 75.37203866066908,
+      "horizon": "medium",
+      "market": "crypto",
+      "oos_metrics": {
+        "closed_trades": 2,
+        "max_drawdown": -0.027482939638041826,
+        "profit_factor": 5.352910456649547,
+        "sharpe": 1.7857572852737333,
+        "total_return": 0.02533537297193522,
+        "win_rate": 0.5
+      },
+      "oos_score": 77.46748938383591,
+      "regime_fit": 0.6,
+      "strategy": "Mean Reversion RSI",
+      "symbol": "CHIPUSDT",
+      "train_score": 81.84837227842407,
+      "updated_at": "2026-08-29T08:14:19.556224+00:00"
+    },
+    {
+      "calibrated_through": "2026-08-29T07:00:00+00:00",
+      "calibration_score": 83.19008212221327,
+      "horizon": "short",
+      "market": "crypto",
+      "oos_metrics": {
+        "closed_trades": 15,
+        "max_drawdown": -0.016380851408036023,
+        "profit_factor": 9.132524464326258,
+        "sharpe": 11.662028020377813,
+        "total_return": 0.09967368715065872,
+        "win_rate": 0.8
+      },
+      "oos_score": 97.92797037732156,
+      "regime_fit": 0.45,
+      "strategy": "Mean Reversion RSI",
+      "symbol": "CHIPUSDT",
+      "train_score": 69.5749848413952,
+      "updated_at": "2026-08-29T08:14:15.647723+00:00"
     },
     {
       "calibrated_through": "2026-08-25T12:00:00+00:00",
@@ -24390,7 +24496,7 @@
         "total_reduction_notional": 2627.270059086234
       }
     ],
-    "generated_at": "2026-08-29T08:11:56.012659+00:00",
+    "generated_at": "2026-08-29T08:23:14.164066+00:00",
     "scope": "PUBLIC_READ_ONLY_RISK_SIZING_AUDIT",
     "status": "AVAILABLE",
     "summary": {
@@ -26636,29 +26742,29 @@
       "worst_trade_return": -0.00029986839109497065
     }
   ],
-  "sync_checked_at": "2026-08-29T08:12:00.586482+00:00",
-  "sync_snapshot_age_seconds": 4.783729,
+  "sync_checked_at": "2026-08-29T08:23:15.056016+00:00",
+  "sync_snapshot_age_seconds": 18.777526,
   "trial_ledger": {
     "challenges": 25,
-    "cycles": 544,
-    "distinct_hypotheses": 46,
-    "events": 98,
-    "last_event_at": "2026-08-29T07:57:14.458553+00:00",
+    "cycles": 547,
+    "distinct_hypotheses": 48,
+    "events": 100,
+    "last_event_at": "2026-08-29T08:14:09.324374+00:00",
     "promotions": 0,
-    "research_trials": 64
+    "research_trials": 66
   },
   "worker": {
-    "assets_checked": 239,
-    "bars_processed": 74,
+    "assets_checked": 238,
+    "bars_processed": 0,
     "broker_order_api_calls": 0,
     "concept_drift_pairs": 9,
     "data_quality": "OK",
     "data_quality_critical": 0,
-    "data_quality_warnings": 44,
-    "heartbeat_at": "2026-08-29T08:11:55.653995+00:00",
-    "last_cycle_finished_at": "2026-08-29T08:08:59.236415+00:00",
-    "last_cycle_started_at": "2026-08-29T08:09:59.245100+00:00",
-    "market_data_api_calls": 10,
+    "data_quality_warnings": 42,
+    "heartbeat_at": "2026-08-29T08:22:55.780438+00:00",
+    "last_cycle_finished_at": "2026-08-29T08:21:10.935979+00:00",
+    "last_cycle_started_at": "2026-08-29T08:22:10.950380+00:00",
+    "market_data_api_calls": 0,
     "portfolio_risk": "HIGH",
     "realtime_watchlist_sync": "ONLINE",
     "realtime_watchlist_total": 65,

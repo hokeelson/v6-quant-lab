@@ -43,7 +43,7 @@
   "contains_secrets": false,
   "errors": [],
   "forward_only": true,
-  "generated_at": "2026-08-29T08:11:45.944000+00:00",
+  "generated_at": "2026-08-29T08:23:09.912956+00:00",
   "latest_market_regime": {
     "realized_vol": 0.019170317177018746,
     "reason": "No dominant directional regime",
@@ -1707,6 +1707,45 @@
       "stop_distance": 0.022379709063782192,
       "symbol": "ZECUSDT",
       "target_distance": 0.03729951510630365
+    },
+    {
+      "bars_held": 0,
+      "best_realized_action": null,
+      "conflict_margin": 0.0015,
+      "context_json": "{\"avg_pairwise_correlation\": 0.3340774085042481, \"breadth_above_ema20\": 0.1891891891891892, \"btc_return_24h\": -0.025533391915641523, \"external_derivatives_data\": \"NOT_CONNECTED\", \"funding_rate\": null, \"horizon\": \"short\", \"liquidation_shock_score\": null, \"median_one_bar_return\": -0.0004985044865403188, \"open_interest_change\": null, \"session\": \"ASIA\", \"symbols_observed\": 37, \"version\": 1}",
+      "created_at": "2026-08-29T08:14:52.824623+00:00",
+      "decision_bar": "2026-08-29T07:00:00+00:00",
+      "decision_correct": null,
+      "entry_bar": null,
+      "entry_price": null,
+      "ev_is_calibrated": 0,
+      "evaluation_bars": 6,
+      "exit_bar": null,
+      "exit_price": null,
+      "features_json": "{\"atr_pct\": 0.04686123153924786, \"bars\": 3115, \"breakout_pct\": -0.17285714285714293, \"price\": 0.04053, \"ready\": true, \"realized_vol\": 0.17185393475906094, \"relative_strength\": 0.040305550152997416, \"ret_fast\": -0.046577275935074214, \"ret_slow\": 0.014772158237355892, \"volume_z\": -0.24183250573183657, \"zscore20\": -1.1558256065567514}",
+      "horizon": "short",
+      "long_ev_proxy": 0.00699506236432508,
+      "long_mae_pct": 0.0,
+      "long_mfe_pct": 0.0,
+      "long_return_pct": null,
+      "long_score": 0.42121385143823914,
+      "method": "HEURISTIC_FORWARD_SHADOW_V1",
+      "min_trade_ev": 0.003,
+      "no_trade_ev": 0.0,
+      "reason": "SHORT has the stronger cost-adjusted EV proxy",
+      "regime": "SIDEWAYS",
+      "selected_action": "SHORT",
+      "selected_return_pct": null,
+      "shadow_id": "29a947478b9e42e9a78918ce74b9ea03",
+      "short_ev_proxy": 0.04524245253695462,
+      "short_mae_pct": 0.0,
+      "short_mfe_pct": 0.0,
+      "short_return_pct": null,
+      "short_score": 0.5912521970863011,
+      "status": "PENDING_ENTRY",
+      "stop_distance": 0.08435021677064615,
+      "symbol": "CHIPUSDT",
+      "target_distance": 0.14058369461774356
     },
     {
       "bars_held": 1,
@@ -4125,45 +4164,6 @@
       "stop_distance": 0.02405951372928512,
       "symbol": "TAOUSDT",
       "target_distance": 0.040099189548808534
-    },
-    {
-      "bars_held": 2,
-      "best_realized_action": null,
-      "conflict_margin": 0.0015,
-      "context_json": "{\"avg_pairwise_correlation\": 0.35427034973603916, \"breadth_above_ema20\": 0.2972972972972973, \"btc_return_24h\": -0.025769645860000412, \"external_derivatives_data\": \"NOT_CONNECTED\", \"funding_rate\": null, \"horizon\": \"short\", \"liquidation_shock_score\": null, \"median_one_bar_return\": 0.0008801267382503308, \"open_interest_change\": null, \"session\": \"ASIA\", \"symbols_observed\": 37, \"version\": 1}",
-      "created_at": "2026-08-29T06:00:40.826305+00:00",
-      "decision_bar": "2026-08-29T05:00:00+00:00",
-      "decision_correct": null,
-      "entry_bar": "2026-08-29T06:00:00+00:00",
-      "entry_price": 2.941,
-      "ev_is_calibrated": 0,
-      "evaluation_bars": 6,
-      "exit_bar": null,
-      "exit_price": null,
-      "features_json": "{\"atr_pct\": 0.03688364841161568, \"bars\": 4329, \"breakout_pct\": -0.044328552803129084, \"price\": 2.932, \"ready\": true, \"realized_vol\": 0.11025351735534487, \"relative_strength\": 0.0861674758780836, \"ret_fast\": 0.07163742690058461, \"ret_slow\": 0.06039783001808319, \"volume_z\": 0.4132286824722691, \"zscore20\": 1.8667307652900769}",
-      "horizon": "short",
-      "long_ev_proxy": 0.049894501223919245,
-      "long_mae_pct": -0.10642638558313489,
-      "long_mfe_pct": 0.0013600816048962017,
-      "long_return_pct": null,
-      "long_score": 0.6760282758475668,
-      "method": "HEURISTIC_FORWARD_SHADOW_V1",
-      "min_trade_ev": 0.003,
-      "no_trade_ev": 0.0,
-      "reason": "LONG has the stronger cost-adjusted EV proxy",
-      "regime": "SIDEWAYS",
-      "selected_action": "LONG",
-      "selected_return_pct": null,
-      "shadow_id": "d7a4ea5316d84d2ba9892e3587ef598c",
-      "short_ev_proxy": -0.00015833708921637142,
-      "short_mae_pct": -0.0013582342954159277,
-      "short_mfe_pct": 0.11910197869101968,
-      "short_return_pct": null,
-      "short_score": 0.3933101853756394,
-      "status": "OPEN",
-      "stop_distance": 0.06639056714090823,
-      "symbol": "TRUMPUSDT",
-      "target_distance": 0.11065094523484703
     }
   ],
   "recent_blocked_candidates": [
@@ -6808,6 +6808,19 @@
     },
     {
       "action": "NO_TRADE",
+      "bar_time": "2026-08-29T07:00:00+00:00",
+      "confidence": 0.0,
+      "created_at": "2026-08-29T08:14:52.833125+00:00",
+      "decision_id": "c2580e6c949448e893c9f0e93166c0a9",
+      "features_json": "{\"_research\": {\"avg_pairwise_correlation\": 0.3340774085042481, \"breadth_above_ema20\": 0.1891891891891892, \"btc_return_24h\": -0.025533391915641523, \"external_derivatives_data\": \"NOT_CONNECTED\", \"funding_rate\": null, \"horizon\": \"short\", \"liquidation_shock_score\": null, \"median_one_bar_return\": -0.0004985044865403188, \"open_interest_change\": null, \"session\": \"ASIA\", \"symbols_observed\": 37, \"version\": 1}, \"atr_pct\": 0.04686123153924786, \"bars\": 3115, \"breakout_pct\": -0.17285714285714293, \"price\": 0.04053, \"ready\": true, \"realized_vol\": 0.17185393475906094, \"relative_strength\": 0.040305550152997416, \"ret_fast\": -0.046577275935074214, \"ret_slow\": 0.014772158237355892, \"volume_z\": -0.24183250573183657, \"zscore20\": -1.1558256065567514}",
+      "horizon": "short",
+      "reason": "No V2 setup in SIDEWAYS",
+      "regime": "SIDEWAYS",
+      "strategy": "NONE",
+      "symbol": "CHIPUSDT"
+    },
+    {
+      "action": "NO_TRADE",
       "bar_time": "2026-08-29T06:00:00+00:00",
       "confidence": 0.0,
       "created_at": "2026-08-29T07:00:03.402660+00:00",
@@ -8732,6 +8745,19 @@
     },
     {
       "action": "NO_TRADE",
+      "bar_time": "2026-08-29T04:00:00+00:00",
+      "confidence": 0.0,
+      "created_at": "2026-08-29T08:14:52.658209+00:00",
+      "decision_id": "5d018f2919ce4687bd3c1c4e4aa2337f",
+      "features_json": "{\"_research\": {\"avg_pairwise_correlation\": 0.33977644149624114, \"breadth_above_ema20\": 0.2702702702702703, \"btc_return_24h\": -0.025047772074188734, \"external_derivatives_data\": \"NOT_CONNECTED\", \"funding_rate\": null, \"horizon\": \"medium\", \"liquidation_shock_score\": null, \"median_one_bar_return\": -0.0019920318725100694, \"open_interest_change\": null, \"session\": \"ASIA\", \"symbols_observed\": 37, \"version\": 1}, \"atr_pct\": 0.09525571886785805, \"bars\": 779, \"breakout_pct\": -0.17285714285714293, \"price\": 0.04053, \"ready\": true, \"realized_vol\": 0.22489596193183056, \"relative_strength\": 0.24594892940434954, \"ret_fast\": 0.014772158237355892, \"ret_slow\": 0.220415537488708, \"volume_z\": 0.4806363436290384, \"zscore20\": 0.6742686863127055}",
+      "horizon": "medium",
+      "reason": "No V2 setup in SIDEWAYS",
+      "regime": "SIDEWAYS",
+      "strategy": "NONE",
+      "symbol": "CHIPUSDT"
+    },
+    {
+      "action": "NO_TRADE",
       "bar_time": "2026-08-29T03:00:00+00:00",
       "confidence": 0.0,
       "created_at": "2026-08-29T04:00:29.517937+00:00",
@@ -8898,32 +8924,6 @@
       "regime": "SIDEWAYS",
       "strategy": "NONE",
       "symbol": "LINKUSDT"
-    },
-    {
-      "action": "NO_TRADE",
-      "bar_time": "2026-08-29T03:00:00+00:00",
-      "confidence": 0.0,
-      "created_at": "2026-08-29T04:00:29.794330+00:00",
-      "decision_id": "71f351882b5a4af28074e99d63438237",
-      "features_json": "{\"_research\": {\"avg_pairwise_correlation\": 0.3444722385609293, \"breadth_above_ema20\": 0.1891891891891892, \"btc_return_24h\": -0.02852281698809267, \"external_derivatives_data\": \"NOT_CONNECTED\", \"funding_rate\": null, \"horizon\": \"short\", \"liquidation_shock_score\": null, \"median_one_bar_return\": -0.002051582649472361, \"open_interest_change\": null, \"session\": \"ASIA\", \"symbols_observed\": 37, \"version\": 1}, \"atr_pct\": 0.00913841931622435, \"bars\": 4327, \"breakout_pct\": -0.01350806451612907, \"price\": 48.93, \"ready\": true, \"realized_vol\": 0.024098245136012827, \"relative_strength\": 0.019811309694737766, \"ret_fast\": -0.006295694557270526, \"ret_slow\": -0.008711507293354903, \"volume_z\": -1.1984870368960465, \"zscore20\": -0.7940938130210987}",
-      "horizon": "short",
-      "reason": "No V2 setup in SIDEWAYS",
-      "regime": "SIDEWAYS",
-      "strategy": "NONE",
-      "symbol": "LTCUSDT"
-    },
-    {
-      "action": "NO_TRADE",
-      "bar_time": "2026-08-29T03:00:00+00:00",
-      "confidence": 0.0,
-      "created_at": "2026-08-29T04:00:29.815725+00:00",
-      "decision_id": "385c4837982f47fe869edef7497d15c4",
-      "features_json": "{\"_research\": {\"avg_pairwise_correlation\": 0.3444722385609293, \"breadth_above_ema20\": 0.1891891891891892, \"btc_return_24h\": -0.02852281698809267, \"external_derivatives_data\": \"NOT_CONNECTED\", \"funding_rate\": null, \"horizon\": \"short\", \"liquidation_shock_score\": null, \"median_one_bar_return\": -0.002051582649472361, \"open_interest_change\": null, \"session\": \"ASIA\", \"symbols_observed\": 37, \"version\": 1}, \"atr_pct\": 0.012637667379763875, \"bars\": 4327, \"breakout_pct\": -0.042485395645247004, \"price\": 1.803, \"ready\": true, \"realized_vol\": 0.027880994799593512, \"relative_strength\": -0.015485666575003831, \"ret_fast\": 0.0, \"ret_slow\": -0.0440084835630965, \"volume_z\": -0.9482539557983736, \"zscore20\": -1.2257231387846248}",
-      "horizon": "short",
-      "reason": "No V2 setup in SIDEWAYS",
-      "regime": "SIDEWAYS",
-      "strategy": "NONE",
-      "symbol": "NEARUSDT"
     }
   ],
   "recent_research_trades": [
@@ -10032,7 +10032,7 @@
   ],
   "research_layer": {
     "bidirectional_decision_shadow": {
-      "active_evaluations": 378,
+      "active_evaluations": 381,
       "avg_selected_return_pct": -0.002937520556391164,
       "by_selected_action": {
         "LONG": {
@@ -10065,7 +10065,7 @@
       "no_trade_missed_opportunities": 2,
       "observation_only": true,
       "status": "ACTIVE",
-      "total_decisions": 600
+      "total_decisions": 603
     },
     "bidirectional_registration": {
       "forward_only": true,
@@ -10127,8 +10127,8 @@
   "shared_cache_only": true,
   "status": "ONLINE",
   "symbols": 37,
-  "sync_checked_at": "2026-08-29T08:12:00.586482+00:00",
-  "sync_snapshot_age_seconds": 14.642482,
+  "sync_checked_at": "2026-08-29T08:23:15.056016+00:00",
+  "sync_snapshot_age_seconds": 5.14306,
   "v2": {
     "accounts": [
       {
