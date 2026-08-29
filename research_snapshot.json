@@ -33,14 +33,14 @@
       "as_of": "2026-08-29T14:00:00+00:00",
       "cash": 10979.940743435956,
       "closed_trades": 187,
-      "drawdown": -0.07950368408247721,
-      "equity": 94738.48837837453,
-      "gross_exposure": 90005.52964857643,
+      "drawdown": -0.0780524272600509,
+      "equity": 94887.85331903529,
+      "gross_exposure": 83907.91257559933,
       "horizon": "short",
       "initial_equity": 100000.0,
-      "leverage": 0.9500418593244256,
+      "leverage": 0.8842850759146292,
       "market": "crypto",
-      "return_pct": -0.0526151162162547
+      "return_pct": -0.05112146680964713
     },
     {
       "account_id": "stock_long",
@@ -132,7 +132,7 @@
   "expected_live_deviation": {
     "active_sizing": true,
     "contains_secrets": false,
-    "generated_at": "2026-08-29T15:47:29.453342+00:00",
+    "generated_at": "2026-08-29T15:58:32.320496+00:00",
     "minimum_live_trades_for_active_sizing": 5,
     "rows": [
       {
@@ -10397,7 +10397,7 @@
       }
     ]
   },
-  "generated_at": "2026-08-29T15:47:27.045600+00:00",
+  "generated_at": "2026-08-29T15:58:27.505220+00:00",
   "governance": {
     "arenas": [
       {
@@ -10430,7 +10430,7 @@
         "champion_signature": "1479f136882d2c3cd332",
         "decision_at": null,
         "horizon": "short",
-        "latest_verdict": "WAITING",
+        "latest_verdict": "LEARNING",
         "market": "crypto",
         "registered_at": "2026-08-29T07:57:14.458553+00:00",
         "status": "ACTIVE",
@@ -24714,7 +24714,7 @@
         "total_reduction_notional": 10092.552427434108
       }
     ],
-    "generated_at": "2026-08-29T15:47:59.556309+00:00",
+    "generated_at": "2026-08-29T15:58:52.399420+00:00",
     "scope": "PUBLIC_READ_ONLY_RISK_SIZING_AUDIT",
     "status": "AVAILABLE",
     "summary": {
@@ -26945,8 +26945,8 @@
       "worst_trade_return": -0.00029986839109497065
     }
   ],
-  "sync_checked_at": "2026-08-29T15:48:04.086553+00:00",
-  "sync_snapshot_age_seconds": 37.040953,
+  "sync_checked_at": "2026-08-29T15:58:55.783587+00:00",
+  "sync_snapshot_age_seconds": 28.278367,
   "trial_ledger": {
     "challenges": 27,
     "cycles": 543,
@@ -26964,7 +26964,7 @@
     "data_quality": "STARTING",
     "data_quality_critical": 0,
     "data_quality_warnings": 0,
-    "heartbeat_at": "2026-08-29T15:47:22.903112+00:00",
+    "heartbeat_at": "2026-08-29T15:58:22.988057+00:00",
     "last_cycle_finished_at": null,
     "last_cycle_started_at": "2026-08-29T15:45:52.872024+00:00",
     "market_data_api_calls": 0,
