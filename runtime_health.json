@@ -4,17 +4,17 @@
       "active_blocked_candidates": 16,
       "backlog_remaining": 0,
       "broker_order_api_calls": 0,
-      "finished_age_seconds": 38.5,
-      "finished_at": "2026-08-29T18:55:15.929404+00:00",
+      "finished_age_seconds": 15.6,
+      "finished_at": "2026-08-29T19:06:40.210824+00:00",
       "healthy": true,
       "is_catching_up": false,
       "market_data_api_calls": 0,
       "persistent_checkpoint": true,
       "research_layer_present": true,
-      "snapshot_age_seconds": 38.6,
-      "snapshot_generated_at": "2026-08-29T18:55:15.812680+00:00",
-      "started_age_seconds": 40.7,
-      "started_at": "2026-08-29T18:55:13.719445+00:00",
+      "snapshot_age_seconds": 15.7,
+      "snapshot_generated_at": "2026-08-29T19:06:40.125929+00:00",
+      "started_age_seconds": 17.6,
+      "started_at": "2026-08-29T19:06:38.216944+00:00",
       "status": "ONLINE",
       "tracked_research_trades": 28
     },
@@ -22,49 +22,33 @@
       "assets_checked": 239,
       "bars_processed": 0,
       "broker_order_api_calls": 0,
-      "completed_age_seconds": 13.6,
-      "cycle_age_seconds": 161.1,
+      "completed_age_seconds": 27.1,
+      "cycle_age_seconds": 181.6,
       "data_quality": "OK",
-      "degraded": true,
-      "degraded_reasons": [
-        "worker_status_degraded",
-        "true_errors:2"
-      ],
-      "error_samples": [
-        {
-          "error": "ValueError: Not enough bars.",
-          "horizon": "short",
-          "market": "crypto",
-          "symbol": "BNBUSDT"
-        },
-        {
-          "error": "ValueError: Not enough bars.",
-          "horizon": "short",
-          "market": "crypto",
-          "symbol": "ENAUSDT"
-        }
-      ],
+      "degraded": false,
+      "degraded_reasons": [],
+      "error_samples": [],
       "hard_failure": false,
-      "healthy": false,
-      "heartbeat_age_seconds": 12.7,
-      "heartbeat_at": "2026-08-29T18:55:41.770135+00:00",
-      "last_cycle_finished_at": "2026-08-29T18:55:40.884833+00:00",
-      "last_cycle_started_at": "2026-08-29T18:53:13.387937+00:00",
-      "market_data_api_calls": 5,
+      "healthy": true,
+      "heartbeat_age_seconds": 13.8,
+      "heartbeat_at": "2026-08-29T19:06:41.996067+00:00",
+      "last_cycle_finished_at": "2026-08-29T19:06:28.701343+00:00",
+      "last_cycle_started_at": "2026-08-29T19:03:54.202422+00:00",
+      "market_data_api_calls": 0,
       "realtime_watchlist_sync": "ONLINE",
       "risk_layer": "ONLINE",
-      "status": "DEGRADED",
-      "true_errors": 2
+      "status": "ONLINE",
+      "true_errors": 0
     },
     "research": {
-      "age_seconds": 18.9,
-      "generated_at": "2026-08-29T18:55:35.604175+00:00",
+      "age_seconds": 19.8,
+      "generated_at": "2026-08-29T19:06:36.020231+00:00",
       "healthy": true,
-      "latest_account_as_of": "2026-08-29T17:00:00+00:00"
+      "latest_account_as_of": "2026-08-29T18:00:00+00:00"
     },
     "storage": {
-      "exporter_heartbeat_age_seconds": 4.0,
-      "exporter_heartbeat_at": "2026-08-29T18:55:50.495879+00:00",
+      "exporter_heartbeat_age_seconds": 2.6,
+      "exporter_heartbeat_at": "2026-08-29T19:06:53.243427+00:00",
       "healthy": true,
       "last_snapshot_at": null,
       "last_snapshot_success": null,
@@ -74,8 +58,8 @@
     }
   },
   "contains_secrets": false,
-  "generated_at": "2026-08-29T18:55:54.460407+00:00",
-  "overall_status": "DEGRADED",
+  "generated_at": "2026-08-29T19:06:55.795618+00:00",
+  "overall_status": "HEALTHY",
   "public_paths": {
     "health_alias": "/app/static/health.json",
     "runtime_health": "/app/static/runtime_health.json",
@@ -88,6 +72,6 @@
   },
   "scope": "PUBLIC_READ_ONLY_RUNTIME_HEALTH",
   "source": "RAILWAY_RUNTIME_DIRECT",
-  "sync_checked_at": "2026-08-29T18:55:57.174179+00:00",
-  "sync_snapshot_age_seconds": 2.713772
+  "sync_checked_at": "2026-08-29T19:06:58.586181+00:00",
+  "sync_snapshot_age_seconds": 2.790563
 }
