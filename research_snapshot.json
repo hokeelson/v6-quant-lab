@@ -132,7 +132,7 @@
   "expected_live_deviation": {
     "active_sizing": true,
     "contains_secrets": false,
-    "generated_at": "2026-08-29T12:16:03.472251+00:00",
+    "generated_at": "2026-08-29T12:27:06.241334+00:00",
     "minimum_live_trades_for_active_sizing": 5,
     "rows": [
       {
@@ -365,45 +365,6 @@
         "suggested_confidence_multiplier": 0.65,
         "symbol": "UNIUSDT",
         "win_rate_gap": 0.08333333333333331
-      },
-      {
-        "deviation_score": 55.60568841440433,
-        "evidence_weight": 0.25,
-        "horizon": "short",
-        "live_closed_trades": 5,
-        "live_compound_return": -0.07614959070573923,
-        "live_losses": 4,
-        "live_max_loss_streak": 4,
-        "live_per_trade_return": -0.015716213928360423,
-        "live_profit_factor": 0.28768381389504655,
-        "live_profit_factor_infinite": false,
-        "live_win_rate": 0.2,
-        "live_wins": 1,
-        "market": "crypto",
-        "oos_closed_trades": 4,
-        "oos_max_drawdown": -0.03864322930043229,
-        "oos_per_trade_return": 0.015236356451183042,
-        "oos_profit_factor": 4.79123015244376,
-        "oos_profit_factor_infinite": false,
-        "oos_sharpe": 7.141071026988913,
-        "oos_total_return": 0.06235250731502262,
-        "oos_win_rate": 0.5,
-        "per_trade_return_gap": 0.030952570379543465,
-        "performance_key": "crypto:ADAUSDT:short:Momentum",
-        "profit_factor_gap": 4.503546338548714,
-        "reasons": [
-          "OOS_POSITIVE_LIVE_NEGATIVE",
-          "WIN_RATE_DETERIORATION",
-          "PROFIT_FACTOR_DETERIORATION",
-          "EXPECTANCY_SIGN_REVERSAL",
-          "LOSS_STREAK"
-        ],
-        "shadow_only": true,
-        "state": "DIVERGING",
-        "strategy": "Momentum",
-        "suggested_confidence_multiplier": 0.65,
-        "symbol": "ADAUSDT",
-        "win_rate_gap": 0.3
       },
       {
         "deviation_score": 53.382228847031726,
@@ -1355,6 +1316,44 @@
         "suggested_confidence_multiplier": 1.0,
         "symbol": "TRXUSDT",
         "win_rate_gap": 0.16666666666666669
+      },
+      {
+        "deviation_score": 41.88818198175774,
+        "evidence_weight": 0.25,
+        "horizon": "short",
+        "live_closed_trades": 5,
+        "live_compound_return": -0.07614959070573923,
+        "live_losses": 4,
+        "live_max_loss_streak": 4,
+        "live_per_trade_return": -0.015716213928360423,
+        "live_profit_factor": 0.28768381389504655,
+        "live_profit_factor_infinite": false,
+        "live_win_rate": 0.2,
+        "live_wins": 1,
+        "market": "crypto",
+        "oos_closed_trades": 7,
+        "oos_max_drawdown": -0.04652988322452123,
+        "oos_per_trade_return": 0.006237181252417123,
+        "oos_profit_factor": 2.2014628197096564,
+        "oos_profit_factor_infinite": false,
+        "oos_sharpe": 4.950343790137128,
+        "oos_total_return": 0.04448576541675364,
+        "oos_win_rate": 0.2857142857142857,
+        "per_trade_return_gap": 0.021953395180777546,
+        "performance_key": "crypto:ADAUSDT:short:Momentum",
+        "profit_factor_gap": 1.9137790058146098,
+        "reasons": [
+          "OOS_POSITIVE_LIVE_NEGATIVE",
+          "PROFIT_FACTOR_DETERIORATION",
+          "EXPECTANCY_SIGN_REVERSAL",
+          "LOSS_STREAK"
+        ],
+        "shadow_only": true,
+        "state": "DIVERGING",
+        "strategy": "Momentum",
+        "suggested_confidence_multiplier": 0.65,
+        "symbol": "ADAUSDT",
+        "win_rate_gap": 0.08571428571428569
       },
       {
         "deviation_score": 40.162499999999994,
@@ -10302,7 +10301,7 @@
       }
     ]
   },
-  "generated_at": "2026-08-29T12:16:19.545077+00:00",
+  "generated_at": "2026-08-29T12:27:20.056355+00:00",
   "governance": {
     "arenas": [
       {
@@ -10607,6 +10606,15 @@
       }
     ],
     "recent_events": [
+      {
+        "arena_id": null,
+        "created_at": "2026-08-29T12:24:42.390071+00:00",
+        "event_type": "SAME_HYPOTHESIS_REFRESH",
+        "horizon": "short",
+        "id": 35,
+        "market": "crypto",
+        "symbol": "ADAUSDT"
+      },
       {
         "arena_id": "11b468674382f1d44083",
         "created_at": "2026-08-29T07:57:14.458553+00:00",
@@ -11017,24 +11025,24 @@
       "updated_at": "2026-08-23T12:13:41.109973+00:00"
     },
     {
-      "calibrated_through": "2026-08-23T11:00:00+00:00",
-      "calibration_score": 81.85653920137305,
+      "calibrated_through": "2026-08-29T11:00:00+00:00",
+      "calibration_score": 81.92732470625502,
       "horizon": "short",
       "market": "crypto",
       "oos_metrics": {
-        "closed_trades": 4,
-        "max_drawdown": -0.03864322930043229,
-        "profit_factor": 4.79123015244376,
-        "sharpe": 7.141071026988913,
-        "total_return": 0.06235250731502262,
-        "win_rate": 0.5
+        "closed_trades": 7,
+        "max_drawdown": -0.04652988322452123,
+        "profit_factor": 2.2014628197096564,
+        "sharpe": 4.950343790137128,
+        "total_return": 0.04448576541675364,
+        "win_rate": 0.2857142857142857
       },
-      "oos_score": 91.22653538662392,
-      "regime_fit": 0.45,
+      "oos_score": 90.62641392938349,
+      "regime_fit": 0.25,
       "strategy": "Momentum",
       "symbol": "ADAUSDT",
-      "train_score": 84.34866092464095,
-      "updated_at": "2026-08-23T12:12:33.445985+00:00"
+      "train_score": 89.65146146010814,
+      "updated_at": "2026-08-29T12:24:42.390071+00:00"
     },
     {
       "calibrated_through": "2026-08-27T00:00:00+00:00",
@@ -24505,7 +24513,7 @@
         "total_reduction_notional": 9298.13555244675
       }
     ],
-    "generated_at": "2026-08-29T12:16:28.556863+00:00",
+    "generated_at": "2026-08-29T12:27:36.381921+00:00",
     "scope": "PUBLIC_READ_ONLY_RISK_SIZING_AUDIT",
     "status": "AVAILABLE",
     "summary": {
@@ -26736,16 +26744,16 @@
       "worst_trade_return": -0.00029986839109497065
     }
   ],
-  "sync_checked_at": "2026-08-29T12:16:30.074382+00:00",
-  "sync_snapshot_age_seconds": 10.529305,
+  "sync_checked_at": "2026-08-29T12:27:40.640345+00:00",
+  "sync_snapshot_age_seconds": 20.58399,
   "trial_ledger": {
     "challenges": 25,
-    "cycles": 587,
+    "cycles": 589,
     "distinct_hypotheses": 46,
-    "events": 98,
-    "last_event_at": "2026-08-29T07:57:14.458553+00:00",
+    "events": 100,
+    "last_event_at": "2026-08-29T12:24:42.390071+00:00",
     "promotions": 0,
-    "research_trials": 64
+    "research_trials": 65
   },
   "worker": {
     "assets_checked": 238,
@@ -26755,16 +26763,16 @@
     "data_quality": "OK",
     "data_quality_critical": 0,
     "data_quality_warnings": 43,
-    "heartbeat_at": "2026-08-29T12:16:17.161759+00:00",
-    "last_cycle_finished_at": "2026-08-29T12:16:17.161730+00:00",
-    "last_cycle_started_at": "2026-08-29T12:13:33.154207+00:00",
+    "heartbeat_at": "2026-08-29T12:27:06.264647+00:00",
+    "last_cycle_finished_at": "2026-08-29T12:23:42.360087+00:00",
+    "last_cycle_started_at": "2026-08-29T12:24:42.375234+00:00",
     "market_data_api_calls": 0,
     "portfolio_risk": "HIGH",
     "realtime_watchlist_sync": "ONLINE",
     "realtime_watchlist_total": 64,
     "risk_layer": "ONLINE",
     "risk_sizing": "ACTIVE",
-    "status": "ONLINE",
+    "status": "RUNNING",
     "true_errors": 0
   }
 }
