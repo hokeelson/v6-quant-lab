@@ -132,7 +132,7 @@
   "expected_live_deviation": {
     "active_sizing": true,
     "contains_secrets": false,
-    "generated_at": "2026-08-29T12:27:06.241334+00:00",
+    "generated_at": "2026-08-29T12:38:09.198754+00:00",
     "minimum_live_trades_for_active_sizing": 5,
     "rows": [
       {
@@ -10301,9 +10301,33 @@
       }
     ]
   },
-  "generated_at": "2026-08-29T12:27:20.056355+00:00",
+  "generated_at": "2026-08-29T12:38:20.507698+00:00",
   "governance": {
     "arenas": [
+      {
+        "arena_id": "c33c68943f080204af95",
+        "challenger_signature": "b4ae70e56378648c95ce",
+        "champion_signature": "0bf7b98c1a86a11a3c60",
+        "decision_at": null,
+        "horizon": "short",
+        "latest_verdict": "WAITING",
+        "market": "crypto",
+        "registered_at": "2026-08-29T12:32:59.317047+00:00",
+        "status": "ACTIVE",
+        "symbol": "ENAUSDT"
+      },
+      {
+        "arena_id": "4f730e8f1290d590d287",
+        "challenger_signature": "1479f136882d2c3cd332",
+        "champion_signature": "d6fdfe47123feff7fce3",
+        "decision_at": null,
+        "horizon": "short",
+        "latest_verdict": "WAITING",
+        "market": "crypto",
+        "registered_at": "2026-08-29T12:29:00.826419+00:00",
+        "status": "ACTIVE",
+        "symbol": "BNBUSDT"
+      },
       {
         "arena_id": "11b468674382f1d44083",
         "challenger_signature": "7e44f46e65b6b404f810",
@@ -10606,6 +10630,24 @@
       }
     ],
     "recent_events": [
+      {
+        "arena_id": "c33c68943f080204af95",
+        "created_at": "2026-08-29T12:32:59.317047+00:00",
+        "event_type": "CHALLENGE_REGISTERED",
+        "horizon": "short",
+        "id": 37,
+        "market": "crypto",
+        "symbol": "ENAUSDT"
+      },
+      {
+        "arena_id": "4f730e8f1290d590d287",
+        "created_at": "2026-08-29T12:29:00.826419+00:00",
+        "event_type": "CHALLENGE_REGISTERED",
+        "horizon": "short",
+        "id": 36,
+        "market": "crypto",
+        "symbol": "BNBUSDT"
+      },
       {
         "arena_id": null,
         "created_at": "2026-08-29T12:24:42.390071+00:00",
@@ -24513,7 +24555,7 @@
         "total_reduction_notional": 9298.13555244675
       }
     ],
-    "generated_at": "2026-08-29T12:27:36.381921+00:00",
+    "generated_at": "2026-08-29T12:38:44.386854+00:00",
     "scope": "PUBLIC_READ_ONLY_RISK_SIZING_AUDIT",
     "status": "AVAILABLE",
     "summary": {
@@ -26744,16 +26786,16 @@
       "worst_trade_return": -0.00029986839109497065
     }
   ],
-  "sync_checked_at": "2026-08-29T12:27:40.640345+00:00",
-  "sync_snapshot_age_seconds": 20.58399,
+  "sync_checked_at": "2026-08-29T12:38:49.628198+00:00",
+  "sync_snapshot_age_seconds": 29.1205,
   "trial_ledger": {
-    "challenges": 25,
-    "cycles": 589,
+    "challenges": 27,
+    "cycles": 592,
     "distinct_hypotheses": 46,
-    "events": 100,
-    "last_event_at": "2026-08-29T12:24:42.390071+00:00",
+    "events": 104,
+    "last_event_at": "2026-08-29T12:32:59.317047+00:00",
     "promotions": 0,
-    "research_trials": 65
+    "research_trials": 67
   },
   "worker": {
     "assets_checked": 238,
@@ -26762,11 +26804,11 @@
     "concept_drift_pairs": 9,
     "data_quality": "OK",
     "data_quality_critical": 0,
-    "data_quality_warnings": 43,
-    "heartbeat_at": "2026-08-29T12:27:06.264647+00:00",
-    "last_cycle_finished_at": "2026-08-29T12:23:42.360087+00:00",
-    "last_cycle_started_at": "2026-08-29T12:24:42.375234+00:00",
-    "market_data_api_calls": 0,
+    "data_quality_warnings": 42,
+    "heartbeat_at": "2026-08-29T12:38:06.479177+00:00",
+    "last_cycle_finished_at": "2026-08-29T12:36:01.572417+00:00",
+    "last_cycle_started_at": "2026-08-29T12:37:01.601818+00:00",
+    "market_data_api_calls": 10,
     "portfolio_risk": "HIGH",
     "realtime_watchlist_sync": "ONLINE",
     "realtime_watchlist_total": 64,
