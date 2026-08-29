@@ -12,6 +12,7 @@ POLL_SECONDS = 5
 DATA_DIR = Path(data_dir())
 STATIC_DIR = Path("static")
 PUBLIC_PATH = STATIC_DIR / "runtime_health.json"
+PUBLIC_ALIAS_PATH = STATIC_DIR / "health.json"
 MAIN_STATUS_PATH = DATA_DIR / "worker_status.json"
 V2_STATUS_PATH = DATA_DIR / "crypto_v2_shadow_worker_status.json"
 RESEARCH_PATH = STATIC_DIR / "research_snapshot.json"
@@ -25,6 +26,7 @@ V2_COMPLETED_MAX_AGE = 180
 V2_RUNNING_MAX_AGE = 3600
 RESEARCH_MAX_AGE = 900
 V2_SNAPSHOT_MAX_AGE = 300
+STORAGE_EXPORT_MAX_AGE = 30
 
 
 def _now():
@@ -60,6 +62,13 @@ def _age(raw):
     if dt is None:
         return None
     return max(0.0, (_now() - dt).total_seconds())
+
+
+def _file_mtime_iso(path: Path):
+    try:
+        return datetime.fromtimestamp(path.stat().st_mtime, tz=timezone.utc).isoformat()
+    except Exception:
+        return None
 
 
 def _finite(value):
@@ -174,15 +183,20 @@ def _research_health(raw: dict) -> dict:
 
 
 def _storage_health(raw: dict) -> dict:
-    status = str(raw.get("status") or "UNAVAILABLE")
-    persistence = str(raw.get("persistence_status") or "UNKNOWN")
+    status = str(raw.get("status") or "UNAVAILABLE").upper()
+    persistence = str(raw.get("persistence_status") or "UNKNOWN").upper()
+    exporter_heartbeat_at = _file_mtime_iso(STORAGE_PATH)
+    exporter_age = _age(exporter_heartbeat_at)
+    exporter_fresh = exporter_age is not None and exporter_age <= STORAGE_EXPORT_MAX_AGE
     return {
-        "healthy": status == "AVAILABLE" and persistence not in {"FAILED", "ERROR"},
+        "healthy": exporter_fresh and status == "AVAILABLE" and persistence not in {"FAILED", "ERROR"},
         "status": status,
         "persistence_status": persistence,
+        "exporter_heartbeat_at": exporter_heartbeat_at,
+        "exporter_heartbeat_age_seconds": _round_age(exporter_age),
         "last_snapshot_at": raw.get("last_snapshot_at"),
         "last_snapshot_success": raw.get("last_snapshot_success"),
-        "updated_at": raw.get("updated_at"),
+        "source_updated_at": raw.get("updated_at"),
     }
 
 
@@ -225,15 +239,25 @@ def build_snapshot() -> dict:
             "crypto_v2_market_data_api_calls": int(v2.get("market_data_api_calls", 0) or 0),
             "simulation_only": True,
         },
+        "public_paths": {
+            "runtime_health": "/app/static/runtime_health.json",
+            "health_alias": "/app/static/health.json",
+            "streamlit_process_health": "/_stcore/health",
+        },
         "source": "RAILWAY_RUNTIME_DIRECT",
     }
 
 
-def _atomic_write(payload: dict):
-    PUBLIC_PATH.parent.mkdir(parents=True, exist_ok=True)
-    tmp = PUBLIC_PATH.with_suffix(".json.tmp")
+def _atomic_write_path(path: Path, payload: dict):
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = path.with_suffix(path.suffix + ".tmp")
     tmp.write_text(json.dumps(payload, ensure_ascii=False, indent=2, allow_nan=False), encoding="utf-8")
-    tmp.replace(PUBLIC_PATH)
+    tmp.replace(path)
+
+
+def _atomic_write(payload: dict):
+    _atomic_write_path(PUBLIC_PATH, payload)
+    _atomic_write_path(PUBLIC_ALIAS_PATH, payload)
 
 
 def watch():
