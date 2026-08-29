@@ -33,14 +33,14 @@
       "as_of": "2026-08-29T14:00:00+00:00",
       "cash": 10979.940743435956,
       "closed_trades": 187,
-      "drawdown": -0.0780524272600509,
-      "equity": 94887.85331903529,
-      "gross_exposure": 83907.91257559933,
+      "drawdown": -0.07950368408247721,
+      "equity": 94738.48837837453,
+      "gross_exposure": 90005.52964857643,
       "horizon": "short",
       "initial_equity": 100000.0,
-      "leverage": 0.8842850759146292,
+      "leverage": 0.9500418593244256,
       "market": "crypto",
-      "return_pct": -0.05112146680964713
+      "return_pct": -0.0526151162162547
     },
     {
       "account_id": "stock_long",
@@ -132,7 +132,7 @@
   "expected_live_deviation": {
     "active_sizing": true,
     "contains_secrets": false,
-    "generated_at": "2026-08-29T15:36:20.191138+00:00",
+    "generated_at": "2026-08-29T15:47:29.453342+00:00",
     "minimum_live_trades_for_active_sizing": 5,
     "rows": [
       {
@@ -10397,30 +10397,30 @@
       }
     ]
   },
-  "generated_at": "2026-08-29T15:36:37.319791+00:00",
+  "generated_at": "2026-08-29T15:47:27.045600+00:00",
   "governance": {
     "arenas": [
       {
-        "arena_id": "4190b04791a2b5f0604b",
+        "arena_id": "0271d0ce6b59147b1c31",
         "challenger_signature": "1479f136882d2c3cd332",
         "champion_signature": "d6fdfe47123feff7fce3",
         "decision_at": null,
         "horizon": "short",
         "latest_verdict": "WAITING",
         "market": "crypto",
-        "registered_at": "2026-08-29T12:41:23.648111+00:00",
+        "registered_at": "2026-08-29T15:45:56.650932+00:00",
         "status": "ACTIVE",
         "symbol": "BNBUSDT"
       },
       {
-        "arena_id": "99e4e7ed4f7db98a1d65",
+        "arena_id": "49100fb67a98318cde4e",
         "challenger_signature": "b4ae70e56378648c95ce",
         "champion_signature": "0bf7b98c1a86a11a3c60",
         "decision_at": null,
         "horizon": "short",
         "latest_verdict": "WAITING",
         "market": "crypto",
-        "registered_at": "2026-08-29T12:41:23.648111+00:00",
+        "registered_at": "2026-08-29T15:45:56.650932+00:00",
         "status": "ACTIVE",
         "symbol": "ENAUSDT"
       },
@@ -10430,7 +10430,7 @@
         "champion_signature": "1479f136882d2c3cd332",
         "decision_at": null,
         "horizon": "short",
-        "latest_verdict": "LEARNING",
+        "latest_verdict": "WAITING",
         "market": "crypto",
         "registered_at": "2026-08-29T07:57:14.458553+00:00",
         "status": "ACTIVE",
@@ -10727,26 +10727,8 @@
     ],
     "recent_events": [
       {
-        "arena_id": null,
-        "created_at": "2026-08-29T12:55:30.936970+00:00",
-        "event_type": "SAME_HYPOTHESIS_REFRESH",
-        "horizon": "short",
-        "id": 39,
-        "market": "crypto",
-        "symbol": "RLUSDUSDT"
-      },
-      {
-        "arena_id": null,
-        "created_at": "2026-08-29T12:55:30.936970+00:00",
-        "event_type": "SAME_HYPOTHESIS_REFRESH",
-        "horizon": "short",
-        "id": 38,
-        "market": "crypto",
-        "symbol": "NEARUSDT"
-      },
-      {
-        "arena_id": "99e4e7ed4f7db98a1d65",
-        "created_at": "2026-08-29T12:41:23.648111+00:00",
+        "arena_id": "49100fb67a98318cde4e",
+        "created_at": "2026-08-29T15:45:56.650932+00:00",
         "event_type": "CHALLENGE_REGISTERED",
         "horizon": "short",
         "id": 37,
@@ -10754,8 +10736,8 @@
         "symbol": "ENAUSDT"
       },
       {
-        "arena_id": "4190b04791a2b5f0604b",
-        "created_at": "2026-08-29T12:41:23.648111+00:00",
+        "arena_id": "0271d0ce6b59147b1c31",
+        "created_at": "2026-08-29T15:45:56.650932+00:00",
         "event_type": "CHALLENGE_REGISTERED",
         "horizon": "short",
         "id": 36,
@@ -10764,7 +10746,7 @@
       },
       {
         "arena_id": null,
-        "created_at": "2026-08-29T12:41:23.648111+00:00",
+        "created_at": "2026-08-29T15:45:56.650932+00:00",
         "event_type": "SAME_HYPOTHESIS_REFRESH",
         "horizon": "short",
         "id": 35,
@@ -11181,7 +11163,7 @@
       "updated_at": "2026-08-23T12:13:41.109973+00:00"
     },
     {
-      "calibrated_through": "2026-08-29T11:00:00+00:00",
+      "calibrated_through": "2026-08-29T14:00:00+00:00",
       "calibration_score": 81.92732470625502,
       "horizon": "short",
       "market": "crypto",
@@ -11198,7 +11180,7 @@
       "strategy": "Momentum",
       "symbol": "ADAUSDT",
       "train_score": 89.65146146010814,
-      "updated_at": "2026-08-29T12:41:23.648111+00:00"
+      "updated_at": "2026-08-29T15:45:56.650932+00:00"
     },
     {
       "calibrated_through": "2026-08-27T00:00:00+00:00",
@@ -24732,7 +24714,7 @@
         "total_reduction_notional": 10092.552427434108
       }
     ],
-    "generated_at": "2026-08-29T15:36:50.362211+00:00",
+    "generated_at": "2026-08-29T15:47:59.556309+00:00",
     "scope": "PUBLIC_READ_ONLY_RISK_SIZING_AUDIT",
     "status": "AVAILABLE",
     "summary": {
@@ -24755,13 +24737,13 @@
   "schema_version": 2,
   "scope": "PUBLIC_READ_ONLY_RESEARCH_SUMMARY",
   "storage_persistence": {
-    "bootstrap_at": "2026-08-29T12:40:29.213425+00:00",
+    "bootstrap_at": "2026-08-29T15:45:26.681730+00:00",
     "bootstrap_warnings": [],
     "mode": "RESCUE_RUNTIME",
     "persistent_disk": {
-      "free": 2723000320,
+      "free": 2722541568,
       "total": 4685873152,
-      "used": 1946095616
+      "used": 1946554368
     },
     "restored": [
       {
@@ -24797,7 +24779,7 @@
     "snapshot_interval_seconds": 60,
     "snapshot_keep_archives": 0,
     "status": "AVAILABLE",
-    "updated_at": "2026-08-29T12:40:29.389928+00:00"
+    "updated_at": "2026-08-29T15:45:26.865031+00:00"
   },
   "strategy_performance": [
     {
@@ -26963,35 +26945,34 @@
       "worst_trade_return": -0.00029986839109497065
     }
   ],
-  "sync_checked_at": "2026-08-29T15:36:53.064429+00:00",
-  "sync_snapshot_age_seconds": 15.744638,
+  "sync_checked_at": "2026-08-29T15:48:04.086553+00:00",
+  "sync_snapshot_age_seconds": 37.040953,
   "trial_ledger": {
     "challenges": 27,
-    "cycles": 584,
-    "distinct_hypotheses": 48,
-    "events": 111,
-    "last_event_at": "2026-08-29T12:55:30.936970+00:00",
+    "cycles": 543,
+    "distinct_hypotheses": 46,
+    "events": 104,
+    "last_event_at": "2026-08-29T15:45:56.650932+00:00",
     "promotions": 0,
-    "research_trials": 72
+    "research_trials": 67
   },
   "worker": {
-    "assets_checked": 236,
+    "assets_checked": 0,
     "bars_processed": 0,
     "broker_order_api_calls": 0,
-    "concept_drift_pairs": 9,
-    "data_quality": "OK",
+    "concept_drift_pairs": 0,
+    "data_quality": "STARTING",
     "data_quality_critical": 0,
-    "data_quality_warnings": 39,
-    "heartbeat_at": "2026-08-29T15:36:23.900880+00:00",
-    "last_cycle_finished_at": "2026-08-29T15:35:42.601570+00:00",
-    "last_cycle_started_at": "2026-08-29T15:36:08.616720+00:00",
+    "data_quality_warnings": 0,
+    "heartbeat_at": "2026-08-29T15:47:22.903112+00:00",
+    "last_cycle_finished_at": null,
+    "last_cycle_started_at": "2026-08-29T15:45:52.872024+00:00",
     "market_data_api_calls": 0,
-    "portfolio_risk": "HIGH",
-    "realtime_watchlist_sync": "ONLINE",
-    "realtime_watchlist_total": 65,
-    "risk_layer": "ONLINE",
+    "realtime_watchlist_sync": "STARTING",
+    "realtime_watchlist_total": 0,
+    "risk_layer": "STARTING",
     "risk_sizing": "ACTIVE",
     "status": "RUNNING",
-    "true_errors": 2
+    "true_errors": 0
   }
 }
