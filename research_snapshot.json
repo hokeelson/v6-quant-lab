@@ -30,17 +30,17 @@
     },
     {
       "account_id": "crypto_short",
-      "as_of": "2026-08-29T01:00:00+00:00",
-      "cash": 3013.2418790060997,
-      "closed_trades": 178,
-      "drawdown": -0.07859702884201081,
-      "equity": 94831.8023281175,
-      "gross_exposure": 91818.56044911139,
+      "as_of": "2026-08-29T02:00:00+00:00",
+      "cash": 6397.711376195397,
+      "closed_trades": 179,
+      "drawdown": -0.0802457111122924,
+      "equity": 94662.11814426826,
+      "gross_exposure": 88264.40676807286,
       "horizon": "short",
       "initial_equity": 100000.0,
-      "leverage": 0.9682254074579295,
+      "leverage": 0.9324152945062452,
       "market": "crypto",
-      "return_pct": -0.05168197671882502
+      "return_pct": -0.05337881855731741
     },
     {
       "account_id": "stock_long",
@@ -132,7 +132,7 @@
   "expected_live_deviation": {
     "active_sizing": true,
     "contains_secrets": false,
-    "generated_at": "2026-08-29T02:59:10.403627+00:00",
+    "generated_at": "2026-08-29T03:10:13.410378+00:00",
     "minimum_live_trades_for_active_sizing": 5,
     "rows": [
       {
@@ -3098,6 +3098,39 @@
       },
       {
         "deviation_score": 0.0,
+        "evidence_weight": 0.25,
+        "horizon": "short",
+        "live_closed_trades": 5,
+        "live_compound_return": 0.02631284294624714,
+        "live_losses": 1,
+        "live_max_loss_streak": 1,
+        "live_per_trade_return": 0.005208038010841687,
+        "live_profit_factor": 2.1754824663557066,
+        "live_profit_factor_infinite": false,
+        "live_win_rate": 0.8,
+        "live_wins": 4,
+        "market": "crypto",
+        "oos_closed_trades": 13,
+        "oos_max_drawdown": -0.008008441288604229,
+        "oos_per_trade_return": 0.0012959183848011424,
+        "oos_profit_factor": 3.108990556121279,
+        "oos_profit_factor_infinite": false,
+        "oos_sharpe": 5.908309430725227,
+        "oos_total_return": 0.016978557013737516,
+        "oos_win_rate": 0.7692307692307693,
+        "per_trade_return_gap": -0.003912119626040544,
+        "performance_key": "crypto:PENGUUSDT:short:Mean Reversion RSI",
+        "profit_factor_gap": 0.9335080897655725,
+        "reasons": [],
+        "shadow_only": true,
+        "state": "NORMAL",
+        "strategy": "Mean Reversion RSI",
+        "suggested_confidence_multiplier": 1.0,
+        "symbol": "PENGUUSDT",
+        "win_rate_gap": -0.03076923076923077
+      },
+      {
+        "deviation_score": 0.0,
         "evidence_weight": 0.2,
         "horizon": "medium",
         "live_closed_trades": 4,
@@ -3128,39 +3161,6 @@
         "suggested_confidence_multiplier": 1.0,
         "symbol": "ONGUSDT",
         "win_rate_gap": -0.3611111111111111
-      },
-      {
-        "deviation_score": 0.0,
-        "evidence_weight": 0.2,
-        "horizon": "short",
-        "live_closed_trades": 4,
-        "live_compound_return": 0.012741452651143126,
-        "live_losses": 1,
-        "live_max_loss_streak": 1,
-        "live_per_trade_return": 0.003170255494961527,
-        "live_profit_factor": 1.820206254776986,
-        "live_profit_factor_infinite": false,
-        "live_win_rate": 0.75,
-        "live_wins": 3,
-        "market": "crypto",
-        "oos_closed_trades": 13,
-        "oos_max_drawdown": -0.008008441288604229,
-        "oos_per_trade_return": 0.0012959183848011424,
-        "oos_profit_factor": 3.108990556121279,
-        "oos_profit_factor_infinite": false,
-        "oos_sharpe": 5.908309430725227,
-        "oos_total_return": 0.016978557013737516,
-        "oos_win_rate": 0.7692307692307693,
-        "per_trade_return_gap": -0.0018743371101603845,
-        "performance_key": "crypto:PENGUUSDT:short:Mean Reversion RSI",
-        "profit_factor_gap": 1.2887843013442932,
-        "reasons": [],
-        "shadow_only": true,
-        "state": "LEARNING",
-        "strategy": "Mean Reversion RSI",
-        "suggested_confidence_multiplier": 1.0,
-        "symbol": "PENGUUSDT",
-        "win_rate_gap": 0.019230769230769273
       },
       {
         "deviation_score": 0.0,
@@ -10099,7 +10099,7 @@
     "summary": {
       "broker_order_api_calls": 0,
       "diverging": 7,
-      "learning": 277,
+      "learning": 276,
       "models": 291,
       "severe": 2,
       "watch": 2,
@@ -10230,7 +10230,7 @@
       }
     ]
   },
-  "generated_at": "2026-08-29T02:59:40.963712+00:00",
+  "generated_at": "2026-08-29T03:10:41.562864+00:00",
   "governance": {
     "arenas": [
       {
@@ -24377,7 +24377,7 @@
         "total_reduction_notional": 15053.73090163802
       }
     ],
-    "generated_at": "2026-08-29T02:59:50.542682+00:00",
+    "generated_at": "2026-08-29T03:11:08.645247+00:00",
     "scope": "PUBLIC_READ_ONLY_RISK_SIZING_AUDIT",
     "status": "AVAILABLE",
     "summary": {
@@ -24477,19 +24477,19 @@
       "worst_trade_return": -0.06114941617007574
     },
     {
-      "avg_pnl": -15.555105303451144,
-      "avg_return_pct": -0.0023790722587545606,
+      "avg_pnl": -14.62726764489355,
+      "avg_return_pct": -0.0021363073533726532,
       "best_trade_return": 0.039029404894149744,
-      "closed_trades": 64,
+      "closed_trades": 65,
       "horizon": "short",
-      "last_exit_bar": "2026-08-28T18:00:00+00:00",
+      "last_exit_bar": "2026-08-29T02:00:00+00:00",
       "losses": 36,
       "market": "crypto",
-      "profit_factor": 0.7853466971010917,
-      "realized_pnl": -995.5267394208732,
+      "profit_factor": 0.7949965307588817,
+      "realized_pnl": -950.7723969180807,
       "strategy": "Mean Reversion RSI",
-      "win_rate": 0.4375,
-      "wins": 28,
+      "win_rate": 0.4461538461538462,
+      "wins": 29,
       "worst_trade_return": -0.04457500727008379
     },
     {
@@ -24967,6 +24967,24 @@
       "worst_trade_return": -0.04123628998609197
     },
     {
+      "avg_pnl": 29.615236365834686,
+      "avg_return_pct": 0.00551506605593024,
+      "best_trade_return": 0.02833622130693314,
+      "closed_trades": 5,
+      "horizon": "short",
+      "last_exit_bar": "2026-08-29T02:00:00+00:00",
+      "losses": 1,
+      "market": "crypto",
+      "performance_key": "crypto:PENGUUSDT:short:Mean Reversion RSI",
+      "profit_factor": 2.1754824663557066,
+      "realized_pnl": 148.07618182917344,
+      "strategy": "Mean Reversion RSI",
+      "symbol": "PENGUUSDT",
+      "win_rate": 0.8,
+      "wins": 4,
+      "worst_trade_return": -0.04149619133848692
+    },
+    {
       "avg_pnl": -27.948744172074804,
       "avg_return_pct": -0.003374277743451337,
       "best_trade_return": -0.0031947490706951687,
@@ -25055,24 +25073,6 @@
       "win_rate": 0.75,
       "wins": 3,
       "worst_trade_return": -0.24128686010033884
-    },
-    {
-      "avg_pnl": 25.83045983159523,
-      "avg_return_pct": 0.003543670922145442,
-      "best_trade_return": 0.02833622130693314,
-      "closed_trades": 4,
-      "horizon": "short",
-      "last_exit_bar": "2026-08-28T15:00:00+00:00",
-      "losses": 1,
-      "market": "crypto",
-      "performance_key": "crypto:PENGUUSDT:short:Mean Reversion RSI",
-      "profit_factor": 1.820206254776986,
-      "realized_pnl": 103.32183932638092,
-      "strategy": "Mean Reversion RSI",
-      "symbol": "PENGUUSDT",
-      "win_rate": 0.75,
-      "wins": 3,
-      "worst_trade_return": -0.04149619133848692
     },
     {
       "avg_pnl": -51.24769880333996,
@@ -26623,11 +26623,11 @@
       "worst_trade_return": -0.00029986839109497065
     }
   ],
-  "sync_checked_at": "2026-08-29T02:59:52.835552+00:00",
-  "sync_snapshot_age_seconds": 11.87184,
+  "sync_checked_at": "2026-08-29T03:11:11.902391+00:00",
+  "sync_snapshot_age_seconds": 30.339527,
   "trial_ledger": {
     "challenges": 24,
-    "cycles": 471,
+    "cycles": 474,
     "distinct_hypotheses": 45,
     "events": 96,
     "last_event_at": "2026-08-28T20:10:53.660453+00:00",
@@ -26641,17 +26641,17 @@
     "concept_drift_pairs": 4,
     "data_quality": "OK",
     "data_quality_critical": 0,
-    "data_quality_warnings": 38,
-    "heartbeat_at": "2026-08-29T02:59:32.958244+00:00",
-    "last_cycle_finished_at": "2026-08-29T02:58:31.443353+00:00",
-    "last_cycle_started_at": "2026-08-29T02:59:31.471347+00:00",
-    "market_data_api_calls": 0,
+    "data_quality_warnings": 37,
+    "heartbeat_at": "2026-08-29T03:10:37.667932+00:00",
+    "last_cycle_finished_at": "2026-08-29T03:10:37.667901+00:00",
+    "last_cycle_started_at": "2026-08-29T03:07:31.399818+00:00",
+    "market_data_api_calls": 5,
     "portfolio_risk": "HIGH",
     "realtime_watchlist_sync": "ONLINE",
     "realtime_watchlist_total": 65,
     "risk_layer": "ONLINE",
     "risk_sizing": "ACTIVE",
-    "status": "RUNNING",
+    "status": "ONLINE",
     "true_errors": 0
   }
 }
