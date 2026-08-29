@@ -132,7 +132,7 @@
   "expected_live_deviation": {
     "active_sizing": true,
     "contains_secrets": false,
-    "generated_at": "2026-08-29T01:08:41.359254+00:00",
+    "generated_at": "2026-08-29T01:19:44.151049+00:00",
     "minimum_live_trades_for_active_sizing": 5,
     "rows": [
       {
@@ -10230,7 +10230,7 @@
       }
     ]
   },
-  "generated_at": "2026-08-29T01:08:36.029769+00:00",
+  "generated_at": "2026-08-29T01:19:36.447962+00:00",
   "governance": {
     "arenas": [
       {
@@ -24377,7 +24377,7 @@
         "total_reduction_notional": 15053.73090163802
       }
     ],
-    "generated_at": "2026-08-29T01:08:46.374182+00:00",
+    "generated_at": "2026-08-29T01:19:44.125404+00:00",
     "scope": "PUBLIC_READ_ONLY_RISK_SIZING_AUDIT",
     "status": "AVAILABLE",
     "summary": {
@@ -26608,11 +26608,11 @@
       "worst_trade_return": -0.00029986839109497065
     }
   ],
-  "sync_checked_at": "2026-08-29T01:08:48.290497+00:00",
-  "sync_snapshot_age_seconds": 12.260728,
+  "sync_checked_at": "2026-08-29T01:19:46.282675+00:00",
+  "sync_snapshot_age_seconds": 9.834713,
   "trial_ledger": {
     "challenges": 24,
-    "cycles": 443,
+    "cycles": 446,
     "distinct_hypotheses": 45,
     "events": 96,
     "last_event_at": "2026-08-28T20:10:53.660453+00:00",
@@ -26621,15 +26621,15 @@
   },
   "worker": {
     "assets_checked": 239,
-    "bars_processed": 38,
+    "bars_processed": 0,
     "broker_order_api_calls": 0,
     "concept_drift_pairs": 3,
     "data_quality": "OK",
     "data_quality_critical": 0,
     "data_quality_warnings": 38,
-    "heartbeat_at": "2026-08-29T01:08:30.361940+00:00",
-    "last_cycle_finished_at": "2026-08-29T01:05:48.905238+00:00",
-    "last_cycle_started_at": "2026-08-29T01:06:48.915505+00:00",
+    "heartbeat_at": "2026-08-29T01:19:30.579173+00:00",
+    "last_cycle_finished_at": "2026-08-29T01:18:16.550791+00:00",
+    "last_cycle_started_at": "2026-08-29T01:19:16.566492+00:00",
     "market_data_api_calls": 5,
     "portfolio_risk": "HIGH",
     "realtime_watchlist_sync": "ONLINE",
