@@ -144,4 +144,4 @@ jobs:
           git commit -m 'Update runtime diagnostic' || exit 0
           git push origin HEAD:snapshot-data
 
-# diagnostic trigger: bidirectional-shadow-post-deploy-2026-08-29
+# diagnostic trigger: runtime-health-2026-08-29-0852
