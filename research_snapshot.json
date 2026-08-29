@@ -132,7 +132,7 @@
   "expected_live_deviation": {
     "active_sizing": true,
     "contains_secrets": false,
-    "generated_at": "2026-08-29T07:49:34.861959+00:00",
+    "generated_at": "2026-08-29T08:00:37.988612+00:00",
     "minimum_live_trades_for_active_sizing": 5,
     "rows": [
       {
@@ -10234,9 +10234,21 @@
       }
     ]
   },
-  "generated_at": "2026-08-29T07:48:54.797749+00:00",
+  "generated_at": "2026-08-29T07:59:55.317771+00:00",
   "governance": {
     "arenas": [
+      {
+        "arena_id": "11b468674382f1d44083",
+        "challenger_signature": "7e44f46e65b6b404f810",
+        "champion_signature": "1479f136882d2c3cd332",
+        "decision_at": null,
+        "horizon": "short",
+        "latest_verdict": "WAITING",
+        "market": "crypto",
+        "registered_at": "2026-08-29T07:57:14.458553+00:00",
+        "status": "ACTIVE",
+        "symbol": "BMTUSDT"
+      },
       {
         "arena_id": "476e0f09448d0f78af09",
         "challenger_signature": "7dc4f4e97813e40983bd",
@@ -10527,6 +10539,15 @@
       }
     ],
     "recent_events": [
+      {
+        "arena_id": "11b468674382f1d44083",
+        "created_at": "2026-08-29T07:57:14.458553+00:00",
+        "event_type": "CHALLENGE_REGISTERED",
+        "horizon": "short",
+        "id": 34,
+        "market": "crypto",
+        "symbol": "BMTUSDT"
+      },
       {
         "arena_id": null,
         "created_at": "2026-08-28T20:10:53.660453+00:00",
@@ -24372,7 +24393,7 @@
         "total_reduction_notional": 2903.697591608666
       }
     ],
-    "generated_at": "2026-08-29T07:49:34.844026+00:00",
+    "generated_at": "2026-08-29T08:00:53.058030+00:00",
     "scope": "PUBLIC_READ_ONLY_RISK_SIZING_AUDIT",
     "status": "AVAILABLE",
     "summary": {
@@ -26618,16 +26639,16 @@
       "worst_trade_return": -0.00029986839109497065
     }
   ],
-  "sync_checked_at": "2026-08-29T07:49:38.984200+00:00",
-  "sync_snapshot_age_seconds": 44.186451,
+  "sync_checked_at": "2026-08-29T08:00:56.956729+00:00",
+  "sync_snapshot_age_seconds": 61.638958,
   "trial_ledger": {
-    "challenges": 24,
-    "cycles": 540,
-    "distinct_hypotheses": 45,
-    "events": 96,
-    "last_event_at": "2026-08-28T20:10:53.660453+00:00",
+    "challenges": 25,
+    "cycles": 543,
+    "distinct_hypotheses": 46,
+    "events": 98,
+    "last_event_at": "2026-08-29T07:57:14.458553+00:00",
     "promotions": 0,
-    "research_trials": 63
+    "research_trials": 64
   },
   "worker": {
     "assets_checked": 239,
@@ -26637,10 +26658,10 @@
     "data_quality": "OK",
     "data_quality_critical": 0,
     "data_quality_warnings": 45,
-    "heartbeat_at": "2026-08-29T07:48:40.163605+00:00",
-    "last_cycle_finished_at": "2026-08-29T07:48:06.424597+00:00",
-    "last_cycle_started_at": "2026-08-29T07:44:48.275162+00:00",
-    "market_data_api_calls": 5,
+    "heartbeat_at": "2026-08-29T07:59:53.340013+00:00",
+    "last_cycle_finished_at": "2026-08-29T07:59:53.339985+00:00",
+    "last_cycle_started_at": "2026-08-29T07:57:14.444258+00:00",
+    "market_data_api_calls": 0,
     "portfolio_risk": "HIGH",
     "realtime_watchlist_sync": "ONLINE",
     "realtime_watchlist_total": 65,
