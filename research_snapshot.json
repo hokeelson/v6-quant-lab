@@ -17,30 +17,30 @@
     {
       "account_id": "crypto_medium",
       "as_of": "2026-08-30T00:00:00+00:00",
-      "cash": -28566.4389451746,
+      "cash": -28580.529592185423,
       "closed_trades": 45,
-      "drawdown": -0.03234653353051031,
-      "equity": 97133.68803431261,
-      "gross_exposure": 125700.1269794872,
+      "drawdown": -0.03173252799204984,
+      "equity": 97195.3223119655,
+      "gross_exposure": 125775.85190415093,
       "horizon": "medium",
       "initial_equity": 100000.0,
-      "leverage": 1.2940940421729221,
+      "leverage": 1.2940525213801048,
       "market": "crypto",
-      "return_pct": -0.028663119656873848
+      "return_pct": -0.02804677688034496
     },
     {
       "account_id": "crypto_short",
       "as_of": "2026-08-30T03:00:00+00:00",
       "cash": 16972.576574323037,
       "closed_trades": 198,
-      "drawdown": -0.07714089910025146,
-      "equity": 94981.66879496975,
-      "gross_exposure": 73734.96673119259,
+      "drawdown": -0.07687702689054998,
+      "equity": 95008.82681161782,
+      "gross_exposure": 78036.2502372948,
       "horizon": "short",
       "initial_equity": 100000.0,
-      "leverage": 0.7763073408444642,
+      "leverage": 0.8213578975353941,
       "market": "crypto",
-      "return_pct": -0.050183312050302464
+      "return_pct": -0.04991173188382181
     },
     {
       "account_id": "stock_long",
@@ -132,7 +132,7 @@
   "expected_live_deviation": {
     "active_sizing": true,
     "contains_secrets": false,
-    "generated_at": "2026-08-30T04:46:55.273272+00:00",
+    "generated_at": "2026-08-30T04:57:57.813785+00:00",
     "minimum_live_trades_for_active_sizing": 5,
     "rows": [
       {
@@ -2946,17 +2946,17 @@
         "live_win_rate": 0.6,
         "live_wins": 3,
         "market": "crypto",
-        "oos_closed_trades": 10,
-        "oos_max_drawdown": -0.007974671735662797,
-        "oos_per_trade_return": 0.004103332615730704,
-        "oos_profit_factor": 12.578211106901087,
+        "oos_closed_trades": 7,
+        "oos_max_drawdown": -0.01513233379917811,
+        "oos_per_trade_return": 0.0051137030962029595,
+        "oos_profit_factor": 5.284210787685025,
         "oos_profit_factor_infinite": false,
-        "oos_sharpe": 7.748027356774023,
-        "oos_total_return": 0.041799356924655084,
-        "oos_win_rate": 0.6,
-        "per_trade_return_gap": 0.005633165880308044,
+        "oos_sharpe": 6.645851406563144,
+        "oos_total_return": 0.03634977513665505,
+        "oos_win_rate": 0.7142857142857143,
+        "per_trade_return_gap": 0.0066435363607803,
         "performance_key": "crypto:ENAUSDT:short:Mean Reversion RSI",
-        "profit_factor_gap": 11.457796341054738,
+        "profit_factor_gap": 4.163796021838677,
         "reasons": [
           "OOS_POSITIVE_LIVE_NEGATIVE",
           "EXPECTANCY_SIGN_REVERSAL"
@@ -2966,7 +2966,7 @@
         "strategy": "Mean Reversion RSI",
         "suggested_confidence_multiplier": 0.85,
         "symbol": "ENAUSDT",
-        "win_rate_gap": 0.0
+        "win_rate_gap": 0.11428571428571432
       },
       {
         "deviation_score": 19.04251566685932,
@@ -10814,16 +10814,40 @@
       }
     ]
   },
-  "generated_at": "2026-08-30T04:46:53.370353+00:00",
+  "generated_at": "2026-08-30T04:57:54.140580+00:00",
   "governance": {
     "arenas": [
+      {
+        "arena_id": "4a96ec4426bf5893432d",
+        "challenger_signature": "9312d813700fc199a14d",
+        "champion_signature": "9320de8d489de3750647",
+        "decision_at": null,
+        "horizon": "short",
+        "latest_verdict": "WAITING",
+        "market": "crypto",
+        "registered_at": "2026-08-30T04:46:57.561198+00:00",
+        "status": "ACTIVE",
+        "symbol": "DASHUSDT"
+      },
+      {
+        "arena_id": "11777fbba61c2cd0398f",
+        "challenger_signature": "73ce7601b7dbb58705d4",
+        "champion_signature": "b49fe62c21659c122359",
+        "decision_at": null,
+        "horizon": "medium",
+        "latest_verdict": "WAITING",
+        "market": "crypto",
+        "registered_at": "2026-08-30T04:46:57.561198+00:00",
+        "status": "ACTIVE",
+        "symbol": "HBARUSDT"
+      },
       {
         "arena_id": "0271d0ce6b59147b1c31",
         "challenger_signature": "1479f136882d2c3cd332",
         "champion_signature": "d6fdfe47123feff7fce3",
         "decision_at": null,
         "horizon": "short",
-        "latest_verdict": "WAITING",
+        "latest_verdict": "LEARNING",
         "market": "crypto",
         "registered_at": "2026-08-29T15:45:56.650932+00:00",
         "status": "ACTIVE",
@@ -10835,7 +10859,7 @@
         "champion_signature": "1479f136882d2c3cd332",
         "decision_at": null,
         "horizon": "short",
-        "latest_verdict": "WAITING",
+        "latest_verdict": "LEARNING",
         "market": "crypto",
         "registered_at": "2026-08-29T07:57:14.458553+00:00",
         "status": "ACTIVE",
@@ -11131,6 +11155,33 @@
       }
     ],
     "recent_events": [
+      {
+        "arena_id": "11777fbba61c2cd0398f",
+        "created_at": "2026-08-30T04:46:57.561198+00:00",
+        "event_type": "CHALLENGE_REGISTERED",
+        "horizon": "medium",
+        "id": 39,
+        "market": "crypto",
+        "symbol": "HBARUSDT"
+      },
+      {
+        "arena_id": null,
+        "created_at": "2026-08-30T04:46:57.561198+00:00",
+        "event_type": "SAME_HYPOTHESIS_REFRESH",
+        "horizon": "short",
+        "id": 38,
+        "market": "crypto",
+        "symbol": "ENAUSDT"
+      },
+      {
+        "arena_id": "4a96ec4426bf5893432d",
+        "created_at": "2026-08-30T04:46:57.561198+00:00",
+        "event_type": "CHALLENGE_REGISTERED",
+        "horizon": "short",
+        "id": 37,
+        "market": "crypto",
+        "symbol": "DASHUSDT"
+      },
       {
         "arena_id": "0271d0ce6b59147b1c31",
         "created_at": "2026-08-29T15:45:56.650932+00:00",
@@ -12179,24 +12230,24 @@
       "updated_at": "2026-08-23T12:18:34.527645+00:00"
     },
     {
-      "calibrated_through": "2026-08-26T11:00:00+00:00",
-      "calibration_score": 86.50459633581461,
+      "calibrated_through": "2026-08-30T03:00:00+00:00",
+      "calibration_score": 90.47153329979935,
       "horizon": "short",
       "market": "crypto",
       "oos_metrics": {
-        "closed_trades": 10,
-        "max_drawdown": -0.007974671735662797,
-        "profit_factor": 12.578211106901087,
-        "sharpe": 7.748027356774023,
-        "total_return": 0.041799356924655084,
-        "win_rate": 0.6
+        "closed_trades": 7,
+        "max_drawdown": -0.01513233379917811,
+        "profit_factor": 5.284210787685025,
+        "sharpe": 6.645851406563144,
+        "total_return": 0.03634977513665505,
+        "win_rate": 0.7142857142857143
       },
-      "oos_score": 95.559590132775,
-      "regime_fit": 0.6,
+      "oos_score": 93.58349024324187,
+      "regime_fit": 0.9,
       "strategy": "Mean Reversion RSI",
       "symbol": "ENAUSDT",
-      "train_score": 83.3426025868862,
-      "updated_at": "2026-08-26T12:29:03.031625+00:00"
+      "train_score": 92.02987563446834,
+      "updated_at": "2026-08-30T04:46:57.561198+00:00"
     },
     {
       "calibrated_through": "2026-08-28T00:00:00+00:00",
@@ -25356,7 +25407,7 @@
         "total_reduction_notional": 10258.209746787008
       }
     ],
-    "generated_at": "2026-08-30T04:47:35.393240+00:00",
+    "generated_at": "2026-08-30T04:58:17.896484+00:00",
     "scope": "PUBLIC_READ_ONLY_RISK_SIZING_AUDIT",
     "status": "AVAILABLE",
     "summary": {
@@ -27659,16 +27710,34 @@
       "worst_trade_return": -0.00029986839109497065
     }
   ],
-  "sync_checked_at": "2026-08-30T04:47:37.281923+00:00",
-  "sync_snapshot_age_seconds": 43.91157,
+  "sync_checked_at": "2026-08-30T04:58:22.082687+00:00",
+  "sync_snapshot_age_seconds": 27.942107,
   "trial_ledger": {
-    "challenges": 26,
+    "challenges": 28,
     "cycles": 543,
-    "distinct_hypotheses": 46,
-    "events": 102,
-    "last_event_at": "2026-08-29T15:45:56.650932+00:00",
+    "distinct_hypotheses": 48,
+    "events": 108,
+    "last_event_at": "2026-08-30T04:46:57.561198+00:00",
     "promotions": 0,
-    "research_trials": 66
+    "research_trials": 69
   },
-  "worker": {}
+  "worker": {
+    "assets_checked": 0,
+    "bars_processed": 0,
+    "broker_order_api_calls": 0,
+    "concept_drift_pairs": 0,
+    "data_quality": "STARTING",
+    "data_quality_critical": 0,
+    "data_quality_warnings": 0,
+    "heartbeat_at": "2026-08-30T04:57:39.696416+00:00",
+    "last_cycle_finished_at": null,
+    "last_cycle_started_at": "2026-08-30T04:46:54.645747+00:00",
+    "market_data_api_calls": 0,
+    "realtime_watchlist_sync": "STARTING",
+    "realtime_watchlist_total": 0,
+    "risk_layer": "STARTING",
+    "risk_sizing": "ACTIVE",
+    "status": "RUNNING",
+    "true_errors": 0
+  }
 }
