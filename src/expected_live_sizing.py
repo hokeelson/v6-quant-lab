@@ -6,6 +6,8 @@ from .expected_live_deviation import expected_live_deviation_snapshot
 
 CACHE_SECONDS = 60.0
 MIN_LIVE_TRADES = 5
+MAX_FORWARD_WEIGHT = 0.90
+FORWARD_DOMINANCE_TRADES = 30
 _CACHE = {"path": None, "at": 0.0, "snapshot": None}
 
 
@@ -20,13 +22,39 @@ def _snapshot(db) -> dict:
     return snap
 
 
+def forward_shadow_weight(samples: int) -> float:
+    """Weight realized Shadow evidence progressively as sample size grows.
+
+    Fewer than five closed trades remain research-only. From five through thirty
+    trades, realized evidence rises smoothly. At thirty or more closed trades,
+    Shadow evidence receives 90% weight and historical OOS retains a 10% anchor.
+    """
+    n = max(0, int(samples or 0))
+    if n < MIN_LIVE_TRADES:
+        return 0.0
+    if n >= FORWARD_DOMINANCE_TRADES:
+        return MAX_FORWARD_WEIGHT
+    span = FORWARD_DOMINANCE_TRADES - MIN_LIVE_TRADES
+    progress = (n - MIN_LIVE_TRADES) / max(1, span)
+    return 0.25 + (MAX_FORWARD_WEIGHT - 0.25) * progress
+
+
+def blend_expected_live_multiplier(suggested: float, samples: int) -> tuple[float, float, float]:
+    """Blend OOS anchor (1.0x) with realized Shadow penalty by evidence weight."""
+    suggested = max(0.0, min(1.0, float(suggested or 1.0)))
+    forward_weight = forward_shadow_weight(samples)
+    backtest_weight = 1.0 - forward_weight
+    effective = backtest_weight * 1.0 + forward_weight * suggested
+    return max(0.0, min(1.0, effective)), forward_weight, backtest_weight
+
+
 def expected_live_sizing_assessment(db, market: str, symbol: str, horizon: str, strategy: str) -> dict:
     """Return the active sizing multiplier for OOS-vs-forward divergence.
 
-    This is deliberately fail-safe at the caller and deliberately inactive until
-    at least five forward closed trades exist for the exact market/symbol/horizon/
-    strategy combination. The full diagnostic snapshot is cached for 60 seconds so
-    repeated entry checks do not rescan the simulation ledger unnecessarily.
+    V6 keeps an OOS anchor early, then progressively gives realized Shadow evidence
+    more control. After 30 closed Shadow trades, the weighting is 90% Shadow / 10%
+    historical OOS. This avoids overreacting to five trades while ensuring mature
+    live evidence dominates historical backtest evidence.
     """
     key = f"{market}:{str(symbol or '').upper()}:{horizon}:{strategy}"
     out = {
@@ -37,6 +65,9 @@ def expected_live_sizing_assessment(db, market: str, symbol: str, horizon: str, 
         "expected_live_reasons": [],
         "expected_live_performance_key": key,
         "expected_live_evidence_weight": 0.0,
+        "forward_shadow_weight": 0.0,
+        "backtest_oos_weight": 1.0,
+        "raw_expected_live_multiplier": 1.0,
     }
 
     snap = _snapshot(db)
@@ -50,15 +81,22 @@ def expected_live_sizing_assessment(db, market: str, symbol: str, horizon: str, 
     samples = int(row.get("live_closed_trades", 0) or 0)
     state = str(row.get("state") or "LEARNING")
     suggested = float(row.get("suggested_confidence_multiplier", 1.0) or 1.0)
-    multiplier = suggested if samples >= MIN_LIVE_TRADES and state != "LEARNING" else 1.0
+
+    if samples >= MIN_LIVE_TRADES and state != "LEARNING":
+        multiplier, forward_weight, backtest_weight = blend_expected_live_multiplier(suggested, samples)
+    else:
+        multiplier, forward_weight, backtest_weight = 1.0, 0.0, 1.0
 
     out.update({
-        "expected_live_multiplier": max(0.0, min(1.0, multiplier)),
+        "expected_live_multiplier": multiplier,
         "expected_live_state": state,
         "expected_live_samples": samples,
         "expected_live_deviation_score": row.get("deviation_score"),
         "expected_live_reasons": list(row.get("reasons") or []),
         "expected_live_performance_key": str(row.get("performance_key") or key),
         "expected_live_evidence_weight": float(row.get("evidence_weight", 0.0) or 0.0),
+        "forward_shadow_weight": forward_weight,
+        "backtest_oos_weight": backtest_weight,
+        "raw_expected_live_multiplier": max(0.0, min(1.0, suggested)),
     })
     return out
