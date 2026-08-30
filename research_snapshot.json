@@ -132,7 +132,7 @@
   "expected_live_deviation": {
     "active_sizing": true,
     "contains_secrets": false,
-    "generated_at": "2026-08-30T12:27:48.835262+00:00",
+    "generated_at": "2026-08-30T12:38:51.740150+00:00",
     "minimum_live_trades_for_active_sizing": 5,
     "rows": [
       {
@@ -10822,9 +10822,57 @@
       }
     ]
   },
-  "generated_at": "2026-08-30T12:27:40.474936+00:00",
+  "generated_at": "2026-08-30T12:38:40.985094+00:00",
   "governance": {
     "arenas": [
+      {
+        "arena_id": "31794651e8aa2334da38",
+        "challenger_signature": "8153f995779367091310",
+        "champion_signature": "5d21318b8df4eb9529c2",
+        "decision_at": null,
+        "horizon": "medium",
+        "latest_verdict": "WAITING",
+        "market": "crypto",
+        "registered_at": "2026-08-30T12:35:46.112560+00:00",
+        "status": "ACTIVE",
+        "symbol": "SOLUSDT"
+      },
+      {
+        "arena_id": "27ebe71d1c0d5d546c8c",
+        "challenger_signature": "1479f136882d2c3cd332",
+        "champion_signature": "814b44a8ad46cd11f0d6",
+        "decision_at": null,
+        "horizon": "medium",
+        "latest_verdict": "WAITING",
+        "market": "crypto",
+        "registered_at": "2026-08-30T12:35:46.112560+00:00",
+        "status": "ACTIVE",
+        "symbol": "SUIUSDT"
+      },
+      {
+        "arena_id": "7e748c309bb388cfd2b1",
+        "challenger_signature": "73ce7601b7dbb58705d4",
+        "champion_signature": "c6e69815fceeeced6f7b",
+        "decision_at": null,
+        "horizon": "medium",
+        "latest_verdict": "WAITING",
+        "market": "crypto",
+        "registered_at": "2026-08-30T12:31:19.078358+00:00",
+        "status": "ACTIVE",
+        "symbol": "PEPEUSDT"
+      },
+      {
+        "arena_id": "bd6792548c363aa5e6ae",
+        "challenger_signature": "33813df508d6a208c8d5",
+        "champion_signature": "88408443a25f967bebf9",
+        "decision_at": null,
+        "horizon": "medium",
+        "latest_verdict": "WAITING",
+        "market": "crypto",
+        "registered_at": "2026-08-30T12:31:19.078358+00:00",
+        "status": "ACTIVE",
+        "symbol": "RLUSDUSDT"
+      },
       {
         "arena_id": "e33eeeddcba06a4cc1e7",
         "challenger_signature": "999f17ee02c9625934e5",
@@ -11307,6 +11355,42 @@
       }
     ],
     "recent_events": [
+      {
+        "arena_id": "27ebe71d1c0d5d546c8c",
+        "created_at": "2026-08-30T12:35:46.112560+00:00",
+        "event_type": "CHALLENGE_REGISTERED",
+        "horizon": "medium",
+        "id": 57,
+        "market": "crypto",
+        "symbol": "SUIUSDT"
+      },
+      {
+        "arena_id": "31794651e8aa2334da38",
+        "created_at": "2026-08-30T12:35:46.112560+00:00",
+        "event_type": "CHALLENGE_REGISTERED",
+        "horizon": "medium",
+        "id": 56,
+        "market": "crypto",
+        "symbol": "SOLUSDT"
+      },
+      {
+        "arena_id": "bd6792548c363aa5e6ae",
+        "created_at": "2026-08-30T12:31:19.078358+00:00",
+        "event_type": "CHALLENGE_REGISTERED",
+        "horizon": "medium",
+        "id": 55,
+        "market": "crypto",
+        "symbol": "RLUSDUSDT"
+      },
+      {
+        "arena_id": "7e748c309bb388cfd2b1",
+        "created_at": "2026-08-30T12:31:19.078358+00:00",
+        "event_type": "CHALLENGE_REGISTERED",
+        "horizon": "medium",
+        "id": 54,
+        "market": "crypto",
+        "symbol": "PEPEUSDT"
+      },
       {
         "arena_id": "cc7e3790d15e133ec75e",
         "created_at": "2026-08-30T12:27:25.499524+00:00",
@@ -25698,7 +25782,7 @@
         "total_reduction_notional": 12079.439831986349
       }
     ],
-    "generated_at": "2026-08-30T12:27:53.872104+00:00",
+    "generated_at": "2026-08-30T12:39:06.797866+00:00",
     "scope": "PUBLIC_READ_ONLY_RISK_SIZING_AUDIT",
     "status": "AVAILABLE",
     "summary": {
@@ -28055,16 +28139,16 @@
       "worst_trade_return": -0.00029986839109497065
     }
   ],
-  "sync_checked_at": "2026-08-30T12:27:55.836348+00:00",
-  "sync_snapshot_age_seconds": 15.361412,
+  "sync_checked_at": "2026-08-30T12:39:11.317523+00:00",
+  "sync_snapshot_age_seconds": 30.332429,
   "trial_ledger": {
-    "challenges": 40,
-    "cycles": 547,
-    "distinct_hypotheses": 58,
-    "events": 136,
-    "last_event_at": "2026-08-30T12:27:25.499524+00:00",
+    "challenges": 44,
+    "cycles": 549,
+    "distinct_hypotheses": 59,
+    "events": 144,
+    "last_event_at": "2026-08-30T12:35:46.112560+00:00",
     "promotions": 0,
-    "research_trials": 83
+    "research_trials": 87
   },
   "worker": {
     "assets_checked": 254,
@@ -28074,9 +28158,9 @@
     "data_quality": "OK",
     "data_quality_critical": 0,
     "data_quality_warnings": 49,
-    "heartbeat_at": "2026-08-30T12:27:25.990165+00:00",
-    "last_cycle_finished_at": "2026-08-30T12:26:25.467040+00:00",
-    "last_cycle_started_at": "2026-08-30T12:27:25.483776+00:00",
+    "heartbeat_at": "2026-08-30T12:38:26.375468+00:00",
+    "last_cycle_finished_at": "2026-08-30T12:34:46.084731+00:00",
+    "last_cycle_started_at": "2026-08-30T12:35:46.095207+00:00",
     "market_data_api_calls": 5,
     "portfolio_risk": "HIGH",
     "realtime_watchlist_sync": "ONLINE",
