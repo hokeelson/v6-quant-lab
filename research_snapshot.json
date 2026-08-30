@@ -30,17 +30,17 @@
     },
     {
       "account_id": "crypto_short",
-      "as_of": "2026-08-30T05:00:00+00:00",
-      "cash": 10892.907321674076,
-      "closed_trades": 199,
-      "drawdown": -0.07687939122612886,
-      "equity": 95008.58347161213,
-      "gross_exposure": 84115.67614993805,
+      "as_of": "2026-08-30T06:00:00+00:00",
+      "cash": 13990.458292783243,
+      "closed_trades": 200,
+      "drawdown": -0.0747725958470219,
+      "equity": 95225.4171580568,
+      "gross_exposure": 81234.95886527357,
       "horizon": "short",
       "initial_equity": 100000.0,
-      "leverage": 0.8853481767262765,
+      "leverage": 0.8530806300426951,
       "market": "crypto",
-      "return_pct": -0.04991416528387871
+      "return_pct": -0.04774582841943198
     },
     {
       "account_id": "stock_long",
@@ -132,7 +132,7 @@
   "expected_live_deviation": {
     "active_sizing": true,
     "contains_secrets": false,
-    "generated_at": "2026-08-30T07:01:57.128209+00:00",
+    "generated_at": "2026-08-30T07:12:59.437046+00:00",
     "minimum_live_trades_for_active_sizing": 5,
     "rows": [
       {
@@ -365,6 +365,45 @@
         "win_rate_gap": 0.038461538461538436
       },
       {
+        "deviation_score": 57.04613095238095,
+        "evidence_weight": 0.25,
+        "horizon": "short",
+        "live_closed_trades": 5,
+        "live_compound_return": -0.33447754749340375,
+        "live_losses": 5,
+        "live_max_loss_streak": 5,
+        "live_per_trade_return": -0.07820883272573398,
+        "live_profit_factor": 0.0,
+        "live_profit_factor_infinite": false,
+        "live_win_rate": 0.0,
+        "live_wins": 0,
+        "market": "crypto",
+        "oos_closed_trades": 7,
+        "oos_max_drawdown": -0.07905626416557787,
+        "oos_per_trade_return": 0.0033321580600986778,
+        "oos_profit_factor": 1.3745696108043983,
+        "oos_profit_factor_infinite": false,
+        "oos_sharpe": 1.2615330302853724,
+        "oos_total_return": 0.02355957449393875,
+        "oos_win_rate": 0.2857142857142857,
+        "per_trade_return_gap": 0.08154099078583266,
+        "performance_key": "crypto:BMTUSDT:short:Trend MA",
+        "profit_factor_gap": 1.3745696108043983,
+        "reasons": [
+          "OOS_POSITIVE_LIVE_NEGATIVE",
+          "WIN_RATE_DETERIORATION",
+          "PROFIT_FACTOR_DETERIORATION",
+          "EXPECTANCY_SIGN_REVERSAL",
+          "LOSS_STREAK"
+        ],
+        "shadow_only": true,
+        "state": "DIVERGING",
+        "strategy": "Trend MA",
+        "suggested_confidence_multiplier": 0.65,
+        "symbol": "BMTUSDT",
+        "win_rate_gap": 0.2857142857142857
+      },
+      {
         "deviation_score": 56.62978706918732,
         "evidence_weight": 0.3,
         "horizon": "short",
@@ -556,45 +595,6 @@
         "suggested_confidence_multiplier": 1.0,
         "symbol": "ZECUSDT",
         "win_rate_gap": 0.47619047619047616
-      },
-      {
-        "deviation_score": 52.22857142857143,
-        "evidence_weight": 0.2,
-        "horizon": "short",
-        "live_closed_trades": 4,
-        "live_compound_return": -0.30782790219950396,
-        "live_losses": 4,
-        "live_max_loss_streak": 4,
-        "live_per_trade_return": -0.08787675822307672,
-        "live_profit_factor": 0.0,
-        "live_profit_factor_infinite": false,
-        "live_win_rate": 0.0,
-        "live_wins": 0,
-        "market": "crypto",
-        "oos_closed_trades": 7,
-        "oos_max_drawdown": -0.07905626416557787,
-        "oos_per_trade_return": 0.0033321580600986778,
-        "oos_profit_factor": 1.3745696108043983,
-        "oos_profit_factor_infinite": false,
-        "oos_sharpe": 1.2615330302853724,
-        "oos_total_return": 0.02355957449393875,
-        "oos_win_rate": 0.2857142857142857,
-        "per_trade_return_gap": 0.0912089162831754,
-        "performance_key": "crypto:BMTUSDT:short:Trend MA",
-        "profit_factor_gap": 1.3745696108043983,
-        "reasons": [
-          "OOS_POSITIVE_LIVE_NEGATIVE",
-          "WIN_RATE_DETERIORATION",
-          "PROFIT_FACTOR_DETERIORATION",
-          "EXPECTANCY_SIGN_REVERSAL",
-          "LOSS_STREAK"
-        ],
-        "shadow_only": true,
-        "state": "LEARNING",
-        "strategy": "Trend MA",
-        "suggested_confidence_multiplier": 1.0,
-        "symbol": "BMTUSDT",
-        "win_rate_gap": 0.2857142857142857
       },
       {
         "deviation_score": 52.22857142857143,
@@ -10682,8 +10682,8 @@
     "status": "AVAILABLE",
     "summary": {
       "broker_order_api_calls": 0,
-      "diverging": 10,
-      "learning": 290,
+      "diverging": 11,
+      "learning": 289,
       "models": 308,
       "severe": 2,
       "watch": 2,
@@ -10814,7 +10814,7 @@
       }
     ]
   },
-  "generated_at": "2026-08-30T07:01:43.333657+00:00",
+  "generated_at": "2026-08-30T07:13:43.800692+00:00",
   "governance": {
     "arenas": [
       {
@@ -25435,7 +25435,7 @@
         "total_reduction_notional": 5555.534783926217
       }
     ],
-    "generated_at": "2026-08-30T07:02:37.250025+00:00",
+    "generated_at": "2026-08-30T07:13:54.588063+00:00",
     "scope": "PUBLIC_READ_ONLY_RISK_SIZING_AUDIT",
     "status": "AVAILABLE",
     "summary": {
@@ -25536,18 +25536,18 @@
       "worst_trade_return": -0.06777460462776663
     },
     {
-      "avg_pnl": -33.532565989059904,
-      "avg_return_pct": -0.01760253707749886,
+      "avg_pnl": -35.50002840955638,
+      "avg_return_pct": -0.01805686177018111,
       "best_trade_return": 0.24418091488318883,
-      "closed_trades": 45,
+      "closed_trades": 46,
       "horizon": "short",
-      "last_exit_bar": "2026-08-30T02:00:00+00:00",
-      "losses": 31,
+      "last_exit_bar": "2026-08-30T06:00:00+00:00",
+      "losses": 32,
       "market": "crypto",
-      "profit_factor": 0.7148913620209598,
-      "realized_pnl": -1508.9654695076956,
+      "profit_factor": 0.698521020629585,
+      "realized_pnl": -1633.0013068395933,
       "strategy": "Trend MA",
-      "win_rate": 0.3111111111111111,
+      "win_rate": 0.30434782608695654,
       "wins": 14,
       "worst_trade_return": -0.1754387572936471
     },
@@ -26046,6 +26046,24 @@
       "worst_trade_return": -0.03183159665720592
     },
     {
+      "avg_pnl": -100.40313717232412,
+      "avg_return_pct": -0.07787019597973696,
+      "best_trade_return": -0.038501472940882464,
+      "closed_trades": 5,
+      "horizon": "short",
+      "last_exit_bar": "2026-08-30T06:00:00+00:00",
+      "losses": 5,
+      "market": "crypto",
+      "performance_key": "crypto:BMTUSDT:short:Trend MA",
+      "profit_factor": 0.0,
+      "realized_pnl": -502.0156858616206,
+      "strategy": "Trend MA",
+      "symbol": "BMTUSDT",
+      "win_rate": 0.0,
+      "wins": 0,
+      "worst_trade_return": -0.10997388957960785
+    },
+    {
       "avg_pnl": 6.104200224887428,
       "avg_return_pct": -0.0010276109901289133,
       "best_trade_return": 0.033091676353588895,
@@ -26116,24 +26134,6 @@
       "win_rate": 0.6,
       "wins": 3,
       "worst_trade_return": -0.026479513174686775
-    },
-    {
-      "avg_pnl": -94.49496213243077,
-      "avg_return_pct": -0.08771237673945059,
-      "best_trade_return": -0.06581300230130016,
-      "closed_trades": 4,
-      "horizon": "short",
-      "last_exit_bar": "2026-08-28T21:00:00+00:00",
-      "losses": 4,
-      "market": "crypto",
-      "performance_key": "crypto:BMTUSDT:short:Trend MA",
-      "profit_factor": 0.0,
-      "realized_pnl": -377.9798485297231,
-      "strategy": "Trend MA",
-      "symbol": "BMTUSDT",
-      "win_rate": 0.0,
-      "wins": 0,
-      "worst_trade_return": -0.10997388957960785
     },
     {
       "avg_pnl": -130.06420615922323,
@@ -27738,11 +27738,11 @@
       "worst_trade_return": -0.00029986839109497065
     }
   ],
-  "sync_checked_at": "2026-08-30T07:02:39.161798+00:00",
-  "sync_snapshot_age_seconds": 55.828141,
+  "sync_checked_at": "2026-08-30T07:13:58.740054+00:00",
+  "sync_snapshot_age_seconds": 14.939362,
   "trial_ledger": {
     "challenges": 29,
-    "cycles": 557,
+    "cycles": 560,
     "distinct_hypotheses": 49,
     "events": 112,
     "last_event_at": "2026-08-30T05:57:44.319611+00:00",
@@ -27756,17 +27756,17 @@
     "concept_drift_pairs": 10,
     "data_quality": "OK",
     "data_quality_critical": 0,
-    "data_quality_warnings": 44,
-    "heartbeat_at": "2026-08-30T07:01:42.281785+00:00",
-    "last_cycle_finished_at": "2026-08-30T07:01:20.104727+00:00",
-    "last_cycle_started_at": "2026-08-30T06:58:15.112007+00:00",
-    "market_data_api_calls": 5,
+    "data_quality_warnings": 45,
+    "heartbeat_at": "2026-08-30T07:13:42.492809+00:00",
+    "last_cycle_finished_at": "2026-08-30T07:11:50.094577+00:00",
+    "last_cycle_started_at": "2026-08-30T07:12:50.105319+00:00",
+    "market_data_api_calls": 0,
     "portfolio_risk": "HIGH",
     "realtime_watchlist_sync": "ONLINE",
-    "realtime_watchlist_total": 70,
+    "realtime_watchlist_total": 69,
     "risk_layer": "ONLINE",
     "risk_sizing": "ACTIVE",
-    "status": "ONLINE",
+    "status": "RUNNING",
     "true_errors": 0
   }
 }
