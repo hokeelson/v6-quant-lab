@@ -30,17 +30,17 @@
     },
     {
       "account_id": "crypto_short",
-      "as_of": "2026-08-30T13:00:00+00:00",
-      "cash": 36929.36510066938,
-      "closed_trades": 211,
-      "drawdown": -0.07456971384673594,
-      "equity": 95246.29799559401,
-      "gross_exposure": 58316.93289492462,
+      "as_of": "2026-08-30T14:00:00+00:00",
+      "cash": 43024.73498638871,
+      "closed_trades": 213,
+      "drawdown": -0.07509825243557489,
+      "equity": 95191.90022551024,
+      "gross_exposure": 52167.16523912153,
       "horizon": "short",
       "initial_equity": 100000.0,
-      "leverage": 0.6122750607863237,
+      "leverage": 0.5480210513240851,
       "market": "crypto",
-      "return_pct": -0.04753702004405991
+      "return_pct": -0.0480809977448976
     },
     {
       "account_id": "stock_long",
@@ -132,7 +132,7 @@
   "expected_live_deviation": {
     "active_sizing": true,
     "contains_secrets": false,
-    "generated_at": "2026-08-30T15:03:28.758428+00:00",
+    "generated_at": "2026-08-30T15:14:31.306477+00:00",
     "minimum_live_trades_for_active_sizing": 5,
     "rows": [
       {
@@ -10822,7 +10822,7 @@
       }
     ]
   },
-  "generated_at": "2026-08-30T15:02:47.705376+00:00",
+  "generated_at": "2026-08-30T15:14:48.244420+00:00",
   "governance": {
     "arenas": [
       {
@@ -11059,7 +11059,7 @@
         "champion_signature": "e16535290fb74023dcd1",
         "decision_at": null,
         "horizon": "short",
-        "latest_verdict": "WAITING",
+        "latest_verdict": "LEARNING",
         "market": "crypto",
         "registered_at": "2026-08-30T11:56:44.316866+00:00",
         "status": "ACTIVE",
@@ -25919,7 +25919,7 @@
         "total_reduction_notional": 18166.69050648842
       }
     ],
-    "generated_at": "2026-08-30T15:03:38.816112+00:00",
+    "generated_at": "2026-08-30T15:14:46.376676+00:00",
     "scope": "PUBLIC_READ_ONLY_RISK_SIZING_AUDIT",
     "status": "AVAILABLE",
     "summary": {
@@ -25988,34 +25988,34 @@
   },
   "strategy_performance": [
     {
-      "avg_pnl": -5.679979723895591,
-      "avg_return_pct": -0.001132015335248013,
+      "avg_pnl": -4.758408767468199,
+      "avg_return_pct": -0.0009455888877395987,
       "best_trade_return": 0.04152864980026605,
-      "closed_trades": 83,
+      "closed_trades": 84,
       "horizon": "short",
-      "last_exit_bar": "2026-08-30T13:00:00+00:00",
+      "last_exit_bar": "2026-08-30T14:00:00+00:00",
       "losses": 44,
       "market": "crypto",
-      "profit_factor": 0.9112190926198648,
-      "realized_pnl": -471.438317083334,
+      "profit_factor": 0.9247276049670643,
+      "realized_pnl": -399.70633646732875,
       "strategy": "Mean Reversion RSI",
-      "win_rate": 0.46987951807228917,
-      "wins": 39,
+      "win_rate": 0.47619047619047616,
+      "wins": 40,
       "worst_trade_return": -0.04457500727008379
     },
     {
-      "avg_pnl": -23.828337806532428,
-      "avg_return_pct": -0.010054124499317328,
+      "avg_pnl": -23.68695848008888,
+      "avg_return_pct": -0.010076487970918532,
       "best_trade_return": 0.11031198440545786,
-      "closed_trades": 76,
+      "closed_trades": 77,
       "horizon": "short",
-      "last_exit_bar": "2026-08-30T11:00:00+00:00",
-      "losses": 59,
+      "last_exit_bar": "2026-08-30T14:00:00+00:00",
+      "losses": 60,
       "market": "crypto",
-      "profit_factor": 0.6217748788936412,
-      "realized_pnl": -1810.9536732964646,
+      "profit_factor": 0.6200987414548986,
+      "realized_pnl": -1823.8958029668438,
       "strategy": "Momentum",
-      "win_rate": 0.2236842105263158,
+      "win_rate": 0.22077922077922077,
       "wins": 17,
       "worst_trade_return": -0.06777460462776663
     },
@@ -26944,6 +26944,24 @@
       "worst_trade_return": -0.15389061216517852
     },
     {
+      "avg_pnl": 259.29298524360837,
+      "avg_return_pct": 0.022412186786473498,
+      "best_trade_return": 0.02681933046061724,
+      "closed_trades": 3,
+      "horizon": "short",
+      "last_exit_bar": "2026-08-30T14:00:00+00:00",
+      "losses": 0,
+      "market": "crypto",
+      "performance_key": "crypto:LINKUSDT:short:Mean Reversion RSI",
+      "profit_factor": 999.0,
+      "realized_pnl": 777.878955730825,
+      "strategy": "Mean Reversion RSI",
+      "symbol": "LINKUSDT",
+      "win_rate": 1.0,
+      "wins": 3,
+      "worst_trade_return": 0.014527806255458797
+    },
+    {
       "avg_pnl": -21.047377509829044,
       "avg_return_pct": -0.023836019552934018,
       "best_trade_return": 0.008121172997500814,
@@ -27304,24 +27322,6 @@
       "worst_trade_return": -0.0008275302660660788
     },
     {
-      "avg_pnl": 353.07348755740986,
-      "avg_return_pct": 0.02635437705198085,
-      "best_trade_return": 0.02681933046061724,
-      "closed_trades": 2,
-      "horizon": "short",
-      "last_exit_bar": "2026-08-27T00:00:00+00:00",
-      "losses": 0,
-      "market": "crypto",
-      "performance_key": "crypto:LINKUSDT:short:Mean Reversion RSI",
-      "profit_factor": 999.0,
-      "realized_pnl": 706.1469751148197,
-      "strategy": "Mean Reversion RSI",
-      "symbol": "LINKUSDT",
-      "win_rate": 1.0,
-      "wins": 2,
-      "worst_trade_return": 0.025889423643344456
-    },
-    {
       "avg_pnl": -88.4907190144638,
       "avg_return_pct": -0.059792588819759795,
       "best_trade_return": -0.05277968608403072,
@@ -27374,6 +27374,24 @@
       "win_rate": 0.0,
       "wins": 0,
       "worst_trade_return": -0.036042069087260264
+    },
+    {
+      "avg_pnl": -24.223516321207796,
+      "avg_return_pct": -0.02216471640616674,
+      "best_trade_return": -0.011776111812609957,
+      "closed_trades": 2,
+      "horizon": "short",
+      "last_exit_bar": "2026-08-30T14:00:00+00:00",
+      "losses": 2,
+      "market": "crypto",
+      "performance_key": "crypto:PROMUSDT:short:Momentum",
+      "profit_factor": 0.0,
+      "realized_pnl": -48.44703264241559,
+      "strategy": "Momentum",
+      "symbol": "PROMUSDT",
+      "win_rate": 0.0,
+      "wins": 0,
+      "worst_trade_return": -0.03255332099972352
     },
     {
       "avg_pnl": -179.20675021011547,
@@ -27752,24 +27770,6 @@
       "win_rate": 0.0,
       "wins": 0,
       "worst_trade_return": -0.11520853573315615
-    },
-    {
-      "avg_pnl": -35.50490297203645,
-      "avg_return_pct": -0.03255332099972352,
-      "best_trade_return": -0.03255332099972352,
-      "closed_trades": 1,
-      "horizon": "short",
-      "last_exit_bar": "2026-08-30T11:00:00+00:00",
-      "losses": 1,
-      "market": "crypto",
-      "performance_key": "crypto:PROMUSDT:short:Momentum",
-      "profit_factor": 0.0,
-      "realized_pnl": -35.50490297203645,
-      "strategy": "Momentum",
-      "symbol": "PROMUSDT",
-      "win_rate": 0.0,
-      "wins": 0,
-      "worst_trade_return": -0.03255332099972352
     },
     {
       "avg_pnl": -103.96245521786786,
@@ -28276,11 +28276,11 @@
       "worst_trade_return": -0.00029986839109497065
     }
   ],
-  "sync_checked_at": "2026-08-30T15:03:40.802285+00:00",
-  "sync_snapshot_age_seconds": 53.096909,
+  "sync_checked_at": "2026-08-30T15:14:51.393516+00:00",
+  "sync_snapshot_age_seconds": 3.149096,
   "trial_ledger": {
     "challenges": 50,
-    "cycles": 584,
+    "cycles": 587,
     "distinct_hypotheses": 62,
     "events": 158,
     "last_event_at": "2026-08-30T12:51:56.208628+00:00",
@@ -28295,16 +28295,16 @@
     "data_quality": "OK",
     "data_quality_critical": 0,
     "data_quality_warnings": 48,
-    "heartbeat_at": "2026-08-30T15:02:44.280971+00:00",
-    "last_cycle_finished_at": "2026-08-30T15:01:52.264512+00:00",
-    "last_cycle_started_at": "2026-08-30T14:59:17.154664+00:00",
-    "market_data_api_calls": 0,
+    "heartbeat_at": "2026-08-30T15:14:44.584828+00:00",
+    "last_cycle_finished_at": "2026-08-30T15:13:27.310659+00:00",
+    "last_cycle_started_at": "2026-08-30T15:14:27.329144+00:00",
+    "market_data_api_calls": 5,
     "portfolio_risk": "HIGH",
     "realtime_watchlist_sync": "ONLINE",
     "realtime_watchlist_total": 68,
     "risk_layer": "ONLINE",
     "risk_sizing": "ACTIVE",
-    "status": "ONLINE",
+    "status": "RUNNING",
     "true_errors": 0
   }
 }
