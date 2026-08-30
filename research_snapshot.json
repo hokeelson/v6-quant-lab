@@ -132,7 +132,7 @@
   "expected_live_deviation": {
     "active_sizing": true,
     "contains_secrets": false,
-    "generated_at": "2026-08-30T13:23:02.455154+00:00",
+    "generated_at": "2026-08-30T13:34:05.168119+00:00",
     "minimum_live_trades_for_active_sizing": 5,
     "rows": [
       {
@@ -10822,7 +10822,7 @@
       }
     ]
   },
-  "generated_at": "2026-08-30T13:22:43.160900+00:00",
+  "generated_at": "2026-08-30T13:34:43.677732+00:00",
   "governance": {
     "arenas": [
       {
@@ -25919,7 +25919,7 @@
         "total_reduction_notional": 22092.034342355273
       }
     ],
-    "generated_at": "2026-08-30T13:23:37.593781+00:00",
+    "generated_at": "2026-08-30T13:34:50.355538+00:00",
     "scope": "PUBLIC_READ_ONLY_RISK_SIZING_AUDIT",
     "status": "AVAILABLE",
     "summary": {
@@ -28276,11 +28276,11 @@
       "worst_trade_return": -0.00029986839109497065
     }
   ],
-  "sync_checked_at": "2026-08-30T13:23:42.185324+00:00",
-  "sync_snapshot_age_seconds": 59.024424,
+  "sync_checked_at": "2026-08-30T13:34:55.163752+00:00",
+  "sync_snapshot_age_seconds": 11.48602,
   "trial_ledger": {
     "challenges": 50,
-    "cycles": 560,
+    "cycles": 563,
     "distinct_hypotheses": 62,
     "events": 158,
     "last_event_at": "2026-08-30T12:51:56.208628+00:00",
@@ -28295,16 +28295,16 @@
     "data_quality": "OK",
     "data_quality_critical": 0,
     "data_quality_warnings": 47,
-    "heartbeat_at": "2026-08-30T13:22:42.376711+00:00",
-    "last_cycle_finished_at": "2026-08-30T13:21:49.752056+00:00",
-    "last_cycle_started_at": "2026-08-30T13:18:50.434487+00:00",
-    "market_data_api_calls": 5,
+    "heartbeat_at": "2026-08-30T13:34:42.601213+00:00",
+    "last_cycle_finished_at": "2026-08-30T13:33:32.766712+00:00",
+    "last_cycle_started_at": "2026-08-30T13:34:32.785991+00:00",
+    "market_data_api_calls": 0,
     "portfolio_risk": "HIGH",
     "realtime_watchlist_sync": "ONLINE",
     "realtime_watchlist_total": 68,
     "risk_layer": "ONLINE",
     "risk_sizing": "ACTIVE",
-    "status": "ONLINE",
+    "status": "RUNNING",
     "true_errors": 0
   }
 }
