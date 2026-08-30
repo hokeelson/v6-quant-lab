@@ -33,14 +33,14 @@
       "as_of": "2026-08-30T08:00:00+00:00",
       "cash": 30431.09261903522,
       "closed_trades": 203,
-      "drawdown": -0.07610532705773854,
-      "equity": 95088.25100308732,
-      "gross_exposure": 61384.10145595606,
+      "drawdown": -0.07639068725668263,
+      "equity": 95058.88141906637,
+      "gross_exposure": 64627.78880003116,
       "horizon": "short",
       "initial_equity": 100000.0,
-      "leverage": 0.6455487487509161,
+      "leverage": 0.6798711265612314,
       "market": "crypto",
-      "return_pct": -0.04911748996912679
+      "return_pct": -0.049411185809336344
     },
     {
       "account_id": "stock_long",
@@ -132,7 +132,7 @@
   "expected_live_deviation": {
     "active_sizing": true,
     "contains_secrets": false,
-    "generated_at": "2026-08-30T09:27:30.166988+00:00",
+    "generated_at": "2026-08-30T09:38:32.980744+00:00",
     "minimum_live_trades_for_active_sizing": 5,
     "rows": [
       {
@@ -10820,7 +10820,7 @@
       }
     ]
   },
-  "generated_at": "2026-08-30T09:27:27.722141+00:00",
+  "generated_at": "2026-08-30T09:38:28.194972+00:00",
   "governance": {
     "arenas": [
       {
@@ -10853,7 +10853,7 @@
         "champion_signature": "cb2706e01c700f469797",
         "decision_at": null,
         "horizon": "short",
-        "latest_verdict": "WAITING",
+        "latest_verdict": "LEARNING",
         "market": "crypto",
         "registered_at": "2026-08-30T05:05:11.289832+00:00",
         "status": "ACTIVE",
@@ -10865,7 +10865,7 @@
         "champion_signature": "9320de8d489de3750647",
         "decision_at": null,
         "horizon": "short",
-        "latest_verdict": "WAITING",
+        "latest_verdict": "LEARNING",
         "market": "crypto",
         "registered_at": "2026-08-30T04:46:57.561198+00:00",
         "status": "ACTIVE",
@@ -10889,7 +10889,7 @@
         "champion_signature": "d6fdfe47123feff7fce3",
         "decision_at": null,
         "horizon": "short",
-        "latest_verdict": "WAITING",
+        "latest_verdict": "LEARNING",
         "market": "crypto",
         "registered_at": "2026-08-29T15:45:56.650932+00:00",
         "status": "ACTIVE",
@@ -10901,7 +10901,7 @@
         "champion_signature": "1479f136882d2c3cd332",
         "decision_at": null,
         "horizon": "short",
-        "latest_verdict": "WAITING",
+        "latest_verdict": "LEARNING",
         "market": "crypto",
         "registered_at": "2026-08-29T07:57:14.458553+00:00",
         "status": "ACTIVE",
@@ -25489,7 +25489,7 @@
         "total_reduction_notional": 5407.810651864725
       }
     ],
-    "generated_at": "2026-08-30T09:27:55.241839+00:00",
+    "generated_at": "2026-08-30T09:38:53.047373+00:00",
     "scope": "PUBLIC_READ_ONLY_RISK_SIZING_AUDIT",
     "status": "AVAILABLE",
     "summary": {
@@ -27828,8 +27828,8 @@
       "worst_trade_return": -0.00029986839109497065
     }
   ],
-  "sync_checked_at": "2026-08-30T09:28:00.488235+00:00",
-  "sync_snapshot_age_seconds": 32.766094,
+  "sync_checked_at": "2026-08-30T09:38:56.853639+00:00",
+  "sync_snapshot_age_seconds": 28.658667,
   "trial_ledger": {
     "challenges": 31,
     "cycles": 543,
@@ -27847,7 +27847,7 @@
     "data_quality": "STARTING",
     "data_quality_critical": 0,
     "data_quality_warnings": 0,
-    "heartbeat_at": "2026-08-30T09:27:18.670663+00:00",
+    "heartbeat_at": "2026-08-30T09:38:18.726877+00:00",
     "last_cycle_finished_at": null,
     "last_cycle_started_at": "2026-08-30T09:26:18.667504+00:00",
     "market_data_api_calls": 0,
