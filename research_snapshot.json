@@ -17,30 +17,30 @@
     {
       "account_id": "crypto_medium",
       "as_of": "2026-08-30T04:00:00+00:00",
-      "cash": -24331.56223663234,
+      "cash": -24347.56589452322,
       "closed_trades": 47,
-      "drawdown": -0.03293933139018124,
-      "equity": 97074.18259733137,
-      "gross_exposure": 122334.6312973357,
+      "drawdown": -0.03383261042979513,
+      "equity": 96984.51466292297,
+      "gross_exposure": 121332.08055744618,
       "horizon": "medium",
       "initial_equity": 100000.0,
-      "leverage": 1.2602179902434612,
+      "leverage": 1.2510459115988262,
       "market": "crypto",
-      "return_pct": -0.02925817402668629
+      "return_pct": -0.030154853370770285
     },
     {
       "account_id": "crypto_short",
       "as_of": "2026-08-30T07:00:00+00:00",
       "cash": 33704.14954713126,
       "closed_trades": 203,
-      "drawdown": -0.07621687783755515,
-      "equity": 95076.77007472889,
-      "gross_exposure": 61372.62052759763,
+      "drawdown": -0.07681749639197244,
+      "equity": 95014.9537556915,
+      "gross_exposure": 61310.80420856025,
       "horizon": "short",
       "initial_equity": 100000.0,
-      "leverage": 0.6455059472398956,
+      "leverage": 0.6452753149383885,
       "market": "crypto",
-      "return_pct": -0.04923229925271111
+      "return_pct": -0.049850462443085
     },
     {
       "account_id": "stock_long",
@@ -132,7 +132,7 @@
   "expected_live_deviation": {
     "active_sizing": true,
     "contains_secrets": false,
-    "generated_at": "2026-08-30T08:53:44.245508+00:00",
+    "generated_at": "2026-08-30T09:04:47.100158+00:00",
     "minimum_live_trades_for_active_sizing": 5,
     "rows": [
       {
@@ -10820,7 +10820,7 @@
       }
     ]
   },
-  "generated_at": "2026-08-30T08:53:41.681000+00:00",
+  "generated_at": "2026-08-30T09:05:42.227680+00:00",
   "governance": {
     "arenas": [
       {
@@ -10841,7 +10841,7 @@
         "champion_signature": "cb2706e01c700f469797",
         "decision_at": null,
         "horizon": "short",
-        "latest_verdict": "WAITING",
+        "latest_verdict": "LEARNING",
         "market": "crypto",
         "registered_at": "2026-08-30T05:05:11.289832+00:00",
         "status": "ACTIVE",
@@ -10853,7 +10853,7 @@
         "champion_signature": "9320de8d489de3750647",
         "decision_at": null,
         "horizon": "short",
-        "latest_verdict": "WAITING",
+        "latest_verdict": "LEARNING",
         "market": "crypto",
         "registered_at": "2026-08-30T04:46:57.561198+00:00",
         "status": "ACTIVE",
@@ -10877,7 +10877,7 @@
         "champion_signature": "d6fdfe47123feff7fce3",
         "decision_at": null,
         "horizon": "short",
-        "latest_verdict": "WAITING",
+        "latest_verdict": "LEARNING",
         "market": "crypto",
         "registered_at": "2026-08-29T15:45:56.650932+00:00",
         "status": "ACTIVE",
@@ -10889,7 +10889,7 @@
         "champion_signature": "1479f136882d2c3cd332",
         "decision_at": null,
         "horizon": "short",
-        "latest_verdict": "WAITING",
+        "latest_verdict": "LEARNING",
         "market": "crypto",
         "registered_at": "2026-08-29T07:57:14.458553+00:00",
         "status": "ACTIVE",
@@ -25468,7 +25468,7 @@
         "total_reduction_notional": 5407.810651864725
       }
     ],
-    "generated_at": "2026-08-30T08:54:24.414373+00:00",
+    "generated_at": "2026-08-30T09:05:42.332135+00:00",
     "scope": "PUBLIC_READ_ONLY_RISK_SIZING_AUDIT",
     "status": "AVAILABLE",
     "summary": {
@@ -27807,11 +27807,11 @@
       "worst_trade_return": -0.00029986839109497065
     }
   ],
-  "sync_checked_at": "2026-08-30T08:54:25.756515+00:00",
-  "sync_snapshot_age_seconds": 44.075515,
+  "sync_checked_at": "2026-08-30T09:05:45.676068+00:00",
+  "sync_snapshot_age_seconds": 3.448388,
   "trial_ledger": {
     "challenges": 30,
-    "cycles": 543,
+    "cycles": 544,
     "distinct_hypotheses": 50,
     "events": 114,
     "last_event_at": "2026-08-30T08:51:45.951116+00:00",
@@ -27819,22 +27819,23 @@
     "research_trials": 72
   },
   "worker": {
-    "assets_checked": 0,
-    "bars_processed": 0,
+    "assets_checked": 254,
+    "bars_processed": 23,
     "broker_order_api_calls": 0,
-    "concept_drift_pairs": 0,
-    "data_quality": "STARTING",
+    "concept_drift_pairs": 9,
+    "data_quality": "OK",
     "data_quality_critical": 0,
-    "data_quality_warnings": 0,
-    "heartbeat_at": "2026-08-30T08:53:27.686835+00:00",
-    "last_cycle_finished_at": null,
+    "data_quality_warnings": 48,
+    "heartbeat_at": "2026-08-30T09:05:27.809758+00:00",
+    "last_cycle_finished_at": "2026-08-30T09:05:03.777826+00:00",
     "last_cycle_started_at": "2026-08-30T08:51:42.679072+00:00",
-    "market_data_api_calls": 0,
-    "realtime_watchlist_sync": "STARTING",
-    "realtime_watchlist_total": 0,
-    "risk_layer": "STARTING",
+    "market_data_api_calls": 15,
+    "portfolio_risk": "HIGH",
+    "realtime_watchlist_sync": "ONLINE",
+    "realtime_watchlist_total": 67,
+    "risk_layer": "ONLINE",
     "risk_sizing": "ACTIVE",
-    "status": "RUNNING",
+    "status": "ONLINE",
     "true_errors": 0
   }
 }
