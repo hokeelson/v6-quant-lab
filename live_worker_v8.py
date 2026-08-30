@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import re
 import threading
 import time
 from datetime import datetime, timezone
@@ -35,6 +36,8 @@ worker_state = {
     "broker_order_api_calls": 0,
     "true_errors": 0,
     "true_error_details": [],
+    "waiting_data": 0,
+    "waiting_data_details": [],
     "auxiliary_error_details": [],
     "risk_layer": "STARTING",
     "risk_sizing": "ACTIVE",
@@ -63,6 +66,26 @@ def _compact_errors(rows, limit=12):
         else:
             out.append({"error": str(row)[:500]})
     return out
+
+
+def _is_waiting_data_error(row) -> bool:
+    if isinstance(row, dict):
+        text = str(row.get("error") or "")
+    else:
+        text = str(row or "")
+    return bool(
+        re.search(r"need at least\s+\d+\s+closed bars", text, flags=re.I)
+        or re.search(r"not enough bars", text, flags=re.I)
+        or re.search(r"insufficient (?:history|bars|data)", text, flags=re.I)
+    )
+
+
+def _split_core_errors(rows):
+    true_errors = []
+    waiting_data = []
+    for row in list(rows or []):
+        (waiting_data if _is_waiting_data_error(row) else true_errors).append(row)
+    return true_errors, waiting_data
 
 
 def _write_status():
@@ -184,7 +207,8 @@ while True:
             print(stamp, "DATA_QUALITY_ERROR", auxiliary_errors[-1], flush=True)
 
         finished = datetime.now(timezone.utc).isoformat()
-        core_error_rows = r.get("true_errors", []) or []
+        raw_core_error_rows = r.get("true_errors", []) or []
+        core_error_rows, waiting_data_rows = _split_core_errors(raw_core_error_rows)
         core_errors = len(core_error_rows)
         with status_lock:
             worker_state.update({
@@ -196,6 +220,8 @@ while True:
                 "broker_order_api_calls": 0,
                 "true_errors": core_errors,
                 "true_error_details": _compact_errors(core_error_rows),
+                "waiting_data": len(waiting_data_rows),
+                "waiting_data_details": _compact_errors(waiting_data_rows),
                 "auxiliary_error_details": [{"error": str(x)[:500]} for x in auxiliary_errors[:12]],
                 "risk_layer": "ONLINE" if not any(x.startswith(("professional:", "pretrade:")) for x in auxiliary_errors) else "ERROR",
                 "risk_sizing": "ACTIVE",
@@ -211,6 +237,8 @@ while True:
                 ),
             })
         _write_status()
+        if waiting_data_rows:
+            print(stamp, "WAITING_DATA", _compact_errors(waiting_data_rows), flush=True)
         print(stamp, request_kind, r, "DATA_QUALITY", quality_result, flush=True)
     except Exception as e:
         finished = datetime.now(timezone.utc).isoformat()
@@ -220,6 +248,8 @@ while True:
                 "last_cycle_finished_at": finished,
                 "true_errors": 1,
                 "true_error_details": [{"error": f"{type(e).__name__}: {e}"[:500]}],
+                "waiting_data": 0,
+                "waiting_data_details": [],
                 "auxiliary_error_details": [],
                 "message": f"{type(e).__name__}: {e}",
             })
