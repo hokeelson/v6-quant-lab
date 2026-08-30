@@ -30,17 +30,17 @@
     },
     {
       "account_id": "crypto_short",
-      "as_of": "2026-08-30T04:00:00+00:00",
+      "as_of": "2026-08-30T05:00:00+00:00",
       "cash": 14114.494130115141,
       "closed_trades": 199,
-      "drawdown": -0.07791008786594944,
-      "equity": 94902.5030452761,
-      "gross_exposure": 80788.00891516096,
+      "drawdown": -0.07745902357478063,
+      "equity": 94948.92707584292,
+      "gross_exposure": 80834.43294572778,
       "horizon": "short",
       "initial_equity": 100000.0,
-      "leverage": 0.8512737422385857,
+      "leverage": 0.8513464599885281,
       "market": "crypto",
-      "return_pct": -0.05097496954723901
+      "return_pct": -0.05051072924157085
     },
     {
       "account_id": "stock_long",
@@ -132,7 +132,7 @@
   "expected_live_deviation": {
     "active_sizing": true,
     "contains_secrets": false,
-    "generated_at": "2026-08-30T05:53:56.513551+00:00",
+    "generated_at": "2026-08-30T06:05:44.170906+00:00",
     "minimum_live_trades_for_active_sizing": 5,
     "rows": [
       {
@@ -10814,7 +10814,7 @@
       }
     ]
   },
-  "generated_at": "2026-08-30T05:53:44.437748+00:00",
+  "generated_at": "2026-08-30T06:05:40.949264+00:00",
   "governance": {
     "arenas": [
       {
@@ -10859,7 +10859,7 @@
         "champion_signature": "d6fdfe47123feff7fce3",
         "decision_at": null,
         "horizon": "short",
-        "latest_verdict": "LEARNING",
+        "latest_verdict": "WAITING",
         "market": "crypto",
         "registered_at": "2026-08-29T15:45:56.650932+00:00",
         "status": "ACTIVE",
@@ -10871,7 +10871,7 @@
         "champion_signature": "1479f136882d2c3cd332",
         "decision_at": null,
         "horizon": "short",
-        "latest_verdict": "LEARNING",
+        "latest_verdict": "WAITING",
         "market": "crypto",
         "registered_at": "2026-08-29T07:57:14.458553+00:00",
         "status": "ACTIVE",
@@ -11169,7 +11169,7 @@
     "recent_events": [
       {
         "arena_id": null,
-        "created_at": "2026-08-30T05:18:25.787948+00:00",
+        "created_at": "2026-08-30T05:57:44.319611+00:00",
         "event_type": "SAME_HYPOTHESIS_REFRESH",
         "horizon": "medium",
         "id": 41,
@@ -14277,7 +14277,7 @@
       "strategy": "Mean Reversion RSI",
       "symbol": "WIFUSDT",
       "train_score": 84.37137390040519,
-      "updated_at": "2026-08-30T05:18:25.787948+00:00"
+      "updated_at": "2026-08-30T05:57:44.319611+00:00"
     },
     {
       "calibrated_through": "2026-08-22T15:00:00+00:00",
@@ -25431,7 +25431,7 @@
         "total_reduction_notional": 17722.195496332286
       }
     ],
-    "generated_at": "2026-08-30T05:54:26.643735+00:00",
+    "generated_at": "2026-08-30T06:06:24.377182+00:00",
     "scope": "PUBLIC_READ_ONLY_RISK_SIZING_AUDIT",
     "status": "AVAILABLE",
     "summary": {
@@ -25454,13 +25454,13 @@
   "schema_version": 2,
   "scope": "PUBLIC_READ_ONLY_RESEARCH_SUMMARY",
   "storage_persistence": {
-    "bootstrap_at": "2026-08-30T05:04:41.928015+00:00",
+    "bootstrap_at": "2026-08-30T05:57:39.640810+00:00",
     "bootstrap_warnings": [],
     "mode": "RESCUE_RUNTIME",
     "persistent_disk": {
-      "free": 2719277056,
+      "free": 2719272960,
       "total": 4685873152,
-      "used": 1949818880
+      "used": 1949822976
     },
     "restored": [
       {
@@ -25496,7 +25496,7 @@
     "snapshot_interval_seconds": 60,
     "snapshot_keep_archives": 0,
     "status": "AVAILABLE",
-    "updated_at": "2026-08-30T05:04:42.074730+00:00"
+    "updated_at": "2026-08-30T05:57:39.752611+00:00"
   },
   "strategy_performance": [
     {
@@ -27734,33 +27734,32 @@
       "worst_trade_return": -0.00029986839109497065
     }
   ],
-  "sync_checked_at": "2026-08-30T05:54:27.872948+00:00",
-  "sync_snapshot_age_seconds": 43.4352,
+  "sync_checked_at": "2026-08-30T06:06:26.526279+00:00",
+  "sync_snapshot_age_seconds": 45.577015,
   "trial_ledger": {
     "challenges": 29,
-    "cycles": 553,
+    "cycles": 543,
     "distinct_hypotheses": 49,
     "events": 112,
-    "last_event_at": "2026-08-30T05:18:25.787948+00:00",
+    "last_event_at": "2026-08-30T05:57:44.319611+00:00",
     "promotions": 0,
     "research_trials": 71
   },
   "worker": {
-    "assets_checked": 254,
+    "assets_checked": 0,
     "bars_processed": 0,
     "broker_order_api_calls": 0,
-    "concept_drift_pairs": 8,
-    "data_quality": "OK",
+    "concept_drift_pairs": 0,
+    "data_quality": "STARTING",
     "data_quality_critical": 0,
-    "data_quality_warnings": 44,
-    "heartbeat_at": "2026-08-30T05:53:38.543147+00:00",
-    "last_cycle_finished_at": "2026-08-30T05:52:10.367535+00:00",
-    "last_cycle_started_at": "2026-08-30T05:53:10.383760+00:00",
+    "data_quality_warnings": 0,
+    "heartbeat_at": "2026-08-30T06:05:26.258497+00:00",
+    "last_cycle_finished_at": null,
+    "last_cycle_started_at": "2026-08-30T05:57:41.214580+00:00",
     "market_data_api_calls": 0,
-    "portfolio_risk": "HIGH",
-    "realtime_watchlist_sync": "ONLINE",
-    "realtime_watchlist_total": 69,
-    "risk_layer": "ONLINE",
+    "realtime_watchlist_sync": "STARTING",
+    "realtime_watchlist_total": 0,
+    "risk_layer": "STARTING",
     "risk_sizing": "ACTIVE",
     "status": "RUNNING",
     "true_errors": 0
