@@ -132,7 +132,7 @@
   "expected_live_deviation": {
     "active_sizing": true,
     "contains_secrets": false,
-    "generated_at": "2026-08-30T22:15:20.529427+00:00",
+    "generated_at": "2026-08-30T22:27:23.751906+00:00",
     "minimum_live_trades_for_active_sizing": 5,
     "rows": [
       {
@@ -10829,7 +10829,7 @@
       }
     ]
   },
-  "generated_at": "2026-08-30T22:16:09.364371+00:00",
+  "generated_at": "2026-08-30T22:27:10.020761+00:00",
   "governance": {
     "arenas": [
       {
@@ -26008,7 +26008,7 @@
         "total_reduction_notional": 10802.661036140424
       }
     ],
-    "generated_at": "2026-08-30T22:16:15.713244+00:00",
+    "generated_at": "2026-08-30T22:27:28.776787+00:00",
     "scope": "PUBLIC_READ_ONLY_RISK_SIZING_AUDIT",
     "status": "AVAILABLE",
     "summary": {
@@ -28416,11 +28416,11 @@
       "worst_trade_return": -0.00029986839109497065
     }
   ],
-  "sync_checked_at": "2026-08-30T22:16:19.214630+00:00",
-  "sync_snapshot_age_seconds": 9.850259,
+  "sync_checked_at": "2026-08-30T22:27:31.625397+00:00",
+  "sync_snapshot_age_seconds": 21.604636,
   "trial_ledger": {
     "challenges": 53,
-    "cycles": 684,
+    "cycles": 687,
     "distinct_hypotheses": 62,
     "events": 166,
     "last_event_at": "2026-08-30T18:13:55.525226+00:00",
@@ -28435,16 +28435,16 @@
     "data_quality": "OK",
     "data_quality_critical": 0,
     "data_quality_warnings": 48,
-    "heartbeat_at": "2026-08-30T22:16:00.863739+00:00",
-    "last_cycle_finished_at": "2026-08-30T22:14:39.108928+00:00",
-    "last_cycle_started_at": "2026-08-30T22:15:39.125288+00:00",
-    "market_data_api_calls": 0,
+    "heartbeat_at": "2026-08-30T22:27:01.077358+00:00",
+    "last_cycle_finished_at": "2026-08-30T22:26:32.847466+00:00",
+    "last_cycle_started_at": "2026-08-30T22:23:27.810029+00:00",
+    "market_data_api_calls": 5,
     "portfolio_risk": "HIGH",
     "realtime_watchlist_sync": "ONLINE",
     "realtime_watchlist_total": 67,
     "risk_layer": "ONLINE",
     "risk_sizing": "ACTIVE",
-    "status": "RUNNING",
+    "status": "ONLINE",
     "true_errors": 0
   }
 }
