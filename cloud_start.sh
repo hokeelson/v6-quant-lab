@@ -10,14 +10,8 @@ export V6_PERSISTENT_DATA_DIR="$PERSIST_DIR"
 export V6_RUNTIME_DATA_DIR="$RUNTIME_DIR"
 export V6_DATA_DIR="$RUNTIME_DIR"
 export V6_STORAGE_DEGRADED="1"
-# Keep the independent V2 shadow ledger in the same rescue mechanism without
-# giving it any access to the production simulation ledger.
 export V6_SNAPSHOT_DBS="${V6_SNAPSHOT_DBS:-crypto_v2_shadow.sqlite3,data_quality.sqlite3,forward_validation.sqlite3,model_governance.sqlite3,realtime_execution.sqlite3,simulation_lab.sqlite3,trial_ledger.sqlite3}"
 
-# Restore critical SQLite state before any worker starts. storage_rescue.py checks
-# both the latest snapshot and original /data copy with PRAGMA quick_check and
-# chooses the newest healthy source. If bootstrap itself fails, fall back to the
-# previous conservative copy behavior so the dashboard can still start.
 BOOTSTRAP_OK=0
 if python storage_rescue.py bootstrap 2>/dev/null && [ -f "$RUNTIME_DIR/simulation_lab.sqlite3" ]; then
   BOOTSTRAP_OK=1
@@ -38,6 +32,7 @@ echo "Crypto V2 Shadow = isolated ledger, shared cache only, no extra market-dat
 echo "SQLite rescue mode: persistent state=${PERSIST_DIR}; runtime DBs=${RUNTIME_DIR}; bootstrap=${BOOTSTRAP_OK}."
 echo "SQLite snapshot sidecar: best-effort only; failures never stop the dashboard."
 echo "Runtime health: Railway publishes static/runtime_health.json every 5 seconds; GitHub snapshots are backup only."
+echo "Policy epoch report: static/policy_epoch_performance.json separates new-policy Shadow evidence from legacy PnL."
 
 python worker_supervisor_v8.py &
 SUPERVISOR_PID=$!
@@ -49,18 +44,14 @@ python trial_ledger_worker.py &
 TRIAL_LEDGER_PID=$!
 python crypto_v2_shadow_supervisor.py &
 CRYPTO_V2_SUPERVISOR_PID=$!
-# Persistence is deliberately a non-critical sidecar. storage_rescue.py catches
-# snapshot errors internally; the shell also treats sidecar exit as non-fatal.
 python storage_rescue.py watch &
 STORAGE_RESCUE_PID=$!
-# Export a separate strict-whitelist persistence JSON. It never competes with the
-# research snapshot writer; GitHub Actions merges both read-only files later.
 python storage_status_exporter.py &
 STORAGE_STATUS_PID=$!
-# Direct runtime heartbeat is the primary observability source. It only reads
-# already-public status/snapshot data and never touches strategy or broker state.
 python runtime_health_exporter.py &
 RUNTIME_HEALTH_PID=$!
+python policy_epoch_exporter.py &
+POLICY_EPOCH_PID=$!
 
 cleanup() {
   kill "$SUPERVISOR_PID" 2>/dev/null || true
@@ -71,6 +62,7 @@ cleanup() {
   kill "$STORAGE_RESCUE_PID" 2>/dev/null || true
   kill "$STORAGE_STATUS_PID" 2>/dev/null || true
   kill "$RUNTIME_HEALTH_PID" 2>/dev/null || true
+  kill "$POLICY_EPOCH_PID" 2>/dev/null || true
 }
 trap cleanup EXIT INT TERM
 
