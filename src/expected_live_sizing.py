@@ -6,6 +6,7 @@ from .expected_live_deviation import expected_live_deviation_snapshot
 
 CACHE_SECONDS = 60.0
 MIN_LIVE_TRADES = 5
+QUARANTINE_MIN_TRADES = 12
 MAX_FORWARD_WEIGHT = 0.90
 FORWARD_DOMINANCE_TRADES = 30
 _CACHE = {"path": None, "at": 0.0, "snapshot": None}
@@ -23,12 +24,6 @@ def _snapshot(db) -> dict:
 
 
 def forward_shadow_weight(samples: int) -> float:
-    """Weight realized Shadow evidence progressively as sample size grows.
-
-    Fewer than five closed trades remain research-only. From five through thirty
-    trades, realized evidence rises smoothly. At thirty or more closed trades,
-    Shadow evidence receives 90% weight and historical OOS retains a 10% anchor.
-    """
     n = max(0, int(samples or 0))
     if n < MIN_LIVE_TRADES:
         return 0.0
@@ -40,7 +35,6 @@ def forward_shadow_weight(samples: int) -> float:
 
 
 def blend_expected_live_multiplier(suggested: float, samples: int) -> tuple[float, float, float]:
-    """Blend OOS anchor (1.0x) with realized Shadow penalty by evidence weight."""
     suggested = max(0.0, min(1.0, float(suggested or 1.0)))
     forward_weight = forward_shadow_weight(samples)
     backtest_weight = 1.0 - forward_weight
@@ -48,14 +42,19 @@ def blend_expected_live_multiplier(suggested: float, samples: int) -> tuple[floa
     return max(0.0, min(1.0, effective)), forward_weight, backtest_weight
 
 
-def expected_live_sizing_assessment(db, market: str, symbol: str, horizon: str, strategy: str) -> dict:
-    """Return the active sizing multiplier for OOS-vs-forward divergence.
+def _should_quarantine(row: dict) -> bool:
+    samples = int(row.get("live_closed_trades", 0) or 0)
+    reasons = set(row.get("reasons") or [])
+    return (
+        samples >= QUARANTINE_MIN_TRADES
+        and str(row.get("state") or "") == "SEVERE_DIVERGENCE"
+        and "OOS_POSITIVE_LIVE_NEGATIVE" in reasons
+        and "EXPECTANCY_SIGN_REVERSAL" in reasons
+        and "PROFIT_FACTOR_DETERIORATION" in reasons
+    )
 
-    V6 keeps an OOS anchor early, then progressively gives realized Shadow evidence
-    more control. After 30 closed Shadow trades, the weighting is 90% Shadow / 10%
-    historical OOS. This avoids overreacting to five trades while ensuring mature
-    live evidence dominates historical backtest evidence.
-    """
+
+def expected_live_sizing_assessment(db, market: str, symbol: str, horizon: str, strategy: str) -> dict:
     key = f"{market}:{str(symbol or '').upper()}:{horizon}:{strategy}"
     out = {
         "expected_live_multiplier": 1.0,
@@ -68,21 +67,29 @@ def expected_live_sizing_assessment(db, market: str, symbol: str, horizon: str, 
         "forward_shadow_weight": 0.0,
         "backtest_oos_weight": 1.0,
         "raw_expected_live_multiplier": 1.0,
+        "quarantined": False,
+        "quarantine_reason": None,
     }
 
     snap = _snapshot(db)
-    row = next(
-        (r for r in (snap.get("rows") or []) if str(r.get("performance_key") or "") == key),
-        None,
-    )
+    row = next((r for r in (snap.get("rows") or []) if str(r.get("performance_key") or "") == key), None)
     if not row:
         return out
 
     samples = int(row.get("live_closed_trades", 0) or 0)
     state = str(row.get("state") or "LEARNING")
     suggested = float(row.get("suggested_confidence_multiplier", 1.0) or 1.0)
+    quarantined = _should_quarantine(row)
 
-    if samples >= MIN_LIVE_TRADES and state != "LEARNING":
+    if quarantined:
+        # Keep a 25% research allocation rather than deleting the signal entirely.
+        # This is a quarantine: it sharply limits new Shadow exposure while still
+        # collecting evidence that can later support recovery.
+        multiplier = 0.25
+        forward_weight = forward_shadow_weight(samples)
+        backtest_weight = 1.0 - forward_weight
+        state = "QUARANTINED"
+    elif samples >= MIN_LIVE_TRADES and state != "LEARNING":
         multiplier, forward_weight, backtest_weight = blend_expected_live_multiplier(suggested, samples)
     else:
         multiplier, forward_weight, backtest_weight = 1.0, 0.0, 1.0
@@ -98,5 +105,7 @@ def expected_live_sizing_assessment(db, market: str, symbol: str, horizon: str, 
         "forward_shadow_weight": forward_weight,
         "backtest_oos_weight": backtest_weight,
         "raw_expected_live_multiplier": max(0.0, min(1.0, suggested)),
+        "quarantined": quarantined,
+        "quarantine_reason": "MATURE_EXPECTANCY_SIGN_REVERSAL" if quarantined else None,
     })
     return out
