@@ -4,61 +4,51 @@
       "active_blocked_candidates": 16,
       "backlog_remaining": 0,
       "broker_order_api_calls": 0,
-      "finished_age_seconds": 50.5,
-      "finished_at": "2026-08-30T01:02:41.189090+00:00",
+      "finished_age_seconds": 25.0,
+      "finished_at": "2026-08-30T01:14:02.962121+00:00",
       "healthy": true,
       "is_catching_up": false,
       "market_data_api_calls": 0,
       "persistent_checkpoint": true,
       "research_layer_present": true,
-      "snapshot_age_seconds": 50.5,
-      "snapshot_generated_at": "2026-08-30T01:02:41.109659+00:00",
-      "started_age_seconds": 52.4,
-      "started_at": "2026-08-30T01:02:39.250168+00:00",
+      "snapshot_age_seconds": 25.1,
+      "snapshot_generated_at": "2026-08-30T01:14:02.871360+00:00",
+      "started_age_seconds": 27.1,
+      "started_at": "2026-08-30T01:14:00.907899+00:00",
       "status": "ONLINE",
       "tracked_research_trades": 32
     },
     "main_v8": {
       "assets_checked": 251,
-      "bars_processed": 34,
+      "bars_processed": 0,
       "broker_order_api_calls": 0,
-      "completed_age_seconds": 49.5,
-      "cycle_age_seconds": 224.6,
+      "completed_age_seconds": 64.5,
+      "cycle_age_seconds": 4.5,
       "data_quality": "OK",
-      "degraded": true,
-      "degraded_reasons": [
-        "worker_status_degraded",
-        "true_errors:1"
-      ],
-      "error_samples": [
-        {
-          "error": "ConnectionError: ('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer'))",
-          "horizon": "medium",
-          "market": "crypto",
-          "symbol": "GIGGLEUSDT"
-        }
-      ],
+      "degraded": false,
+      "degraded_reasons": [],
+      "error_samples": [],
       "hard_failure": false,
-      "healthy": false,
-      "heartbeat_age_seconds": 12.5,
-      "heartbeat_at": "2026-08-30T01:03:19.145356+00:00",
-      "last_cycle_finished_at": "2026-08-30T01:02:42.125290+00:00",
-      "last_cycle_started_at": "2026-08-30T00:59:47.063534+00:00",
-      "market_data_api_calls": 0,
+      "healthy": true,
+      "heartbeat_age_seconds": 4.5,
+      "heartbeat_at": "2026-08-30T01:14:23.482639+00:00",
+      "last_cycle_finished_at": "2026-08-30T01:13:23.470937+00:00",
+      "last_cycle_started_at": "2026-08-30T01:14:23.482605+00:00",
+      "market_data_api_calls": 5,
       "realtime_watchlist_sync": "ONLINE",
       "risk_layer": "ONLINE",
-      "status": "DEGRADED",
-      "true_errors": 1
+      "status": "RUNNING",
+      "true_errors": 0
     },
     "research": {
-      "age_seconds": 39.1,
-      "generated_at": "2026-08-30T01:02:52.575137+00:00",
+      "age_seconds": 35.0,
+      "generated_at": "2026-08-30T01:13:52.973830+00:00",
       "healthy": true,
       "latest_account_as_of": "2026-08-30T00:00:00+00:00"
     },
     "storage": {
-      "exporter_heartbeat_age_seconds": 4.8,
-      "exporter_heartbeat_at": "2026-08-30T01:03:26.857077+00:00",
+      "exporter_heartbeat_age_seconds": 3.5,
+      "exporter_heartbeat_at": "2026-08-30T01:14:24.500785+00:00",
       "healthy": true,
       "last_snapshot_at": null,
       "last_snapshot_success": null,
@@ -68,8 +58,8 @@
     }
   },
   "contains_secrets": false,
-  "generated_at": "2026-08-30T01:03:31.655206+00:00",
-  "overall_status": "DEGRADED",
+  "generated_at": "2026-08-30T01:14:28.000292+00:00",
+  "overall_status": "HEALTHY",
   "public_paths": {
     "health_alias": "/app/static/health.json",
     "runtime_health": "/app/static/runtime_health.json",
@@ -82,6 +72,6 @@
   },
   "scope": "PUBLIC_READ_ONLY_RUNTIME_HEALTH",
   "source": "RAILWAY_RUNTIME_DIRECT",
-  "sync_checked_at": "2026-08-30T01:03:35.091998+00:00",
-  "sync_snapshot_age_seconds": 3.436792
+  "sync_checked_at": "2026-08-30T01:14:33.050179+00:00",
+  "sync_snapshot_age_seconds": 5.049887
 }
