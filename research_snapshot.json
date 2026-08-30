@@ -132,7 +132,7 @@
   "expected_live_deviation": {
     "active_sizing": true,
     "contains_secrets": false,
-    "generated_at": "2026-08-30T12:38:51.740150+00:00",
+    "generated_at": "2026-08-30T12:49:54.379442+00:00",
     "minimum_live_trades_for_active_sizing": 5,
     "rows": [
       {
@@ -976,7 +976,7 @@
         "win_rate_gap": 0.05555555555555555
       },
       {
-        "deviation_score": 43.76469025802975,
+        "deviation_score": 44.37106192065048,
         "evidence_weight": 0.2,
         "horizon": "medium",
         "live_closed_trades": 4,
@@ -989,17 +989,17 @@
         "live_win_rate": 0.25,
         "live_wins": 1,
         "market": "crypto",
-        "oos_closed_trades": 10,
-        "oos_max_drawdown": -0.06550527757174851,
-        "oos_per_trade_return": 0.01438416859131686,
-        "oos_profit_factor": 2.8849813062767384,
+        "oos_closed_trades": 12,
+        "oos_max_drawdown": -0.06520354913027038,
+        "oos_per_trade_return": 0.011276053374050798,
+        "oos_profit_factor": 2.634911190265233,
         "oos_profit_factor_infinite": false,
-        "oos_sharpe": 3.0674323355749484,
-        "oos_total_return": 0.15351866428016625,
-        "oos_win_rate": 0.4,
-        "per_trade_return_gap": 0.04307598892396258,
+        "oos_sharpe": 2.837566291860152,
+        "oos_total_return": 0.14402807199734768,
+        "oos_win_rate": 0.4166666666666667,
+        "per_trade_return_gap": 0.03996787370669652,
         "performance_key": "crypto:TRUMPUSDT:medium:Momentum",
-        "profit_factor_gap": 2.7322432455034344,
+        "profit_factor_gap": 2.482173129491929,
         "reasons": [
           "OOS_POSITIVE_LIVE_NEGATIVE",
           "WIN_RATE_DETERIORATION",
@@ -1011,7 +1011,7 @@
         "strategy": "Momentum",
         "suggested_confidence_multiplier": 1.0,
         "symbol": "TRUMPUSDT",
-        "win_rate_gap": 0.15000000000000002
+        "win_rate_gap": 0.16666666666666669
       },
       {
         "deviation_score": 43.574999999999996,
@@ -10822,9 +10822,69 @@
       }
     ]
   },
-  "generated_at": "2026-08-30T12:38:40.985094+00:00",
+  "generated_at": "2026-08-30T12:49:41.594862+00:00",
   "governance": {
     "arenas": [
+      {
+        "arena_id": "5bb0b73b5a3d9c4250d5",
+        "challenger_signature": "9a69b2c3fa1b8444e7aa",
+        "champion_signature": "d44b5685d43b6e1ae6b4",
+        "decision_at": null,
+        "horizon": "medium",
+        "latest_verdict": "WAITING",
+        "market": "crypto",
+        "registered_at": "2026-08-30T12:47:45.555486+00:00",
+        "status": "ACTIVE",
+        "symbol": "UNIUSDT"
+      },
+      {
+        "arena_id": "9709748a431960768383",
+        "challenger_signature": "2e61b8a1377274a17cb5",
+        "champion_signature": "3fa637f15200c926a639",
+        "decision_at": null,
+        "horizon": "medium",
+        "latest_verdict": "WAITING",
+        "market": "crypto",
+        "registered_at": "2026-08-30T12:47:45.555486+00:00",
+        "status": "ACTIVE",
+        "symbol": "USD1USDT"
+      },
+      {
+        "arena_id": "d9c867143c62b1d3d184",
+        "challenger_signature": "99ebad472de2b1558834",
+        "champion_signature": "00413977beee189cde96",
+        "decision_at": null,
+        "horizon": "medium",
+        "latest_verdict": "WAITING",
+        "market": "crypto",
+        "registered_at": "2026-08-30T12:44:02.635926+00:00",
+        "status": "ACTIVE",
+        "symbol": "TRXUSDT"
+      },
+      {
+        "arena_id": "9d8f875591a49bc5d774",
+        "challenger_signature": "df527b0d37759ec7476c",
+        "champion_signature": "5bae1210d7ef76aec8e1",
+        "decision_at": null,
+        "horizon": "medium",
+        "latest_verdict": "WAITING",
+        "market": "crypto",
+        "registered_at": "2026-08-30T12:44:02.635926+00:00",
+        "status": "ACTIVE",
+        "symbol": "TUTUSDT"
+      },
+      {
+        "arena_id": "5ca1484781afb7c63fc0",
+        "challenger_signature": "99ebad472de2b1558834",
+        "champion_signature": "c32531dfb5c19cd2652d",
+        "decision_at": null,
+        "horizon": "medium",
+        "latest_verdict": "WAITING",
+        "market": "crypto",
+        "registered_at": "2026-08-30T12:39:42.214235+00:00",
+        "status": "ACTIVE",
+        "symbol": "TAOUSDT"
+      },
       {
         "arena_id": "31794651e8aa2334da38",
         "challenger_signature": "8153f995779367091310",
@@ -11355,6 +11415,60 @@
       }
     ],
     "recent_events": [
+      {
+        "arena_id": "9709748a431960768383",
+        "created_at": "2026-08-30T12:47:45.555486+00:00",
+        "event_type": "CHALLENGE_REGISTERED",
+        "horizon": "medium",
+        "id": 63,
+        "market": "crypto",
+        "symbol": "USD1USDT"
+      },
+      {
+        "arena_id": "5bb0b73b5a3d9c4250d5",
+        "created_at": "2026-08-30T12:47:45.555486+00:00",
+        "event_type": "CHALLENGE_REGISTERED",
+        "horizon": "medium",
+        "id": 62,
+        "market": "crypto",
+        "symbol": "UNIUSDT"
+      },
+      {
+        "arena_id": "9d8f875591a49bc5d774",
+        "created_at": "2026-08-30T12:44:02.635926+00:00",
+        "event_type": "CHALLENGE_REGISTERED",
+        "horizon": "medium",
+        "id": 61,
+        "market": "crypto",
+        "symbol": "TUTUSDT"
+      },
+      {
+        "arena_id": "d9c867143c62b1d3d184",
+        "created_at": "2026-08-30T12:44:02.635926+00:00",
+        "event_type": "CHALLENGE_REGISTERED",
+        "horizon": "medium",
+        "id": 60,
+        "market": "crypto",
+        "symbol": "TRXUSDT"
+      },
+      {
+        "arena_id": null,
+        "created_at": "2026-08-30T12:39:42.214235+00:00",
+        "event_type": "SAME_HYPOTHESIS_REFRESH",
+        "horizon": "medium",
+        "id": 59,
+        "market": "crypto",
+        "symbol": "TRUMPUSDT"
+      },
+      {
+        "arena_id": "5ca1484781afb7c63fc0",
+        "created_at": "2026-08-30T12:39:42.214235+00:00",
+        "event_type": "CHALLENGE_REGISTERED",
+        "horizon": "medium",
+        "id": 58,
+        "market": "crypto",
+        "symbol": "TAOUSDT"
+      },
       {
         "arena_id": "27ebe71d1c0d5d546c8c",
         "created_at": "2026-08-30T12:35:46.112560+00:00",
@@ -14252,24 +14366,24 @@
       "updated_at": "2026-08-23T12:38:02.865543+00:00"
     },
     {
-      "calibrated_through": "2026-08-23T08:00:00+00:00",
-      "calibration_score": 79.30993367004218,
+      "calibrated_through": "2026-08-30T08:00:00+00:00",
+      "calibration_score": 81.6898571805332,
       "horizon": "medium",
       "market": "crypto",
       "oos_metrics": {
-        "closed_trades": 10,
-        "max_drawdown": -0.06550527757174851,
-        "profit_factor": 2.8849813062767384,
-        "sharpe": 3.0674323355749484,
-        "total_return": 0.15351866428016625,
-        "win_rate": 0.4
+        "closed_trades": 12,
+        "max_drawdown": -0.06520354913027038,
+        "profit_factor": 2.634911190265233,
+        "sharpe": 2.837566291860152,
+        "total_return": 0.14402807199734768,
+        "win_rate": 0.4166666666666667
       },
-      "oos_score": 89.98691953620325,
+      "oos_score": 91.20644280313867,
       "regime_fit": 0.9,
       "strategy": "Momentum",
       "symbol": "TRUMPUSDT",
-      "train_score": 52.16384404028016,
-      "updated_at": "2026-08-23T12:36:39.645535+00:00"
+      "train_score": 55.48985973040262,
+      "updated_at": "2026-08-30T12:39:42.214235+00:00"
     },
     {
       "calibrated_through": "2026-08-23T11:00:00+00:00",
@@ -25782,7 +25896,7 @@
         "total_reduction_notional": 12079.439831986349
       }
     ],
-    "generated_at": "2026-08-30T12:39:06.797866+00:00",
+    "generated_at": "2026-08-30T12:50:14.459880+00:00",
     "scope": "PUBLIC_READ_ONLY_RISK_SIZING_AUDIT",
     "status": "AVAILABLE",
     "summary": {
@@ -28139,16 +28253,16 @@
       "worst_trade_return": -0.00029986839109497065
     }
   ],
-  "sync_checked_at": "2026-08-30T12:39:11.317523+00:00",
-  "sync_snapshot_age_seconds": 30.332429,
+  "sync_checked_at": "2026-08-30T12:50:17.014564+00:00",
+  "sync_snapshot_age_seconds": 35.419702,
   "trial_ledger": {
-    "challenges": 44,
-    "cycles": 549,
-    "distinct_hypotheses": 59,
-    "events": 144,
-    "last_event_at": "2026-08-30T12:35:46.112560+00:00",
+    "challenges": 49,
+    "cycles": 552,
+    "distinct_hypotheses": 62,
+    "events": 156,
+    "last_event_at": "2026-08-30T12:47:45.555486+00:00",
     "promotions": 0,
-    "research_trials": 87
+    "research_trials": 93
   },
   "worker": {
     "assets_checked": 254,
@@ -28157,11 +28271,11 @@
     "concept_drift_pairs": 7,
     "data_quality": "OK",
     "data_quality_critical": 0,
-    "data_quality_warnings": 49,
-    "heartbeat_at": "2026-08-30T12:38:26.375468+00:00",
-    "last_cycle_finished_at": "2026-08-30T12:34:46.084731+00:00",
-    "last_cycle_started_at": "2026-08-30T12:35:46.095207+00:00",
-    "market_data_api_calls": 5,
+    "data_quality_warnings": 48,
+    "heartbeat_at": "2026-08-30T12:49:41.593356+00:00",
+    "last_cycle_finished_at": "2026-08-30T12:46:45.513833+00:00",
+    "last_cycle_started_at": "2026-08-30T12:47:45.533974+00:00",
+    "market_data_api_calls": 0,
     "portfolio_risk": "HIGH",
     "realtime_watchlist_sync": "ONLINE",
     "realtime_watchlist_total": 68,
