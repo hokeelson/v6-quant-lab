@@ -132,7 +132,7 @@
   "expected_live_deviation": {
     "active_sizing": true,
     "contains_secrets": false,
-    "generated_at": "2026-08-30T03:39:34.313584+00:00",
+    "generated_at": "2026-08-30T03:50:36.945959+00:00",
     "minimum_live_trades_for_active_sizing": 5,
     "rows": [
       {
@@ -10809,9 +10809,21 @@
       }
     ]
   },
-  "generated_at": "2026-08-30T03:39:59.519102+00:00",
+  "generated_at": "2026-08-30T03:50:59.948031+00:00",
   "governance": {
     "arenas": [
+      {
+        "arena_id": "7998b11fa292b3f59115",
+        "challenger_signature": "9312d813700fc199a14d",
+        "champion_signature": "9320de8d489de3750647",
+        "decision_at": null,
+        "horizon": "short",
+        "latest_verdict": "WAITING",
+        "market": "crypto",
+        "registered_at": "2026-08-30T03:50:25.057190+00:00",
+        "status": "ACTIVE",
+        "symbol": "DASHUSDT"
+      },
       {
         "arena_id": "9792e3bc67e226bbc5cf",
         "challenger_signature": "d22478159b62c6cf1682",
@@ -11174,6 +11186,15 @@
       }
     ],
     "recent_events": [
+      {
+        "arena_id": "7998b11fa292b3f59115",
+        "created_at": "2026-08-30T03:50:25.057190+00:00",
+        "event_type": "CHALLENGE_REGISTERED",
+        "horizon": "short",
+        "id": 45,
+        "market": "crypto",
+        "symbol": "DASHUSDT"
+      },
       {
         "arena_id": null,
         "created_at": "2026-08-30T00:59:47.077643+00:00",
@@ -25477,7 +25498,7 @@
         "total_reduction_notional": 6162.915416673017
       }
     ],
-    "generated_at": "2026-08-30T03:40:09.443763+00:00",
+    "generated_at": "2026-08-30T03:51:17.079215+00:00",
     "scope": "PUBLIC_READ_ONLY_RISK_SIZING_AUDIT",
     "status": "AVAILABLE",
     "summary": {
@@ -27762,16 +27783,16 @@
       "worst_trade_return": -0.00029986839109497065
     }
   ],
-  "sync_checked_at": "2026-08-30T03:40:12.415952+00:00",
-  "sync_snapshot_age_seconds": 12.89685,
+  "sync_checked_at": "2026-08-30T03:51:17.811752+00:00",
+  "sync_snapshot_age_seconds": 17.863721,
   "trial_ledger": {
-    "challenges": 30,
-    "cycles": 732,
-    "distinct_hypotheses": 58,
-    "events": 130,
-    "last_event_at": "2026-08-30T00:59:47.077643+00:00",
+    "challenges": 31,
+    "cycles": 735,
+    "distinct_hypotheses": 59,
+    "events": 132,
+    "last_event_at": "2026-08-30T03:50:25.057190+00:00",
     "promotions": 0,
-    "research_trials": 86
+    "research_trials": 87
   },
   "worker": {
     "assets_checked": 251,
@@ -27781,10 +27802,10 @@
     "data_quality": "OK",
     "data_quality_critical": 0,
     "data_quality_warnings": 41,
-    "heartbeat_at": "2026-08-30T03:39:52.818862+00:00",
-    "last_cycle_finished_at": "2026-08-30T03:38:52.808435+00:00",
-    "last_cycle_started_at": "2026-08-30T03:39:52.818823+00:00",
-    "market_data_api_calls": 5,
+    "heartbeat_at": "2026-08-30T03:50:52.281182+00:00",
+    "last_cycle_finished_at": "2026-08-30T03:49:23.236349+00:00",
+    "last_cycle_started_at": "2026-08-30T03:50:23.250830+00:00",
+    "market_data_api_calls": 0,
     "portfolio_risk": "HIGH",
     "realtime_watchlist_sync": "ONLINE",
     "realtime_watchlist_total": 66,
