@@ -8,6 +8,7 @@ import numpy as np
 import pandas as pd
 
 from .paths import data_dir
+from .pretrade_batch_overlay import apply_pretrade_batch_overlay
 
 SNAPSHOT_PATH = Path(data_dir()) / "pretrade_risk_snapshot.json"
 
@@ -151,8 +152,11 @@ def build_pretrade_risk_snapshot(db, cache) -> dict:
             "symbol": symbol,
             "horizon": horizon,
             "strategy": d.get("strategy"),
+            "regime": d.get("regime"),
             "decision_time": d.get("bar_time"),
             "trade_confidence": float(d.get("confidence") or 0.0),
+            "stop_distance": float(d.get("stop_distance") or 0.0),
+            "target_distance": float(d.get("target_distance") or 0.0),
             "requested_notional": requested,
             "market_equity": equity,
             "current_gross": gross,
@@ -167,8 +171,16 @@ def build_pretrade_risk_snapshot(db, cache) -> dict:
             "shadow_only": True,
         })
 
-    rows.sort(key=lambda r: (r["risk_score"], r["trade_confidence"]), reverse=True)
-    return {"generated_at": _now_iso(), "candidates": rows, "shadow_only": True, "broker_order_api_calls": 0}
+    rows = apply_pretrade_batch_overlay(db, cache, rows, _corr)
+    rows.sort(key=lambda r: ((r.get("batch_ev_rank") or 999999), -float(r.get("trade_confidence") or 0.0)))
+    return {
+        "generated_at": _now_iso(),
+        "candidates": rows,
+        "shadow_only": True,
+        "batch_portfolio_ev_active": True,
+        "dynamic_regime_allocation_active": True,
+        "broker_order_api_calls": 0,
+    }
 
 
 def write_pretrade_risk_snapshot(db, cache, path: Path | None = None) -> dict:
