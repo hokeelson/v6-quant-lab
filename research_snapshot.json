@@ -30,17 +30,17 @@
     },
     {
       "account_id": "crypto_short",
-      "as_of": "2026-08-29T23:00:00+00:00",
+      "as_of": "2026-08-30T00:00:00+00:00",
       "cash": 37206.69132400788,
       "closed_trades": 194,
-      "drawdown": -0.07638195494489408,
-      "equity": 95059.78015815375,
-      "gross_exposure": 57853.08883414587,
+      "drawdown": -0.07805544566090061,
+      "equity": 94887.542661916,
+      "gross_exposure": 57680.85133790813,
       "horizon": "short",
       "initial_equity": 100000.0,
-      "leverage": 0.6085969138356304,
+      "leverage": 0.6078864487346333,
       "market": "crypto",
-      "return_pct": -0.049402198418462495
+      "return_pct": -0.05112457338083998
     },
     {
       "account_id": "stock_long",
@@ -132,7 +132,7 @@
   "expected_live_deviation": {
     "active_sizing": true,
     "contains_secrets": false,
-    "generated_at": "2026-08-30T00:51:53.947649+00:00",
+    "generated_at": "2026-08-30T01:02:56.736354+00:00",
     "minimum_live_trades_for_active_sizing": 5,
     "rows": [
       {
@@ -3153,14 +3153,14 @@
         "live_wins": 0,
         "market": "crypto",
         "oos_closed_trades": 23,
-        "oos_max_drawdown": -0.01931496542088873,
-        "oos_per_trade_return": -0.0008476377970766391,
+        "oos_max_drawdown": -0.019145485862385292,
+        "oos_per_trade_return": -0.0008401309811485458,
         "oos_profit_factor": 0.0,
         "oos_profit_factor_infinite": false,
-        "oos_sharpe": -35.35218593213894,
-        "oos_total_return": -0.01931496542088873,
+        "oos_sharpe": -35.268374719264955,
+        "oos_total_return": -0.019145485862385292,
         "oos_win_rate": 0.0,
-        "per_trade_return_gap": 0.0024907764597442705,
+        "per_trade_return_gap": 0.002498283275672364,
         "performance_key": "crypto:USD1USDT:short:Mean Reversion RSI",
         "profit_factor_gap": 0.0,
         "reasons": [
@@ -10804,9 +10804,21 @@
       }
     ]
   },
-  "generated_at": "2026-08-30T00:51:52.108172+00:00",
+  "generated_at": "2026-08-30T01:02:52.575137+00:00",
   "governance": {
     "arenas": [
+      {
+        "arena_id": "9792e3bc67e226bbc5cf",
+        "challenger_signature": "d22478159b62c6cf1682",
+        "champion_signature": "cb2706e01c700f469797",
+        "decision_at": null,
+        "horizon": "short",
+        "latest_verdict": "WAITING",
+        "market": "crypto",
+        "registered_at": "2026-08-30T00:56:13.853311+00:00",
+        "status": "ACTIVE",
+        "symbol": "TUTUSDT"
+      },
       {
         "arena_id": "55eea10284a4becd2fed",
         "challenger_signature": "c1c13c8d9abaee0fd633",
@@ -11157,6 +11169,24 @@
       }
     ],
     "recent_events": [
+      {
+        "arena_id": null,
+        "created_at": "2026-08-30T00:59:47.077643+00:00",
+        "event_type": "SAME_HYPOTHESIS_REFRESH",
+        "horizon": "short",
+        "id": 44,
+        "market": "crypto",
+        "symbol": "USD1USDT"
+      },
+      {
+        "arena_id": "9792e3bc67e226bbc5cf",
+        "created_at": "2026-08-30T00:56:13.853311+00:00",
+        "event_type": "CHALLENGE_REGISTERED",
+        "horizon": "short",
+        "id": 43,
+        "market": "crypto",
+        "symbol": "TUTUSDT"
+      },
       {
         "arena_id": "55eea10284a4becd2fed",
         "created_at": "2026-08-29T16:11:16.387030+00:00",
@@ -14179,16 +14209,16 @@
       "updated_at": "2026-08-23T12:45:59.830231+00:00"
     },
     {
-      "calibrated_through": "2026-08-26T23:00:00+00:00",
+      "calibrated_through": "2026-08-29T23:00:00+00:00",
       "calibration_score": 24.0,
       "horizon": "short",
       "market": "crypto",
       "oos_metrics": {
         "closed_trades": 23,
-        "max_drawdown": -0.01931496542088873,
+        "max_drawdown": -0.019145485862385292,
         "profit_factor": 0.0,
-        "sharpe": -35.35218593213894,
-        "total_return": -0.01931496542088873,
+        "sharpe": -35.268374719264955,
+        "total_return": -0.019145485862385292,
         "win_rate": 0.0
       },
       "oos_score": 0.0,
@@ -14196,7 +14226,7 @@
       "strategy": "Mean Reversion RSI",
       "symbol": "USD1USDT",
       "train_score": 0.0,
-      "updated_at": "2026-08-27T00:58:54.838634+00:00"
+      "updated_at": "2026-08-30T00:59:47.077643+00:00"
     },
     {
       "calibrated_through": "2026-08-25T04:00:00+00:00",
@@ -25445,7 +25475,7 @@
         "total_reduction_notional": 8880.269227398247
       }
     ],
-    "generated_at": "2026-08-30T00:52:08.992725+00:00",
+    "generated_at": "2026-08-30T01:03:31.899784+00:00",
     "scope": "PUBLIC_READ_ONLY_RISK_SIZING_AUDIT",
     "status": "AVAILABLE",
     "summary": {
@@ -27712,35 +27742,35 @@
       "worst_trade_return": -0.00029986839109497065
     }
   ],
-  "sync_checked_at": "2026-08-30T00:52:12.388728+00:00",
-  "sync_snapshot_age_seconds": 20.280556,
+  "sync_checked_at": "2026-08-30T01:03:35.091998+00:00",
+  "sync_snapshot_age_seconds": 42.516861,
   "trial_ledger": {
-    "challenges": 29,
-    "cycles": 686,
-    "distinct_hypotheses": 57,
-    "events": 126,
-    "last_event_at": "2026-08-29T21:54:48.810517+00:00",
+    "challenges": 30,
+    "cycles": 689,
+    "distinct_hypotheses": 58,
+    "events": 130,
+    "last_event_at": "2026-08-30T00:59:47.077643+00:00",
     "promotions": 0,
-    "research_trials": 84
+    "research_trials": 86
   },
   "worker": {
     "assets_checked": 251,
-    "bars_processed": 0,
+    "bars_processed": 34,
     "broker_order_api_calls": 0,
-    "concept_drift_pairs": 8,
+    "concept_drift_pairs": 9,
     "data_quality": "OK",
     "data_quality_critical": 0,
-    "data_quality_warnings": 42,
-    "heartbeat_at": "2026-08-30T00:51:48.859528+00:00",
-    "last_cycle_finished_at": "2026-08-30T00:51:44.098199+00:00",
-    "last_cycle_started_at": "2026-08-30T00:49:27.834970+00:00",
-    "market_data_api_calls": 5,
+    "data_quality_warnings": 41,
+    "heartbeat_at": "2026-08-30T01:02:49.143964+00:00",
+    "last_cycle_finished_at": "2026-08-30T01:02:42.125290+00:00",
+    "last_cycle_started_at": "2026-08-30T00:59:47.063534+00:00",
+    "market_data_api_calls": 0,
     "portfolio_risk": "HIGH",
     "realtime_watchlist_sync": "ONLINE",
     "realtime_watchlist_total": 66,
     "risk_layer": "ONLINE",
     "risk_sizing": "ACTIVE",
-    "status": "ONLINE",
-    "true_errors": 0
+    "status": "DEGRADED",
+    "true_errors": 1
   }
 }
