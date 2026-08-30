@@ -4,78 +4,62 @@
       "active_blocked_candidates": 8,
       "backlog_remaining": 0,
       "broker_order_api_calls": 0,
-      "finished_age_seconds": 52.7,
-      "finished_at": "2026-08-30T04:35:40.183785+00:00",
+      "finished_age_seconds": 40.3,
+      "finished_at": "2026-08-30T04:46:54.979979+00:00",
       "healthy": true,
       "is_catching_up": false,
       "market_data_api_calls": 0,
       "persistent_checkpoint": true,
       "research_layer_present": true,
-      "snapshot_age_seconds": 52.8,
-      "snapshot_generated_at": "2026-08-30T04:35:39.997105+00:00",
-      "started_age_seconds": 54.8,
-      "started_at": "2026-08-30T04:35:38.055101+00:00",
+      "snapshot_age_seconds": 40.5,
+      "snapshot_generated_at": "2026-08-30T04:46:54.795147+00:00",
+      "started_age_seconds": 40.6,
+      "started_at": "2026-08-30T04:46:54.611028+00:00",
       "status": "ONLINE",
       "tracked_research_trades": 34
     },
     "main_v8": {
-      "assets_checked": 254,
+      "assets_checked": 0,
       "bars_processed": 0,
       "broker_order_api_calls": 0,
-      "completed_age_seconds": 7.6,
-      "cycle_age_seconds": 168.2,
-      "data_quality": "OK",
-      "degraded": true,
-      "degraded_reasons": [
-        "worker_status_degraded",
-        "true_errors:2"
-      ],
-      "error_samples": [
-        {
-          "error": "ValueError: Not enough bars.",
-          "horizon": "medium",
-          "market": "crypto",
-          "symbol": "WIFUSDT"
-        },
-        {
-          "error": "ValueError: Not enough bars.",
-          "horizon": "medium",
-          "market": "crypto",
-          "symbol": "HBARUSDT"
-        }
-      ],
+      "completed_age_seconds": null,
+      "cycle_age_seconds": 40.6,
+      "data_quality": "STARTING",
+      "degraded": false,
+      "degraded_reasons": [],
+      "error_samples": [],
       "hard_failure": false,
-      "healthy": false,
-      "heartbeat_age_seconds": 7.6,
-      "heartbeat_at": "2026-08-30T04:36:25.250131+00:00",
-      "last_cycle_finished_at": "2026-08-30T04:36:25.250086+00:00",
-      "last_cycle_started_at": "2026-08-30T04:33:44.686540+00:00",
-      "market_data_api_calls": 5,
-      "realtime_watchlist_sync": "ONLINE",
-      "risk_layer": "ONLINE",
-      "status": "DEGRADED",
-      "true_errors": 2
+      "healthy": true,
+      "heartbeat_age_seconds": 10.6,
+      "heartbeat_at": "2026-08-30T04:47:24.646732+00:00",
+      "last_cycle_finished_at": null,
+      "last_cycle_started_at": "2026-08-30T04:46:54.645747+00:00",
+      "market_data_api_calls": 0,
+      "realtime_watchlist_sync": "STARTING",
+      "risk_layer": "STARTING",
+      "status": "RUNNING",
+      "true_errors": 0
     },
     "research": {
-      "age_seconds": 30.8,
-      "generated_at": "2026-08-30T04:36:02.065391+00:00",
+      "age_seconds": 41.9,
+      "generated_at": "2026-08-30T04:46:53.370353+00:00",
       "healthy": true,
       "latest_account_as_of": "2026-08-30T03:00:00+00:00"
     },
     "storage": {
-      "exporter_heartbeat_age_seconds": 4.8,
-      "exporter_heartbeat_at": "2026-08-30T04:36:28.087030+00:00",
+      "exporter_heartbeat_age_seconds": 4.9,
+      "exporter_heartbeat_at": "2026-08-30T04:47:30.370355+00:00",
       "healthy": true,
       "last_snapshot_at": null,
       "last_snapshot_success": null,
       "persistence_status": "UNKNOWN",
-      "source_updated_at": "2026-08-29T15:45:26.865031+00:00",
+      "source_updated_at": "2026-08-30T04:46:53.206544+00:00",
       "status": "AVAILABLE"
     }
   },
   "contains_secrets": false,
-  "generated_at": "2026-08-30T04:36:32.842553+00:00",
-  "overall_status": "DEGRADED",
+  "generated_at": "2026-08-30T04:47:35.256155+00:00",
+  "overall_status": "HEALTHY",
   "public_paths": {
     "health_alias": "/app/static/health.json",
     "runtime_health": "/app/static/runtime_health.json",
@@ -88,6 +72,6 @@
   },
   "scope": "PUBLIC_READ_ONLY_RUNTIME_HEALTH",
   "source": "RAILWAY_RUNTIME_DIRECT",
-  "sync_checked_at": "2026-08-30T04:36:38.175991+00:00",
-  "sync_snapshot_age_seconds": 5.333438
+  "sync_checked_at": "2026-08-30T04:47:37.281923+00:00",
+  "sync_snapshot_age_seconds": 2.025768
 }
