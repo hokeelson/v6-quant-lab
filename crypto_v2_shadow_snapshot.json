@@ -1,13 +1,13 @@
 {
-  "bars_processed": 42,
+  "bars_processed": 0,
   "baseline": {
     "accounts": [
       {
         "closed_trades": 209,
-        "equity": 95045.0017740563,
+        "equity": 95266.31402437127,
         "horizon": "short",
         "initial_equity": 100000.0,
-        "return_pct": -0.049549982259436964
+        "return_pct": -0.04733685975628732
       },
       {
         "closed_trades": 47,
@@ -25,25 +25,25 @@
       }
     ],
     "closed_trades": 257,
-    "equity": 290874.57764783513,
+    "equity": 291095.8898981501,
     "initial_equity": 300000.0,
-    "return_pct": -0.03041807450721623
+    "return_pct": -0.029680367006166275
   },
   "broker_order_api_calls": 0,
   "catchup": {
     "cycle_event_limit": 160,
     "is_catching_up": false,
-    "newest_selected_bar": "2026-08-30T12:00:00+00:00",
-    "oldest_selected_bar": "2026-08-30T12:00:00+00:00",
-    "pending_events_at_cycle_start": 42,
-    "processed_events": 42,
+    "newest_selected_bar": null,
+    "oldest_selected_bar": null,
+    "pending_events_at_cycle_start": 0,
+    "processed_events": 0,
     "remaining_events_estimate": 0,
-    "selected_events": 42
+    "selected_events": 0
   },
   "contains_secrets": false,
   "errors": [],
   "forward_only": true,
-  "generated_at": "2026-08-30T13:00:53.849567+00:00",
+  "generated_at": "2026-08-30T13:12:18.306214+00:00",
   "latest_market_regime": {
     "realized_vol": 0.009871029456832912,
     "reason": "Volatility compression",
@@ -11293,8 +11293,8 @@
   "shared_cache_only": true,
   "status": "ONLINE",
   "symbols": 44,
-  "sync_checked_at": "2026-08-30T13:01:27.937262+00:00",
-  "sync_snapshot_age_seconds": 34.087695,
+  "sync_checked_at": "2026-08-30T13:12:40.316380+00:00",
+  "sync_snapshot_age_seconds": 22.010166,
   "v2": {
     "accounts": [
       {
