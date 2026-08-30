@@ -132,7 +132,7 @@
   "expected_live_deviation": {
     "active_sizing": true,
     "contains_secrets": false,
-    "generated_at": "2026-08-30T18:34:23.649473+00:00",
+    "generated_at": "2026-08-30T18:45:26.337695+00:00",
     "minimum_live_trades_for_active_sizing": 5,
     "rows": [
       {
@@ -10821,7 +10821,7 @@
       }
     ]
   },
-  "generated_at": "2026-08-30T18:33:57.913420+00:00",
+  "generated_at": "2026-08-30T18:44:58.473025+00:00",
   "governance": {
     "arenas": [
       {
@@ -26002,7 +26002,7 @@
         "total_reduction_notional": 17107.09509051167
       }
     ],
-    "generated_at": "2026-08-30T18:34:53.760662+00:00",
+    "generated_at": "2026-08-30T18:45:56.433486+00:00",
     "scope": "PUBLIC_READ_ONLY_RISK_SIZING_AUDIT",
     "status": "AVAILABLE",
     "summary": {
@@ -28392,11 +28392,11 @@
       "worst_trade_return": -0.00029986839109497065
     }
   ],
-  "sync_checked_at": "2026-08-30T18:34:56.354849+00:00",
-  "sync_snapshot_age_seconds": 58.441429,
+  "sync_checked_at": "2026-08-30T18:45:58.427842+00:00",
+  "sync_snapshot_age_seconds": 59.954817,
   "trial_ledger": {
     "challenges": 53,
-    "cycles": 632,
+    "cycles": 634,
     "distinct_hypotheses": 62,
     "events": 166,
     "last_event_at": "2026-08-30T18:13:55.525226+00:00",
@@ -28411,16 +28411,16 @@
     "data_quality": "OK",
     "data_quality_critical": 0,
     "data_quality_warnings": 51,
-    "heartbeat_at": "2026-08-30T18:33:55.848402+00:00",
-    "last_cycle_finished_at": "2026-08-30T18:33:50.388915+00:00",
-    "last_cycle_started_at": "2026-08-30T18:30:59.072812+00:00",
+    "heartbeat_at": "2026-08-30T18:44:56.113609+00:00",
+    "last_cycle_finished_at": "2026-08-30T18:42:02.112388+00:00",
+    "last_cycle_started_at": "2026-08-30T18:43:02.124025+00:00",
     "market_data_api_calls": 0,
     "portfolio_risk": "HIGH",
     "realtime_watchlist_sync": "ONLINE",
     "realtime_watchlist_total": 70,
     "risk_layer": "ONLINE",
     "risk_sizing": "ACTIVE",
-    "status": "ONLINE",
+    "status": "RUNNING",
     "true_errors": 0
   }
 }
