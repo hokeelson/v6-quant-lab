@@ -30,17 +30,17 @@
     },
     {
       "account_id": "crypto_short",
-      "as_of": "2026-08-30T11:00:00+00:00",
+      "as_of": "2026-08-30T12:00:00+00:00",
       "cash": 35400.54496214294,
       "closed_trades": 209,
-      "drawdown": -0.07728551324376154,
-      "equity": 94966.78494902994,
-      "gross_exposure": 59566.239986887,
+      "drawdown": -0.07652554440203818,
+      "equity": 95045.0017740563,
+      "gross_exposure": 59644.45681191336,
       "horizon": "short",
       "initial_equity": 100000.0,
-      "leverage": 0.6272323530680445,
+      "leverage": 0.6275391204021635,
       "market": "crypto",
-      "return_pct": -0.050332150509700635
+      "return_pct": -0.049549982259436964
     },
     {
       "account_id": "stock_long",
@@ -132,7 +132,7 @@
   "expected_live_deviation": {
     "active_sizing": true,
     "contains_secrets": false,
-    "generated_at": "2026-08-30T12:49:54.379442+00:00",
+    "generated_at": "2026-08-30T13:00:57.086822+00:00",
     "minimum_live_trades_for_active_sizing": 5,
     "rows": [
       {
@@ -10822,9 +10822,21 @@
       }
     ]
   },
-  "generated_at": "2026-08-30T12:49:41.594862+00:00",
+  "generated_at": "2026-08-30T13:00:42.092970+00:00",
   "governance": {
     "arenas": [
+      {
+        "arena_id": "7aa623f558f1f6492caf",
+        "challenger_signature": "ce62ef1b07119453bd4e",
+        "champion_signature": "a6ec2667a7a566a93dcb",
+        "decision_at": null,
+        "horizon": "medium",
+        "latest_verdict": "WAITING",
+        "market": "crypto",
+        "registered_at": "2026-08-30T12:51:56.208628+00:00",
+        "status": "ACTIVE",
+        "symbol": "WLDUSDT"
+      },
       {
         "arena_id": "5bb0b73b5a3d9c4250d5",
         "challenger_signature": "9a69b2c3fa1b8444e7aa",
@@ -11415,6 +11427,15 @@
       }
     ],
     "recent_events": [
+      {
+        "arena_id": "7aa623f558f1f6492caf",
+        "created_at": "2026-08-30T12:51:56.208628+00:00",
+        "event_type": "CHALLENGE_REGISTERED",
+        "horizon": "medium",
+        "id": 64,
+        "market": "crypto",
+        "symbol": "WLDUSDT"
+      },
       {
         "arena_id": "9709748a431960768383",
         "created_at": "2026-08-30T12:47:45.555486+00:00",
@@ -25896,7 +25917,7 @@
         "total_reduction_notional": 12079.439831986349
       }
     ],
-    "generated_at": "2026-08-30T12:50:14.459880+00:00",
+    "generated_at": "2026-08-30T13:01:27.204480+00:00",
     "scope": "PUBLIC_READ_ONLY_RISK_SIZING_AUDIT",
     "status": "AVAILABLE",
     "summary": {
@@ -28253,16 +28274,16 @@
       "worst_trade_return": -0.00029986839109497065
     }
   ],
-  "sync_checked_at": "2026-08-30T12:50:17.014564+00:00",
-  "sync_snapshot_age_seconds": 35.419702,
+  "sync_checked_at": "2026-08-30T13:01:27.937262+00:00",
+  "sync_snapshot_age_seconds": 45.844292,
   "trial_ledger": {
-    "challenges": 49,
-    "cycles": 552,
+    "challenges": 50,
+    "cycles": 555,
     "distinct_hypotheses": 62,
-    "events": 156,
-    "last_event_at": "2026-08-30T12:47:45.555486+00:00",
+    "events": 158,
+    "last_event_at": "2026-08-30T12:51:56.208628+00:00",
     "promotions": 0,
-    "research_trials": 93
+    "research_trials": 94
   },
   "worker": {
     "assets_checked": 254,
@@ -28272,10 +28293,10 @@
     "data_quality": "OK",
     "data_quality_critical": 0,
     "data_quality_warnings": 48,
-    "heartbeat_at": "2026-08-30T12:49:41.593356+00:00",
-    "last_cycle_finished_at": "2026-08-30T12:46:45.513833+00:00",
-    "last_cycle_started_at": "2026-08-30T12:47:45.533974+00:00",
-    "market_data_api_calls": 0,
+    "heartbeat_at": "2026-08-30T13:00:41.779208+00:00",
+    "last_cycle_finished_at": "2026-08-30T12:58:54.302427+00:00",
+    "last_cycle_started_at": "2026-08-30T12:59:54.328475+00:00",
+    "market_data_api_calls": 5,
     "portfolio_risk": "HIGH",
     "realtime_watchlist_sync": "ONLINE",
     "realtime_watchlist_total": 68,
