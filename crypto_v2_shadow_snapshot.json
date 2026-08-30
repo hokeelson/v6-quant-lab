@@ -4,17 +4,17 @@
     "accounts": [
       {
         "closed_trades": 203,
-        "equity": 95014.9537556915,
+        "equity": 95076.77007472889,
         "horizon": "short",
         "initial_equity": 100000.0,
-        "return_pct": -0.049850462443085
+        "return_pct": -0.04923229925271111
       },
       {
         "closed_trades": 47,
-        "equity": 96984.51466292297,
+        "equity": 97072.9603330753,
         "horizon": "medium",
         "initial_equity": 100000.0,
-        "return_pct": -0.030154853370770285
+        "return_pct": -0.029270396669247023
       },
       {
         "closed_trades": 1,
@@ -25,9 +25,9 @@
       }
     ],
     "closed_trades": 251,
-    "equity": 290562.5789236651,
+    "equity": 290712.8409128548,
     "initial_equity": 300000.0,
-    "return_pct": -0.03145807025444969
+    "return_pct": -0.0309571969571506
   },
   "broker_order_api_calls": 0,
   "catchup": {
@@ -43,7 +43,7 @@
   "contains_secrets": false,
   "errors": [],
   "forward_only": true,
-  "generated_at": "2026-08-30T08:43:05.820217+00:00",
+  "generated_at": "2026-08-30T08:53:44.796867+00:00",
   "latest_market_regime": {
     "realized_vol": 0.006221281537453337,
     "reason": "Volatility compression",
@@ -10905,9 +10905,9 @@
   "scope": "PUBLIC_READ_ONLY_CRYPTO_V2_SHADOW",
   "shared_cache_only": true,
   "status": "ONLINE",
-  "symbols": 42,
-  "sync_checked_at": "2026-08-30T08:43:11.798514+00:00",
-  "sync_snapshot_age_seconds": 5.978297,
+  "symbols": 43,
+  "sync_checked_at": "2026-08-30T08:54:25.756515+00:00",
+  "sync_snapshot_age_seconds": 40.959648,
   "v2": {
     "accounts": [
       {

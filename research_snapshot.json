@@ -17,30 +17,30 @@
     {
       "account_id": "crypto_medium",
       "as_of": "2026-08-30T04:00:00+00:00",
-      "cash": -24347.56589452322,
+      "cash": -24331.56223663234,
       "closed_trades": 47,
-      "drawdown": -0.03383261042979513,
-      "equity": 96984.51466292297,
-      "gross_exposure": 121332.08055744618,
+      "drawdown": -0.03293933139018124,
+      "equity": 97074.18259733137,
+      "gross_exposure": 122334.6312973357,
       "horizon": "medium",
       "initial_equity": 100000.0,
-      "leverage": 1.2510459115988262,
+      "leverage": 1.2602179902434612,
       "market": "crypto",
-      "return_pct": -0.030154853370770285
+      "return_pct": -0.02925817402668629
     },
     {
       "account_id": "crypto_short",
       "as_of": "2026-08-30T07:00:00+00:00",
       "cash": 33704.14954713126,
       "closed_trades": 203,
-      "drawdown": -0.07681749639197244,
-      "equity": 95014.9537556915,
-      "gross_exposure": 61310.80420856025,
+      "drawdown": -0.07621687783755515,
+      "equity": 95076.77007472889,
+      "gross_exposure": 61372.62052759763,
       "horizon": "short",
       "initial_equity": 100000.0,
-      "leverage": 0.6452753149383885,
+      "leverage": 0.6455059472398956,
       "market": "crypto",
-      "return_pct": -0.049850462443085
+      "return_pct": -0.04923229925271111
     },
     {
       "account_id": "stock_long",
@@ -132,7 +132,7 @@
   "expected_live_deviation": {
     "active_sizing": true,
     "contains_secrets": false,
-    "generated_at": "2026-08-30T08:42:19.462868+00:00",
+    "generated_at": "2026-08-30T08:53:44.245508+00:00",
     "minimum_live_trades_for_active_sizing": 5,
     "rows": [
       {
@@ -10820,18 +10820,18 @@
       }
     ]
   },
-  "generated_at": "2026-08-30T08:42:47.229866+00:00",
+  "generated_at": "2026-08-30T08:53:41.681000+00:00",
   "governance": {
     "arenas": [
       {
-        "arena_id": "f6b888ce95e21cb6dd24",
+        "arena_id": "1fe89102a40f9d82ac14",
         "challenger_signature": "d534a3917e1025ff1129",
         "champion_signature": "df527b0d37759ec7476c",
         "decision_at": null,
         "horizon": "short",
         "latest_verdict": "WAITING",
         "market": "crypto",
-        "registered_at": "2026-08-30T08:06:00.982201+00:00",
+        "registered_at": "2026-08-30T08:51:45.951116+00:00",
         "status": "ACTIVE",
         "symbol": "SUIUSDT"
       },
@@ -10853,7 +10853,7 @@
         "champion_signature": "9320de8d489de3750647",
         "decision_at": null,
         "horizon": "short",
-        "latest_verdict": "LEARNING",
+        "latest_verdict": "WAITING",
         "market": "crypto",
         "registered_at": "2026-08-30T04:46:57.561198+00:00",
         "status": "ACTIVE",
@@ -10877,7 +10877,7 @@
         "champion_signature": "d6fdfe47123feff7fce3",
         "decision_at": null,
         "horizon": "short",
-        "latest_verdict": "LEARNING",
+        "latest_verdict": "WAITING",
         "market": "crypto",
         "registered_at": "2026-08-29T15:45:56.650932+00:00",
         "status": "ACTIVE",
@@ -10889,7 +10889,7 @@
         "champion_signature": "1479f136882d2c3cd332",
         "decision_at": null,
         "horizon": "short",
-        "latest_verdict": "LEARNING",
+        "latest_verdict": "WAITING",
         "market": "crypto",
         "registered_at": "2026-08-29T07:57:14.458553+00:00",
         "status": "ACTIVE",
@@ -11186,8 +11186,8 @@
     ],
     "recent_events": [
       {
-        "arena_id": "f6b888ce95e21cb6dd24",
-        "created_at": "2026-08-30T08:06:00.982201+00:00",
+        "arena_id": "1fe89102a40f9d82ac14",
+        "created_at": "2026-08-30T08:51:45.951116+00:00",
         "event_type": "CHALLENGE_REGISTERED",
         "horizon": "short",
         "id": 42,
@@ -25468,7 +25468,7 @@
         "total_reduction_notional": 5407.810651864725
       }
     ],
-    "generated_at": "2026-08-30T08:43:09.666588+00:00",
+    "generated_at": "2026-08-30T08:54:24.414373+00:00",
     "scope": "PUBLIC_READ_ONLY_RISK_SIZING_AUDIT",
     "status": "AVAILABLE",
     "summary": {
@@ -25491,13 +25491,13 @@
   "schema_version": 2,
   "scope": "PUBLIC_READ_ONLY_RESEARCH_SUMMARY",
   "storage_persistence": {
-    "bootstrap_at": "2026-08-30T05:57:39.640810+00:00",
+    "bootstrap_at": "2026-08-30T08:51:41.432237+00:00",
     "bootstrap_warnings": [],
     "mode": "RESCUE_RUNTIME",
     "persistent_disk": {
-      "free": 2719272960,
+      "free": 2718646272,
       "total": 4685873152,
-      "used": 1949822976
+      "used": 1950449664
     },
     "restored": [
       {
@@ -25533,7 +25533,7 @@
     "snapshot_interval_seconds": 60,
     "snapshot_keep_archives": 0,
     "status": "AVAILABLE",
-    "updated_at": "2026-08-30T05:57:39.752611+00:00"
+    "updated_at": "2026-08-30T08:51:41.551504+00:00"
   },
   "strategy_performance": [
     {
@@ -27807,33 +27807,32 @@
       "worst_trade_return": -0.00029986839109497065
     }
   ],
-  "sync_checked_at": "2026-08-30T08:43:11.798514+00:00",
-  "sync_snapshot_age_seconds": 24.568648,
+  "sync_checked_at": "2026-08-30T08:54:25.756515+00:00",
+  "sync_snapshot_age_seconds": 44.075515,
   "trial_ledger": {
     "challenges": 30,
-    "cycles": 585,
+    "cycles": 543,
     "distinct_hypotheses": 50,
     "events": 114,
-    "last_event_at": "2026-08-30T08:06:00.982201+00:00",
+    "last_event_at": "2026-08-30T08:51:45.951116+00:00",
     "promotions": 0,
     "research_trials": 72
   },
   "worker": {
-    "assets_checked": 254,
+    "assets_checked": 0,
     "bars_processed": 0,
     "broker_order_api_calls": 0,
-    "concept_drift_pairs": 9,
-    "data_quality": "OK",
+    "concept_drift_pairs": 0,
+    "data_quality": "STARTING",
     "data_quality_critical": 0,
-    "data_quality_warnings": 48,
-    "heartbeat_at": "2026-08-30T08:42:43.825970+00:00",
-    "last_cycle_finished_at": "2026-08-30T08:41:13.933118+00:00",
-    "last_cycle_started_at": "2026-08-30T08:42:13.949695+00:00",
-    "market_data_api_calls": 5,
-    "portfolio_risk": "HIGH",
-    "realtime_watchlist_sync": "ONLINE",
-    "realtime_watchlist_total": 67,
-    "risk_layer": "ONLINE",
+    "data_quality_warnings": 0,
+    "heartbeat_at": "2026-08-30T08:53:27.686835+00:00",
+    "last_cycle_finished_at": null,
+    "last_cycle_started_at": "2026-08-30T08:51:42.679072+00:00",
+    "market_data_api_calls": 0,
+    "realtime_watchlist_sync": "STARTING",
+    "realtime_watchlist_total": 0,
+    "risk_layer": "STARTING",
     "risk_sizing": "ACTIVE",
     "status": "RUNNING",
     "true_errors": 0
