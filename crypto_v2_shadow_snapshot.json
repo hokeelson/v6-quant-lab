@@ -1,13 +1,13 @@
 {
-  "bars_processed": 42,
+  "bars_processed": 0,
   "baseline": {
     "accounts": [
       {
         "closed_trades": 203,
-        "equity": 95058.88141906637,
+        "equity": 94859.81187525674,
         "horizon": "short",
         "initial_equity": 100000.0,
-        "return_pct": -0.049411185809336344
+        "return_pct": -0.05140188124743261
       },
       {
         "closed_trades": 47,
@@ -25,33 +25,33 @@
       }
     ],
     "closed_trades": 251,
-    "equity": 290606.50658703997,
+    "equity": 290407.43704323034,
     "initial_equity": 300000.0,
-    "return_pct": -0.031311644709866804
+    "return_pct": -0.031975209855898856
   },
   "broker_order_api_calls": 0,
   "catchup": {
     "cycle_event_limit": 160,
     "is_catching_up": false,
-    "newest_selected_bar": "2026-08-30T09:00:00+00:00",
-    "oldest_selected_bar": "2026-08-30T09:00:00+00:00",
-    "pending_events_at_cycle_start": 42,
-    "processed_events": 42,
+    "newest_selected_bar": null,
+    "oldest_selected_bar": null,
+    "pending_events_at_cycle_start": 0,
+    "processed_events": 0,
     "remaining_events_estimate": 0,
-    "selected_events": 42
+    "selected_events": 0
   },
   "contains_secrets": false,
   "errors": [],
   "forward_only": true,
-  "generated_at": "2026-08-30T10:00:38.165711+00:00",
+  "generated_at": "2026-08-30T10:12:01.982987+00:00",
   "latest_market_regime": {
-    "realized_vol": 0.006338079691821845,
+    "realized_vol": 0.006378867650376232,
     "reason": "Volatility compression",
-    "ret_fast": -0.0015956300544066604,
-    "ret_slow": 0.00476445405108028,
+    "ret_fast": -0.0018513096476945323,
+    "ret_slow": 0.004507145715204386,
     "state": "LOW_VOL_SIDEWAYS",
-    "trend": -0.0032064789356733847,
-    "vol_ratio": 0.3435756357934874
+    "trend": -0.003219917458926469,
+    "vol_ratio": 0.34578667596250323
   },
   "market_data_api_calls": 0,
   "persistent_checkpoint": true,
@@ -11209,8 +11209,8 @@
   "shared_cache_only": true,
   "status": "ONLINE",
   "symbols": 43,
-  "sync_checked_at": "2026-08-30T10:01:15.942665+00:00",
-  "sync_snapshot_age_seconds": 37.776954,
+  "sync_checked_at": "2026-08-30T10:12:32.574245+00:00",
+  "sync_snapshot_age_seconds": 30.591258,
   "v2": {
     "accounts": [
       {
