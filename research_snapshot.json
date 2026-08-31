@@ -132,7 +132,7 @@
   "expected_live_deviation": {
     "active_sizing": true,
     "contains_secrets": false,
-    "generated_at": "2026-08-31T09:51:07.079169+00:00",
+    "generated_at": "2026-08-31T10:03:09.894309+00:00",
     "minimum_live_trades_for_active_sizing": 5,
     "rows": [
       {
@@ -10849,7 +10849,7 @@
       }
     ]
   },
-  "generated_at": "2026-08-31T09:51:24.821290+00:00",
+  "generated_at": "2026-08-31T10:02:25.326456+00:00",
   "governance": {
     "arenas": [
       {
@@ -26089,7 +26089,7 @@
         "total_reduction_notional": 4827.499236810279
       }
     ],
-    "generated_at": "2026-08-31T09:51:57.242742+00:00",
+    "generated_at": "2026-08-31T10:03:24.955440+00:00",
     "scope": "PUBLIC_READ_ONLY_RISK_SIZING_AUDIT",
     "status": "AVAILABLE",
     "summary": {
@@ -28554,11 +28554,11 @@
       "worst_trade_return": -0.00029986839109497065
     }
   ],
-  "sync_checked_at": "2026-08-31T09:52:01.233937+00:00",
-  "sync_snapshot_age_seconds": 36.412647,
+  "sync_checked_at": "2026-08-31T10:03:26.044258+00:00",
+  "sync_snapshot_age_seconds": 60.717802,
   "trial_ledger": {
     "challenges": 54,
-    "cycles": 720,
+    "cycles": 723,
     "distinct_hypotheses": 62,
     "events": 168,
     "last_event_at": "2026-08-31T07:47:44.367453+00:00",
@@ -28572,17 +28572,17 @@
     "concept_drift_pairs": 7,
     "data_quality": "OK",
     "data_quality_critical": 0,
-    "data_quality_warnings": 44,
-    "heartbeat_at": "2026-08-31T09:51:14.721904+00:00",
-    "last_cycle_finished_at": "2026-08-31T09:49:31.361252+00:00",
-    "last_cycle_started_at": "2026-08-31T09:50:31.378377+00:00",
-    "market_data_api_calls": 5,
+    "data_quality_warnings": 47,
+    "heartbeat_at": "2026-08-31T10:02:21.300621+00:00",
+    "last_cycle_finished_at": "2026-08-31T10:02:21.300592+00:00",
+    "last_cycle_started_at": "2026-08-31T09:59:11.886886+00:00",
+    "market_data_api_calls": 0,
     "portfolio_risk": "HIGH",
     "realtime_watchlist_sync": "ONLINE",
     "realtime_watchlist_total": 71,
     "risk_layer": "ONLINE",
     "risk_sizing": "ACTIVE",
-    "status": "RUNNING",
+    "status": "ONLINE",
     "true_errors": 0
   }
 }
