@@ -114,7 +114,7 @@
     },
     {
       "account_id": "twstock_short",
-      "as_of": "2026-08-31T04:42:34+00:00",
+      "as_of": "2026-08-31T04:51:13+00:00",
       "cash": 99104.7636956901,
       "closed_trades": 11,
       "drawdown": -0.010732336231476958,
@@ -132,7 +132,7 @@
   "expected_live_deviation": {
     "active_sizing": true,
     "contains_secrets": false,
-    "generated_at": "2026-08-31T05:44:14.945940+00:00",
+    "generated_at": "2026-08-31T05:54:17.576124+00:00",
     "minimum_live_trades_for_active_sizing": 5,
     "rows": [
       {
@@ -10849,7 +10849,7 @@
       }
     ]
   },
-  "generated_at": "2026-08-31T05:43:31.331751+00:00",
+  "generated_at": "2026-08-31T05:54:31.835293+00:00",
   "governance": {
     "arenas": [
       {
@@ -26069,7 +26069,7 @@
         "total_reduction_notional": 4978.3101744775895
       }
     ],
-    "generated_at": "2026-08-31T05:44:24.989833+00:00",
+    "generated_at": "2026-08-31T05:55:12.762405+00:00",
     "scope": "PUBLIC_READ_ONLY_RISK_SIZING_AUDIT",
     "status": "AVAILABLE",
     "summary": {
@@ -28549,11 +28549,11 @@
       "worst_trade_return": -0.00029986839109497065
     }
   ],
-  "sync_checked_at": "2026-08-31T05:44:27.678171+00:00",
-  "sync_snapshot_age_seconds": 56.34642,
+  "sync_checked_at": "2026-08-31T05:55:14.912720+00:00",
+  "sync_snapshot_age_seconds": 43.077427,
   "trial_ledger": {
     "challenges": 53,
-    "cycles": 765,
+    "cycles": 768,
     "distinct_hypotheses": 62,
     "events": 166,
     "last_event_at": "2026-08-30T18:13:55.525226+00:00",
@@ -28562,22 +28562,22 @@
   },
   "worker": {
     "assets_checked": 251,
-    "bars_processed": 0,
+    "bars_processed": 5,
     "broker_order_api_calls": 0,
-    "concept_drift_pairs": 8,
+    "concept_drift_pairs": 9,
     "data_quality": "OK",
     "data_quality_critical": 0,
-    "data_quality_warnings": 49,
-    "heartbeat_at": "2026-08-31T05:43:18.286898+00:00",
-    "last_cycle_finished_at": "2026-08-31T05:41:00.391329+00:00",
-    "last_cycle_started_at": "2026-08-31T05:42:00.402041+00:00",
-    "market_data_api_calls": 5,
+    "data_quality_warnings": 50,
+    "heartbeat_at": "2026-08-31T05:54:18.534183+00:00",
+    "last_cycle_finished_at": "2026-08-31T05:53:59.247005+00:00",
+    "last_cycle_started_at": "2026-08-31T05:50:25.201071+00:00",
+    "market_data_api_calls": 0,
     "portfolio_risk": "HIGH",
     "realtime_watchlist_sync": "ONLINE",
     "realtime_watchlist_total": 70,
     "risk_layer": "ONLINE",
     "risk_sizing": "ACTIVE",
-    "status": "RUNNING",
+    "status": "ONLINE",
     "true_errors": 0
   }
 }
