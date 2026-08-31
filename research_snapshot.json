@@ -16,21 +16,21 @@
     },
     {
       "account_id": "crypto_medium",
-      "as_of": "2026-08-30T20:00:00+00:00",
-      "cash": -21517.18010390202,
+      "as_of": "2026-08-31T00:00:00+00:00",
+      "cash": -21524.25521443731,
       "closed_trades": 49,
-      "drawdown": -0.05155511425205772,
-      "equity": 95205.51813461068,
-      "gross_exposure": 116722.6982385127,
+      "drawdown": -0.051743610542404395,
+      "equity": 95186.59675366533,
+      "gross_exposure": 116710.85196810264,
       "horizon": "medium",
       "initial_equity": 100000.0,
-      "leverage": 1.2260076991911222,
+      "leverage": 1.2261269543036633,
       "market": "crypto",
-      "return_pct": -0.04794481865389322
+      "return_pct": -0.04813403246334669
     },
     {
       "account_id": "crypto_short",
-      "as_of": "2026-08-31T02:00:00+00:00",
+      "as_of": "2026-08-31T03:00:00+00:00",
       "cash": 37556.489595701205,
       "closed_trades": 250,
       "drawdown": -0.09035152878072661,
@@ -114,7 +114,7 @@
     },
     {
       "account_id": "twstock_short",
-      "as_of": "2026-08-31T02:47:31+00:00",
+      "as_of": "2026-08-31T02:55:17+00:00",
       "cash": 99104.7636956901,
       "closed_trades": 11,
       "drawdown": -0.010732336231476958,
@@ -132,7 +132,7 @@
   "expected_live_deviation": {
     "active_sizing": true,
     "contains_secrets": false,
-    "generated_at": "2026-08-31T03:51:45.800083+00:00",
+    "generated_at": "2026-08-31T04:03:48.800023+00:00",
     "minimum_live_trades_for_active_sizing": 5,
     "rows": [
       {
@@ -10842,7 +10842,7 @@
       }
     ]
   },
-  "generated_at": "2026-08-31T03:52:26.398775+00:00",
+  "generated_at": "2026-08-31T04:03:26.907378+00:00",
   "governance": {
     "arenas": [
       {
@@ -26045,7 +26045,7 @@
         "total_reduction_notional": 7071.42149889494
       }
     ],
-    "generated_at": "2026-08-31T03:52:25.930473+00:00",
+    "generated_at": "2026-08-31T04:03:48.780290+00:00",
     "scope": "PUBLIC_READ_ONLY_RISK_SIZING_AUDIT",
     "status": "AVAILABLE",
     "summary": {
@@ -28489,11 +28489,11 @@
       "worst_trade_return": -0.00029986839109497065
     }
   ],
-  "sync_checked_at": "2026-08-31T03:52:30.406523+00:00",
-  "sync_snapshot_age_seconds": 4.007748,
+  "sync_checked_at": "2026-08-31T04:03:50.229450+00:00",
+  "sync_snapshot_age_seconds": 23.322072,
   "trial_ledger": {
     "challenges": 53,
-    "cycles": 745,
+    "cycles": 748,
     "distinct_hypotheses": 62,
     "events": 166,
     "last_event_at": "2026-08-30T18:13:55.525226+00:00",
@@ -28502,16 +28502,16 @@
   },
   "worker": {
     "assets_checked": 251,
-    "bars_processed": 0,
+    "bars_processed": 1,
     "broker_order_api_calls": 0,
-    "concept_drift_pairs": 12,
+    "concept_drift_pairs": 9,
     "data_quality": "OK",
     "data_quality_critical": 0,
-    "data_quality_warnings": 47,
-    "heartbeat_at": "2026-08-31T03:52:14.203104+00:00",
-    "last_cycle_finished_at": "2026-08-31T03:49:24.211672+00:00",
-    "last_cycle_started_at": "2026-08-31T03:50:24.230242+00:00",
-    "market_data_api_calls": 1,
+    "data_quality_warnings": 46,
+    "heartbeat_at": "2026-08-31T04:03:14.372505+00:00",
+    "last_cycle_finished_at": "2026-08-31T04:01:53.057312+00:00",
+    "last_cycle_started_at": "2026-08-31T04:02:53.071485+00:00",
+    "market_data_api_calls": 5,
     "portfolio_risk": "HIGH",
     "realtime_watchlist_sync": "ONLINE",
     "realtime_watchlist_total": 70,
