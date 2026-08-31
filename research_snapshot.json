@@ -114,17 +114,17 @@
     },
     {
       "account_id": "twstock_short",
-      "as_of": "2026-08-31T02:33:30+00:00",
-      "cash": 94398.0100706901,
-      "closed_trades": 10,
-      "drawdown": -0.01058513733405464,
-      "equity": 99119.5100706901,
-      "gross_exposure": 4721.5,
+      "as_of": "2026-08-31T02:47:31+00:00",
+      "cash": 99104.7636956901,
+      "closed_trades": 11,
+      "drawdown": -0.010732336231476958,
+      "equity": 99104.7636956901,
+      "gross_exposure": 0.0,
       "horizon": "short",
       "initial_equity": 100000.0,
-      "leverage": 0.04763441623785992,
+      "leverage": 0.0,
       "market": "twstock",
-      "return_pct": -0.008804899293099022
+      "return_pct": -0.008952363043098988
     }
   ],
   "contains_secrets": false,
@@ -132,7 +132,7 @@
   "expected_live_deviation": {
     "active_sizing": true,
     "contains_secrets": false,
-    "generated_at": "2026-08-31T03:40:43.182419+00:00",
+    "generated_at": "2026-08-31T03:51:45.800083+00:00",
     "minimum_live_trades_for_active_sizing": 5,
     "rows": [
       {
@@ -250,17 +250,17 @@
         "win_rate_gap": -0.033333333333333354
       },
       {
-        "deviation_score": 64.50258388644055,
-        "evidence_weight": 0.35,
+        "deviation_score": 69.69684113827323,
+        "evidence_weight": 0.4,
         "horizon": "short",
-        "live_closed_trades": 7,
-        "live_compound_return": -0.05217609149166269,
-        "live_losses": 6,
-        "live_max_loss_streak": 5,
-        "live_per_trade_return": -0.007625994067422148,
-        "live_profit_factor": 0.1189038231561337,
+        "live_closed_trades": 8,
+        "live_compound_return": -0.06279711040706171,
+        "live_losses": 7,
+        "live_max_loss_streak": 6,
+        "live_per_trade_return": -0.008074163556515579,
+        "live_profit_factor": 0.1094278203986545,
         "live_profit_factor_infinite": false,
-        "live_win_rate": 0.14285714285714285,
+        "live_win_rate": 0.125,
         "live_wins": 1,
         "market": "twstock",
         "oos_closed_trades": 5,
@@ -271,9 +271,9 @@
         "oos_sharpe": 1.2635616972294514,
         "oos_total_return": 0.012584772538216438,
         "oos_win_rate": 0.6,
-        "per_trade_return_gap": 0.01013037329061306,
+        "per_trade_return_gap": 0.01057854277970649,
         "performance_key": "twstock:2317.TW:short:Momentum",
-        "profit_factor_gap": 3.563633145713011,
+        "profit_factor_gap": 3.57310914847049,
         "reasons": [
           "OOS_POSITIVE_LIVE_NEGATIVE",
           "WIN_RATE_DETERIORATION",
@@ -282,11 +282,11 @@
           "LOSS_STREAK"
         ],
         "shadow_only": true,
-        "state": "DIVERGING",
+        "state": "SEVERE_DIVERGENCE",
         "strategy": "Momentum",
-        "suggested_confidence_multiplier": 0.65,
+        "suggested_confidence_multiplier": 0.4,
         "symbol": "2317.TW",
-        "win_rate_gap": 0.45714285714285713
+        "win_rate_gap": 0.475
       },
       {
         "deviation_score": 63.1677873801778,
@@ -10710,10 +10710,10 @@
     "status": "AVAILABLE",
     "summary": {
       "broker_order_api_calls": 0,
-      "diverging": 11,
+      "diverging": 10,
       "learning": 286,
       "models": 308,
-      "severe": 3,
+      "severe": 4,
       "watch": 2,
       "with_live_trades": 115
     }
@@ -10842,7 +10842,7 @@
       }
     ]
   },
-  "generated_at": "2026-08-31T03:41:25.870296+00:00",
+  "generated_at": "2026-08-31T03:52:26.398775+00:00",
   "governance": {
     "arenas": [
       {
@@ -26045,7 +26045,7 @@
         "total_reduction_notional": 7071.42149889494
       }
     ],
-    "generated_at": "2026-08-31T03:41:38.339114+00:00",
+    "generated_at": "2026-08-31T03:52:25.930473+00:00",
     "scope": "PUBLIC_READ_ONLY_RISK_SIZING_AUDIT",
     "status": "AVAILABLE",
     "summary": {
@@ -26273,18 +26273,18 @@
       "worst_trade_return": -0.052079018915602626
     },
     {
-      "avg_pnl": -77.5321587678387,
-      "avg_return_pct": -0.007555003675844195,
+      "avg_pnl": -74.5081545468588,
+      "avg_return_pct": -0.008011339205511725,
       "best_trade_return": 0.014772500000000077,
-      "closed_trades": 7,
+      "closed_trades": 8,
       "horizon": "short",
-      "last_exit_bar": "2026-08-28T02:49:37+00:00",
-      "losses": 6,
+      "last_exit_bar": "2026-08-31T02:47:29+00:00",
+      "losses": 7,
       "market": "twstock",
-      "profit_factor": 0.1189038231561337,
-      "realized_pnl": -542.7251113748708,
+      "profit_factor": 0.1094278203986545,
+      "realized_pnl": -596.0652363748704,
       "strategy": "Momentum",
-      "win_rate": 0.14285714285714285,
+      "win_rate": 0.125,
       "wins": 1,
       "worst_trade_return": -0.021903645833333374
     },
@@ -26599,6 +26599,24 @@
       "worst_trade_return": -0.003444076547257313
     },
     {
+      "avg_pnl": -74.5081545468588,
+      "avg_return_pct": -0.008011339205511725,
+      "best_trade_return": 0.014772500000000077,
+      "closed_trades": 8,
+      "horizon": "short",
+      "last_exit_bar": "2026-08-31T02:47:29+00:00",
+      "losses": 7,
+      "market": "twstock",
+      "performance_key": "twstock:2317.TW:short:Momentum",
+      "profit_factor": 0.1094278203986545,
+      "realized_pnl": -596.0652363748704,
+      "strategy": "Momentum",
+      "symbol": "2317.TW",
+      "win_rate": 0.125,
+      "wins": 1,
+      "worst_trade_return": -0.021903645833333374
+    },
+    {
       "avg_pnl": -77.20751711015899,
       "avg_return_pct": -0.015126113039700382,
       "best_trade_return": 0.008132349383272564,
@@ -26615,24 +26633,6 @@
       "win_rate": 0.14285714285714285,
       "wins": 1,
       "worst_trade_return": -0.03183159665720592
-    },
-    {
-      "avg_pnl": -77.5321587678387,
-      "avg_return_pct": -0.007555003675844195,
-      "best_trade_return": 0.014772500000000077,
-      "closed_trades": 7,
-      "horizon": "short",
-      "last_exit_bar": "2026-08-28T02:49:37+00:00",
-      "losses": 6,
-      "market": "twstock",
-      "performance_key": "twstock:2317.TW:short:Momentum",
-      "profit_factor": 0.1189038231561337,
-      "realized_pnl": -542.7251113748708,
-      "strategy": "Momentum",
-      "symbol": "2317.TW",
-      "win_rate": 0.14285714285714285,
-      "wins": 1,
-      "worst_trade_return": -0.021903645833333374
     },
     {
       "avg_pnl": -92.70432543831872,
@@ -28489,11 +28489,11 @@
       "worst_trade_return": -0.00029986839109497065
     }
   ],
-  "sync_checked_at": "2026-08-31T03:41:40.049766+00:00",
-  "sync_snapshot_age_seconds": 14.17947,
+  "sync_checked_at": "2026-08-31T03:52:30.406523+00:00",
+  "sync_snapshot_age_seconds": 4.007748,
   "trial_ledger": {
     "challenges": 53,
-    "cycles": 743,
+    "cycles": 745,
     "distinct_hypotheses": 62,
     "events": 166,
     "last_event_at": "2026-08-30T18:13:55.525226+00:00",
@@ -28504,14 +28504,14 @@
     "assets_checked": 251,
     "bars_processed": 0,
     "broker_order_api_calls": 0,
-    "concept_drift_pairs": 11,
+    "concept_drift_pairs": 12,
     "data_quality": "OK",
     "data_quality_critical": 0,
     "data_quality_warnings": 47,
-    "heartbeat_at": "2026-08-31T03:41:22.507212+00:00",
-    "last_cycle_finished_at": "2026-08-31T03:40:22.496975+00:00",
-    "last_cycle_started_at": "2026-08-31T03:41:22.507180+00:00",
-    "market_data_api_calls": 0,
+    "heartbeat_at": "2026-08-31T03:52:14.203104+00:00",
+    "last_cycle_finished_at": "2026-08-31T03:49:24.211672+00:00",
+    "last_cycle_started_at": "2026-08-31T03:50:24.230242+00:00",
+    "market_data_api_calls": 1,
     "portfolio_risk": "HIGH",
     "realtime_watchlist_sync": "ONLINE",
     "realtime_watchlist_total": 70,
