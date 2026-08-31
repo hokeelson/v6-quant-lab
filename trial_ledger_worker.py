@@ -8,6 +8,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from src.paths import data_dir, db_path
+from src.direction_forward import DirectionForwardLedger
 from src.trial_ledger import TrialLedger
 
 POLL_SECONDS = 60
@@ -15,6 +16,7 @@ DATA_DIR = Path(data_dir())
 STATIC_DIR = Path("static")
 PUBLIC_SNAPSHOT_PATH = STATIC_DIR / "research_snapshot.json"
 ledger = TrialLedger(db_path("trial_ledger.sqlite3"))
+direction_ledger = DirectionForwardLedger(db_path("direction_forward.sqlite3"))
 
 
 def _read_json(path: Path):
@@ -299,6 +301,7 @@ def _public_snapshot(worker, quality):
         "contains_secrets": False,
         "worker": safe_worker,
         "trial_ledger": ledger.summary(),
+        "direction_shadow": direction_ledger.summary(),
         "accounts": _accounts(sim_path),
         "strategy_performance": _strategy_performance(sim_path),
         "strategy_symbol_performance": _strategy_symbol_performance(sim_path),
