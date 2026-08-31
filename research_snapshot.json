@@ -59,30 +59,30 @@
     {
       "account_id": "stock_medium",
       "as_of": "2026-08-31T16:00:00+00:00",
-      "cash": -19268.044673403354,
+      "cash": -19222.98641922397,
       "closed_trades": 14,
-      "drawdown": -0.03064012781653469,
-      "equity": 98338.42097613457,
-      "gross_exposure": 117606.46564953793,
+      "drawdown": -0.03020942072200017,
+      "equity": 98382.11481657004,
+      "gross_exposure": 117605.101235794,
       "horizon": "medium",
       "initial_equity": 100000.0,
-      "leverage": 1.1959360795317169,
+      "leverage": 1.1953910673201582,
       "market": "stock",
-      "return_pct": -0.016615790238654338
+      "return_pct": -0.016178851834299568
     },
     {
       "account_id": "stock_short",
       "as_of": "2026-08-31T19:00:00+00:00",
       "cash": 29292.260943087942,
       "closed_trades": 91,
-      "drawdown": -0.026677181861602284,
-      "equity": 99704.52681468005,
-      "gross_exposure": 70412.26587159211,
+      "drawdown": -0.02674035817490028,
+      "equity": 99698.05520597441,
+      "gross_exposure": 70405.79426288647,
       "horizon": "short",
       "initial_equity": 100000.0,
-      "leverage": 0.7062093178824949,
+      "leverage": 0.7061902473165534,
       "market": "stock",
-      "return_pct": -0.0029547318531994993
+      "return_pct": -0.0030194479402558816
     },
     {
       "account_id": "twstock_long",
@@ -130,18 +130,57 @@
   "contains_secrets": false,
   "data_quality": {},
   "direction_shadow": {
+    "benchmarks": {
+      "always_long_after_cost_avg_return_pct": 0.0,
+      "note": "Equal-weight prediction-window diagnostic; not a portfolio equity curve.",
+      "policy_minus_always_long_avg_return_pct": 0.0
+    },
     "broker_order_api_calls": 0,
+    "confidence_calibration": {
+      "bins": [],
+      "brier_score": null,
+      "mean_confidence": null,
+      "observed_hit_rate": null,
+      "samples": 0
+    },
     "decision_stats": {},
     "engine_version": "V10_ADAPTIVE_EVIDENCE_SHADOW",
     "evaluated": 0,
+    "evidence_maturity": {
+      "automatic_retuning_allowed": false,
+      "directional_trades": 0,
+      "forward_days": 0.0,
+      "reason": "Forward evidence is diagnostic until independently reviewed; no online parameter chasing.",
+      "state": "LEARNING"
+    },
     "pending": 0,
     "policies": [],
-    "shadow_only": true
+    "policy_performance": {
+      "avg_directional_trade_return_pct": 0.0,
+      "avg_policy_return_pct": 0.0,
+      "directional_trade_samples": 0,
+      "max_drawdown_pct": 0.0,
+      "samples_including_no_trade": 0,
+      "trade_sequence_sharpe": 0.0
+    },
+    "promotion_gate": {
+      "checks": {
+        "max_drawdown_no_worse_than_minus_25pct": true,
+        "minimum_20_closed_trades": false,
+        "minimum_60_forward_days": false,
+        "positive_average_return": false,
+        "trade_sequence_sharpe_at_least_0_5": false
+      },
+      "decision": "HOLD_SHADOW",
+      "real_money_authorized": false
+    },
+    "shadow_only": true,
+    "slice_diagnostics": []
   },
   "expected_live_deviation": {
     "active_sizing": true,
     "contains_secrets": false,
-    "generated_at": "2026-08-31T20:08:38.517174+00:00",
+    "generated_at": "2026-08-31T20:19:34.454936+00:00",
     "minimum_live_trades_for_active_sizing": 5,
     "rows": [
       {
@@ -10987,32 +11026,32 @@
       }
     ]
   },
-  "generated_at": "2026-08-31T20:09:12.319254+00:00",
+  "generated_at": "2026-08-31T20:19:31.874468+00:00",
   "governance": {
     "arenas": [
       {
-        "arena_id": "2d49fe0d43d18f1a1b01",
-        "challenger_signature": "c1c13c8d9abaee0fd633",
-        "champion_signature": "d534a3917e1025ff1129",
-        "decision_at": null,
-        "horizon": "short",
-        "latest_verdict": "WAITING",
-        "market": "crypto",
-        "registered_at": "2026-08-31T19:47:45.570114+00:00",
-        "status": "ACTIVE",
-        "symbol": "PAXGUSDT"
-      },
-      {
-        "arena_id": "2b861fe74917c157b98a",
+        "arena_id": "59e0ca5b135309400883",
         "challenger_signature": "af7d460e6330df43befc",
         "champion_signature": "3fa637f15200c926a639",
         "decision_at": null,
         "horizon": "short",
         "latest_verdict": "WAITING",
         "market": "crypto",
-        "registered_at": "2026-08-31T19:14:03.911999+00:00",
+        "registered_at": "2026-08-31T20:10:34.712554+00:00",
         "status": "ACTIVE",
         "symbol": "CRCLBUSDT"
+      },
+      {
+        "arena_id": "1d02738eed50e2036f5a",
+        "challenger_signature": "21969151cd8b8e6b005d",
+        "champion_signature": "d534a3917e1025ff1129",
+        "decision_at": null,
+        "horizon": "short",
+        "latest_verdict": "WAITING",
+        "market": "crypto",
+        "registered_at": "2026-08-31T20:10:34.712554+00:00",
+        "status": "ACTIVE",
+        "symbol": "PAXGUSDT"
       },
       {
         "arena_id": "20576c769de3b0997ec5",
@@ -11020,7 +11059,7 @@
         "champion_signature": "0b620c51d61b2bc4250d",
         "decision_at": null,
         "horizon": "short",
-        "latest_verdict": "LEARNING",
+        "latest_verdict": "WAITING",
         "market": "crypto",
         "registered_at": "2026-08-31T11:25:59.611206+00:00",
         "status": "ACTIVE",
@@ -11032,7 +11071,7 @@
         "champion_signature": "cb2706e01c700f469797",
         "decision_at": null,
         "horizon": "short",
-        "latest_verdict": "LEARNING",
+        "latest_verdict": "WAITING",
         "market": "crypto",
         "registered_at": "2026-08-31T10:47:16.031146+00:00",
         "status": "ACTIVE",
@@ -11056,7 +11095,7 @@
         "champion_signature": "5d21318b8df4eb9529c2",
         "decision_at": null,
         "horizon": "medium",
-        "latest_verdict": "LEARNING",
+        "latest_verdict": "WAITING",
         "market": "crypto",
         "registered_at": "2026-08-30T17:57:48.866594+00:00",
         "status": "ACTIVE",
@@ -11080,7 +11119,7 @@
         "champion_signature": "a6ec2667a7a566a93dcb",
         "decision_at": null,
         "horizon": "medium",
-        "latest_verdict": "LEARNING",
+        "latest_verdict": "WAITING",
         "market": "crypto",
         "registered_at": "2026-08-30T12:51:56.208628+00:00",
         "status": "ACTIVE",
@@ -11092,7 +11131,7 @@
         "champion_signature": "d44b5685d43b6e1ae6b4",
         "decision_at": null,
         "horizon": "medium",
-        "latest_verdict": "LEARNING",
+        "latest_verdict": "WAITING",
         "market": "crypto",
         "registered_at": "2026-08-30T12:47:45.555486+00:00",
         "status": "ACTIVE",
@@ -11104,7 +11143,7 @@
         "champion_signature": "3fa637f15200c926a639",
         "decision_at": null,
         "horizon": "medium",
-        "latest_verdict": "LEARNING",
+        "latest_verdict": "WAITING",
         "market": "crypto",
         "registered_at": "2026-08-30T12:47:45.555486+00:00",
         "status": "ACTIVE",
@@ -11116,7 +11155,7 @@
         "champion_signature": "00413977beee189cde96",
         "decision_at": null,
         "horizon": "medium",
-        "latest_verdict": "LEARNING",
+        "latest_verdict": "WAITING",
         "market": "crypto",
         "registered_at": "2026-08-30T12:44:02.635926+00:00",
         "status": "ACTIVE",
@@ -11128,7 +11167,7 @@
         "champion_signature": "5bae1210d7ef76aec8e1",
         "decision_at": null,
         "horizon": "medium",
-        "latest_verdict": "LEARNING",
+        "latest_verdict": "WAITING",
         "market": "crypto",
         "registered_at": "2026-08-30T12:44:02.635926+00:00",
         "status": "ACTIVE",
@@ -11140,7 +11179,7 @@
         "champion_signature": "c32531dfb5c19cd2652d",
         "decision_at": null,
         "horizon": "medium",
-        "latest_verdict": "LEARNING",
+        "latest_verdict": "WAITING",
         "market": "crypto",
         "registered_at": "2026-08-30T12:39:42.214235+00:00",
         "status": "ACTIVE",
@@ -11152,7 +11191,7 @@
         "champion_signature": "5d21318b8df4eb9529c2",
         "decision_at": null,
         "horizon": "medium",
-        "latest_verdict": "LEARNING",
+        "latest_verdict": "WAITING",
         "market": "crypto",
         "registered_at": "2026-08-30T12:35:46.112560+00:00",
         "status": "ACTIVE",
@@ -11164,7 +11203,7 @@
         "champion_signature": "814b44a8ad46cd11f0d6",
         "decision_at": null,
         "horizon": "medium",
-        "latest_verdict": "LEARNING",
+        "latest_verdict": "WAITING",
         "market": "crypto",
         "registered_at": "2026-08-30T12:35:46.112560+00:00",
         "status": "ACTIVE",
@@ -11176,7 +11215,7 @@
         "champion_signature": "c6e69815fceeeced6f7b",
         "decision_at": null,
         "horizon": "medium",
-        "latest_verdict": "LEARNING",
+        "latest_verdict": "WAITING",
         "market": "crypto",
         "registered_at": "2026-08-30T12:31:19.078358+00:00",
         "status": "ACTIVE",
@@ -11188,7 +11227,7 @@
         "champion_signature": "88408443a25f967bebf9",
         "decision_at": null,
         "horizon": "medium",
-        "latest_verdict": "LEARNING",
+        "latest_verdict": "WAITING",
         "market": "crypto",
         "registered_at": "2026-08-30T12:31:19.078358+00:00",
         "status": "ACTIVE",
@@ -11200,7 +11239,7 @@
         "champion_signature": "c6e69815fceeeced6f7b",
         "decision_at": null,
         "horizon": "medium",
-        "latest_verdict": "LEARNING",
+        "latest_verdict": "WAITING",
         "market": "crypto",
         "registered_at": "2026-08-30T12:27:25.499524+00:00",
         "status": "ACTIVE",
@@ -11212,7 +11251,7 @@
         "champion_signature": "18c6185873ddee0b3da1",
         "decision_at": null,
         "horizon": "medium",
-        "latest_verdict": "LEARNING",
+        "latest_verdict": "WAITING",
         "market": "crypto",
         "registered_at": "2026-08-30T12:27:25.499524+00:00",
         "status": "ACTIVE",
@@ -11224,7 +11263,7 @@
         "champion_signature": "b22f0d4293f6c3807a09",
         "decision_at": null,
         "horizon": "medium",
-        "latest_verdict": "LEARNING",
+        "latest_verdict": "WAITING",
         "market": "crypto",
         "registered_at": "2026-08-30T12:23:05.227336+00:00",
         "status": "ACTIVE",
@@ -11236,7 +11275,7 @@
         "champion_signature": "b72f5614c8a2c454d0d6",
         "decision_at": null,
         "horizon": "medium",
-        "latest_verdict": "LEARNING",
+        "latest_verdict": "WAITING",
         "market": "crypto",
         "registered_at": "2026-08-30T12:23:05.227336+00:00",
         "status": "ACTIVE",
@@ -11248,7 +11287,7 @@
         "champion_signature": "5b1029690715ccba5970",
         "decision_at": null,
         "horizon": "medium",
-        "latest_verdict": "LEARNING",
+        "latest_verdict": "WAITING",
         "market": "crypto",
         "registered_at": "2026-08-30T12:23:05.227336+00:00",
         "status": "ACTIVE",
@@ -11260,7 +11299,7 @@
         "champion_signature": "5d21318b8df4eb9529c2",
         "decision_at": null,
         "horizon": "medium",
-        "latest_verdict": "LEARNING",
+        "latest_verdict": "WAITING",
         "market": "crypto",
         "registered_at": "2026-08-30T12:19:01.632992+00:00",
         "status": "ACTIVE",
@@ -11272,7 +11311,7 @@
         "champion_signature": "19eac8509fb860bff0e5",
         "decision_at": null,
         "horizon": "medium",
-        "latest_verdict": "LEARNING",
+        "latest_verdict": "WAITING",
         "market": "crypto",
         "registered_at": "2026-08-30T12:19:01.632992+00:00",
         "status": "ACTIVE",
@@ -11284,7 +11323,7 @@
         "champion_signature": "c6e69815fceeeced6f7b",
         "decision_at": null,
         "horizon": "medium",
-        "latest_verdict": "LEARNING",
+        "latest_verdict": "WAITING",
         "market": "crypto",
         "registered_at": "2026-08-30T12:19:01.632992+00:00",
         "status": "ACTIVE",
@@ -11296,7 +11335,7 @@
         "champion_signature": "c71f6a9b1905ef0eb3e9",
         "decision_at": null,
         "horizon": "medium",
-        "latest_verdict": "LEARNING",
+        "latest_verdict": "WAITING",
         "market": "crypto",
         "registered_at": "2026-08-30T12:19:01.632992+00:00",
         "status": "ACTIVE",
@@ -11677,8 +11716,8 @@
     ],
     "recent_events": [
       {
-        "arena_id": "2d49fe0d43d18f1a1b01",
-        "created_at": "2026-08-31T19:47:45.570114+00:00",
+        "arena_id": "1d02738eed50e2036f5a",
+        "created_at": "2026-08-31T20:10:34.712554+00:00",
         "event_type": "CHALLENGE_REGISTERED",
         "horizon": "short",
         "id": 72,
@@ -11686,8 +11725,8 @@
         "symbol": "PAXGUSDT"
       },
       {
-        "arena_id": "2b861fe74917c157b98a",
-        "created_at": "2026-08-31T19:14:03.911999+00:00",
+        "arena_id": "59e0ca5b135309400883",
+        "created_at": "2026-08-31T20:10:34.712554+00:00",
         "event_type": "CHALLENGE_REGISTERED",
         "horizon": "short",
         "id": 71,
@@ -26373,7 +26412,7 @@
         "total_reduction_notional": 18655.355710467473
       }
     ],
-    "generated_at": "2026-08-31T20:09:13.625154+00:00",
+    "generated_at": "2026-08-31T20:20:19.651022+00:00",
     "scope": "PUBLIC_READ_ONLY_RISK_SIZING_AUDIT",
     "status": "AVAILABLE",
     "summary": {
@@ -26396,13 +26435,13 @@
   "schema_version": 2,
   "scope": "PUBLIC_READ_ONLY_RESEARCH_SUMMARY",
   "storage_persistence": {
-    "bootstrap_at": "2026-08-31T13:11:48.583331+00:00",
+    "bootstrap_at": "2026-08-31T20:10:30.228557+00:00",
     "bootstrap_warnings": [],
     "mode": "RESCUE_RUNTIME",
     "persistent_disk": {
-      "free": 2711072768,
+      "free": 2708398080,
       "total": 4685873152,
-      "used": 1958023168
+      "used": 1960697856
     },
     "restored": [
       {
@@ -26438,7 +26477,7 @@
     "snapshot_interval_seconds": 60,
     "snapshot_keep_archives": 0,
     "status": "AVAILABLE",
-    "updated_at": "2026-08-31T13:11:48.797778+00:00"
+    "updated_at": "2026-08-31T20:10:30.381614+00:00"
   },
   "strategy_performance": [
     {
@@ -28982,33 +29021,32 @@
       "worst_trade_return": -0.00029986839109497065
     }
   ],
-  "sync_checked_at": "2026-08-31T20:09:17.819575+00:00",
-  "sync_snapshot_age_seconds": 5.500321,
+  "sync_checked_at": "2026-08-31T20:20:23.012038+00:00",
+  "sync_snapshot_age_seconds": 51.13757,
   "trial_ledger": {
     "challenges": 57,
-    "cycles": 771,
-    "distinct_hypotheses": 65,
-    "events": 177,
-    "last_event_at": "2026-08-31T19:47:45.570114+00:00",
+    "cycles": 679,
+    "distinct_hypotheses": 62,
+    "events": 174,
+    "last_event_at": "2026-08-31T20:10:34.712554+00:00",
     "promotions": 0,
-    "research_trials": 105
+    "research_trials": 102
   },
   "worker": {
-    "assets_checked": 245,
+    "assets_checked": 0,
     "bars_processed": 0,
     "broker_order_api_calls": 0,
-    "concept_drift_pairs": 11,
-    "data_quality": "OK",
+    "concept_drift_pairs": 0,
+    "data_quality": "STARTING",
     "data_quality_critical": 0,
-    "data_quality_warnings": 39,
-    "heartbeat_at": "2026-08-31T20:09:11.168444+00:00",
-    "last_cycle_finished_at": "2026-08-31T20:00:31.248074+00:00",
-    "last_cycle_started_at": "2026-08-31T20:01:31.260093+00:00",
+    "data_quality_warnings": 0,
+    "heartbeat_at": "2026-08-31T20:19:31.707928+00:00",
+    "last_cycle_finished_at": null,
+    "last_cycle_started_at": "2026-08-31T20:10:31.670044+00:00",
     "market_data_api_calls": 0,
-    "portfolio_risk": "HIGH",
-    "realtime_watchlist_sync": "ONLINE",
-    "realtime_watchlist_total": 66,
-    "risk_layer": "ONLINE",
+    "realtime_watchlist_sync": "STARTING",
+    "realtime_watchlist_total": 0,
+    "risk_layer": "STARTING",
     "risk_sizing": "ACTIVE",
     "status": "RUNNING",
     "true_errors": 0
