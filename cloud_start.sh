@@ -34,6 +34,7 @@ echo "SQLite snapshot sidecar: best-effort only; failures never stop the dashboa
 echo "Runtime health: Railway publishes static/runtime_health.json every 5 seconds; GitHub snapshots are backup only."
 echo "Policy epoch report: static/policy_epoch_performance.json separates new-policy Shadow evidence from legacy PnL."
 echo "External intelligence: public macro/news/market context refreshes every 6 hours and can only reduce virtual risk."
+echo "Direction Shadow: LONG/SHORT/NO_TRADE research snapshot refreshes every 15 minutes; short execution remains disabled."
 
 python worker_supervisor_v8.py &
 SUPERVISOR_PID=$!
@@ -55,6 +56,8 @@ python policy_epoch_exporter.py &
 POLICY_EPOCH_PID=$!
 python external_intelligence_worker.py &
 EXTERNAL_INTELLIGENCE_PID=$!
+python direction_shadow_worker.py &
+DIRECTION_SHADOW_PID=$!
 
 cleanup() {
   kill "$SUPERVISOR_PID" 2>/dev/null || true
@@ -67,6 +70,7 @@ cleanup() {
   kill "$RUNTIME_HEALTH_PID" 2>/dev/null || true
   kill "$POLICY_EPOCH_PID" 2>/dev/null || true
   kill "$EXTERNAL_INTELLIGENCE_PID" 2>/dev/null || true
+  kill "$DIRECTION_SHADOW_PID" 2>/dev/null || true
 }
 trap cleanup EXIT INT TERM
 
