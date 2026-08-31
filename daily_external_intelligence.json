@@ -1,0 +1,105 @@
+{
+  "broker_order_api_calls": 0,
+  "can_increase_exposure": false,
+  "contains_secrets": false,
+  "generated_at": "2026-08-31T06:29:17.147355+00:00",
+  "headline_summary": {
+    "crypto": {
+      "event_risk": 1.0,
+      "headline_count": 30,
+      "sentiment": -0.7575757575757576
+    },
+    "macro": {
+      "event_risk": 1.0,
+      "headline_count": 30,
+      "sentiment": -0.9130434782608695
+    }
+  },
+  "market_data": {
+    "BTC": {
+      "change_pct": 0.002173599469277976,
+      "last": 77999.4609375,
+      "symbol": "BTC-USD"
+    },
+    "DXY": {
+      "change_pct": -0.0009729200104255931,
+      "last": 99.60299682617188,
+      "symbol": "DX-Y.NYB"
+    },
+    "SPX": {
+      "change_pct": -0.0024874522107780628,
+      "last": 7711.759765625,
+      "symbol": "^GSPC"
+    },
+    "TNX": {
+      "change_pct": 0.010273942543162828,
+      "last": 4.71999979019165,
+      "symbol": "^TNX"
+    },
+    "VIX": {
+      "change_pct": -0.005513433662586498,
+      "last": 14.430000305175781,
+      "symbol": "^VIX"
+    }
+  },
+  "markets": {
+    "crypto": {
+      "confidence": 1.0,
+      "event_risk": 1.0,
+      "market_multiplier": 0.85,
+      "market_stress": 0.0,
+      "risk_regime": "CAUTION",
+      "risk_score": 0.5123978919631094,
+      "sentiment_score": -0.8119894598155468,
+      "strategy_multipliers": {
+        "Breakout": 0.7999999999999999,
+        "Mean Reversion RSI": 0.85,
+        "Momentum": 0.85,
+        "Trend MA": 0.85
+      }
+    },
+    "stock": {
+      "confidence": 1.0,
+      "event_risk": 1.0,
+      "market_multiplier": 0.7,
+      "market_stress": 0.0,
+      "risk_regime": "RISK_OFF",
+      "risk_score": 0.5326086956521738,
+      "sentiment_score": -0.9130434782608695,
+      "strategy_multipliers": {
+        "Breakout": 0.6499999999999999,
+        "Mean Reversion RSI": 0.7999999999999999,
+        "Momentum": 0.6,
+        "Trend MA": 0.7
+      }
+    },
+    "twstock": {
+      "confidence": 1.0,
+      "event_risk": 1.0,
+      "market_multiplier": 0.7,
+      "market_stress": 0.0,
+      "risk_regime": "RISK_OFF",
+      "risk_score": 0.5326086956521738,
+      "sentiment_score": -0.9130434782608695,
+      "strategy_multipliers": {
+        "Breakout": 0.6499999999999999,
+        "Mean Reversion RSI": 0.7999999999999999,
+        "Momentum": 0.6,
+        "Trend MA": 0.7
+      }
+    }
+  },
+  "refresh_policy_hours": 6,
+  "scope": "PUBLIC_READ_ONLY_DAILY_EXTERNAL_INTELLIGENCE",
+  "shadow_only": true,
+  "sources": {
+    "crypto_news": "Google News RSS",
+    "errors": [],
+    "macro_news": "Google News RSS",
+    "market_context": "Yahoo Finance chart endpoint",
+    "source_coverage": 1.0
+  },
+  "status": "AVAILABLE",
+  "sync_checked_at": "2026-08-31T06:30:48.767665+00:00",
+  "sync_snapshot_age_seconds": 91.62031
+}
