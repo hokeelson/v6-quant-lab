@@ -132,7 +132,7 @@
   "expected_live_deviation": {
     "active_sizing": true,
     "contains_secrets": false,
-    "generated_at": "2026-08-31T06:30:17.461860+00:00",
+    "generated_at": "2026-08-31T06:41:20.147251+00:00",
     "minimum_live_trades_for_active_sizing": 5,
     "rows": [
       {
@@ -10849,7 +10849,7 @@
       }
     ]
   },
-  "generated_at": "2026-08-31T06:30:15.282288+00:00",
+  "generated_at": "2026-08-31T06:41:15.762308+00:00",
   "governance": {
     "arenas": [
       {
@@ -26066,7 +26066,7 @@
         "total_reduction_notional": 14843.79917883474
       }
     ],
-    "generated_at": "2026-08-31T06:30:47.576630+00:00",
+    "generated_at": "2026-08-31T06:42:00.266935+00:00",
     "scope": "PUBLIC_READ_ONLY_RISK_SIZING_AUDIT",
     "status": "AVAILABLE",
     "summary": {
@@ -28531,8 +28531,8 @@
       "worst_trade_return": -0.00029986839109497065
     }
   ],
-  "sync_checked_at": "2026-08-31T06:30:48.767665+00:00",
-  "sync_snapshot_age_seconds": 33.485377,
+  "sync_checked_at": "2026-08-31T06:42:01.737849+00:00",
+  "sync_snapshot_age_seconds": 45.975541,
   "trial_ledger": {
     "challenges": 53,
     "cycles": 679,
@@ -28550,9 +28550,9 @@
     "data_quality": "STARTING",
     "data_quality_critical": 0,
     "data_quality_warnings": 0,
-    "heartbeat_at": "2026-08-31T06:30:06.159647+00:00",
+    "heartbeat_at": "2026-08-31T06:41:11.000435+00:00",
     "last_cycle_finished_at": null,
-    "last_cycle_started_at": "2026-08-31T06:30:06.159637+00:00",
+    "last_cycle_started_at": "2026-08-31T06:30:55.968289+00:00",
     "market_data_api_calls": 0,
     "realtime_watchlist_sync": "STARTING",
     "realtime_watchlist_total": 0,
