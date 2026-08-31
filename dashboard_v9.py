@@ -146,7 +146,7 @@ def decision_center():
     ext_markets = external.get("markets") or {}
 
     st.title("V6 決策中心")
-    st.caption("平常只看這一頁即可；完整研究細節保留在左側研究頁面。Paper / Shadow only。")
+    st.caption("自適應證據融合：線型、成交量、外界資訊、穩定度與 Forward 表現。Paper / Shadow only。")
 
     overall = str(health.get("overall_status") or "UNKNOWN")
     broker_calls = ((health.get("safety") or {}).get("broker_order_api_calls"))
@@ -197,12 +197,34 @@ def decision_center():
             "週期": horizon_label(r.get("horizon")),
             "方向": "做多" if r.get("direction") == "LONG" else "做空",
             "信心": f"{float(r.get('direction_confidence') or 0.0) * 100:.1f}%",
-            "Long EV": f"{float(r.get('long_ev_r') or 0.0):+.2f}R",
-            "Short EV": f"{float(r.get('short_ev_r') or 0.0):+.2f}R",
+            "Long EV": f"{float(r.get('long_ev_proxy_r') or 0.0):+.2f}R",
+            "Short EV": f"{float(r.get('short_ev_proxy_r') or 0.0):+.2f}R",
             "EV差距": f"{float(r.get('ev_gap_r') or 0.0):.2f}R",
+            "穩定度": f"{float(r.get('stability_score') or 0.0) * 100:.1f}%",
+            "證據一致": f"{float(r.get('evidence_agreement') or 0.0) * 100:.1f}%",
+            "相對成交量": (f"{float((r.get('volume_evidence') or {}).get('relative_volume')):.2f}x"
+                           if (r.get('volume_evidence') or {}).get('relative_volume') is not None else "無資料"),
+            "應對方式": r.get("preferred_playbook"),
             "市場狀態": r.get("regime"),
         } for r in top])
         st.dataframe(df, width="stretch", hide_index=True)
+
+    with st.expander("為什麼選擇不進場"):
+        waiting = [r for r in rows if r.get("direction") == "NO_TRADE"]
+        if not waiting:
+            st.info("目前沒有 NO_TRADE 候選。")
+        else:
+            waiting.sort(key=lambda r: float(r.get("direction_confidence") or 0.0), reverse=True)
+            no_trade_df = pd.DataFrame([{
+                "市場": _market_name(r.get("market")),
+                "標的": r.get("symbol"),
+                "週期": horizon_label(r.get("horizon")),
+                "原因": "、".join(r.get("decision_reasons") or ["證據不足"]),
+                "穩定度": f"{float(r.get('stability_score') or 0.0) * 100:.1f}%",
+                "證據一致": f"{float(r.get('evidence_agreement') or 0.0) * 100:.1f}%",
+                "資料覆蓋": f"{float(r.get('evidence_coverage') or 0.0) * 100:.1f}%",
+            } for r in waiting[:30]])
+            st.dataframe(no_trade_df, width="stretch", hide_index=True)
 
     st.subheader("Long / Short 最近哪邊比較有效")
     stats = _direction_stats(research)

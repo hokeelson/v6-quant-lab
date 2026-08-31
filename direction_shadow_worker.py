@@ -9,6 +9,7 @@ from src.decision_engine import HORIZON_SPECS, atr
 from src.direction_engine import assess_direction
 from src.market_cache import MarketCache
 from src.simulation_db import SimulationDB
+from src.symbol_strategy_health import find_symbol_strategy_health, symbol_strategy_health_snapshot
 
 PUBLIC_PATH = Path("static") / "direction_shadow_snapshot.json"
 REFRESH_SECONDS = 900
@@ -21,6 +22,11 @@ def _now_iso():
 def build_snapshot(db: SimulationDB, cache: MarketCache) -> dict:
     rows = []
     errors = []
+    try:
+        health_snapshot = symbol_strategy_health_snapshot(db)
+    except Exception as exc:
+        health_snapshot = {"symbols": [], "shadow_only": True}
+        errors.append({"component": "symbol_strategy_health", "error": f"{type(exc).__name__}: {exc}"})
     for asset in db.assets():
         market = str(asset.get("market") or "")
         symbol = str(asset.get("symbol") or "").upper()
@@ -41,7 +47,20 @@ def build_snapshot(db: SimulationDB, cache: MarketCache) -> dict:
                 spec = HORIZON_SPECS[horizon]
                 stop = max(0.01, min(0.30, float(spec["atr_stop"]) * atr_pct))
                 target = max(0.02, min(0.80, float(spec["atr_target"]) * atr_pct))
-                result = assess_direction(df, market, str(model.get("strategy") or ""), stop, target)
+                strategy = str(model.get("strategy") or "")
+                performance_health = find_symbol_strategy_health(
+                    health_snapshot, market, symbol, horizon, strategy
+                ) or {}
+                diagnostics = model.get("diagnostics") or {}
+                performance_health = {
+                    **performance_health,
+                    "model_stability": diagnostics.get("stability", 50.0),
+                    "model_sample": diagnostics.get("sample", 0.0),
+                }
+                result = assess_direction(
+                    df, market, strategy, stop, target,
+                    performance_health=performance_health,
+                )
                 rows.append({
                     "market": market,
                     "symbol": symbol,
@@ -59,6 +78,7 @@ def build_snapshot(db: SimulationDB, cache: MarketCache) -> dict:
     return {
         "generated_at": _now_iso(),
         "scope": "PUBLIC_READ_ONLY_DIRECTION_SHADOW",
+        "decision_engine_version": "V10_ADAPTIVE_EVIDENCE_SHADOW",
         "contains_secrets": False,
         "shadow_only": True,
         "short_execution_enabled": False,
@@ -70,6 +90,8 @@ def build_snapshot(db: SimulationDB, cache: MarketCache) -> dict:
             "short": sum(1 for r in rows if r.get("direction") == "SHORT"),
             "no_trade": sum(1 for r in rows if r.get("direction") == "NO_TRADE"),
             "errors": len(errors),
+            "volume_available": sum(1 for r in rows if (r.get("volume_evidence") or {}).get("status") == "AVAILABLE"),
+            "forward_health_linked": sum(1 for r in rows if ((r.get("forward_stability") or {}).get("samples") or 0) > 0),
         },
         "errors": errors[:50],
     }

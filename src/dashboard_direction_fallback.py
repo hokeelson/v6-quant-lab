@@ -5,6 +5,7 @@ from datetime import datetime, timezone
 from .decision_engine import HORIZON_SPECS, atr
 from .direction_engine import assess_direction
 from .market_cache import TIMEFRAME_MAP
+from .symbol_strategy_health import find_symbol_strategy_health, symbol_strategy_health_snapshot
 
 
 def _now_iso() -> str:
@@ -19,6 +20,11 @@ def build_cached_direction_fallback(db, cache) -> dict:
     """
     rows: list[dict] = []
     errors: list[dict] = []
+    try:
+        health_snapshot = symbol_strategy_health_snapshot(db)
+    except Exception as exc:
+        health_snapshot = {"symbols": [], "shadow_only": True}
+        errors.append({"component": "symbol_strategy_health", "error": f"{type(exc).__name__}: {exc}"})
     for asset in db.assets():
         market = str(asset.get("market") or "")
         symbol = str(asset.get("symbol") or "").upper()
@@ -42,7 +48,20 @@ def build_cached_direction_fallback(db, cache) -> dict:
                 spec = HORIZON_SPECS[horizon]
                 stop = max(0.01, min(0.30, float(spec["atr_stop"]) * atr_pct))
                 target = max(0.02, min(0.80, float(spec["atr_target"]) * atr_pct))
-                result = assess_direction(df, market, str(model.get("strategy") or ""), stop, target)
+                strategy = str(model.get("strategy") or "")
+                performance_health = find_symbol_strategy_health(
+                    health_snapshot, market, symbol, horizon, strategy
+                ) or {}
+                diagnostics = model.get("diagnostics") or {}
+                performance_health = {
+                    **performance_health,
+                    "model_stability": diagnostics.get("stability", 50.0),
+                    "model_sample": diagnostics.get("sample", 0.0),
+                }
+                result = assess_direction(
+                    df, market, strategy, stop, target,
+                    performance_health=performance_health,
+                )
                 rows.append({
                     "market": market,
                     "symbol": symbol,
@@ -72,6 +91,7 @@ def build_cached_direction_fallback(db, cache) -> dict:
     return {
         "generated_at": _now_iso(),
         "scope": "DASHBOARD_CACHED_DIRECTION_FALLBACK",
+        "decision_engine_version": "V10_ADAPTIVE_EVIDENCE_SHADOW",
         "shadow_only": True,
         "short_execution_enabled": False,
         "broker_order_api_calls": 0,

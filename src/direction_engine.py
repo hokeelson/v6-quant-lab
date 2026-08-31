@@ -1,100 +1,372 @@
 from __future__ import annotations
 
 import math
+from typing import Any
+
 import numpy as np
 import pandas as pd
 
-from .decision_engine import atr, market_regime
+from .decision_engine import market_regime
 from .external_intelligence import external_intelligence_assessment
 
 
-def _clamp(v, lo, hi):
-    return max(lo, min(hi, float(v)))
+def _clamp(value: float, low: float, high: float) -> float:
+    return max(low, min(high, float(value)))
 
 
-def _sigmoid(x):
-    return 1.0 / (1.0 + math.exp(-max(-8.0, min(8.0, float(x)))))
+def _finite(value: Any, default: float = 0.0) -> float:
+    try:
+        out = float(value)
+        return out if math.isfinite(out) else float(default)
+    except (TypeError, ValueError):
+        return float(default)
 
 
-def _trend_edge(df: pd.DataFrame) -> float:
-    c = pd.to_numeric(df.close, errors="coerce").dropna()
-    if len(c) < 70:
+def _sigmoid(value: float) -> float:
+    value = _clamp(value, -8.0, 8.0)
+    return 1.0 / (1.0 + math.exp(-value))
+
+
+def _series(df: pd.DataFrame, name: str) -> pd.Series:
+    if name not in df:
+        return pd.Series(dtype=float)
+    return pd.to_numeric(df[name], errors="coerce")
+
+
+def _return(close: pd.Series, bars: int) -> float:
+    if len(close) <= bars or close.iloc[-bars - 1] <= 0:
         return 0.0
-    ret = c.pct_change().dropna()
-    vol = float(ret.tail(60).std() or 0.0)
-    vol = max(vol, 0.002)
-    r5 = float(c.iloc[-1] / c.iloc[-6] - 1.0) if len(c) >= 6 else 0.0
-    r20 = float(c.iloc[-1] / c.iloc[-21] - 1.0) if len(c) >= 21 else 0.0
-    r60 = float(c.iloc[-1] / c.iloc[-61] - 1.0) if len(c) >= 61 else 0.0
-    raw = 0.45 * r5 / (vol * math.sqrt(5)) + 0.35 * r20 / (vol * math.sqrt(20)) + 0.20 * r60 / (vol * math.sqrt(60))
-    return _clamp(raw / 2.5, -1.0, 1.0)
+    return _finite(close.iloc[-1] / close.iloc[-bars - 1] - 1.0)
+
+
+def _trend_evidence(df: pd.DataFrame) -> dict:
+    close = _series(df, "close").dropna()
+    if len(close) < 70:
+        return {"edge": 0.0, "quality": 0.0, "r5": 0.0, "r20": 0.0, "r60": 0.0}
+
+    returns = close.pct_change().replace([np.inf, -np.inf], np.nan).dropna()
+    volatility = max(_finite(returns.tail(60).std()), 0.002)
+    r5, r20, r60 = (_return(close, bars) for bars in (5, 20, 60))
+    normalized = (
+        0.40 * r5 / (volatility * math.sqrt(5))
+        + 0.35 * r20 / (volatility * math.sqrt(20))
+        + 0.25 * r60 / (volatility * math.sqrt(60))
+    )
+
+    ema20 = close.ewm(span=20, adjust=False).mean()
+    ema60 = close.ewm(span=60, adjust=False).mean()
+    ma_gap = _finite((ema20.iloc[-1] / ema60.iloc[-1] - 1.0) / (volatility * math.sqrt(20)))
+    edge = _clamp(0.75 * normalized / 2.5 + 0.25 * ma_gap / 2.0, -1.0, 1.0)
+    quality = _clamp(len(close) / 120.0, 0.0, 1.0)
+    return {
+        "edge": edge,
+        "quality": quality,
+        "r5": r5,
+        "r20": r20,
+        "r60": r60,
+        "volatility": volatility,
+        "ma_gap_normalized": ma_gap,
+    }
+
+
+def _volume_evidence(df: pd.DataFrame) -> dict:
+    close = _series(df, "close")
+    volume = _series(df, "volume")
+    valid = pd.DataFrame({"close": close, "volume": volume}).replace([np.inf, -np.inf], np.nan).dropna()
+    valid = valid[valid["volume"] >= 0]
+    if len(valid) < 30 or valid["volume"].tail(30).sum() <= 0:
+        return {
+            "edge": 0.0,
+            "quality": 0.0,
+            "relative_volume": None,
+            "pressure": 0.0,
+            "obv_slope": 0.0,
+            "breakout_confirmation": 0.0,
+            "status": "UNAVAILABLE",
+        }
+
+    close = valid["close"]
+    volume = valid["volume"]
+    returns = close.pct_change().fillna(0.0)
+    median_volume = _finite(volume.tail(20).median())
+    relative_volume = _finite(volume.iloc[-1] / median_volume, 1.0) if median_volume > 0 else 1.0
+
+    signed_flow = (returns * volume).tail(20)
+    pressure = _finite(signed_flow.sum() / max(_finite(signed_flow.abs().sum()), 1e-12))
+
+    obv = (np.sign(returns) * volume).cumsum()
+    denominator = max(_finite(volume.tail(20).mean()) * 10.0, 1e-12)
+    obv_slope = _clamp(_finite((obv.iloc[-1] - obv.iloc[-11]) / denominator), -1.0, 1.0)
+
+    high20 = _finite(close.shift(1).rolling(20).max().iloc[-1], close.iloc[-1])
+    low20 = _finite(close.shift(1).rolling(20).min().iloc[-1], close.iloc[-1])
+    width = max(high20 - low20, abs(_finite(close.iloc[-1])) * 1e-6)
+    location = _clamp(2.0 * (_finite(close.iloc[-1]) - low20) / width - 1.0, -1.0, 1.0)
+    volume_confirmation = _clamp(math.log(max(relative_volume, 0.25)) / math.log(4.0), -1.0, 1.0)
+    breakout_confirmation = location * max(0.0, volume_confirmation)
+
+    edge = _clamp(0.50 * pressure + 0.30 * obv_slope + 0.20 * breakout_confirmation, -1.0, 1.0)
+    nonzero_ratio = float((volume.tail(60) > 0).mean())
+    freshness = _clamp(len(valid) / 80.0, 0.0, 1.0)
+    plausibility = 1.0 if 0.05 <= relative_volume <= 20.0 else 0.5
+    quality = _clamp(0.50 * nonzero_ratio + 0.30 * freshness + 0.20 * plausibility, 0.0, 1.0)
+    return {
+        "edge": edge,
+        "quality": quality,
+        "relative_volume": relative_volume,
+        "pressure": pressure,
+        "obv_slope": obv_slope,
+        "breakout_confirmation": breakout_confirmation,
+        "status": "AVAILABLE",
+    }
 
 
 def _regime_edge(regime: str) -> float:
-    r = str(regime or "")
-    if "UP_TREND" in r:
+    name = str(regime or "")
+    if "UP_TREND" in name:
         return 0.75
-    if "DOWN_TREND" in r:
+    if "DOWN_TREND" in name:
         return -0.75
     return 0.0
 
 
-def assess_direction(df: pd.DataFrame, market: str, strategy: str, stop_distance: float, target_distance: float) -> dict:
-    """Return LONG / SHORT / NO_TRADE research direction.
+def _technical_stability(df: pd.DataFrame, trend: dict) -> dict:
+    close = _series(df, "close").dropna()
+    if len(close) < 70:
+        return {"score": 0.0, "timeframe_agreement": 0.0, "persistence": 0.0, "path_efficiency": 0.0, "volatility_quality": 0.0}
 
-    This is a bidirectional Shadow research layer. It does not submit orders. Long and
-    short EV values are directional EV proxies used for comparison until enough
-    forward short evidence exists for independent calibration.
+    directional = np.sign([trend.get("r5", 0.0), trend.get("r20", 0.0), trend.get("r60", 0.0)])
+    nonzero = directional[directional != 0]
+    timeframe_agreement = abs(float(nonzero.sum())) / len(nonzero) if len(nonzero) else 0.0
+
+    rolling5 = close.pct_change(5).tail(12).dropna()
+    direction = np.sign(_finite(trend.get("edge")))
+    persistence = float((np.sign(rolling5) == direction).mean()) if direction and len(rolling5) else 0.0
+
+    changes = close.diff().tail(20).abs()
+    path_efficiency = _clamp(abs(_return(close, 20)) * _finite(close.iloc[-21]) / max(_finite(changes.sum()), 1e-12), 0.0, 1.0)
+
+    returns = close.pct_change()
+    current_vol = _finite(returns.tail(20).std())
+    historical_vol = _finite(returns.rolling(20).std().tail(120).median())
+    if current_vol > 0 and historical_vol > 0:
+        volatility_quality = math.exp(-abs(math.log(current_vol / historical_vol)))
+    else:
+        volatility_quality = 0.5
+
+    score = _clamp(
+        0.30 * timeframe_agreement
+        + 0.25 * persistence
+        + 0.25 * path_efficiency
+        + 0.20 * volatility_quality,
+        0.0,
+        1.0,
+    )
+    return {
+        "score": score,
+        "timeframe_agreement": timeframe_agreement,
+        "persistence": persistence,
+        "path_efficiency": path_efficiency,
+        "volatility_quality": volatility_quality,
+    }
+
+
+def _forward_stability(performance_health: dict | None) -> dict:
+    health = performance_health or {}
+    available = bool(performance_health)
+    samples = max(0, int(_finite(health.get("samples"), 0.0)))
+    maturity = _clamp(samples / 20.0, 0.0, 1.0)
+    multiplier = _clamp(_finite(health.get("shadow_weight_multiplier"), 1.0), 0.0, 1.0)
+    calibration_stability = _clamp(_finite(health.get("model_stability"), 50.0) / 100.0, 0.0, 1.0)
+    calibration_sample = _clamp(_finite(health.get("model_sample"), 0.0), 0.0, 1.0)
+    prior_weight = 0.15 * calibration_sample
+    forward_weight = 0.40 * maturity
+    score = _clamp(
+        0.50
+        + prior_weight * (calibration_stability - 0.50)
+        + forward_weight * (multiplier - 0.50),
+        0.0,
+        1.0,
+    ) if available else 0.50
+    return {
+        "score": score,
+        "maturity": maturity,
+        "samples": samples,
+        "state": str(health.get("state") or "LEARNING"),
+        "forward_multiplier": multiplier,
+        "calibration_stability": calibration_stability,
+        "calibration_sample": calibration_sample,
+        "available": available,
+    }
+
+
+def _adaptive_weights(regime: str, volume_quality: float, external_confidence: float) -> tuple[dict, float]:
+    name = str(regime or "")
+    if "HIGH_VOL" in name:
+        base = {"trend": 0.28, "regime": 0.14, "volume": 0.30, "external": 0.28}
+    elif "SIDEWAYS" in name:
+        base = {"trend": 0.26, "regime": 0.12, "volume": 0.34, "external": 0.28}
+    else:
+        base = {"trend": 0.46, "regime": 0.20, "volume": 0.22, "external": 0.12}
+
+    adjusted = dict(base)
+    adjusted["volume"] *= _clamp(volume_quality, 0.0, 1.0)
+    adjusted["external"] *= _clamp(external_confidence, 0.0, 1.0)
+    if name == "UNKNOWN":
+        adjusted["regime"] *= 0.20
+    coverage = _clamp(sum(adjusted.values()) / sum(base.values()), 0.0, 1.0)
+    total = sum(adjusted.values())
+    if total <= 0:
+        return {"trend": 1.0, "regime": 0.0, "volume": 0.0, "external": 0.0}, 0.0
+    return {key: value / total for key, value in adjusted.items()}, coverage
+
+
+def _preferred_playbook(direction: str, regime: str, volume: dict, event_risk: float) -> str:
+    if direction == "NO_TRADE":
+        return "WAIT"
+    if event_risk >= 0.75:
+        return "EVENT_RISK_DEFENSIVE"
+    if "HIGH_VOL" in regime and abs(_finite(volume.get("edge"))) >= 0.20:
+        return "CONFIRMED_BREAKOUT"
+    if "SIDEWAYS" in regime:
+        return "TACTICAL_MEAN_REVERSION"
+    return "TREND_MOMENTUM"
+
+
+def assess_direction(
+    df: pd.DataFrame,
+    market: str,
+    strategy: str,
+    stop_distance: float,
+    target_distance: float,
+    performance_health: dict | None = None,
+) -> dict:
+    """Adaptive LONG/SHORT/NO_TRADE Shadow assessment using only closed bars.
+
+    Evidence weights change with regime and source availability. Forward performance
+    can veto an immature/failed symbol-strategy pair, but this layer never submits
+    an order and never enables short execution.
     """
     regime = market_regime(df)
-    trend = _trend_edge(df)
-    regime_edge = _regime_edge(regime)
-    ext = external_intelligence_assessment(market, strategy)
-    sentiment = _clamp(ext.get("external_sentiment_score", 0.0), -1.0, 1.0)
-    risk = _clamp(ext.get("external_risk_score", 0.0), 0.0, 1.0)
-    event = _clamp(ext.get("external_event_risk", 0.0), 0.0, 1.0)
-    confidence_external = _clamp(ext.get("external_confidence", 0.0), 0.0, 1.0)
+    trend = _trend_evidence(df)
+    volume = _volume_evidence(df)
+    technical_stability = _technical_stability(df, trend)
+    forward_stability = _forward_stability(performance_health)
 
-    # Risk-off is a short bias, not an automatic short signal. Trend/regime still dominate.
-    external_edge = 0.45 * sentiment - 0.35 * risk - 0.20 * event
-    edge = _clamp(0.50 * trend + 0.30 * regime_edge + 0.20 * external_edge, -1.0, 1.0)
+    external = external_intelligence_assessment(market, strategy)
+    sentiment = _clamp(_finite(external.get("external_sentiment_score")), -1.0, 1.0)
+    risk = _clamp(_finite(external.get("external_risk_score")), 0.0, 1.0)
+    event = _clamp(_finite(external.get("external_event_risk")), 0.0, 1.0)
+    external_confidence = _clamp(_finite(external.get("external_confidence")), 0.0, 1.0)
+    external_edge = _clamp(0.50 * sentiment - 0.30 * risk - 0.20 * event, -1.0, 1.0)
 
-    p_long = _clamp(_sigmoid(2.4 * edge), 0.10, 0.90)
-    p_short = 1.0 - p_long
-    stop = max(0.005, float(stop_distance or 0.03))
-    target = max(stop, float(target_distance or stop * 1.5))
-    rr = _clamp(target / stop, 0.75, 4.0)
-    long_ev_r = p_long * rr - (1.0 - p_long)
-    short_ev_r = p_short * rr - (1.0 - p_short)
-    gap = abs(long_ev_r - short_ev_r)
+    weights, evidence_coverage = _adaptive_weights(regime, volume["quality"], external_confidence)
+    evidence = {
+        "trend": _finite(trend["edge"]),
+        "regime": _regime_edge(regime),
+        "volume": _finite(volume["edge"]),
+        "external": external_edge,
+    }
+    contributions = {key: weights[key] * evidence[key] for key in weights}
+    raw_edge = _clamp(sum(contributions.values()), -1.0, 1.0)
+    gross_evidence = sum(abs(value) for value in contributions.values())
+    agreement = _clamp(abs(raw_edge) / gross_evidence, 0.0, 1.0) if gross_evidence > 1e-12 else 0.0
 
-    min_ev = 0.10
-    min_gap = 0.12
-    if long_ev_r >= min_ev and long_ev_r - short_ev_r >= min_gap:
+    forward_influence = (0.15 + 0.30 * forward_stability["maturity"]) if forward_stability["available"] else 0.0
+    stability = _clamp(
+        technical_stability["score"] * (1.0 - forward_influence)
+        + forward_stability["score"] * forward_influence,
+        0.0,
+        1.0,
+    )
+    effective_edge = _clamp(raw_edge * (0.55 + 0.45 * stability) * (0.60 + 0.40 * agreement), -1.0, 1.0)
+    structural_edge = _clamp(
+        0.55 * evidence["trend"] + 0.25 * evidence["regime"] + 0.20 * evidence["volume"],
+        -1.0,
+        1.0,
+    )
+
+    probability_long = _clamp(_sigmoid(3.0 * effective_edge), 0.08, 0.92)
+    probability_short = 1.0 - probability_long
+    stop = max(0.005, _finite(stop_distance, 0.03))
+    target = max(stop, _finite(target_distance, stop * 1.5))
+    reward_risk = _clamp(target / stop, 0.75, 4.0)
+    long_ev_r = probability_long * reward_risk - (1.0 - probability_long)
+    short_ev_r = probability_short * reward_risk - (1.0 - probability_short)
+    ev_gap = abs(long_ev_r - short_ev_r)
+
+    min_ev = 0.08 + 0.12 * (1.0 - stability) + 0.06 * (1.0 - evidence_coverage)
+    min_gap = 0.10 + 0.12 * (1.0 - agreement)
+    gates: list[str] = []
+    if trend["quality"] < 0.55:
+        gates.append("INSUFFICIENT_PRICE_HISTORY")
+    if stability < 0.42:
+        gates.append("LOW_STABILITY")
+    if agreement < 0.30:
+        gates.append("EVIDENCE_CONFLICT")
+    if abs(effective_edge) < 0.08:
+        gates.append("WEAK_EDGE")
+    if effective_edge > 0.0 and structural_edge <= 0.05:
+        gates.append("NO_BULLISH_MARKET_CONFIRMATION")
+    if effective_edge < 0.0 and structural_edge >= -0.05:
+        gates.append("NO_BEARISH_MARKET_CONFIRMATION")
+    if forward_stability["maturity"] >= 0.50 and forward_stability["forward_multiplier"] <= 0.25:
+        gates.append("FORWARD_HEALTH_PAUSED")
+
+    if not gates and long_ev_r >= min_ev and long_ev_r - short_ev_r >= min_gap:
         direction = "LONG"
-    elif short_ev_r >= min_ev and short_ev_r - long_ev_r >= min_gap:
+    elif not gates and short_ev_r >= min_ev and short_ev_r - long_ev_r >= min_gap:
         direction = "SHORT"
     else:
         direction = "NO_TRADE"
+        if not gates:
+            gates.append("EV_NOT_DECISIVE")
 
-    confidence = _clamp(0.45 + 0.35 * abs(edge) + 0.20 * confidence_external, 0.0, 1.0)
+    confidence = _clamp(
+        0.30 * abs(effective_edge)
+        + 0.25 * stability
+        + 0.20 * agreement
+        + 0.15 * evidence_coverage
+        + 0.10 * trend["quality"],
+        0.0,
+        1.0,
+    )
     return {
         "direction": direction,
         "direction_confidence": confidence,
+        "decision_reasons": gates if direction == "NO_TRADE" else ["ADAPTIVE_EVIDENCE_CONFIRMED"],
+        "preferred_playbook": _preferred_playbook(direction, regime, volume, event),
+        "long_probability_proxy": probability_long,
+        "short_probability_proxy": probability_short,
         "long_ev_proxy_r": float(long_ev_r),
         "short_ev_proxy_r": float(short_ev_r),
-        "ev_gap_r": float(gap),
-        "direction_edge": float(edge),
-        "trend_edge": float(trend),
-        "regime_edge": float(regime_edge),
-        "external_edge": float(external_edge),
+        "ev_gap_r": float(ev_gap),
+        "min_required_ev_r": float(min_ev),
+        "min_required_gap_r": float(min_gap),
+        "direction_edge": float(effective_edge),
+        "raw_direction_edge": float(raw_edge),
+        "structural_direction_edge": float(structural_edge),
+        "trend_edge": float(evidence["trend"]),
+        "regime_edge": float(evidence["regime"]),
+        "volume_edge": float(evidence["volume"]),
+        "external_edge": float(evidence["external"]),
+        "adaptive_weights": weights,
+        "evidence_contributions": contributions,
+        "evidence_agreement": float(agreement),
+        "evidence_coverage": float(evidence_coverage),
+        "stability_score": float(stability),
+        "technical_stability": technical_stability,
+        "forward_stability": forward_stability,
+        "volume_evidence": volume,
         "regime": regime,
-        "external_risk_regime": ext.get("external_risk_regime"),
+        "external_risk_regime": external.get("external_risk_regime"),
         "external_sentiment_score": sentiment,
         "external_risk_score": risk,
         "external_event_risk": event,
+        "external_confidence": external_confidence,
         "shadow_only": True,
         "broker_order_api_calls": 0,
         "short_execution_enabled": False,
-        "ev_type": "DIRECTIONAL_PROXY_UNTIL_SHORT_FORWARD_CALIBRATION",
+        "ev_type": "ADAPTIVE_DIRECTIONAL_PROXY_UNTIL_FORWARD_CALIBRATION",
+        "uses_closed_bars_only": True,
     }
