@@ -114,7 +114,7 @@
     },
     {
       "account_id": "twstock_short",
-      "as_of": "2026-08-31T03:31:10+00:00",
+      "as_of": "2026-08-31T03:39:19+00:00",
       "cash": 99104.7636956901,
       "closed_trades": 11,
       "drawdown": -0.010732336231476958,
@@ -132,7 +132,7 @@
   "expected_live_deviation": {
     "active_sizing": true,
     "contains_secrets": false,
-    "generated_at": "2026-08-31T04:36:57.222584+00:00",
+    "generated_at": "2026-08-31T04:47:59.973384+00:00",
     "minimum_live_trades_for_active_sizing": 5,
     "rows": [
       {
@@ -10849,7 +10849,7 @@
       }
     ]
   },
-  "generated_at": "2026-08-31T04:37:28.407687+00:00",
+  "generated_at": "2026-08-31T04:48:28.852608+00:00",
   "governance": {
     "arenas": [
       {
@@ -26069,7 +26069,7 @@
         "total_reduction_notional": 4978.3101744775895
       }
     ],
-    "generated_at": "2026-08-31T04:37:42.379132+00:00",
+    "generated_at": "2026-08-31T04:48:50.182836+00:00",
     "scope": "PUBLIC_READ_ONLY_RISK_SIZING_AUDIT",
     "status": "AVAILABLE",
     "summary": {
@@ -28549,11 +28549,11 @@
       "worst_trade_return": -0.00029986839109497065
     }
   ],
-  "sync_checked_at": "2026-08-31T04:37:44.491119+00:00",
-  "sync_snapshot_age_seconds": 16.083432,
+  "sync_checked_at": "2026-08-31T04:48:52.014912+00:00",
+  "sync_snapshot_age_seconds": 23.162304,
   "trial_ledger": {
     "challenges": 53,
-    "cycles": 750,
+    "cycles": 753,
     "distinct_hypotheses": 62,
     "events": 166,
     "last_event_at": "2026-08-30T18:13:55.525226+00:00",
@@ -28562,16 +28562,16 @@
   },
   "worker": {
     "assets_checked": 251,
-    "bars_processed": 5,
+    "bars_processed": 0,
     "broker_order_api_calls": 0,
     "concept_drift_pairs": 9,
     "data_quality": "OK",
     "data_quality_critical": 0,
     "data_quality_warnings": 47,
-    "heartbeat_at": "2026-08-31T04:37:17.018004+00:00",
-    "last_cycle_finished_at": "2026-08-31T04:33:54.360488+00:00",
-    "last_cycle_started_at": "2026-08-31T04:34:54.373243+00:00",
-    "market_data_api_calls": 0,
+    "heartbeat_at": "2026-08-31T04:48:17.234331+00:00",
+    "last_cycle_finished_at": "2026-08-31T04:47:08.983766+00:00",
+    "last_cycle_started_at": "2026-08-31T04:48:08.992652+00:00",
+    "market_data_api_calls": 5,
     "portfolio_risk": "HIGH",
     "realtime_watchlist_sync": "ONLINE",
     "realtime_watchlist_total": 70,
