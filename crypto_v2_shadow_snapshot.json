@@ -43,7 +43,7 @@
   "contains_secrets": false,
   "errors": [],
   "forward_only": true,
-  "generated_at": "2026-08-31T23:39:38.588293+00:00",
+  "generated_at": "2026-08-31T23:51:01.663685+00:00",
   "latest_market_regime": {
     "realized_vol": 0.01901224922061749,
     "reason": "No dominant directional regime",
@@ -12067,8 +12067,8 @@
   "shared_cache_only": true,
   "status": "ONLINE",
   "symbols": 43,
-  "sync_checked_at": "2026-08-31T23:40:00.975437+00:00",
-  "sync_snapshot_age_seconds": 22.387144,
+  "sync_checked_at": "2026-08-31T23:51:08.728013+00:00",
+  "sync_snapshot_age_seconds": 7.064328,
   "v2": {
     "accounts": [
       {
