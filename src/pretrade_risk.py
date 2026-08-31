@@ -7,6 +7,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+from .external_intelligence import external_intelligence_assessment
 from .paths import data_dir
 from .pretrade_batch_overlay import apply_pretrade_batch_overlay
 
@@ -147,6 +148,13 @@ def build_pretrade_risk_snapshot(db, cache) -> dict:
         else:
             verdict, multiplier = "ALLOW", 1.00
 
+        strategy = str(d.get("strategy") or "")
+        external = external_intelligence_assessment(market, strategy)
+        external_mult = float(external.get("external_intelligence_multiplier", 1.0) or 1.0)
+        if external_mult < 0.999999:
+            flags.append(f"外部情報風險:{external.get('external_risk_regime', 'UNKNOWN')}")
+        multiplier = min(multiplier, external_mult)
+
         rows.append({
             "market": market,
             "symbol": symbol,
@@ -167,6 +175,16 @@ def build_pretrade_risk_snapshot(db, cache) -> dict:
             "risk_score": score,
             "verdict": verdict,
             "shadow_size_multiplier": multiplier,
+            "external_intelligence_multiplier": external_mult,
+            "external_market_multiplier": external.get("external_market_multiplier"),
+            "external_strategy_multiplier": external.get("external_strategy_multiplier"),
+            "external_risk_regime": external.get("external_risk_regime"),
+            "external_risk_score": external.get("external_risk_score"),
+            "external_sentiment_score": external.get("external_sentiment_score"),
+            "external_event_risk": external.get("external_event_risk"),
+            "external_confidence": external.get("external_confidence"),
+            "external_status": external.get("external_status"),
+            "external_generated_at": external.get("external_generated_at"),
             "flags": " / ".join(flags) if flags else "無明顯組合衝突",
             "shadow_only": True,
         })
@@ -179,6 +197,7 @@ def build_pretrade_risk_snapshot(db, cache) -> dict:
         "shadow_only": True,
         "batch_portfolio_ev_active": True,
         "dynamic_regime_allocation_active": True,
+        "daily_external_intelligence_active": True,
         "broker_order_api_calls": 0,
     }
 
