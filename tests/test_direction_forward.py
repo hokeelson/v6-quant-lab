@@ -107,3 +107,34 @@ def test_summary_separates_decisions_and_preserves_safety(tmp_path):
     assert summary["decision_stats"]["LONG"]["completed"] == 1
     assert summary["shadow_only"] is True
     assert summary["broker_order_api_calls"] == 0
+    assert summary["promotion_gate"]["decision"] == "HOLD_SHADOW"
+    assert summary["promotion_gate"]["real_money_authorized"] is False
+    assert summary["evidence_maturity"]["automatic_retuning_allowed"] is False
+
+
+def test_summary_adds_benchmark_calibration_and_regime_diagnostics(tmp_path):
+    ledger = DirectionForwardLedger(tmp_path / "direction.sqlite3")
+    df = _bars()
+    prediction = _prediction(df, decision="LONG")
+    prediction["regime"] = "TREND_UP"
+    ledger.register(prediction)
+    ledger.evaluate_pair(df, "stock", "TEST", "short")
+
+    summary = ledger.summary()
+    assert summary["benchmarks"]["always_long_after_cost_avg_return_pct"] > 0
+    assert summary["confidence_calibration"]["samples"] == 1
+    assert summary["confidence_calibration"]["brier_score"] is not None
+    assert summary["slice_diagnostics"][0]["regime"] == "TREND_UP"
+    assert summary["slice_diagnostics"][0]["maturity"] == "DIAGNOSTIC"
+
+
+def test_no_trade_is_in_policy_but_excluded_from_direction_calibration(tmp_path):
+    ledger = DirectionForwardLedger(tmp_path / "direction.sqlite3")
+    df = _bars(step=0.01)
+    ledger.register(_prediction(df, decision="NO_TRADE"))
+    ledger.evaluate_pair(df, "stock", "TEST", "short")
+
+    summary = ledger.summary()
+    assert summary["policy_performance"]["samples_including_no_trade"] == 1
+    assert summary["policy_performance"]["directional_trade_samples"] == 0
+    assert summary["confidence_calibration"]["samples"] == 0

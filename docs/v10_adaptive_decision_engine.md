@@ -52,4 +52,12 @@ conservative same-bar stop/target ordering, horizon-specific holding windows, an
 
 `NO_TRADE` never receives fake trading profit. It records zero strategy return plus missed
 opportunity and a separate wait-quality hit. The Trial Ledger public snapshot exposes aggregate
-decision statistics, while the existing simulation database remains untouched.
+decision statistics while the existing simulation database remains untouched. It also publishes
+an after-cost always-LONG benchmark, confidence reliability bins,
+market/horizon/regime slices, drawdown, evidence maturity, and an extended-paper-only promotion
+gate. Forward diagnostics never auto-retune the policy: immature recent samples may identify a
+problem, but cannot make the engine chase noise or authorize real-money execution.
+
+Before scoring any direction, a local OHLCV integrity circuit breaker checks non-finite or
+non-positive prices, invalid high/low ranges, closes outside bars, duplicate timestamps, and
+negative volume. Critical input defects force `NO_TRADE` and remain visible in the decision payload.

@@ -72,6 +72,97 @@ def _json(value: dict) -> str:
     return json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":"), allow_nan=False, default=str)
 
 
+def _mean(values: list[float]) -> float:
+    return sum(values) / len(values) if values else 0.0
+
+
+def _sample_std(values: list[float]) -> float:
+    if len(values) < 2:
+        return 0.0
+    avg = _mean(values)
+    return math.sqrt(sum((value - avg) ** 2 for value in values) / (len(values) - 1))
+
+
+def _max_drawdown(returns: list[float]) -> float:
+    equity = peak = 1.0
+    worst = 0.0
+    for value in returns:
+        equity *= max(0.0, 1.0 + value)
+        peak = max(peak, equity)
+        worst = min(worst, equity / peak - 1.0)
+    return worst
+
+
+def _payload(row: dict) -> dict:
+    try:
+        value = json.loads(row.get("payload_json") or "{}")
+        return value if isinstance(value, dict) else {}
+    except (TypeError, ValueError, json.JSONDecodeError):
+        return {}
+
+
+def _clamped_confidence(value) -> float:
+    return min(1.0, max(0.0, _finite(value)))
+
+
+def _calibration(rows: list[dict]) -> dict:
+    """Reliability diagnostics; never re-tunes the Shadow policy."""
+    trades = [row for row in rows if row.get("decision") in ("LONG", "SHORT")]
+    if not trades:
+        return {"samples": 0, "brier_score": None, "mean_confidence": None, "observed_hit_rate": None, "bins": []}
+    bins: dict[str, list[dict]] = {}
+    errors = []
+    for row in trades:
+        confidence = _clamped_confidence(row.get("confidence"))
+        hit = int(row.get("hit") or 0)
+        errors.append((confidence - hit) ** 2)
+        lower = min(0.9, math.floor(confidence * 10.0) / 10.0)
+        label = f"{lower:.1f}-{lower + 0.1:.1f}"
+        bins.setdefault(label, []).append({"confidence": confidence, "hit": hit})
+    return {
+        "samples": len(trades),
+        "brier_score": _mean(errors),
+        "mean_confidence": _mean([_clamped_confidence(row.get("confidence")) for row in trades]),
+        "observed_hit_rate": _mean([float(int(row.get("hit") or 0)) for row in trades]),
+        "bins": [
+            {
+                "range": label,
+                "samples": len(group),
+                "mean_confidence": _mean([item["confidence"] for item in group]),
+                "observed_hit_rate": _mean([float(item["hit"]) for item in group]),
+            }
+            for label, group in sorted(bins.items())
+        ],
+    }
+
+
+def _slice_diagnostics(rows: list[dict]) -> list[dict]:
+    groups: dict[tuple[str, str, str, str], list[dict]] = {}
+    for row in rows:
+        payload = _payload(row)
+        key = (
+            str(row.get("market") or "UNKNOWN"),
+            str(row.get("horizon") or "UNKNOWN"),
+            str(row.get("decision") or "UNKNOWN"),
+            str(payload.get("regime") or "UNKNOWN"),
+        )
+        groups.setdefault(key, []).append(row)
+    output = []
+    for (market, horizon, decision, regime), group in groups.items():
+        returns = [_finite(row.get("directional_return_pct")) for row in group]
+        output.append({
+            "market": market,
+            "horizon": horizon,
+            "decision": decision,
+            "regime": regime,
+            "samples": len(group),
+            "avg_forward_return_pct": _mean(returns),
+            "hit_rate": _mean([float(int(row.get("hit") or 0)) for row in group]),
+            "maturity": "DIAGNOSTIC" if len(group) < 20 else "PRELIMINARY" if len(group) < 50 else "CREDIBLE",
+        })
+    return sorted(output, key=lambda item: (item["avg_forward_return_pct"], -item["samples"]))
+
+
 class DirectionForwardLedger:
     """Isolated, non-overlapping Forward ledger for direction Shadow decisions."""
 
@@ -258,6 +349,10 @@ class DirectionForwardLedger:
                           SUM(CASE WHEN status='EVALUATED' THEN 1 ELSE 0 END) AS evaluated
                    FROM direction_predictions GROUP BY engine_version ORDER BY engine_version"""
             ).fetchall()
+            evaluated_rows = [dict(row) for row in con.execute(
+                """SELECT * FROM direction_predictions
+                   WHERE status='EVALUATED' ORDER BY as_of,prediction_key"""
+            ).fetchall()]
         for row in rows:
             decision_stats[str(row["decision"])] = {
                 "evaluated": int(row["completed"] or 0),
@@ -267,12 +362,63 @@ class DirectionForwardLedger:
                 "avg_reward_r": _finite(row["avg_reward_r"]),
                 "hit_rate": _finite(row["hit_rate"]),
             }
+        trade_rows = [row for row in evaluated_rows if row.get("decision") in ("LONG", "SHORT")]
+        policy_returns = [_finite(row.get("directional_return_pct")) for row in evaluated_rows]
+        trade_returns = [_finite(row.get("directional_return_pct")) for row in trade_rows]
+        always_long = [
+            _finite(row.get("raw_return_pct")) - ROUND_TRIP_COST_BPS.get(str(row.get("market")), 20.0) / 10000.0
+            for row in evaluated_rows
+        ]
+        span_days = 0.0
+        if len(evaluated_rows) >= 2:
+            first = pd.Timestamp(evaluated_rows[0]["as_of"])
+            last = pd.Timestamp(evaluated_rows[-1]["as_of"])
+            span_days = max(0.0, (last - first).total_seconds() / 86400.0)
+        trade_std = _sample_std(trade_returns)
+        trade_sharpe = _mean(trade_returns) / trade_std if trade_std > 0 else 0.0
+        preliminary = len(trade_rows) >= 20
+        credible = len(trade_rows) >= 50 and span_days >= 60.0
+        promotion_checks = {
+            "minimum_60_forward_days": span_days >= 60.0,
+            "minimum_20_closed_trades": len(trade_rows) >= 20,
+            "positive_average_return": _mean(trade_returns) > 0.0,
+            "trade_sequence_sharpe_at_least_0_5": trade_sharpe >= 0.5,
+            "max_drawdown_no_worse_than_minus_25pct": _max_drawdown(policy_returns) >= -0.25,
+        }
+        extended_paper_candidate = all(promotion_checks.values())
         return {
             "engine_version": ENGINE_VERSION,
             "pending": pending,
             "evaluated": evaluated,
             "decision_stats": decision_stats,
             "policies": [dict(row) for row in policies],
+            "evidence_maturity": {
+                "forward_days": span_days,
+                "directional_trades": len(trade_rows),
+                "state": "CREDIBLE" if credible else "PRELIMINARY" if preliminary else "LEARNING",
+                "automatic_retuning_allowed": False,
+                "reason": "Forward evidence is diagnostic until independently reviewed; no online parameter chasing.",
+            },
+            "policy_performance": {
+                "samples_including_no_trade": len(policy_returns),
+                "directional_trade_samples": len(trade_returns),
+                "avg_policy_return_pct": _mean(policy_returns),
+                "avg_directional_trade_return_pct": _mean(trade_returns),
+                "trade_sequence_sharpe": trade_sharpe,
+                "max_drawdown_pct": _max_drawdown(policy_returns),
+            },
+            "benchmarks": {
+                "always_long_after_cost_avg_return_pct": _mean(always_long),
+                "policy_minus_always_long_avg_return_pct": _mean(policy_returns) - _mean(always_long),
+                "note": "Equal-weight prediction-window diagnostic; not a portfolio equity curve.",
+            },
+            "confidence_calibration": _calibration(evaluated_rows),
+            "slice_diagnostics": _slice_diagnostics(evaluated_rows),
+            "promotion_gate": {
+                "decision": "EXTENDED_PAPER_CANDIDATE" if extended_paper_candidate else "HOLD_SHADOW",
+                "checks": promotion_checks,
+                "real_money_authorized": False,
+            },
             "shadow_only": True,
             "broker_order_api_calls": 0,
         }

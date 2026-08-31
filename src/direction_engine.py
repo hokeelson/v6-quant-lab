@@ -39,6 +39,75 @@ def _return(close: pd.Series, bars: int) -> float:
     return _finite(close.iloc[-1] / close.iloc[-bars - 1] - 1.0)
 
 
+def _bar_quality(df: pd.DataFrame) -> dict:
+    """Local OHLCV integrity gate; upstream runtime health is checked separately."""
+    if not isinstance(df, pd.DataFrame) or df.empty:
+        return {"score": 0.0, "critical": True, "reasons": ["EMPTY_MARKET_DATA"], "rows_checked": 0}
+    recent = df.tail(120)
+    required = ("open", "high", "low", "close")
+    missing = [name for name in required if name not in recent]
+    if missing:
+        return {
+            "score": 0.0,
+            "critical": True,
+            "reasons": ["MISSING_" + "_".join(name.upper() for name in missing)],
+            "rows_checked": len(recent),
+        }
+    frame = pd.DataFrame({name: _series(recent, name) for name in required})
+    finite = frame.replace([np.inf, -np.inf], np.nan).notna().all(axis=1)
+    valid_ratio = float(finite.mean()) if len(frame) else 0.0
+    valid = frame[finite]
+    nonpositive_ratio = float((valid <= 0).any(axis=1).mean()) if len(valid) else 1.0
+    invalid_range_ratio = float((valid["high"] < valid["low"]).mean()) if len(valid) else 1.0
+    outside_ratio = float(((valid["close"] > valid["high"]) | (valid["close"] < valid["low"])).mean()) if len(valid) else 1.0
+    duplicate_ratio = float(pd.Index(recent.index).duplicated().mean()) if len(recent) else 1.0
+    negative_volume_ratio = 0.0
+    if "volume" in recent:
+        volume = _series(recent, "volume").replace([np.inf, -np.inf], np.nan)
+        negative_volume_ratio = float((volume.dropna() < 0).mean()) if volume.notna().any() else 0.0
+    reasons = []
+    if valid_ratio < 0.98:
+        reasons.append("NONFINITE_OHLC")
+    if nonpositive_ratio > 0.0:
+        reasons.append("NONPOSITIVE_OHLC")
+    if invalid_range_ratio > 0.0:
+        reasons.append("INVALID_HIGH_LOW_RANGE")
+    if outside_ratio > 0.0:
+        reasons.append("CLOSE_OUTSIDE_BAR")
+    if duplicate_ratio > 0.0:
+        reasons.append("DUPLICATE_TIMESTAMPS")
+    if negative_volume_ratio > 0.0:
+        reasons.append("NEGATIVE_VOLUME")
+    penalty = (
+        0.35 * (1.0 - valid_ratio)
+        + 0.20 * nonpositive_ratio
+        + 0.15 * invalid_range_ratio
+        + 0.15 * outside_ratio
+        + 0.10 * duplicate_ratio
+        + 0.05 * negative_volume_ratio
+    )
+    critical = (
+        valid_ratio < 0.95
+        or nonpositive_ratio > 0.0
+        or invalid_range_ratio > 0.0
+        or outside_ratio > 0.02
+        or duplicate_ratio > 0.0
+        or negative_volume_ratio > 0.0
+    )
+    return {
+        "score": _clamp(1.0 - penalty, 0.0, 1.0),
+        "critical": critical,
+        "reasons": reasons,
+        "rows_checked": len(recent),
+        "valid_ohlc_ratio": valid_ratio,
+        "nonpositive_ratio": nonpositive_ratio,
+        "invalid_range_ratio": invalid_range_ratio,
+        "close_outside_ratio": outside_ratio,
+        "duplicate_timestamp_ratio": duplicate_ratio,
+        "negative_volume_ratio": negative_volume_ratio,
+    }
+
+
 def _trend_evidence(df: pd.DataFrame) -> dict:
     close = _series(df, "close").dropna()
     if len(close) < 70:
@@ -247,7 +316,10 @@ def assess_direction(
     can veto an immature/failed symbol-strategy pair, but this layer never submits
     an order and never enables short execution.
     """
-    regime = market_regime(df)
+    if not isinstance(df, pd.DataFrame):
+        df = pd.DataFrame()
+    bar_quality = _bar_quality(df)
+    regime = market_regime(df) if not df.empty else "UNKNOWN"
     trend = _trend_evidence(df)
     volume = _volume_evidence(df)
     technical_stability = _technical_stability(df, trend)
@@ -298,6 +370,8 @@ def assess_direction(
     min_ev = 0.08 + 0.12 * (1.0 - stability) + 0.06 * (1.0 - evidence_coverage)
     min_gap = 0.10 + 0.12 * (1.0 - agreement)
     gates: list[str] = []
+    if bar_quality["critical"]:
+        gates.append("DATA_QUALITY_CRITICAL")
     if trend["quality"] < 0.55:
         gates.append("INSUFFICIENT_PRICE_HISTORY")
     if stability < 0.42:
@@ -358,6 +432,7 @@ def assess_direction(
         "technical_stability": technical_stability,
         "forward_stability": forward_stability,
         "volume_evidence": volume,
+        "bar_data_quality": bar_quality,
         "regime": regime,
         "external_risk_regime": external.get("external_risk_regime"),
         "external_sentiment_score": sentiment,
