@@ -42,3 +42,14 @@ direction entry. This prevents a few early wins or losses from causing rapid pol
 - Promotion requires a separate Forward comparison against the prior V9 policy.
 - Compare coverage, trade frequency, LONG/SHORT forward reward, NO_TRADE opportunity cost,
   drawdown, and performance by regime before any execution integration.
+
+## Isolated direction Forward ledger
+
+`direction_forward.sqlite3` records one non-overlapping pending prediction per
+market/symbol/horizon. The decision is made on closed bar `t`; evaluation enters at the next
+bar open and includes explicit round-trip cost assumptions (10 bps stock, 38 bps crypto),
+conservative same-bar stop/target ordering, horizon-specific holding windows, and time exits.
+
+`NO_TRADE` never receives fake trading profit. It records zero strategy return plus missed
+opportunity and a separate wait-quality hit. The Trial Ledger public snapshot exposes aggregate
+decision statistics, while the existing simulation database remains untouched.
