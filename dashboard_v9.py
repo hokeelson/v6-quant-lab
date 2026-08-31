@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import os
+from datetime import datetime, timezone
 from pathlib import Path
 
 import pandas as pd
@@ -10,6 +11,7 @@ import yaml
 from dotenv import load_dotenv
 
 from src.auto_orchestrator_v8 import AutoOrchestratorV8
+from src.dashboard_direction_fallback import build_cached_direction_fallback
 from src.live_analytics import account_performance, positions_table
 from src.ui_zh import account_label, horizon_label, market_label
 
@@ -93,6 +95,23 @@ def _direction_stats(research: dict) -> dict:
     return stats if isinstance(stats, dict) else {}
 
 
+def _snapshot_stale(snapshot: dict, max_age_seconds: int = 1800) -> bool:
+    if not snapshot or not snapshot.get("rows"):
+        return True
+    try:
+        dt = datetime.fromisoformat(str(snapshot.get("generated_at") or "").replace("Z", "+00:00"))
+        if dt.tzinfo is None:
+            dt = dt.replace(tzinfo=timezone.utc)
+        return (datetime.now(timezone.utc) - dt.astimezone(timezone.utc)).total_seconds() > max_age_seconds
+    except Exception:
+        return True
+
+
+@st.cache_data(ttl=300, show_spinner=False)
+def _cached_direction_fallback() -> dict:
+    return build_cached_direction_fallback(db, engine.cache)
+
+
 def _system_conclusion(direction_rows: list[dict], research: dict) -> str:
     crypto_dir, _, _, _ = _pick_market_direction(direction_rows, "crypto")
     stock_dir, _, _, _ = _pick_market_direction(direction_rows, "stock")
@@ -116,6 +135,13 @@ def decision_center():
     research = _load_json(Path("static") / "research_snapshot.json")
     health = _load_json(Path("static") / "runtime_health.json")
 
+    used_fallback = False
+    if _snapshot_stale(direction):
+        fallback = _cached_direction_fallback()
+        if fallback.get("rows"):
+            direction = fallback
+            used_fallback = True
+
     rows = direction.get("rows") or []
     ext_markets = external.get("markets") or {}
 
@@ -131,14 +157,24 @@ def decision_center():
     else:
         st.info("正在等待最新 runtime health。")
 
+    if used_fallback:
+        st.caption("方向 Shadow 快照尚未更新，因此首頁暫時使用既有行情快取即時計算；不會額外呼叫行情 API。")
+
     st.subheader("現在市場怎麼看")
     cols = st.columns(3)
     for col, market in zip(cols, ("crypto", "stock", "twstock")):
-        direction_name, long_n, short_n, no_n = _pick_market_direction(rows, market)
         ext = ext_markets.get(market) or {}
         with col:
+            if market == "twstock":
+                st.metric("台股", "方向模型尚未啟用")
+                st.caption(f"目前只顯示外部風險：{_risk_zh(ext.get('risk_regime'))}｜不是資料錯誤")
+                continue
+            direction_name, long_n, short_n, no_n = _pick_market_direction(rows, market)
             st.metric(_market_name(market), _direction_zh(direction_name))
-            st.caption(f"多 {long_n}｜空 {short_n}｜不做 {no_n}｜外部風險：{_risk_zh(ext.get('risk_regime'))}")
+            if direction_name == "NO_DATA":
+                st.caption(f"尚無可用方向資料｜外部風險：{_risk_zh(ext.get('risk_regime'))}")
+            else:
+                st.caption(f"多 {long_n}｜空 {short_n}｜不做 {no_n}｜外部風險：{_risk_zh(ext.get('risk_regime'))}")
 
     st.subheader("系統現在的中文結論")
     st.info(_system_conclusion(rows, research))
