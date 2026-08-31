@@ -8,6 +8,7 @@ import urllib.parse
 import urllib.request
 import xml.etree.ElementTree as ET
 from datetime import datetime, timezone
+from email.utils import parsedate_to_datetime
 from pathlib import Path
 
 from .paths import data_dir
@@ -51,15 +52,22 @@ def _fetch(url: str, timeout: int = 12) -> bytes:
         return r.read()
 
 
-def _google_news(query: str, limit: int = 30) -> list[str]:
-    q = urllib.parse.quote_plus(query)
+def _google_news(query: str, limit: int = 30) -> list[dict]:
+    # Limit the evidence window. Old headlines can still be repeated by an RSS
+    # provider, so _headline_metrics applies a second timestamp decay below.
+    q = urllib.parse.quote_plus(f"({query}) when:2d")
     url = f"https://news.google.com/rss/search?q={q}&hl=en-US&gl=US&ceid=US:en"
     root = ET.fromstring(_fetch(url))
     out = []
     for item in root.findall(".//item")[:limit]:
         title = (item.findtext("title") or "").strip()
         if title:
-            out.append(title)
+            source_node = item.find("source")
+            out.append({
+                "title": title,
+                "source": ((source_node.text if source_node is not None else "") or "").strip(),
+                "published_at": (item.findtext("pubDate") or "").strip(),
+            })
     return out
 
 
@@ -78,19 +86,99 @@ def _yahoo_chart(symbol: str) -> dict:
     return {"symbol": symbol, "last": last, "change_pct": change}
 
 
-def _headline_metrics(headlines: list[str]) -> dict:
+def _headline_record(value) -> dict:
+    if isinstance(value, dict):
+        return {
+            "title": str(value.get("title") or "").strip(),
+            "source": str(value.get("source") or "").strip(),
+            "published_at": str(value.get("published_at") or "").strip(),
+        }
+    return {"title": str(value or "").strip(), "source": "", "published_at": ""}
+
+
+def _normalized_headline(title: str) -> str:
+    text = re.sub(r"\s+-\s+[^-]{2,80}$", "", str(title or "").lower())
+    return re.sub(r"[^a-z0-9]+", " ", text).strip()
+
+
+def _headline_age_hours(raw: str) -> float | None:
+    if not raw:
+        return None
+    try:
+        dt = parsedate_to_datetime(raw)
+        if dt.tzinfo is None:
+            dt = dt.replace(tzinfo=timezone.utc)
+        return max(0.0, (_now() - dt.astimezone(timezone.utc)).total_seconds() / 3600.0)
+    except Exception:
+        try:
+            dt = datetime.fromisoformat(raw.replace("Z", "+00:00"))
+            if dt.tzinfo is None:
+                dt = dt.replace(tzinfo=timezone.utc)
+            return max(0.0, (_now() - dt.astimezone(timezone.utc)).total_seconds() / 3600.0)
+        except Exception:
+            return None
+
+
+def _headline_metrics(headlines: list) -> dict:
     if not headlines:
-        return {"sentiment": 0.0, "event_risk": 0.0, "headline_count": 0}
-    pos = neg = events = 0
-    for title in headlines:
-        text = re.sub(r"\s+", " ", title.lower())
-        pos += sum(1 for token in POSITIVE if token in text)
-        neg += sum(1 for token in NEGATIVE if token in text)
-        events += sum(1 for token in EVENT if token in text)
-    total_hits = max(1, pos + neg)
-    sentiment = _clamp((pos - neg) / total_hits, -1.0, 1.0)
-    event_risk = _clamp(events / max(6.0, len(headlines) * 0.35), 0.0, 1.0)
-    return {"sentiment": sentiment, "event_risk": event_risk, "headline_count": len(headlines)}
+        return {
+            "sentiment": 0.0, "event_risk": 0.0, "headline_count": 0,
+            "raw_headline_count": 0, "duplicate_count": 0, "effective_headline_count": 0.0,
+            "source_count": 0, "source_diversity": 0.0, "recency_coverage": 0.0,
+            "evidence_quality": 0.0,
+        }
+
+    records = [_headline_record(value) for value in headlines]
+    unique = []
+    seen = set()
+    for record in records:
+        key = _normalized_headline(record["title"])
+        if not key or key in seen:
+            continue
+        seen.add(key)
+        unique.append(record)
+
+    positive = negative = events = total_weight = timestamped_weight = 0.0
+    sources = set()
+    for record in unique:
+        text = re.sub(r"\s+", " ", record["title"].lower())
+        age_hours = _headline_age_hours(record["published_at"])
+        # Unknown timestamps remain usable but never receive full confidence.
+        weight = 0.50 if age_hours is None else math.exp(-math.log(2.0) * age_hours / 18.0)
+        weight = _clamp(weight, 0.05, 1.0)
+        total_weight += weight
+        if age_hours is not None:
+            timestamped_weight += weight
+        positive += min(2, sum(1 for token in POSITIVE if token in text)) * weight
+        negative += min(2, sum(1 for token in NEGATIVE if token in text)) * weight
+        events += min(3, sum(1 for token in EVENT if token in text)) * weight
+        if record["source"]:
+            sources.add(record["source"].lower())
+
+    total_hits = max(1.0, positive + negative)
+    sentiment = _clamp((positive - negative) / total_hits, -1.0, 1.0)
+    event_risk = _clamp(events / max(4.0, total_weight * 0.40), 0.0, 1.0)
+    source_diversity = _clamp(len(sources) / max(3.0, math.sqrt(max(1, len(unique)))), 0.0, 1.0)
+    recency_coverage = _clamp(timestamped_weight / max(total_weight, 1e-12), 0.0, 1.0)
+    dedupe_quality = _clamp(len(unique) / max(1, len(records)), 0.0, 1.0)
+    sample_quality = _clamp(total_weight / 8.0, 0.0, 1.0)
+    evidence_quality = _clamp(
+        0.30 * source_diversity + 0.25 * recency_coverage + 0.20 * dedupe_quality + 0.25 * sample_quality,
+        0.0,
+        1.0,
+    )
+    return {
+        "sentiment": sentiment,
+        "event_risk": event_risk,
+        "headline_count": len(unique),
+        "raw_headline_count": len(records),
+        "duplicate_count": max(0, len(records) - len(unique)),
+        "effective_headline_count": total_weight,
+        "source_count": len(sources),
+        "source_diversity": source_diversity,
+        "recency_coverage": recency_coverage,
+        "evidence_quality": evidence_quality,
+    }
 
 
 def _market_stress(market_data: dict) -> float:
@@ -149,8 +237,8 @@ def _context(sentiment: float, event_risk: float, stress: float, confidence: flo
 
 def build_daily_external_intelligence() -> dict:
     errors: list[str] = []
-    macro_headlines: list[str] = []
-    crypto_headlines: list[str] = []
+    macro_headlines: list[dict] = []
+    crypto_headlines: list[dict] = []
     try:
         macro_headlines = _google_news("Federal Reserve OR CPI OR inflation OR jobs OR Treasury OR stock market")
     except Exception as exc:
@@ -171,8 +259,10 @@ def build_daily_external_intelligence() -> dict:
     macro = _headline_metrics(macro_headlines)
     crypto = _headline_metrics(crypto_headlines)
     stress = _market_stress(md)
-    source_ok = (1 if macro_headlines else 0) + (1 if crypto_headlines else 0) + sum(1 for x in md.values() if x.get("last") is not None)
-    confidence = _clamp(source_ok / 7.0, 0.0, 1.0)
+    market_coverage = _clamp(sum(1 for x in md.values() if x.get("last") is not None) / 5.0, 0.0, 1.0)
+    headline_coverage = 0.50 * _clamp(macro["headline_count"] / 10.0, 0.0, 1.0) + 0.50 * _clamp(crypto["headline_count"] / 10.0, 0.0, 1.0)
+    headline_quality = 0.50 * macro["evidence_quality"] + 0.50 * crypto["evidence_quality"]
+    confidence = _clamp(0.55 * market_coverage + 0.20 * headline_coverage + 0.25 * headline_quality, 0.0, 1.0)
 
     stock_ctx = _context(macro["sentiment"], macro["event_risk"], stress, confidence)
     btc_chg = float((md.get("BTC") or {}).get("change_pct") or 0.0)
@@ -202,6 +292,10 @@ def build_daily_external_intelligence() -> dict:
             "crypto_news": "Google News RSS",
             "market_context": "Yahoo Finance chart endpoint",
             "source_coverage": confidence,
+            "market_data_coverage": market_coverage,
+            "headline_coverage": headline_coverage,
+            "headline_quality": headline_quality,
+            "headline_window_hours": 48,
             "errors": errors[:20],
         },
         "market_data": md,
