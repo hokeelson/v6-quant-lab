@@ -141,7 +141,7 @@
   "expected_live_deviation": {
     "active_sizing": true,
     "contains_secrets": false,
-    "generated_at": "2026-08-31T14:11:05.296141+00:00",
+    "generated_at": "2026-08-31T14:22:07.908318+00:00",
     "minimum_live_trades_for_active_sizing": 5,
     "rows": [
       {
@@ -10876,7 +10876,7 @@
       }
     ]
   },
-  "generated_at": "2026-08-31T14:10:53.413413+00:00",
+  "generated_at": "2026-08-31T14:21:53.947711+00:00",
   "governance": {
     "arenas": [
       {
@@ -26147,7 +26147,7 @@
         "total_reduction_notional": 15080.270658983283
       }
     ],
-    "generated_at": "2026-08-31T14:11:30.375596+00:00",
+    "generated_at": "2026-08-31T14:22:38.017087+00:00",
     "scope": "PUBLIC_READ_ONLY_RISK_SIZING_AUDIT",
     "status": "AVAILABLE",
     "summary": {
@@ -28648,11 +28648,11 @@
       "worst_trade_return": -0.00029986839109497065
     }
   ],
-  "sync_checked_at": "2026-08-31T14:11:34.305578+00:00",
-  "sync_snapshot_age_seconds": 40.892165,
+  "sync_checked_at": "2026-08-31T14:22:43.532196+00:00",
+  "sync_snapshot_age_seconds": 49.584485,
   "trial_ledger": {
     "challenges": 55,
-    "cycles": 690,
+    "cycles": 693,
     "distinct_hypotheses": 62,
     "events": 170,
     "last_event_at": "2026-08-31T11:25:59.611206+00:00",
@@ -28661,22 +28661,22 @@
   },
   "worker": {
     "assets_checked": 251,
-    "bars_processed": 81,
+    "bars_processed": 0,
     "broker_order_api_calls": 0,
     "concept_drift_pairs": 12,
     "data_quality": "OK",
     "data_quality_critical": 0,
     "data_quality_warnings": 39,
-    "heartbeat_at": "2026-08-31T14:10:51.668594+00:00",
-    "last_cycle_finished_at": "2026-08-31T14:08:19.707909+00:00",
-    "last_cycle_started_at": "2026-08-31T14:09:19.717370+00:00",
-    "market_data_api_calls": 5,
+    "heartbeat_at": "2026-08-31T14:21:51.874929+00:00",
+    "last_cycle_finished_at": "2026-08-31T14:21:32.145643+00:00",
+    "last_cycle_started_at": "2026-08-31T14:17:50.558956+00:00",
+    "market_data_api_calls": 0,
     "portfolio_risk": "HIGH",
     "realtime_watchlist_sync": "ONLINE",
     "realtime_watchlist_total": 69,
     "risk_layer": "ONLINE",
     "risk_sizing": "ACTIVE",
-    "status": "RUNNING",
+    "status": "ONLINE",
     "true_errors": 0
   }
 }
