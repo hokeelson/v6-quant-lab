@@ -141,7 +141,7 @@
   "expected_live_deviation": {
     "active_sizing": true,
     "contains_secrets": false,
-    "generated_at": "2026-08-31T19:46:32.597718+00:00",
+    "generated_at": "2026-08-31T19:57:35.444926+00:00",
     "minimum_live_trades_for_active_sizing": 5,
     "rows": [
       {
@@ -10992,9 +10992,21 @@
       }
     ]
   },
-  "generated_at": "2026-08-31T19:46:10.956982+00:00",
+  "generated_at": "2026-08-31T19:57:11.686100+00:00",
   "governance": {
     "arenas": [
+      {
+        "arena_id": "2d49fe0d43d18f1a1b01",
+        "challenger_signature": "c1c13c8d9abaee0fd633",
+        "champion_signature": "d534a3917e1025ff1129",
+        "decision_at": null,
+        "horizon": "short",
+        "latest_verdict": "WAITING",
+        "market": "crypto",
+        "registered_at": "2026-08-31T19:47:45.570114+00:00",
+        "status": "ACTIVE",
+        "symbol": "PAXGUSDT"
+      },
       {
         "arena_id": "2b861fe74917c157b98a",
         "challenger_signature": "af7d460e6330df43befc",
@@ -11669,6 +11681,15 @@
       }
     ],
     "recent_events": [
+      {
+        "arena_id": "2d49fe0d43d18f1a1b01",
+        "created_at": "2026-08-31T19:47:45.570114+00:00",
+        "event_type": "CHALLENGE_REGISTERED",
+        "horizon": "short",
+        "id": 72,
+        "market": "crypto",
+        "symbol": "PAXGUSDT"
+      },
       {
         "arena_id": "2b861fe74917c157b98a",
         "created_at": "2026-08-31T19:14:03.911999+00:00",
@@ -26370,7 +26391,7 @@
         "total_reduction_notional": 9664.760425323193
       }
     ],
-    "generated_at": "2026-08-31T19:47:02.702950+00:00",
+    "generated_at": "2026-08-31T19:58:00.531215+00:00",
     "scope": "PUBLIC_READ_ONLY_RISK_SIZING_AUDIT",
     "status": "AVAILABLE",
     "summary": {
@@ -28979,16 +29000,16 @@
       "worst_trade_return": -0.00029986839109497065
     }
   ],
-  "sync_checked_at": "2026-08-31T19:47:06.148450+00:00",
-  "sync_snapshot_age_seconds": 55.191468,
+  "sync_checked_at": "2026-08-31T19:58:04.085252+00:00",
+  "sync_snapshot_age_seconds": 52.399152,
   "trial_ledger": {
-    "challenges": 56,
-    "cycles": 766,
-    "distinct_hypotheses": 64,
-    "events": 175,
-    "last_event_at": "2026-08-31T19:14:03.911999+00:00",
+    "challenges": 57,
+    "cycles": 769,
+    "distinct_hypotheses": 65,
+    "events": 177,
+    "last_event_at": "2026-08-31T19:47:45.570114+00:00",
     "promotions": 0,
-    "research_trials": 104
+    "research_trials": 105
   },
   "worker": {
     "assets_checked": 245,
@@ -28998,10 +29019,10 @@
     "data_quality": "OK",
     "data_quality_critical": 0,
     "data_quality_warnings": 38,
-    "heartbeat_at": "2026-08-31T19:46:10.616541+00:00",
-    "last_cycle_finished_at": "2026-08-31T19:43:25.931913+00:00",
-    "last_cycle_started_at": "2026-08-31T19:44:25.945336+00:00",
-    "market_data_api_calls": 5,
+    "heartbeat_at": "2026-08-31T19:57:10.930324+00:00",
+    "last_cycle_finished_at": "2026-08-31T19:53:41.213950+00:00",
+    "last_cycle_started_at": "2026-08-31T19:54:41.226305+00:00",
+    "market_data_api_calls": 0,
     "portfolio_risk": "HIGH",
     "realtime_watchlist_sync": "ONLINE",
     "realtime_watchlist_total": 66,
