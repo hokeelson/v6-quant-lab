@@ -6,8 +6,10 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from src.decision_engine import HORIZON_SPECS, atr
+from src.direction_forward import DirectionForwardLedger, ENGINE_VERSION
 from src.direction_engine import assess_direction
 from src.market_cache import MarketCache
+from src.paths import db_path
 from src.simulation_db import SimulationDB
 from src.symbol_strategy_health import find_symbol_strategy_health, symbol_strategy_health_snapshot
 
@@ -19,7 +21,8 @@ def _now_iso():
     return datetime.now(timezone.utc).isoformat()
 
 
-def build_snapshot(db: SimulationDB, cache: MarketCache) -> dict:
+def build_snapshot(db: SimulationDB, cache: MarketCache, forward: DirectionForwardLedger | None = None) -> dict:
+    forward = forward or DirectionForwardLedger(db_path("direction_forward.sqlite3"))
     rows = []
     errors = []
     try:
@@ -41,6 +44,7 @@ def build_snapshot(db: SimulationDB, cache: MarketCache) -> dict:
                 df = cache.closed_only(pack["data"], market, horizon)
                 if len(df) < 80:
                     continue
+                evaluation = forward.evaluate_pair(df, market, symbol, horizon)
                 a = atr(df, 14)
                 px = float(df.close.iloc[-1])
                 atr_pct = float(a.iloc[-1] / px) if px > 0 and a.iloc[-1] == a.iloc[-1] else 0.03
@@ -61,7 +65,7 @@ def build_snapshot(db: SimulationDB, cache: MarketCache) -> dict:
                     df, market, strategy, stop, target,
                     performance_health=performance_health,
                 )
-                rows.append({
+                row = {
                     "market": market,
                     "symbol": symbol,
                     "horizon": horizon,
@@ -70,8 +74,13 @@ def build_snapshot(db: SimulationDB, cache: MarketCache) -> dict:
                     "close": px,
                     "stop_distance": stop,
                     "target_distance": target,
+                    "engine_version": ENGINE_VERSION,
+                    "forward_evaluation": evaluation,
                     **result,
-                })
+                }
+                registration = forward.register(row)
+                row["forward_registration"] = registration
+                rows.append(row)
             except Exception as exc:
                 errors.append({"market": market, "symbol": symbol, "horizon": horizon, "error": f"{type(exc).__name__}: {exc}"})
     rows.sort(key=lambda r: (float(r.get("direction_confidence") or 0.0), float(r.get("ev_gap_r") or 0.0)), reverse=True)
@@ -84,6 +93,7 @@ def build_snapshot(db: SimulationDB, cache: MarketCache) -> dict:
         "short_execution_enabled": False,
         "broker_order_api_calls": 0,
         "rows": rows,
+        "forward": forward.summary(),
         "summary": {
             "candidates": len(rows),
             "long": sum(1 for r in rows if r.get("direction") == "LONG"),
@@ -97,8 +107,8 @@ def build_snapshot(db: SimulationDB, cache: MarketCache) -> dict:
     }
 
 
-def write_snapshot(db, cache):
-    payload = build_snapshot(db, cache)
+def write_snapshot(db, cache, forward=None):
+    payload = build_snapshot(db, cache, forward)
     PUBLIC_PATH.parent.mkdir(parents=True, exist_ok=True)
     tmp = PUBLIC_PATH.with_suffix(".json.tmp")
     tmp.write_text(json.dumps(payload, ensure_ascii=False, indent=2, allow_nan=False), encoding="utf-8")
@@ -109,9 +119,10 @@ def write_snapshot(db, cache):
 def main():
     db = SimulationDB("simulation_lab.sqlite3")
     cache = MarketCache("market_cache.sqlite3")
+    forward = DirectionForwardLedger(db_path("direction_forward.sqlite3"))
     while True:
         try:
-            write_snapshot(db, cache)
+            write_snapshot(db, cache, forward)
         except Exception:
             pass
         time.sleep(REFRESH_SECONDS)
