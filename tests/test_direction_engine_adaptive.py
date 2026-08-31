@@ -130,3 +130,20 @@ def test_assessment_does_not_mutate_market_data(monkeypatch):
     before = frame.copy(deep=True)
     engine.assess_direction(frame, "stock", "Trend MA", 0.04, 0.08)
     pd.testing.assert_frame_equal(frame, before)
+
+
+def test_invalid_ohlc_triggers_data_quality_circuit_breaker(monkeypatch):
+    monkeypatch.setattr(engine, "external_intelligence_assessment", lambda *a, **k: _external())
+    frame = _frame(1)
+    frame.loc[frame.index[-1], "high"] = frame.loc[frame.index[-1], "low"] * 0.5
+    out = engine.assess_direction(frame, "stock", "Trend MA", 0.04, 0.08)
+    assert out["direction"] == "NO_TRADE"
+    assert "DATA_QUALITY_CRITICAL" in out["decision_reasons"]
+    assert out["bar_data_quality"]["critical"] is True
+
+
+def test_clean_ohlcv_passes_local_quality_gate(monkeypatch):
+    monkeypatch.setattr(engine, "external_intelligence_assessment", lambda *a, **k: _external())
+    out = engine.assess_direction(_frame(1), "stock", "Trend MA", 0.04, 0.08)
+    assert out["bar_data_quality"]["critical"] is False
+    assert out["bar_data_quality"]["score"] > 0.99
