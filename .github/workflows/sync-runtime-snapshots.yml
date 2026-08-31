@@ -36,6 +36,7 @@ jobs:
           sizing_tmp="$(mktemp)"
           expected_tmp="$(mktemp)"
           health_tmp="$(mktemp)"
+          external_tmp="$(mktemp)"
 
           curl --fail --silent --show-error --location --retry 3 --retry-delay 3 --max-time 30 \
             "$base/research_snapshot.json" -o "$research_tmp"
@@ -50,8 +51,10 @@ jobs:
             "$base/risk_sizing_audit.json" -o "$sizing_tmp" || printf '%s\n' '{}' > "$sizing_tmp"
           curl --fail --silent --show-error --location --retry 2 --retry-delay 2 --max-time 15 \
             "$base/expected_live_deviation.json" -o "$expected_tmp" || printf '%s\n' '{}' > "$expected_tmp"
+          curl --fail --silent --show-error --location --retry 2 --retry-delay 2 --max-time 15 \
+            "$base/daily_external_intelligence.json" -o "$external_tmp" || printf '%s\n' '{}' > "$external_tmp"
 
-          python - "$research_tmp" "$v2_tmp" "$storage_tmp" "$sizing_tmp" "$expected_tmp" "$health_tmp" <<'PY'
+          python - "$research_tmp" "$v2_tmp" "$storage_tmp" "$sizing_tmp" "$expected_tmp" "$health_tmp" "$external_tmp" <<'PY'
           import json, pathlib, sys
           from datetime import datetime, timezone
 
@@ -73,12 +76,14 @@ jobs:
               return dt.astimezone(timezone.utc)
 
           old_research = load('research_snapshot.json') if pathlib.Path('research_snapshot.json').exists() else {}
+          old_external = load('daily_external_intelligence.json') if pathlib.Path('daily_external_intelligence.json').exists() else {}
           research = load(sys.argv[1])
           v2 = load(sys.argv[2])
           storage = load(sys.argv[3])
           sizing = load(sys.argv[4])
           expected = load(sys.argv[5])
           health = load(sys.argv[6])
+          external = load(sys.argv[7])
 
           if research.get('contains_secrets') is not False:
               raise SystemExit('Research snapshot secret-safety flag missing or unsafe')
@@ -144,6 +149,26 @@ jobs:
           elif old_research.get('expected_live_deviation'):
               research['expected_live_deviation'] = old_research['expected_live_deviation']
 
+          external_ok = (
+              external.get('contains_secrets') is False
+              and str(external.get('scope') or '') == 'PUBLIC_READ_ONLY_DAILY_EXTERNAL_INTELLIGENCE'
+              and int(external.get('broker_order_api_calls', -1)) == 0
+          )
+          external_generated = utc_dt(external.get('generated_at')) if external_ok else None
+          external_age = max(0.0, (now - external_generated).total_seconds()) if external_generated else None
+          if external_ok and external_age is not None and external_age <= 43200:
+              external['sync_checked_at'] = now.isoformat()
+              external['sync_snapshot_age_seconds'] = external_age
+              pathlib.Path('daily_external_intelligence.json').write_text(
+                  json.dumps(external, ensure_ascii=False, indent=2, sort_keys=True, allow_nan=False) + '\n',
+                  encoding='utf-8'
+              )
+          elif old_external:
+              pathlib.Path('daily_external_intelligence.json').write_text(
+                  json.dumps(old_external, ensure_ascii=False, indent=2, sort_keys=True, allow_nan=False) + '\n',
+                  encoding='utf-8'
+              )
+
           checked = now.isoformat()
           research['sync_checked_at'] = checked
           research['sync_snapshot_age_seconds'] = research_age
@@ -161,13 +186,13 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          if [ -z "$(git status --porcelain -- research_snapshot.json crypto_v2_shadow_snapshot.json runtime_health.json)" ]; then
+          if [ -z "$(git status --porcelain -- research_snapshot.json crypto_v2_shadow_snapshot.json runtime_health.json daily_external_intelligence.json)" ]; then
             echo 'No runtime snapshot changes.'
             exit 0
           fi
           git config user.name 'v6-snapshot-bot'
           git config user.email 'v6-snapshot-bot@users.noreply.github.com'
-          git add research_snapshot.json crypto_v2_shadow_snapshot.json runtime_health.json
+          git add research_snapshot.json crypto_v2_shadow_snapshot.json runtime_health.json daily_external_intelligence.json
           git commit -m 'Update runtime snapshots'
 
           for attempt in 1 2 3; do

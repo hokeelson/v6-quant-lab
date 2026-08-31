@@ -33,6 +33,7 @@ echo "SQLite rescue mode: persistent state=${PERSIST_DIR}; runtime DBs=${RUNTIME
 echo "SQLite snapshot sidecar: best-effort only; failures never stop the dashboard."
 echo "Runtime health: Railway publishes static/runtime_health.json every 5 seconds; GitHub snapshots are backup only."
 echo "Policy epoch report: static/policy_epoch_performance.json separates new-policy Shadow evidence from legacy PnL."
+echo "External intelligence: public macro/news/market context refreshes every 6 hours and can only reduce virtual risk."
 
 python worker_supervisor_v8.py &
 SUPERVISOR_PID=$!
@@ -52,6 +53,8 @@ python runtime_health_exporter.py &
 RUNTIME_HEALTH_PID=$!
 python policy_epoch_exporter.py &
 POLICY_EPOCH_PID=$!
+python external_intelligence_worker.py &
+EXTERNAL_INTELLIGENCE_PID=$!
 
 cleanup() {
   kill "$SUPERVISOR_PID" 2>/dev/null || true
@@ -63,6 +66,7 @@ cleanup() {
   kill "$STORAGE_STATUS_PID" 2>/dev/null || true
   kill "$RUNTIME_HEALTH_PID" 2>/dev/null || true
   kill "$POLICY_EPOCH_PID" 2>/dev/null || true
+  kill "$EXTERNAL_INTELLIGENCE_PID" 2>/dev/null || true
 }
 trap cleanup EXIT INT TERM
 
