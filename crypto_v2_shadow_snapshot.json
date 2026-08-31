@@ -3,18 +3,18 @@
   "baseline": {
     "accounts": [
       {
-        "closed_trades": 275,
-        "equity": 93189.00220943941,
+        "closed_trades": 276,
+        "equity": 93212.37806282143,
         "horizon": "short",
         "initial_equity": 100000.0,
-        "return_pct": -0.06810997790560591
+        "return_pct": -0.06787621937178567
       },
       {
-        "closed_trades": 54,
-        "equity": 95578.06443682864,
+        "closed_trades": 55,
+        "equity": 96285.7601842253,
         "horizon": "medium",
         "initial_equity": 100000.0,
-        "return_pct": -0.04421935563171353
+        "return_pct": -0.03714239815774689
       },
       {
         "closed_trades": 1,
@@ -24,10 +24,10 @@
         "return_pct": -0.03010655263733819
       }
     ],
-    "closed_trades": 330,
-    "equity": 285756.41138253425,
+    "closed_trades": 332,
+    "equity": 286487.4829833129,
     "initial_equity": 300000.0,
-    "return_pct": -0.04747862872488584
+    "return_pct": -0.045041723388956956
   },
   "broker_order_api_calls": 0,
   "catchup": {
@@ -43,7 +43,7 @@
   "contains_secrets": false,
   "errors": [],
   "forward_only": true,
-  "generated_at": "2026-08-31T19:23:54.804980+00:00",
+  "generated_at": "2026-08-31T19:35:24.866302+00:00",
   "latest_market_regime": {
     "realized_vol": 0.018992758022879322,
     "reason": "No dominant directional regime",
@@ -4169,6 +4169,34 @@
   ],
   "recent_blocked_candidates": [
     {
+      "bars_held": 8,
+      "candidate_id": "a57c7b28c4704af6b1982acf2a3918de",
+      "context_json": "{\"avg_pairwise_correlation\": 0.2863714327974863, \"breadth_above_ema20\": 0.3488372093023256, \"btc_return_24h\": -0.03216886057680335, \"external_derivatives_data\": \"NOT_CONNECTED\", \"funding_rate\": null, \"horizon\": \"medium\", \"liquidation_shock_score\": null, \"median_one_bar_return\": -0.0130292005553575, \"open_interest_change\": null, \"session\": \"EU_US_OVERLAP\", \"symbols_observed\": 43, \"version\": 1}",
+      "created_at": "2026-08-31T19:26:00.584090+00:00",
+      "decision_bar": "2026-08-28T16:00:00+00:00",
+      "entry_bar": "2026-08-28T20:00:00+00:00",
+      "entry_price": 87.15,
+      "entry_session": "EU_US_OVERLAP",
+      "exit_bar": "2026-08-30T00:00:00+00:00",
+      "exit_price": 88.24,
+      "exit_reason": "TIME",
+      "horizon": "medium",
+      "mae_pct": -0.013080895008605875,
+      "max_holding_bars": 8,
+      "mfe_pct": 0.014687320711417096,
+      "regime_entry": "SIDEWAYS",
+      "requested_notional": 5987.072317323506,
+      "return_pct": 0.009070489519509077,
+      "simulated_pnl": 54.397996357227385,
+      "status": "CLOSED",
+      "stop_distance": 0.04836324891402345,
+      "stop_price": 82.93514285714286,
+      "strategy": "V2_MEAN_REVERSION",
+      "symbol": "CRCLBUSDT",
+      "target_distance": 0.08463568559954103,
+      "target_price": 94.526
+    },
+    {
       "bars_held": 6,
       "candidate_id": "19123f9d220c4628b272ec9714b3d05f",
       "context_json": "{\"avg_pairwise_correlation\": 0.46026225374071933, \"breadth_above_ema20\": 0.09302325581395349, \"btc_return_24h\": -0.003105915001638593, \"external_derivatives_data\": \"NOT_CONNECTED\", \"funding_rate\": null, \"horizon\": \"short\", \"liquidation_shock_score\": null, \"median_one_bar_return\": 0.004704412300155614, \"open_interest_change\": null, \"session\": \"ASIA\", \"symbols_observed\": 43, \"version\": 1}",
@@ -6939,34 +6967,6 @@
       "symbol": "RLUSDUSDT",
       "target_distance": 0.025,
       "target_price": 1.0253074999999998
-    },
-    {
-      "bars_held": 3,
-      "candidate_id": "7d909f878edd46aeab4c8496afe9d61c",
-      "context_json": "{\"avg_pairwise_correlation\": 0.169544984719243, \"breadth_above_ema20\": 0.7380952380952381, \"btc_return_24h\": 0.009861388357042422, \"external_derivatives_data\": \"NOT_CONNECTED\", \"funding_rate\": null, \"horizon\": \"short\", \"liquidation_shock_score\": null, \"median_one_bar_return\": -0.0009722884890838168, \"open_interest_change\": null, \"session\": \"EU_US_OVERLAP\", \"symbols_observed\": 42, \"version\": 1}",
-      "created_at": "2026-08-30T15:00:11.975717+00:00",
-      "decision_bar": "2026-08-30T14:00:00+00:00",
-      "entry_bar": "2026-08-30T15:00:00+00:00",
-      "entry_price": 0.01084,
-      "entry_session": "EU_US_OVERLAP",
-      "exit_bar": "2026-08-30T18:00:00+00:00",
-      "exit_price": 0.011941933823529411,
-      "exit_reason": "TARGET",
-      "horizon": "short",
-      "mae_pct": -0.023985239852398532,
-      "max_holding_bars": 6,
-      "mfe_pct": 0.13929889298892983,
-      "regime_entry": "LOW_VOL_SIDEWAYS",
-      "requested_notional": 5908.985199254831,
-      "return_pct": 0.09791514352072056,
-      "simulated_pnl": 579.56271837439,
-      "status": "CLOSED",
-      "stop_distance": 0.058088235294117635,
-      "stop_price": 0.010210323529411765,
-      "strategy": "V2_MEAN_REVERSION",
-      "symbol": "HEMIUSDT",
-      "target_distance": 0.10165441176470584,
-      "target_price": 0.011941933823529411
     }
   ],
   "recent_decisions": [
@@ -11901,8 +11901,8 @@
   ],
   "research_layer": {
     "bidirectional_decision_shadow": {
-      "active_evaluations": 750,
-      "avg_selected_return_pct": -0.0051656202889108285,
+      "active_evaluations": 761,
+      "avg_selected_return_pct": -0.0051774863169909546,
       "by_selected_action": {
         "LONG": {
           "accuracy": 0.26575028636884307,
@@ -11917,15 +11917,15 @@
           "correct": 370
         },
         "SHORT": {
-          "accuracy": 0.29120879120879123,
-          "avg_selected_return_pct": -0.003141386164570128,
-          "closed": 1638,
-          "correct": 477
+          "accuracy": 0.29022465088038857,
+          "avg_selected_return_pct": -0.0031742919959350437,
+          "closed": 1647,
+          "correct": 478
         }
       },
       "changes_v2_execution": false,
-      "closed_evaluations": 3023,
-      "decision_accuracy": 0.35693020178630497,
+      "closed_evaluations": 3032,
+      "decision_accuracy": 0.3562005277044855,
       "ev_is_calibrated": false,
       "ev_note": "EV proxy uses heuristic directional scores; forward outcomes are collected for later calibration.",
       "forward_only": true,
@@ -11934,7 +11934,7 @@
       "no_trade_missed_opportunities": 142,
       "observation_only": true,
       "status": "ACTIVE",
-      "total_decisions": 3773
+      "total_decisions": 3793
     },
     "bidirectional_registration": {
       "forward_only": true,
@@ -11949,11 +11949,11 @@
     },
     "risk_block_counterfactual": {
       "active_candidates": 24,
-      "avoided_loss_rate": 0.6329787234042553,
+      "avoided_loss_rate": 0.6296296296296297,
       "avoided_losses": 119,
-      "closed_candidates": 188,
-      "counterfactual_pnl": -6357.043270453437,
-      "missed_winners": 69
+      "closed_candidates": 189,
+      "counterfactual_pnl": -6302.6452740962095,
+      "missed_winners": 70
     },
     "trade_excursion_tracking": {
       "avg_mae_pct": -0.025610157732162953,
@@ -11996,8 +11996,8 @@
   "shared_cache_only": true,
   "status": "ONLINE",
   "symbols": 43,
-  "sync_checked_at": "2026-08-31T19:24:48.488330+00:00",
-  "sync_snapshot_age_seconds": 53.68335,
+  "sync_checked_at": "2026-08-31T19:35:52.328136+00:00",
+  "sync_snapshot_age_seconds": 27.461834,
   "v2": {
     "accounts": [
       {
