@@ -26,7 +26,7 @@ else
 fi
 
 APP_PORT="${PORT:-8501}"
-echo "Starting V6 unified Streamlit dashboard on 0.0.0.0:${APP_PORT}"
+echo "Starting V6 V9 decision dashboard on 0.0.0.0:${APP_PORT}"
 echo "Virtual simulation only; broker order API remains disabled."
 echo "Crypto V2 Shadow = isolated ledger, shared cache only, no extra market-data API calls, supervised auto-restart enabled."
 echo "SQLite rescue mode: persistent state=${PERSIST_DIR}; runtime DBs=${RUNTIME_DIR}; bootstrap=${BOOTSTRAP_OK}."
@@ -74,7 +74,7 @@ cleanup() {
 }
 trap cleanup EXIT INT TERM
 
-exec streamlit run dashboard_v8.py \
+exec streamlit run dashboard_v9.py \
   --server.address=0.0.0.0 \
   --server.port="${APP_PORT}" \
   --server.headless=true \
