@@ -4,17 +4,17 @@
     "accounts": [
       {
         "closed_trades": 250,
-        "equity": 93622.01632834668,
+        "equity": 93847.60830794252,
         "horizon": "short",
         "initial_equity": 100000.0,
-        "return_pct": -0.0637798367165332
+        "return_pct": -0.061523916920574795
       },
       {
-        "closed_trades": 49,
-        "equity": 95203.16002287198,
+        "closed_trades": 52,
+        "equity": 95536.27732583368,
         "horizon": "medium",
         "initial_equity": 100000.0,
-        "return_pct": -0.0479683997712802
+        "return_pct": -0.04463722674166315
       },
       {
         "closed_trades": 1,
@@ -24,10 +24,10 @@
         "return_pct": -0.03010655263733819
       }
     ],
-    "closed_trades": 300,
-    "equity": 285814.52108748484,
+    "closed_trades": 303,
+    "equity": 286373.2303700424,
     "initial_equity": 300000.0,
-    "return_pct": -0.04728492970838383
+    "return_pct": -0.04542256543319212
   },
   "broker_order_api_calls": 0,
   "catchup": {
@@ -43,15 +43,15 @@
   "contains_secrets": false,
   "errors": [],
   "forward_only": true,
-  "generated_at": "2026-08-31T04:02:55.998389+00:00",
+  "generated_at": "2026-08-31T04:14:19.890796+00:00",
   "latest_market_regime": {
-    "realized_vol": 0.01711311299236487,
+    "realized_vol": 0.017113142034109668,
     "reason": "No dominant directional regime",
-    "ret_fast": -0.01139562381600201,
-    "ret_slow": -0.004964893323512132,
+    "ret_fast": -0.011395496675269734,
+    "ret_slow": -0.004964765355747636,
     "state": "SIDEWAYS",
-    "trend": -0.0015520492092018223,
-    "vol_ratio": 0.9276703611575255
+    "trend": -0.001552042490867156,
+    "vol_ratio": 0.927671935457064
   },
   "market_data_api_calls": 0,
   "persistent_checkpoint": true,
@@ -11782,8 +11782,8 @@
   "shared_cache_only": true,
   "status": "ONLINE",
   "symbols": 42,
-  "sync_checked_at": "2026-08-31T04:03:50.229450+00:00",
-  "sync_snapshot_age_seconds": 54.231061,
+  "sync_checked_at": "2026-08-31T04:15:14.882253+00:00",
+  "sync_snapshot_age_seconds": 54.991457,
   "v2": {
     "accounts": [
       {
