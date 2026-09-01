@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from .entry_gate import multiplier as risk_multiplier
+
 import json
 from datetime import datetime, timezone
 from pathlib import Path
@@ -150,7 +152,7 @@ def build_pretrade_risk_snapshot(db, cache) -> dict:
 
         strategy = str(d.get("strategy") or "")
         external = external_intelligence_assessment(market, strategy)
-        external_mult = float(external.get("external_intelligence_multiplier", 1.0) or 1.0)
+        external_mult = risk_multiplier(external.get("external_intelligence_multiplier", 1.0))
         if external_mult < 0.999999:
             flags.append(f"外部情報風險:{external.get('external_risk_regime', 'UNKNOWN')}")
         multiplier = min(multiplier, external_mult)

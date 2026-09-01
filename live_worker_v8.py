@@ -130,7 +130,7 @@ def _sleep_until_due():
 threading.Thread(target=_heartbeat_loop, daemon=True).start()
 print("V6 V8 Auto Simulation Worker started: crypto + US stocks + Taiwan stocks.", flush=True)
 print("Broker order API = 0. This worker uses virtual accounts only.", flush=True)
-print("Professional Risk Layer = active virtual position sizing; no hard trade block.", flush=True)
+print("Professional Risk Layer = ENTRY_GATE_V1; fail-closed BUY admission, exits unchanged.", flush=True)
 print("Data Quality + Concept Drift = active sizing guard; cache-only scan, no extra market-data API calls.", flush=True)
 print("Realtime watchlist is synchronized by the main worker after every cycle.", flush=True)
 
