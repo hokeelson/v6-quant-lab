@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import os
 import re
 import threading
 import time
@@ -14,6 +15,7 @@ from src.paths import data_dir, db_path
 from src.pretrade_risk import write_pretrade_risk_snapshot
 from src.pro_risk_engine import write_professional_risk_snapshot
 from src.realtime_layer import RealtimeDB, build_realtime_watchlist
+from src.worker_progress import CycleProgress
 
 POLL_SECONDS = 60
 HEARTBEAT_SECONDS = 15
@@ -25,11 +27,15 @@ realtime_db = RealtimeDB()
 status_path = Path(data_dir()) / "worker_status.json"
 request_path = Path(data_dir()) / "worker_request.json"
 status_lock = threading.Lock()
+cycle_progress = CycleProgress()
 worker_state = {
+    "pid": os.getpid(),
+    "worker_started_at": datetime.now(timezone.utc).isoformat(),
     "status": "STARTING",
     "heartbeat_at": datetime.now(timezone.utc).isoformat(),
     "last_cycle_started_at": None,
     "last_cycle_finished_at": None,
+    "first_cycle_complete": False,
     "assets_checked": 0,
     "bars_processed": 0,
     "market_data_api_calls": 0,
@@ -92,9 +98,25 @@ def _write_status():
     with status_lock:
         worker_state["heartbeat_at"] = datetime.now(timezone.utc).isoformat()
         payload = dict(worker_state)
-    tmp = status_path.with_suffix(".json.tmp")
-    tmp.write_text(json.dumps(payload, ensure_ascii=False), encoding="utf-8")
-    tmp.replace(status_path)
+        payload.update(cycle_progress.snapshot())
+        # Heartbeat and progress writers share the same atomic temp file. Keep
+        # the whole write under the lock so they cannot replace each other's file.
+        tmp = status_path.with_suffix(".json.tmp")
+        tmp.write_text(json.dumps(payload, ensure_ascii=False), encoding="utf-8")
+        tmp.replace(status_path)
+
+
+def _report_progress(phase, **details):
+    with status_lock:
+        cycle_progress.report(phase, **details)
+        metrics = details.get("metrics") or {}
+        for key in ("assets_checked", "bars_processed", "market_data_api_calls"):
+            if key in metrics:
+                worker_state[key] = int(metrics[key])
+    try:
+        _write_status()
+    except Exception as exc:
+        print("WORKER_PROGRESS_ERROR", type(exc).__name__, flush=True)
 
 
 def _heartbeat_loop():
@@ -140,16 +162,20 @@ while True:
     force_recalibrate = request_kind == "force_calibration"
     stamp = datetime.now(timezone.utc).isoformat()
     with status_lock:
+        cycle_progress.start(stamp)
         worker_state.update({
             "status": "RUNNING",
             "last_cycle_started_at": stamp,
+            "assets_checked": 0,
+            "bars_processed": 0,
+            "market_data_api_calls": 0,
             "last_request_kind": request_kind if request else None,
             "last_request_at": (request or {}).get("requested_at"),
             "message": "Manual update running" if request else "Automatic cycle running",
         })
     _write_status()
     try:
-        r = engine.full_cycle(force_recalibrate=force_recalibrate)
+        r = engine.full_cycle(force_recalibrate=force_recalibrate, progress=_report_progress)
         sim = r.get("simulation", {}) or {}
         auxiliary_errors = []
         global_risk = "UNKNOWN"
@@ -162,6 +188,7 @@ while True:
         # that just completed the core cycle. This removes cross-process timing
         # ambiguity: if the core worker sees positions/assets, realtime gets them.
         try:
+            _report_progress("WATCHLIST")
             realtime_rows = build_realtime_watchlist(engine.db, realtime_db)
             realtime_watchlist_total = len(realtime_rows)
             positions_seen = len(engine.db.positions())
@@ -177,6 +204,7 @@ while True:
             print(stamp, "REALTIME_WATCHLIST_SYNC_ERROR", auxiliary_errors[-1], flush=True)
 
         try:
+            _report_progress("PORTFOLIO_RISK")
             risk = write_professional_risk_snapshot(engine.db, engine.cache)
             global_rows = ((risk.get("portfolio") or {}).get("groups") or [])
             global_risk = next((x.get("risk_status") for x in global_rows if x.get("group") == "GLOBAL"), "LOW")
@@ -184,6 +212,7 @@ while True:
             auxiliary_errors.append(f"professional: {type(exc).__name__}: {exc}")
             print(stamp, "RISK_LAYER_ERROR", auxiliary_errors[-1], flush=True)
         try:
+            _report_progress("PRETRADE_RISK")
             write_pretrade_risk_snapshot(engine.db, engine.cache)
         except Exception as exc:
             auxiliary_errors.append(f"pretrade: {type(exc).__name__}: {exc}")
@@ -192,6 +221,7 @@ while True:
         # Read only the already-populated OHLCV cache. This monitor never fetches
         # data itself, so enabling it does not increase Alpaca/Binance/Yahoo calls.
         try:
+            _report_progress("DATA_QUALITY")
             quality_result = quality_monitor.scan_all(engine.db, engine.cache)
             if quality_result.get("errors"):
                 auxiliary_errors.append(
@@ -211,9 +241,11 @@ while True:
         core_error_rows, waiting_data_rows = _split_core_errors(raw_core_error_rows)
         core_errors = len(core_error_rows)
         with status_lock:
+            cycle_progress.finish()
             worker_state.update({
                 "status": "ONLINE" if core_errors == 0 and not auxiliary_errors else "DEGRADED",
                 "last_cycle_finished_at": finished,
+                "first_cycle_complete": True,
                 "assets_checked": int(sim.get("assets_checked", 0) or 0),
                 "bars_processed": int(sim.get("bars_processed", 0) or 0),
                 "market_data_api_calls": int(sim.get("market_data_api_calls", 0) or 0),
@@ -243,6 +275,7 @@ while True:
     except Exception as e:
         finished = datetime.now(timezone.utc).isoformat()
         with status_lock:
+            cycle_progress.finish(failed=True)
             worker_state.update({
                 "status": "ERROR",
                 "last_cycle_finished_at": finished,

@@ -8,10 +8,11 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from src.paths import data_dir
+from src.worker_progress import CYCLE_HARD_LIMIT_SECONDS, running_progress_problem
 
 CHECK_SECONDS = 20
 HEARTBEAT_STALE_SECONDS = 240
-MAX_CYCLE_SECONDS = 900
+MAX_CYCLE_SECONDS = CYCLE_HARD_LIMIT_SECONDS
 MISSING_STATUS_GRACE_SECONDS = 240
 RESTART_DELAY_SECONDS = 5
 STATUS_PATH = Path(data_dir()) / "worker_status.json"
@@ -37,12 +38,17 @@ def _read_status() -> dict | None:
         return None
 
 
-def _restart_reason(launched_at: float) -> str | None:
+def _restart_reason(launched_at: float, expected_pid: int | None = None) -> str | None:
     payload = _read_status()
     if payload is None:
         if time.time() - launched_at <= MISSING_STATUS_GRACE_SECONDS:
             return None
         return "worker status missing"
+
+    if expected_pid is not None and payload.get("pid") != expected_pid:
+        if time.time() - launched_at <= MISSING_STATUS_GRACE_SECONDS:
+            return None
+        return "worker status does not belong to current process"
 
     heartbeat_age = _age_seconds(payload.get("heartbeat_at"))
     if heartbeat_age is None:
@@ -52,15 +58,10 @@ def _restart_reason(launched_at: float) -> str | None:
     if heartbeat_age > HEARTBEAT_STALE_SECONDS:
         return f"worker heartbeat stale ({heartbeat_age:.1f}s)"
 
-    # live_worker_v8 writes heartbeat from a dedicated thread. A blocked
-    # full_cycle can therefore keep heartbeat_at perfectly fresh forever.
-    # Treat an excessively long RUNNING cycle as hung even when heartbeat lives.
+    # Heartbeats and work progress are separate. Productive long cycles may run
+    # beyond 15 minutes; a stuck phase still times out even while heartbeat lives.
     if str(payload.get("status") or "").upper() == "RUNNING":
-        cycle_age = _age_seconds(payload.get("last_cycle_started_at"))
-        if cycle_age is None:
-            return "RUNNING cycle missing last_cycle_started_at"
-        if cycle_age > MAX_CYCLE_SECONDS:
-            return f"cycle exceeded {MAX_CYCLE_SECONDS}s ({cycle_age:.1f}s)"
+        return running_progress_problem(payload, hard_limit=MAX_CYCLE_SECONDS)
 
     return None
 
@@ -87,7 +88,7 @@ def main():
         restart_seen = False
         while proc.poll() is None:
             time.sleep(CHECK_SECONDS)
-            reason = _restart_reason(launched_at)
+            reason = _restart_reason(launched_at, expected_pid=proc.pid)
             if reason is None:
                 continue
             restart_seen = True

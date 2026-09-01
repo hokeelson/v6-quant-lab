@@ -14,6 +14,7 @@ from src.auto_orchestrator_v8 import AutoOrchestratorV8
 from src.dashboard_direction_fallback import build_cached_direction_fallback
 from src.live_analytics import account_performance, positions_table
 from src.ui_zh import account_label, horizon_label, market_label
+from src.worker_progress_ui import render_worker_progress
 
 load_dotenv()
 st.set_page_config(page_title="V6 決策中心", layout="wide", page_icon="📊")
@@ -152,10 +153,16 @@ def decision_center():
     broker_calls = ((health.get("safety") or {}).get("broker_order_api_calls"))
     if overall == "HEALTHY" and broker_calls == 0:
         st.success("系統運作正常｜Paper / Shadow 模式｜Broker order API calls = 0")
+    elif overall == "STARTING":
+        st.info("主程式啟動中，第一輪分析尚未完成｜不能視為已就緒")
     elif health:
         st.warning(f"系統狀態：{overall}｜Broker order API calls：{broker_calls if broker_calls is not None else '—'}")
     else:
         st.info("正在等待最新 runtime health。")
+
+    main_worker = ((health.get("components") or {}).get("main_v8") or {})
+    if main_worker:
+        render_worker_progress(st, main_worker)
 
     if used_fallback:
         st.caption("方向 Shadow 快照尚未更新，因此首頁暫時使用既有行情快取即時計算；不會額外呼叫行情 API。")

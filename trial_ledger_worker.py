@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from src.worker_progress import public_progress
+
 import json
 import math
 import sqlite3
@@ -290,6 +292,7 @@ def _public_snapshot(worker, quality):
     ):
         if isinstance(worker, dict) and k in worker:
             safe_worker[k] = worker.get(k)
+    safe_worker.update(public_progress(worker))
     safe_quality = {}
     for k in ("status", "warnings", "critical_data", "drifted", "errors", "updated_at", "checked_at"):
         if isinstance(quality, dict) and k in quality:

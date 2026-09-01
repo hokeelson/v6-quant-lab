@@ -12,6 +12,7 @@ from .decision_engine import calibrate_asset
 from .dynamic_universe import DynamicUniverse
 from .forward_db import ForwardDB
 from .paths import db_path
+from .worker_progress import notify_progress
 from .twstock_support import (
     TW_MARKET,
     TaiwanMarketCache,
@@ -159,7 +160,7 @@ class AutoOrchestratorV8:
                     ready += 1
         return {"total_pairs": total, "ready_pairs": ready, "unready_pairs": max(0, total - ready)}
 
-    def calibrate_due(self, now=None, force=False):
+    def calibrate_due(self, now=None, force=False, progress=None):
         now = pd.Timestamp(now or datetime.now(timezone.utc))
         now = now.tz_localize("UTC") if now.tzinfo is None else now.tz_convert("UTC")
         done, errors, waiting = [], [], []
@@ -179,6 +180,8 @@ class AutoOrchestratorV8:
                     return {"calibrated": len(done), "waiting_history": waiting, "errors": errors,
                             "budget": budget, "budget_exhausted": True, "forced": bool(force)}
                 attempts += 1
+                unit = f"{market}:{symbol}:{hz}"
+                notify_progress(progress, "CALIBRATION", unit=unit, completed=attempts - 1, total=budget)
                 try:
                     current = self.db.model(market, symbol, hz)
                     if current is None:
@@ -216,18 +219,27 @@ class AutoOrchestratorV8:
                         waiting.append({**row, "required_closed_bars": required, "status": "WAITING_FOR_HISTORY"})
                     else:
                         errors.append({**row, "error": f"{type(e).__name__}: {e}"})
+                finally:
+                    notify_progress(progress, "CALIBRATION", unit=unit, completed=attempts, total=budget)
         return {"calibrated": len(done), "waiting_history": waiting, "errors": errors,
                 "budget": budget, "budget_exhausted": False, "forced": bool(force), "results": done}
 
-    def _run_ready_once(self, now=None):
+    def _run_ready_once(self, now=None, progress=None):
         checked = processed = fetched = api_calls = 0
         errors = []
         skipped_unready = 0
-        for a in self.db.assets():
+        assets = self.db.assets()
+        total = len(assets) * len(_HORIZONS)
+        completed = 0
+        for a in assets:
             for hz in _HORIZONS:
+                unit = f"{a['market']}:{a['symbol']}:{hz}"
                 if self.db.model(a["market"], a["symbol"], hz) is None:
                     skipped_unready += 1
+                    completed += 1
+                    notify_progress(progress, "SIMULATION", unit=unit, completed=completed, total=total)
                     continue
+                notify_progress(progress, "SIMULATION", unit=unit, completed=completed, total=total)
                 checked += 1
                 try:
                     r = self.lab.process_asset_horizon(a["market"], a["symbol"], hz, now)
@@ -237,6 +249,11 @@ class AutoOrchestratorV8:
                 except Exception as e:
                     errors.append({"market": a["market"], "symbol": a["symbol"], "horizon": hz,
                                    "error": f"{type(e).__name__}: {e}"})
+                finally:
+                    completed += 1
+                    notify_progress(progress, "SIMULATION", unit=unit, completed=completed, total=total,
+                                    metrics={"assets_checked": checked, "bars_processed": processed,
+                                             "market_data_api_calls": api_calls})
         return {
             "status": "OK" if not errors else "PARTIAL",
             "assets_checked": checked,
@@ -248,16 +265,22 @@ class AutoOrchestratorV8:
             "errors": errors,
         }
 
-    def full_cycle(self, now=None, force_recalibrate=False):
+    def full_cycle(self, now=None, force_recalibrate=False, progress=None):
+        notify_progress(progress, "PREPARE")
         imported = self.import_active()
         self._bootstrap_twstocks()
+        notify_progress(progress, "UNIVERSE")
         universe = self.universe.refresh_due(self._pinned_universe(), force=False)
-        cal = self.calibrate_due(now, force_recalibrate)
-        run = self._run_ready_once(now)
-        governance = self.governance.process_active(self.db, self.cache, now)
+        notify_progress(progress, "CALIBRATION")
+        cal = self.calibrate_due(now, force_recalibrate, progress=progress)
+        notify_progress(progress, "SIMULATION")
+        run = self._run_ready_once(now, progress=progress)
+        notify_progress(progress, "GOVERNANCE")
+        governance = self.governance.process_active(self.db, self.cache, now, progress=progress)
         run_errors = run.get("errors") or []
         governance_errors = governance.get("errors") or []
         true_errors = [*cal.get("errors", []), *run_errors, *governance_errors]
+        notify_progress(progress, "MODEL_HEALTH")
         health = self.model_health()
         waiting = cal.get("waiting_history", [])
         return {

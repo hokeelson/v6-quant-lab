@@ -4,6 +4,7 @@ import json
 from datetime import datetime, timedelta, timezone
 
 import runtime_health_exporter as rhe
+from src.worker_progress import PROGRESS_SCHEMA_VERSION, NO_PROGRESS_TIMEOUT_SECONDS
 
 
 def _iso(delta_seconds=0):
@@ -140,3 +141,71 @@ def test_missing_direction_backup_degrades_overall_health(monkeypatch, tmp_path)
     result = rhe.build_snapshot()
     assert result["overall_status"] == "DEGRADED"
     assert result["components"]["direction_v10"]["backup_healthy"] is False
+
+
+def _progress_main():
+    return {
+        "status": "RUNNING", "heartbeat_at": _iso(-2),
+        "last_cycle_started_at": _iso(-1800), "last_cycle_finished_at": _iso(-1900),
+        "first_cycle_complete": True, "progress_schema_version": PROGRESS_SCHEMA_VERSION,
+        "last_progress_at": _iso(-10), "progress_events": 30,
+        "phase": "SIMULATION", "phase_completed": 25, "phase_total": 100,
+        "phase_elapsed_seconds": 500, "phase_durations_seconds": {"CALIBRATION": 900},
+        "risk_layer": "ONLINE", "data_quality": "OK", "realtime_watchlist_sync": "ONLINE",
+    }
+
+
+def test_productive_long_cycle_is_healthy_and_exports_progress(monkeypatch, tmp_path):
+    _seed_healthy(monkeypatch, tmp_path)
+    _write(rhe.MAIN_STATUS_PATH, _progress_main())
+    result = rhe.build_snapshot()
+    assert result["overall_status"] == "HEALTHY"
+    main = result["components"]["main_v8"]
+    assert main["healthy"] is True
+    assert main["ready"] is True
+    assert main["phase_completed"] == 25
+    assert main["phase_durations_seconds"] == {"CALIBRATION": 900}
+
+
+def test_startup_without_completed_cycle_is_not_healthy(monkeypatch, tmp_path):
+    _seed_healthy(monkeypatch, tmp_path)
+    _write(rhe.MAIN_STATUS_PATH, {
+        **_progress_main(), "first_cycle_complete": False,
+        "last_cycle_finished_at": None, "risk_layer": "STARTING", "data_quality": "STARTING",
+        "realtime_watchlist_sync": "STARTING",
+    })
+    result = rhe.build_snapshot()
+    assert result["overall_status"] == "STARTING"
+    main = result["components"]["main_v8"]
+    assert main["healthy"] is False
+    assert main["ready"] is False
+    assert main["starting"] is True
+    assert main["hard_failure"] is False
+
+
+def test_legacy_startup_is_not_falsely_healthy(monkeypatch, tmp_path):
+    _seed_healthy(monkeypatch, tmp_path)
+    _write(rhe.MAIN_STATUS_PATH, {
+        "status": "RUNNING", "heartbeat_at": _iso(-2),
+        "last_cycle_started_at": _iso(-300), "last_cycle_finished_at": None,
+        "risk_layer": "STARTING", "data_quality": "STARTING", "assets_checked": 0,
+    })
+    assert rhe.build_snapshot()["overall_status"] == "STARTING"
+
+
+def test_stalled_work_is_error_even_with_fresh_heartbeat(monkeypatch, tmp_path):
+    _seed_healthy(monkeypatch, tmp_path)
+    _write(rhe.MAIN_STATUS_PATH, {
+        **_progress_main(), "last_progress_at": _iso(-NO_PROGRESS_TIMEOUT_SECONDS - 10),
+    })
+    result = rhe.build_snapshot()
+    assert result["overall_status"] == "ERROR"
+    assert "no work progress" in result["components"]["main_v8"]["progress_problem"]
+
+
+def test_errors_are_not_hidden_behind_starting_state(monkeypatch, tmp_path):
+    _seed_healthy(monkeypatch, tmp_path)
+    _write(rhe.MAIN_STATUS_PATH, {
+        **_progress_main(), "first_cycle_complete": False, "true_errors": 1,
+    })
+    assert rhe.build_snapshot()["overall_status"] == "DEGRADED"

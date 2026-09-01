@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from .worker_progress import notify_progress
+
 import hashlib
 import json
 import math
@@ -440,14 +442,17 @@ class ChampionChallenger:
                 decision_at=COALESCE(?,decision_at),updated_at=? WHERE arena_id=?
             """, (status, verdict, _json(gate), decision_at, now, arena["arena_id"]))
 
-    def process_active(self, simulation_db, cache, now=None):
+    def process_active(self, simulation_db, cache, now=None, progress=None):
         now_ts = pd.Timestamp(now or datetime.now(timezone.utc))
         now_ts = now_ts.tz_localize("UTC") if now_ts.tzinfo is None else now_ts.tz_convert("UTC")
         now_iso = now_ts.isoformat()
         checked = updated = promoted = rejected = api_calls = 0
         errors = []
 
-        for arena in self.arenas("ACTIVE"):
+        arenas = self.arenas("ACTIVE")
+        for arena in arenas:
+            unit = f"{arena.get('market')}:{arena.get('symbol')}:{arena.get('horizon')}"
+            notify_progress(progress, "GOVERNANCE", unit=unit, completed=checked, total=len(arenas))
             checked += 1
             try:
                 market, symbol, horizon = arena["market"], arena["symbol"], arena["horizon"]
@@ -495,6 +500,8 @@ class ChampionChallenger:
                     "symbol": arena.get("symbol"), "horizon": arena.get("horizon"),
                     "error": f"{type(exc).__name__}: {exc}",
                 })
+            finally:
+                notify_progress(progress, "GOVERNANCE", unit=unit, completed=checked, total=len(arenas))
 
         return {
             "status": "OK" if not errors else "PARTIAL",
