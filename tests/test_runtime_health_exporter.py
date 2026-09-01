@@ -21,10 +21,18 @@ def _configure(monkeypatch, tmp_path):
     monkeypatch.setattr(rhe, "RESEARCH_PATH", tmp_path / "research_snapshot.json")
     monkeypatch.setattr(rhe, "V2_SNAPSHOT_PATH", tmp_path / "v2_snapshot.json")
     monkeypatch.setattr(rhe, "STORAGE_PATH", tmp_path / "storage.json")
+    monkeypatch.setattr(rhe, "DIRECTION_STATUS_PATH", tmp_path / "direction.json")
+    monkeypatch.setattr(rhe, "DIRECTION_BACKUP_PATH", tmp_path / "direction_backup.json")
 
 
 def _seed_healthy(monkeypatch, tmp_path):
     _configure(monkeypatch, tmp_path)
+    _write(rhe.DIRECTION_STATUS_PATH, {
+        "status": "ONLINE", "heartbeat_at": _iso(-5),
+        "last_cycle_finished_at": _iso(-100), "candidates": 2, "pending": 2,
+        "evaluated": 0, "shared_cache_only": True, "true_errors": 0,
+    })
+    _write(rhe.DIRECTION_BACKUP_PATH, {"success": True, "last_snapshot_at": _iso(-30)})
     _write(rhe.MAIN_STATUS_PATH, {
         "status": "ONLINE",
         "heartbeat_at": _iso(-5),
@@ -116,3 +124,19 @@ def test_v2_broker_call_violation_is_error(monkeypatch, tmp_path):
     assert result["overall_status"] == "ERROR"
     assert result["safety"]["broker_order_api_calls"] == 1
     assert result["components"]["crypto_v2"]["healthy"] is False
+
+
+def test_missing_direction_worker_degrades_overall_health(monkeypatch, tmp_path):
+    _seed_healthy(monkeypatch, tmp_path)
+    rhe.DIRECTION_STATUS_PATH.unlink()
+    result = rhe.build_snapshot()
+    assert result["overall_status"] == "DEGRADED"
+    assert result["components"]["direction_v10"]["healthy"] is False
+
+
+def test_missing_direction_backup_degrades_overall_health(monkeypatch, tmp_path):
+    _seed_healthy(monkeypatch, tmp_path)
+    rhe.DIRECTION_BACKUP_PATH.unlink()
+    result = rhe.build_snapshot()
+    assert result["overall_status"] == "DEGRADED"
+    assert result["components"]["direction_v10"]["backup_healthy"] is False
