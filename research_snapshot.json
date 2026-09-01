@@ -414,10 +414,23 @@
       }
     ]
   },
+  "entry_gate": {
+    "broker_order_api_calls": 0,
+    "entries": [],
+    "policy_version": "ENTRY_GATE_V1",
+    "simulation_only": true,
+    "status": "WAITING_FOR_EVENTS",
+    "summary": {
+      "blocked": 0,
+      "blocked_but_filled": 0,
+      "filled": 0,
+      "sampled_events": 0
+    }
+  },
   "expected_live_deviation": {
     "active_sizing": true,
     "contains_secrets": false,
-    "generated_at": "2026-09-01T19:32:39.650753+00:00",
+    "generated_at": "2026-09-01T19:44:39.321108+00:00",
     "minimum_live_trades_for_active_sizing": 5,
     "rows": [
       {
@@ -11675,69 +11688,9 @@
       }
     ]
   },
-  "generated_at": "2026-09-01T19:32:57.460674+00:00",
+  "generated_at": "2026-09-01T19:44:38.405754+00:00",
   "governance": {
     "arenas": [
-      {
-        "arena_id": "0926dc1b93f35bd52122",
-        "challenger_signature": "33813df508d6a208c8d5",
-        "champion_signature": "3fa637f15200c926a639",
-        "decision_at": null,
-        "horizon": "medium",
-        "latest_verdict": "WAITING",
-        "market": "crypto",
-        "registered_at": "2026-09-01T18:23:31.360111+00:00",
-        "status": "ACTIVE",
-        "symbol": "UUSDT"
-      },
-      {
-        "arena_id": "322c58d2448d29c8aea5",
-        "challenger_signature": "73ce7601b7dbb58705d4",
-        "champion_signature": "f0abaa6c60a3695cd7f2",
-        "decision_at": null,
-        "horizon": "medium",
-        "latest_verdict": "WAITING",
-        "market": "crypto",
-        "registered_at": "2026-09-01T18:05:36.988713+00:00",
-        "status": "ACTIVE",
-        "symbol": "CRCLBUSDT"
-      },
-      {
-        "arena_id": "38c57b4165d730716a1c",
-        "challenger_signature": "7e44f46e65b6b404f810",
-        "champion_signature": "369bc12184ca217dd33b",
-        "decision_at": null,
-        "horizon": "short",
-        "latest_verdict": "LEARNING",
-        "market": "crypto",
-        "registered_at": "2026-09-01T15:47:21.671880+00:00",
-        "status": "ACTIVE",
-        "symbol": "ADAUSDT"
-      },
-      {
-        "arena_id": "0741bbb0fc2b398d16a2",
-        "challenger_signature": "fe12acbf7f5360799c0d",
-        "champion_signature": "d6fdfe47123feff7fce3",
-        "decision_at": null,
-        "horizon": "short",
-        "latest_verdict": "LEARNING",
-        "market": "crypto",
-        "registered_at": "2026-09-01T12:56:31.741672+00:00",
-        "status": "ACTIVE",
-        "symbol": "NEARUSDT"
-      },
-      {
-        "arena_id": "df7fbdf163d8e4449bf4",
-        "challenger_signature": "33813df508d6a208c8d5",
-        "champion_signature": "0b620c51d61b2bc4250d",
-        "decision_at": null,
-        "horizon": "short",
-        "latest_verdict": "LEARNING",
-        "market": "crypto",
-        "registered_at": "2026-09-01T12:56:31.741672+00:00",
-        "status": "ACTIVE",
-        "symbol": "RLUSDUSDT"
-      },
       {
         "arena_id": "a07637e7285e11a0db3d",
         "challenger_signature": "88408443a25f967bebf9",
@@ -11756,7 +11709,7 @@
         "champion_signature": "3fa637f15200c926a639",
         "decision_at": null,
         "horizon": "short",
-        "latest_verdict": "LEARNING",
+        "latest_verdict": "WAITING",
         "market": "crypto",
         "registered_at": "2026-08-31T20:10:34.712554+00:00",
         "status": "ACTIVE",
@@ -11768,7 +11721,7 @@
         "champion_signature": "d534a3917e1025ff1129",
         "decision_at": null,
         "horizon": "short",
-        "latest_verdict": "LEARNING",
+        "latest_verdict": "WAITING",
         "market": "crypto",
         "registered_at": "2026-08-31T20:10:34.712554+00:00",
         "status": "ACTIVE",
@@ -11780,7 +11733,7 @@
         "champion_signature": "0b620c51d61b2bc4250d",
         "decision_at": null,
         "horizon": "short",
-        "latest_verdict": "LEARNING",
+        "latest_verdict": "WAITING",
         "market": "crypto",
         "registered_at": "2026-08-31T11:25:59.611206+00:00",
         "status": "ACTIVE",
@@ -11792,7 +11745,7 @@
         "champion_signature": "cb2706e01c700f469797",
         "decision_at": null,
         "horizon": "short",
-        "latest_verdict": "LEARNING",
+        "latest_verdict": "WAITING",
         "market": "crypto",
         "registered_at": "2026-08-31T10:47:16.031146+00:00",
         "status": "ACTIVE",
@@ -11816,7 +11769,7 @@
         "champion_signature": "5d21318b8df4eb9529c2",
         "decision_at": null,
         "horizon": "medium",
-        "latest_verdict": "LEARNING",
+        "latest_verdict": "WAITING",
         "market": "crypto",
         "registered_at": "2026-08-30T17:57:48.866594+00:00",
         "status": "ACTIVE",
@@ -11840,7 +11793,7 @@
         "champion_signature": "a6ec2667a7a566a93dcb",
         "decision_at": null,
         "horizon": "medium",
-        "latest_verdict": "LEARNING",
+        "latest_verdict": "WAITING",
         "market": "crypto",
         "registered_at": "2026-08-30T12:51:56.208628+00:00",
         "status": "ACTIVE",
@@ -11852,7 +11805,7 @@
         "champion_signature": "d44b5685d43b6e1ae6b4",
         "decision_at": null,
         "horizon": "medium",
-        "latest_verdict": "LEARNING",
+        "latest_verdict": "WAITING",
         "market": "crypto",
         "registered_at": "2026-08-30T12:47:45.555486+00:00",
         "status": "ACTIVE",
@@ -11864,7 +11817,7 @@
         "champion_signature": "3fa637f15200c926a639",
         "decision_at": null,
         "horizon": "medium",
-        "latest_verdict": "LEARNING",
+        "latest_verdict": "WAITING",
         "market": "crypto",
         "registered_at": "2026-08-30T12:47:45.555486+00:00",
         "status": "ACTIVE",
@@ -11876,7 +11829,7 @@
         "champion_signature": "00413977beee189cde96",
         "decision_at": null,
         "horizon": "medium",
-        "latest_verdict": "LEARNING",
+        "latest_verdict": "WAITING",
         "market": "crypto",
         "registered_at": "2026-08-30T12:44:02.635926+00:00",
         "status": "ACTIVE",
@@ -11888,7 +11841,7 @@
         "champion_signature": "5bae1210d7ef76aec8e1",
         "decision_at": null,
         "horizon": "medium",
-        "latest_verdict": "LEARNING",
+        "latest_verdict": "WAITING",
         "market": "crypto",
         "registered_at": "2026-08-30T12:44:02.635926+00:00",
         "status": "ACTIVE",
@@ -11900,7 +11853,7 @@
         "champion_signature": "c32531dfb5c19cd2652d",
         "decision_at": null,
         "horizon": "medium",
-        "latest_verdict": "LEARNING",
+        "latest_verdict": "WAITING",
         "market": "crypto",
         "registered_at": "2026-08-30T12:39:42.214235+00:00",
         "status": "ACTIVE",
@@ -11912,7 +11865,7 @@
         "champion_signature": "5d21318b8df4eb9529c2",
         "decision_at": null,
         "horizon": "medium",
-        "latest_verdict": "LEARNING",
+        "latest_verdict": "WAITING",
         "market": "crypto",
         "registered_at": "2026-08-30T12:35:46.112560+00:00",
         "status": "ACTIVE",
@@ -11924,7 +11877,7 @@
         "champion_signature": "814b44a8ad46cd11f0d6",
         "decision_at": null,
         "horizon": "medium",
-        "latest_verdict": "LEARNING",
+        "latest_verdict": "WAITING",
         "market": "crypto",
         "registered_at": "2026-08-30T12:35:46.112560+00:00",
         "status": "ACTIVE",
@@ -11936,7 +11889,7 @@
         "champion_signature": "c6e69815fceeeced6f7b",
         "decision_at": null,
         "horizon": "medium",
-        "latest_verdict": "LEARNING",
+        "latest_verdict": "WAITING",
         "market": "crypto",
         "registered_at": "2026-08-30T12:31:19.078358+00:00",
         "status": "ACTIVE",
@@ -11948,7 +11901,7 @@
         "champion_signature": "88408443a25f967bebf9",
         "decision_at": null,
         "horizon": "medium",
-        "latest_verdict": "LEARNING",
+        "latest_verdict": "WAITING",
         "market": "crypto",
         "registered_at": "2026-08-30T12:31:19.078358+00:00",
         "status": "ACTIVE",
@@ -11960,7 +11913,7 @@
         "champion_signature": "c6e69815fceeeced6f7b",
         "decision_at": null,
         "horizon": "medium",
-        "latest_verdict": "LEARNING",
+        "latest_verdict": "WAITING",
         "market": "crypto",
         "registered_at": "2026-08-30T12:27:25.499524+00:00",
         "status": "ACTIVE",
@@ -11972,7 +11925,7 @@
         "champion_signature": "18c6185873ddee0b3da1",
         "decision_at": null,
         "horizon": "medium",
-        "latest_verdict": "LEARNING",
+        "latest_verdict": "WAITING",
         "market": "crypto",
         "registered_at": "2026-08-30T12:27:25.499524+00:00",
         "status": "ACTIVE",
@@ -11984,7 +11937,7 @@
         "champion_signature": "b22f0d4293f6c3807a09",
         "decision_at": null,
         "horizon": "medium",
-        "latest_verdict": "LEARNING",
+        "latest_verdict": "WAITING",
         "market": "crypto",
         "registered_at": "2026-08-30T12:23:05.227336+00:00",
         "status": "ACTIVE",
@@ -11996,7 +11949,7 @@
         "champion_signature": "b72f5614c8a2c454d0d6",
         "decision_at": null,
         "horizon": "medium",
-        "latest_verdict": "LEARNING",
+        "latest_verdict": "WAITING",
         "market": "crypto",
         "registered_at": "2026-08-30T12:23:05.227336+00:00",
         "status": "ACTIVE",
@@ -12008,7 +11961,7 @@
         "champion_signature": "5b1029690715ccba5970",
         "decision_at": null,
         "horizon": "medium",
-        "latest_verdict": "LEARNING",
+        "latest_verdict": "WAITING",
         "market": "crypto",
         "registered_at": "2026-08-30T12:23:05.227336+00:00",
         "status": "ACTIVE",
@@ -12020,7 +11973,7 @@
         "champion_signature": "5d21318b8df4eb9529c2",
         "decision_at": null,
         "horizon": "medium",
-        "latest_verdict": "LEARNING",
+        "latest_verdict": "WAITING",
         "market": "crypto",
         "registered_at": "2026-08-30T12:19:01.632992+00:00",
         "status": "ACTIVE",
@@ -12032,7 +11985,7 @@
         "champion_signature": "19eac8509fb860bff0e5",
         "decision_at": null,
         "horizon": "medium",
-        "latest_verdict": "LEARNING",
+        "latest_verdict": "WAITING",
         "market": "crypto",
         "registered_at": "2026-08-30T12:19:01.632992+00:00",
         "status": "ACTIVE",
@@ -12044,7 +11997,7 @@
         "champion_signature": "c6e69815fceeeced6f7b",
         "decision_at": null,
         "horizon": "medium",
-        "latest_verdict": "LEARNING",
+        "latest_verdict": "WAITING",
         "market": "crypto",
         "registered_at": "2026-08-30T12:19:01.632992+00:00",
         "status": "ACTIVE",
@@ -12056,7 +12009,7 @@
         "champion_signature": "c71f6a9b1905ef0eb3e9",
         "decision_at": null,
         "horizon": "medium",
-        "latest_verdict": "LEARNING",
+        "latest_verdict": "WAITING",
         "market": "crypto",
         "registered_at": "2026-08-30T12:19:01.632992+00:00",
         "status": "ACTIVE",
@@ -12436,60 +12389,6 @@
       }
     ],
     "recent_events": [
-      {
-        "arena_id": "0926dc1b93f35bd52122",
-        "created_at": "2026-09-01T18:23:31.360111+00:00",
-        "event_type": "CHALLENGE_REGISTERED",
-        "horizon": "medium",
-        "id": 79,
-        "market": "crypto",
-        "symbol": "UUSDT"
-      },
-      {
-        "arena_id": "322c58d2448d29c8aea5",
-        "created_at": "2026-09-01T18:05:36.988713+00:00",
-        "event_type": "CHALLENGE_REGISTERED",
-        "horizon": "medium",
-        "id": 78,
-        "market": "crypto",
-        "symbol": "CRCLBUSDT"
-      },
-      {
-        "arena_id": "38c57b4165d730716a1c",
-        "created_at": "2026-09-01T15:47:21.671880+00:00",
-        "event_type": "CHALLENGE_REGISTERED",
-        "horizon": "short",
-        "id": 77,
-        "market": "crypto",
-        "symbol": "ADAUSDT"
-      },
-      {
-        "arena_id": "df7fbdf163d8e4449bf4",
-        "created_at": "2026-09-01T12:56:31.741672+00:00",
-        "event_type": "CHALLENGE_REGISTERED",
-        "horizon": "short",
-        "id": 76,
-        "market": "crypto",
-        "symbol": "RLUSDUSDT"
-      },
-      {
-        "arena_id": "0741bbb0fc2b398d16a2",
-        "created_at": "2026-09-01T12:56:31.741672+00:00",
-        "event_type": "CHALLENGE_REGISTERED",
-        "horizon": "short",
-        "id": 75,
-        "market": "crypto",
-        "symbol": "NEARUSDT"
-      },
-      {
-        "arena_id": null,
-        "created_at": "2026-09-01T12:44:40.811157+00:00",
-        "event_type": "SAME_HYPOTHESIS_REFRESH",
-        "horizon": "short",
-        "id": 74,
-        "market": "crypto",
-        "symbol": "ENSOUSDT"
-      },
       {
         "arena_id": "a07637e7285e11a0db3d",
         "created_at": "2026-09-01T11:36:43.062983+00:00",
@@ -27436,7 +27335,7 @@
         "total_reduction_notional": 3051.550301414807
       }
     ],
-    "generated_at": "2026-09-01T19:33:24.910466+00:00",
+    "generated_at": "2026-09-01T19:45:04.461549+00:00",
     "scope": "PUBLIC_READ_ONLY_RISK_SIZING_AUDIT",
     "status": "AVAILABLE",
     "summary": {
@@ -27459,13 +27358,13 @@
   "schema_version": 2,
   "scope": "PUBLIC_READ_ONLY_RESEARCH_SUMMARY",
   "storage_persistence": {
-    "bootstrap_at": "2026-09-01T11:53:28.732269+00:00",
+    "bootstrap_at": "2026-09-01T19:44:37.021398+00:00",
     "bootstrap_warnings": [],
     "mode": "RESCUE_RUNTIME",
     "persistent_disk": {
-      "free": 2704478208,
+      "free": 2656522240,
       "total": 4685873152,
-      "used": 1964617728
+      "used": 2012573696
     },
     "restored": [
       {
@@ -27505,7 +27404,7 @@
     "snapshot_interval_seconds": 60,
     "snapshot_keep_archives": 0,
     "status": "AVAILABLE",
-    "updated_at": "2026-09-01T11:53:28.889238+00:00"
+    "updated_at": "2026-09-01T19:44:37.276439+00:00"
   },
   "strategy_performance": [
     {
@@ -30209,35 +30108,16 @@
       "worst_trade_return": -0.00029986839109497065
     }
   ],
-  "sync_checked_at": "2026-09-01T19:33:27.770307+00:00",
-  "sync_snapshot_age_seconds": 30.309633,
+  "sync_checked_at": "2026-09-01T19:45:06.935052+00:00",
+  "sync_snapshot_age_seconds": 28.529298,
   "trial_ledger": {
-    "challenges": 63,
-    "cycles": 773,
-    "distinct_hypotheses": 67,
-    "events": 194,
-    "last_event_at": "2026-09-01T18:23:31.360111+00:00",
+    "challenges": 58,
+    "cycles": 679,
+    "distinct_hypotheses": 62,
+    "events": 176,
+    "last_event_at": "2026-09-01T11:36:43.062983+00:00",
     "promotions": 0,
-    "research_trials": 115
+    "research_trials": 103
   },
-  "worker": {
-    "assets_checked": 256,
-    "bars_processed": 0,
-    "broker_order_api_calls": 0,
-    "concept_drift_pairs": 8,
-    "data_quality": "OK",
-    "data_quality_critical": 0,
-    "data_quality_warnings": 42,
-    "heartbeat_at": "2026-09-01T19:32:56.684005+00:00",
-    "last_cycle_finished_at": "2026-09-01T19:31:32.289344+00:00",
-    "last_cycle_started_at": "2026-09-01T19:32:32.302918+00:00",
-    "market_data_api_calls": 5,
-    "portfolio_risk": "MEDIUM",
-    "realtime_watchlist_sync": "ONLINE",
-    "realtime_watchlist_total": 65,
-    "risk_layer": "ONLINE",
-    "risk_sizing": "ACTIVE",
-    "status": "RUNNING",
-    "true_errors": 0
-  }
+  "worker": {}
 }

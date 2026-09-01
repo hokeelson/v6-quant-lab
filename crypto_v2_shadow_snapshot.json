@@ -43,15 +43,15 @@
   "contains_secrets": false,
   "errors": [],
   "forward_only": true,
-  "generated_at": "2026-09-01T19:32:52.447756+00:00",
+  "generated_at": "2026-09-01T19:44:38.988346+00:00",
   "latest_market_regime": {
-    "realized_vol": 0.015247720238814022,
-    "reason": "No dominant directional regime",
-    "ret_fast": -0.01089815906876579,
-    "ret_slow": -0.02356611319226498,
-    "state": "SIDEWAYS",
-    "trend": -0.0025501030256943613,
-    "vol_ratio": 0.806631450315603
+    "realized_vol": 0.0,
+    "reason": "Need >=96 BTC 1h bars",
+    "ret_fast": 0.0,
+    "ret_slow": 0.0,
+    "state": "INSUFFICIENT_DATA",
+    "trend": 0.0,
+    "vol_ratio": 1.0
   },
   "market_data_api_calls": 0,
   "persistent_checkpoint": true,
@@ -12565,8 +12565,8 @@
   "shared_cache_only": true,
   "status": "ONLINE",
   "symbols": 45,
-  "sync_checked_at": "2026-09-01T19:33:27.770307+00:00",
-  "sync_snapshot_age_seconds": 35.322551,
+  "sync_checked_at": "2026-09-01T19:45:06.935052+00:00",
+  "sync_snapshot_age_seconds": 27.946706,
   "v2": {
     "accounts": [
       {
