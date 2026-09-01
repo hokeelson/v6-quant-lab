@@ -2,57 +2,57 @@
   "broker_order_api_calls": 0,
   "can_increase_exposure": false,
   "contains_secrets": false,
-  "generated_at": "2026-09-01T11:53:30.542405+00:00",
+  "generated_at": "2026-09-01T17:53:31.903030+00:00",
   "headline_summary": {
     "crypto": {
       "duplicate_count": 1,
-      "effective_headline_count": 15.23111362963432,
+      "effective_headline_count": 13.973554636903742,
       "event_risk": 1.0,
       "evidence_quality": 0.9933333333333334,
       "headline_count": 29,
       "raw_headline_count": 30,
       "recency_coverage": 1.0,
-      "sentiment": -0.6851277592652031,
+      "sentiment": -0.7106683987839043,
       "source_count": 15,
       "source_diversity": 1.0
     },
     "macro": {
       "duplicate_count": 0,
-      "effective_headline_count": 20.577723281917518,
-      "event_risk": 0.49082018126283306,
+      "effective_headline_count": 24.18405708906389,
+      "event_risk": 0.2246185255623352,
       "evidence_quality": 1.0,
       "headline_count": 30,
       "raw_headline_count": 30,
       "recency_coverage": 1.0,
-      "sentiment": -0.8639379482342113,
-      "source_count": 22,
+      "sentiment": -0.8728172703325837,
+      "source_count": 20,
       "source_diversity": 1.0
     }
   },
   "market_data": {
     "BTC": {
-      "change_pct": -0.005057575297946926,
-      "last": 78151.3671875,
+      "change_pct": -0.015432517175615224,
+      "last": 77336.4296875,
       "symbol": "BTC-USD"
     },
     "DXY": {
-      "change_pct": 0.0016896235247159108,
-      "last": 99.5979995727539,
+      "change_pct": 0.0027356247912428966,
+      "last": 99.7020034790039,
       "symbol": "DX-Y.NYB"
     },
     "SPX": {
-      "change_pct": -0.0033221508040809367,
-      "last": 7686.14013671875,
+      "change_pct": -0.006843499691732813,
+      "last": 7633.5400390625,
       "symbol": "^GSPC"
     },
     "TNX": {
-      "change_pct": 0.008050870445055702,
-      "last": 4.757999897003174,
+      "change_pct": 0.007145842922941625,
+      "last": 4.791999816894531,
       "symbol": "^TNX"
     },
     "VIX": {
-      "change_pct": 0.0563002780356916,
-      "last": 15.760000228881836,
+      "change_pct": 0.06903483429653168,
+      "last": 15.949999809265137,
       "symbol": "^VIX"
     }
   },
@@ -63,8 +63,8 @@
       "market_multiplier": 0.85,
       "market_stress": 0.0,
       "risk_regime": "CAUTION",
-      "risk_score": 0.4995422650808712,
-      "sentiment_score": -0.7477113254043559,
+      "risk_score": 0.5034841007651885,
+      "sentiment_score": -0.7674205038259421,
       "strategy_multipliers": {
         "Breakout": 0.7999999999999999,
         "Mean Reversion RSI": 0.85,
@@ -74,32 +74,32 @@
     },
     "stock": {
       "confidence": 0.9991666666666666,
-      "event_risk": 0.49082018126283306,
-      "market_multiplier": 0.85,
+      "event_risk": 0.2246185255623352,
+      "market_multiplier": 1.0,
       "market_stress": 0.0,
-      "risk_regime": "CAUTION",
-      "risk_score": 0.34457465308883384,
-      "sentiment_score": -0.8639379482342113,
+      "risk_regime": "NORMAL",
+      "risk_score": 0.25317993801333405,
+      "sentiment_score": -0.8728172703325837,
       "strategy_multipliers": {
-        "Breakout": 0.85,
-        "Mean Reversion RSI": 0.85,
-        "Momentum": 0.85,
-        "Trend MA": 0.85
+        "Breakout": 1.0,
+        "Mean Reversion RSI": 1.0,
+        "Momentum": 1.0,
+        "Trend MA": 1.0
       }
     },
     "twstock": {
       "confidence": 0.9991666666666666,
-      "event_risk": 0.49082018126283306,
-      "market_multiplier": 0.85,
+      "event_risk": 0.2246185255623352,
+      "market_multiplier": 1.0,
       "market_stress": 0.0,
-      "risk_regime": "CAUTION",
-      "risk_score": 0.34457465308883384,
-      "sentiment_score": -0.8639379482342113,
+      "risk_regime": "NORMAL",
+      "risk_score": 0.25317993801333405,
+      "sentiment_score": -0.8728172703325837,
       "strategy_multipliers": {
-        "Breakout": 0.85,
-        "Mean Reversion RSI": 0.85,
-        "Momentum": 0.85,
-        "Trend MA": 0.85
+        "Breakout": 1.0,
+        "Mean Reversion RSI": 1.0,
+        "Momentum": 1.0,
+        "Trend MA": 1.0
       }
     }
   },
@@ -118,6 +118,6 @@
     "source_coverage": 0.9991666666666666
   },
   "status": "AVAILABLE",
-  "sync_checked_at": "2026-09-01T17:50:07.058174+00:00",
-  "sync_snapshot_age_seconds": 21396.515769
+  "sync_checked_at": "2026-09-01T18:01:55.047370+00:00",
+  "sync_snapshot_age_seconds": 503.14434
 }
