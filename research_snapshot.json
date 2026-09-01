@@ -59,30 +59,30 @@
     {
       "account_id": "stock_medium",
       "as_of": "2026-09-01T16:00:00+00:00",
-      "cash": -1683.8482542866243,
+      "cash": -1685.162862015041,
       "closed_trades": 17,
-      "drawdown": -0.05730355521147723,
-      "equity": 95633.50258300533,
-      "gross_exposure": 97317.35083729196,
+      "drawdown": -0.05652392474315293,
+      "equity": 95712.59357016081,
+      "gross_exposure": 97397.75643217585,
       "horizon": "medium",
       "initial_equity": 100000.0,
-      "leverage": 1.017607305063674,
+      "leverage": 1.0176064904225979,
       "market": "stock",
-      "return_pct": -0.043664974169946635
+      "return_pct": -0.04287406429839191
     },
     {
       "account_id": "stock_short",
       "as_of": "2026-09-01T19:00:00+00:00",
       "cash": 51013.45069321849,
       "closed_trades": 108,
-      "drawdown": -0.042453904944800724,
-      "equity": 98088.40246170832,
-      "gross_exposure": 47074.95176848984,
+      "drawdown": -0.04203210027985438,
+      "equity": 98131.6109776734,
+      "gross_exposure": 47118.160284454905,
       "horizon": "short",
       "initial_equity": 100000.0,
-      "leverage": 0.47992372785219867,
+      "leverage": 0.4801527236231257,
       "market": "stock",
-      "return_pct": -0.01911597538291676
+      "return_pct": -0.01868389022326611
     },
     {
       "account_id": "twstock_long",
@@ -419,6 +419,21 @@
     "entries": [
       {
         "account_id": "stock_medium",
+        "created_at": "2026-09-01T20:27:20.144021+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3431,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "meta_verdict:SHADOW_ONLY",
+          "regime_state:SHADOW_ONLY_CANDIDATE",
+          "strategy_state:SHADOW_ONLY_CANDIDATE"
+        ],
+        "symbol": "SMCI"
+      },
+      {
+        "account_id": "stock_medium",
         "created_at": "2026-09-01T20:25:40.188088+00:00",
         "entry_allowed": false,
         "filled": false,
@@ -585,16 +600,16 @@
     "simulation_only": true,
     "status": "OK",
     "summary": {
-      "blocked": 11,
+      "blocked": 12,
       "blocked_but_filled": 0,
       "filled": 0,
-      "sampled_events": 11
+      "sampled_events": 12
     }
   },
   "expected_live_deviation": {
     "active_sizing": true,
     "contains_secrets": false,
-    "generated_at": "2026-09-01T20:26:51.820647+00:00",
+    "generated_at": "2026-09-01T20:41:55.961749+00:00",
     "minimum_live_trades_for_active_sizing": 5,
     "rows": [
       {
@@ -11853,7 +11868,7 @@
       }
     ]
   },
-  "generated_at": "2026-09-01T20:26:41.242597+00:00",
+  "generated_at": "2026-09-01T20:42:42.236738+00:00",
   "governance": {
     "arenas": [
       {
@@ -27605,7 +27620,7 @@
         "total_reduction_notional": 3051.550301414807
       }
     ],
-    "generated_at": "2026-09-01T20:27:37.025256+00:00",
+    "generated_at": "2026-09-01T20:42:41.144009+00:00",
     "scope": "PUBLIC_READ_ONLY_RISK_SIZING_AUDIT",
     "status": "AVAILABLE",
     "summary": {
@@ -30378,11 +30393,11 @@
       "worst_trade_return": -0.00029986839109497065
     }
   ],
-  "sync_checked_at": "2026-09-01T20:27:38.511872+00:00",
-  "sync_snapshot_age_seconds": 57.269275,
+  "sync_checked_at": "2026-09-01T20:42:44.214133+00:00",
+  "sync_snapshot_age_seconds": 1.977395,
   "trial_ledger": {
     "challenges": 63,
-    "cycles": 680,
+    "cycles": 684,
     "distinct_hypotheses": 63,
     "events": 186,
     "last_event_at": "2026-09-01T20:17:43.250567+00:00",
@@ -30390,20 +30405,21 @@
     "research_trials": 108
   },
   "worker": {
-    "assets_checked": 0,
+    "assets_checked": 253,
     "bars_processed": 0,
     "broker_order_api_calls": 0,
-    "concept_drift_pairs": 0,
-    "data_quality": "STARTING",
+    "concept_drift_pairs": 8,
+    "data_quality": "OK",
     "data_quality_critical": 0,
-    "data_quality_warnings": 0,
-    "heartbeat_at": "2026-09-01T20:26:28.462326+00:00",
-    "last_cycle_finished_at": null,
-    "last_cycle_started_at": "2026-09-01T20:17:43.238755+00:00",
+    "data_quality_warnings": 41,
+    "heartbeat_at": "2026-09-01T20:42:28.708911+00:00",
+    "last_cycle_finished_at": "2026-09-01T20:40:33.126349+00:00",
+    "last_cycle_started_at": "2026-09-01T20:41:33.137743+00:00",
     "market_data_api_calls": 0,
-    "realtime_watchlist_sync": "STARTING",
-    "realtime_watchlist_total": 0,
-    "risk_layer": "STARTING",
+    "portfolio_risk": "MEDIUM",
+    "realtime_watchlist_sync": "ONLINE",
+    "realtime_watchlist_total": 63,
+    "risk_layer": "ONLINE",
     "risk_sizing": "ACTIVE",
     "status": "RUNNING",
     "true_errors": 0
