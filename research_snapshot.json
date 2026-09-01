@@ -203,12 +203,12 @@
       "reason": "Forward evidence is diagnostic until independently reviewed; no online parameter chasing.",
       "state": "PRELIMINARY"
     },
-    "pending": 242,
+    "pending": 243,
     "policies": [
       {
         "engine_version": "V10_ADAPTIVE_EVIDENCE_SHADOW",
         "evaluated": 61,
-        "predictions": 303
+        "predictions": 304
       }
     ],
     "policy_performance": {
@@ -407,7 +407,7 @@
   "expected_live_deviation": {
     "active_sizing": true,
     "contains_secrets": false,
-    "generated_at": "2026-09-01T18:22:18.549522+00:00",
+    "generated_at": "2026-09-01T18:39:23.413749+00:00",
     "minimum_live_trades_for_active_sizing": 5,
     "rows": [
       {
@@ -11652,9 +11652,21 @@
       }
     ]
   },
-  "generated_at": "2026-09-01T18:21:52.637652+00:00",
+  "generated_at": "2026-09-01T18:38:53.646653+00:00",
   "governance": {
     "arenas": [
+      {
+        "arena_id": "0926dc1b93f35bd52122",
+        "challenger_signature": "33813df508d6a208c8d5",
+        "champion_signature": "3fa637f15200c926a639",
+        "decision_at": null,
+        "horizon": "medium",
+        "latest_verdict": "WAITING",
+        "market": "crypto",
+        "registered_at": "2026-09-01T18:23:31.360111+00:00",
+        "status": "ACTIVE",
+        "symbol": "UUSDT"
+      },
       {
         "arena_id": "322c58d2448d29c8aea5",
         "challenger_signature": "73ce7601b7dbb58705d4",
@@ -12401,6 +12413,15 @@
       }
     ],
     "recent_events": [
+      {
+        "arena_id": "0926dc1b93f35bd52122",
+        "created_at": "2026-09-01T18:23:31.360111+00:00",
+        "event_type": "CHALLENGE_REGISTERED",
+        "horizon": "medium",
+        "id": 79,
+        "market": "crypto",
+        "symbol": "UUSDT"
+      },
       {
         "arena_id": "322c58d2448d29c8aea5",
         "created_at": "2026-09-01T18:05:36.988713+00:00",
@@ -27397,7 +27418,7 @@
         "total_reduction_notional": 15070.379176638022
       }
     ],
-    "generated_at": "2026-09-01T18:22:48.648361+00:00",
+    "generated_at": "2026-09-01T18:39:43.486782+00:00",
     "scope": "PUBLIC_READ_ONLY_RISK_SIZING_AUDIT",
     "status": "AVAILABLE",
     "summary": {
@@ -30152,35 +30173,35 @@
       "worst_trade_return": -0.00029986839109497065
     }
   ],
-  "sync_checked_at": "2026-09-01T18:22:51.582899+00:00",
-  "sync_snapshot_age_seconds": 58.945247,
+  "sync_checked_at": "2026-09-01T18:39:46.341466+00:00",
+  "sync_snapshot_age_seconds": 52.694813,
   "trial_ledger": {
-    "challenges": 62,
-    "cycles": 757,
+    "challenges": 63,
+    "cycles": 762,
     "distinct_hypotheses": 67,
-    "events": 192,
-    "last_event_at": "2026-09-01T18:19:34.422495+00:00",
+    "events": 194,
+    "last_event_at": "2026-09-01T18:23:31.360111+00:00",
     "promotions": 0,
-    "research_trials": 114
+    "research_trials": 115
   },
   "worker": {
-    "assets_checked": 255,
-    "bars_processed": 68,
+    "assets_checked": 256,
+    "bars_processed": 0,
     "broker_order_api_calls": 0,
     "concept_drift_pairs": 8,
     "data_quality": "OK",
     "data_quality_critical": 0,
     "data_quality_warnings": 43,
-    "heartbeat_at": "2026-09-01T18:21:40.071836+00:00",
-    "last_cycle_finished_at": "2026-09-01T18:18:34.394502+00:00",
-    "last_cycle_started_at": "2026-09-01T18:19:34.408178+00:00",
-    "market_data_api_calls": 15,
+    "heartbeat_at": "2026-09-01T18:38:40.467500+00:00",
+    "last_cycle_finished_at": "2026-09-01T18:38:16.925115+00:00",
+    "last_cycle_started_at": "2026-09-01T18:35:38.014199+00:00",
+    "market_data_api_calls": 0,
     "portfolio_risk": "HIGH",
     "realtime_watchlist_sync": "ONLINE",
     "realtime_watchlist_total": 64,
     "risk_layer": "ONLINE",
     "risk_sizing": "ACTIVE",
-    "status": "RUNNING",
+    "status": "ONLINE",
     "true_errors": 0
   }
 }
