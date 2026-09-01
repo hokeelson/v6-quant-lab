@@ -27335,7 +27335,7 @@
         "total_reduction_notional": 3051.550301414807
       }
     ],
-    "generated_at": "2026-09-01T19:45:04.461549+00:00",
+    "generated_at": "2026-09-01T19:45:29.543552+00:00",
     "scope": "PUBLIC_READ_ONLY_RISK_SIZING_AUDIT",
     "status": "AVAILABLE",
     "summary": {
@@ -30108,8 +30108,8 @@
       "worst_trade_return": -0.00029986839109497065
     }
   ],
-  "sync_checked_at": "2026-09-01T19:45:06.935052+00:00",
-  "sync_snapshot_age_seconds": 28.529298,
+  "sync_checked_at": "2026-09-01T19:45:31.424832+00:00",
+  "sync_snapshot_age_seconds": 53.019078,
   "trial_ledger": {
     "challenges": 58,
     "cycles": 679,
