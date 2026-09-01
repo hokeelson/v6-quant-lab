@@ -30,17 +30,17 @@
     },
     {
       "account_id": "crypto_short",
-      "as_of": "2026-09-01T20:00:00+00:00",
+      "as_of": "2026-09-01T21:00:00+00:00",
       "cash": 53624.79788492908,
       "closed_trades": 323,
-      "drawdown": -0.11954136075458965,
-      "equity": 90617.7668713936,
-      "gross_exposure": 36992.96898646451,
+      "drawdown": -0.11958991053691437,
+      "equity": 90612.7700746558,
+      "gross_exposure": 36987.972189726715,
       "horizon": "short",
       "initial_equity": 100000.0,
-      "leverage": 0.4082308609410516,
+      "leverage": 0.4081982281222873,
       "market": "crypto",
-      "return_pct": -0.09382233128606399
+      "return_pct": -0.09387229925344198
     },
     {
       "account_id": "stock_long",
@@ -419,6 +419,22 @@
     "entries": [
       {
         "account_id": "crypto_short",
+        "created_at": "2026-09-01T22:02:27.201934+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3442,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "meta_verdict:SHADOW_ONLY",
+          "pretrade_verdict:BLOCK_CANDIDATE",
+          "regime_state:SHADOW_ONLY_CANDIDATE",
+          "strategy_state:PAUSE_CANDIDATE"
+        ],
+        "symbol": "BNBUSDT"
+      },
+      {
+        "account_id": "crypto_short",
         "created_at": "2026-09-01T21:11:19.843145+00:00",
         "entry_allowed": false,
         "filled": false,
@@ -675,16 +691,16 @@
     "simulation_only": true,
     "status": "OK",
     "summary": {
-      "blocked": 17,
+      "blocked": 18,
       "blocked_but_filled": 0,
       "filled": 0,
-      "sampled_events": 17
+      "sampled_events": 18
     }
   },
   "expected_live_deviation": {
     "active_sizing": true,
     "contains_secrets": false,
-    "generated_at": "2026-09-01T21:50:13.823223+00:00",
+    "generated_at": "2026-09-01T22:03:17.076769+00:00",
     "minimum_live_trades_for_active_sizing": 5,
     "rows": [
       {
@@ -1738,17 +1754,17 @@
         "live_win_rate": 0.0,
         "live_wins": 0,
         "market": "crypto",
-        "oos_closed_trades": 28,
-        "oos_max_drawdown": -0.059181658305026086,
-        "oos_per_trade_return": 0.006088477418436877,
-        "oos_profit_factor": 2.0370944231172077,
+        "oos_closed_trades": 29,
+        "oos_max_drawdown": -0.05883053207166877,
+        "oos_per_trade_return": 0.0052272902235925844,
+        "oos_profit_factor": 1.7964177460497424,
         "oos_profit_factor_infinite": false,
-        "oos_sharpe": 6.853028440725743,
-        "oos_total_return": 0.1852580218568627,
-        "oos_win_rate": 0.5,
-        "per_trade_return_gap": 0.05265733563575248,
+        "oos_sharpe": 5.991432281689632,
+        "oos_total_return": 0.16322530901216892,
+        "oos_win_rate": 0.4827586206896552,
+        "per_trade_return_gap": 0.051796148440908185,
         "performance_key": "crypto:PROMUSDT:short:Momentum",
-        "profit_factor_gap": 2.0370944231172077,
+        "profit_factor_gap": 1.7964177460497424,
         "reasons": [
           "OOS_POSITIVE_LIVE_NEGATIVE",
           "WIN_RATE_DETERIORATION",
@@ -1760,7 +1776,7 @@
         "strategy": "Momentum",
         "suggested_confidence_multiplier": 1.0,
         "symbol": "PROMUSDT",
-        "win_rate_gap": 0.5
+        "win_rate_gap": 0.4827586206896552
       },
       {
         "deviation_score": 46.987500000000004,
@@ -11943,9 +11959,21 @@
       }
     ]
   },
-  "generated_at": "2026-09-01T21:50:46.289663+00:00",
+  "generated_at": "2026-09-01T22:02:46.957681+00:00",
   "governance": {
     "arenas": [
+      {
+        "arena_id": "e27f4eed54bef372f048",
+        "challenger_signature": "7dc4f4e97813e40983bd",
+        "champion_signature": "88408443a25f967bebf9",
+        "decision_at": null,
+        "horizon": "short",
+        "latest_verdict": "WAITING",
+        "market": "crypto",
+        "registered_at": "2026-09-01T21:53:21.986972+00:00",
+        "status": "ACTIVE",
+        "symbol": "NILUSDT"
+      },
       {
         "arena_id": "8a9557e2f236ce232e98",
         "challenger_signature": "47568ec47a86d7e1a5b9",
@@ -12704,6 +12732,24 @@
       }
     ],
     "recent_events": [
+      {
+        "arena_id": null,
+        "created_at": "2026-09-01T21:57:25.153780+00:00",
+        "event_type": "SAME_HYPOTHESIS_REFRESH",
+        "horizon": "short",
+        "id": 80,
+        "market": "crypto",
+        "symbol": "PROMUSDT"
+      },
+      {
+        "arena_id": "e27f4eed54bef372f048",
+        "created_at": "2026-09-01T21:53:21.986972+00:00",
+        "event_type": "CHALLENGE_REGISTERED",
+        "horizon": "short",
+        "id": 79,
+        "market": "crypto",
+        "symbol": "NILUSDT"
+      },
       {
         "arena_id": "8a9557e2f236ce232e98",
         "created_at": "2026-09-01T20:17:43.250567+00:00",
@@ -15610,24 +15656,24 @@
       "updated_at": "2026-08-29T21:55:05.692597+00:00"
     },
     {
-      "calibrated_through": "2026-08-29T20:00:00+00:00",
-      "calibration_score": 95.17501637593962,
+      "calibrated_through": "2026-09-01T20:00:00+00:00",
+      "calibration_score": 85.31634032145251,
       "horizon": "short",
       "market": "crypto",
       "oos_metrics": {
-        "closed_trades": 28,
-        "max_drawdown": -0.059181658305026086,
-        "profit_factor": 2.0370944231172077,
-        "sharpe": 6.853028440725743,
-        "total_return": 0.1852580218568627,
-        "win_rate": 0.5
+        "closed_trades": 29,
+        "max_drawdown": -0.05883053207166877,
+        "profit_factor": 1.7964177460497424,
+        "sharpe": 5.991432281689632,
+        "total_return": 0.16322530901216892,
+        "win_rate": 0.4827586206896552
       },
-      "oos_score": 99.00221998008347,
-      "regime_fit": 0.9,
+      "oos_score": 94.98518694828324,
+      "regime_fit": 0.25,
       "strategy": "Momentum",
       "symbol": "PROMUSDT",
-      "train_score": 88.7467246163402,
-      "updated_at": "2026-08-29T21:54:57.822024+00:00"
+      "train_score": 83.57668731575015,
+      "updated_at": "2026-09-01T21:57:25.153780+00:00"
     },
     {
       "calibrated_through": "2026-08-21T00:00:00+00:00",
@@ -27695,7 +27741,7 @@
         "total_reduction_notional": 3051.550301414807
       }
     ],
-    "generated_at": "2026-09-01T21:50:48.958221+00:00",
+    "generated_at": "2026-09-01T22:03:17.054442+00:00",
     "scope": "PUBLIC_READ_ONLY_RISK_SIZING_AUDIT",
     "status": "AVAILABLE",
     "summary": {
@@ -30468,16 +30514,16 @@
       "worst_trade_return": -0.00029986839109497065
     }
   ],
-  "sync_checked_at": "2026-09-01T21:50:50.935461+00:00",
-  "sync_snapshot_age_seconds": 4.645798,
+  "sync_checked_at": "2026-09-01T22:03:18.948800+00:00",
+  "sync_snapshot_age_seconds": 31.991119,
   "trial_ledger": {
-    "challenges": 63,
-    "cycles": 701,
+    "challenges": 64,
+    "cycles": 704,
     "distinct_hypotheses": 63,
-    "events": 186,
-    "last_event_at": "2026-09-01T20:17:43.250567+00:00",
+    "events": 190,
+    "last_event_at": "2026-09-01T21:57:25.153780+00:00",
     "promotions": 0,
-    "research_trials": 108
+    "research_trials": 110
   },
   "worker": {
     "assets_checked": 253,
@@ -30487,10 +30533,10 @@
     "data_quality": "OK",
     "data_quality_critical": 0,
     "data_quality_warnings": 36,
-    "heartbeat_at": "2026-09-01T21:50:44.881425+00:00",
-    "last_cycle_finished_at": "2026-09-01T21:49:04.818047+00:00",
-    "last_cycle_started_at": "2026-09-01T21:50:04.830170+00:00",
-    "market_data_api_calls": 5,
+    "heartbeat_at": "2026-09-01T22:02:45.083575+00:00",
+    "last_cycle_finished_at": "2026-09-01T21:59:48.995355+00:00",
+    "last_cycle_started_at": "2026-09-01T22:00:49.026567+00:00",
+    "market_data_api_calls": 0,
     "portfolio_risk": "MEDIUM",
     "realtime_watchlist_sync": "ONLINE",
     "realtime_watchlist_total": 62,
