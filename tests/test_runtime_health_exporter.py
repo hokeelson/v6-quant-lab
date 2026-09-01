@@ -32,7 +32,7 @@ def _seed_healthy(monkeypatch, tmp_path):
         "last_cycle_finished_at": _iso(-100), "candidates": 2, "pending": 2,
         "evaluated": 0, "shared_cache_only": True, "true_errors": 0,
     })
-    _write(rhe.DIRECTION_BACKUP_PATH, {"success": True, "last_snapshot_at": _iso(-30)})
+    _write(rhe.DIRECTION_BACKUP_PATH, {"success": True, "last_snapshot_at": _iso(-30), "pending": 2, "evaluated": 0})
     _write(rhe.MAIN_STATUS_PATH, {
         "status": "ONLINE",
         "heartbeat_at": _iso(-5),
