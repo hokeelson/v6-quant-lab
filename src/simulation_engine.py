@@ -7,6 +7,7 @@ from .backtest import ExecutionCosts
 from .decision_engine import HORIZON_SPECS, calibrate_asset, decision_for
 from .market_cache import MarketCache
 from .risk_sizing import active_entry_sizing
+from .entry_gate import safe_entry_sizing
 from .simulation_db import SimulationDB, now_iso
 
 
@@ -85,11 +86,11 @@ class SimulationLab:
             maxlev=HORIZON_SPECS[hz]["max_leverage"]
             room=max(0.0,equity*maxlev-gross)
             original_notional=float(o["requested_notional"] or 0)
-            sizing=active_entry_sizing(self.db,self.cache,market,symbol,hz,decision_context,original_notional)
+            sizing=safe_entry_sizing(active_entry_sizing,self.db,self.cache,market,symbol,hz,decision_context,original_notional)
             risk_adjusted=float(sizing.get("adjusted_notional",original_notional) or 0)
             notional=min(risk_adjusted,room)
             if notional<=0:
-                cancel_reason = "RISK_SIZING_ZERO_NOTIONAL" if risk_adjusted <= 0 else "NO_LEVERAGE_ROOM"
+                cancel_reason = "ENTRY_GATE_BLOCKED" if not sizing.get("entry_allowed") else "NO_LEVERAGE_ROOM"
                 self.db.cancel_order(o["order_id"], cancel_reason)
                 self.db.add_diagnostic(aid,symbol,hz,ts.isoformat(),"ORDER_CANCELLED","Pending BUY cancelled before fill",{
                     **sizing,"leverage_room":room,"risk_adjusted_notional":risk_adjusted,

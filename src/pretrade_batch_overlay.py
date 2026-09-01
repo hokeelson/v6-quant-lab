@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from .entry_gate import multiplier as risk_multiplier
+
 from .backtest import ExecutionCosts
 from .batch_portfolio_optimizer import optimize_batch
 from .decision_engine import regime_fit
@@ -90,8 +92,8 @@ def apply_pretrade_batch_overlay(db, cache, rows: list[dict], correlation_fn) ->
         # Existing pretrade risk, regime prior, and batch EV overlap on exposure/
         # correlation evidence. Use the strictest multiplier instead of multiplying.
         row["shadow_size_multiplier"] = min(
-            float(row.get("shadow_size_multiplier", 1.0) or 1.0),
-            float(row.get("dynamic_regime_multiplier", 1.0) or 1.0),
-            float(row.get("batch_ev_multiplier", 1.0) or 1.0),
+            risk_multiplier(row.get("shadow_size_multiplier", 1.0)),
+            risk_multiplier(row.get("dynamic_regime_multiplier", 1.0)),
+            risk_multiplier(row.get("batch_ev_multiplier", 1.0)),
         )
     return rows

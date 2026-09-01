@@ -14,6 +14,7 @@ from .decision_engine import HORIZON_SPECS, PARAM_GRIDS, _grid, decision_for, ma
 from .market_cache import HISTORY_DAYS, TIMEFRAME_MAP, MarketCache, _utc
 from .research import robustness_score, strategy_signal
 from .risk_sizing import active_entry_sizing
+from .entry_gate import safe_entry_sizing
 from .simulation_db import SimulationDB, now_iso
 from .simulation_engine import SimulationLab
 
@@ -330,14 +331,14 @@ class TaiwanSimulationLab(SimulationLab):
         if o["side"] == "BUY" and pos is None:
             cash, gross, equity = self._account_marks(aid, {symbol: open_px})
             original_notional = float(o["requested_notional"] or 0)
-            sizing = active_entry_sizing(self.db, self.cache, market, symbol, hz, decision_context, original_notional)
+            sizing = safe_entry_sizing(active_entry_sizing,self.db, self.cache, market, symbol, hz, decision_context, original_notional)
             risk_adjusted = float(sizing.get("adjusted_notional", original_notional) or 0)
             notional = min(risk_adjusted, max(0.0, cash))
             rate = self._buy_cost_rate(market)
             fill = open_px * (1 + rate)
             qty = math.floor(notional / fill) if fill > 0 else 0
             if qty <= 0:
-                cancel_reason = "RISK_SIZING_ZERO_NOTIONAL" if risk_adjusted <= 0 else "INSUFFICIENT_CASH_FOR_BOARD_LOT"
+                cancel_reason = "ENTRY_GATE_BLOCKED" if not sizing.get("entry_allowed") else "INSUFFICIENT_CASH_FOR_BOARD_LOT"
                 self.db.cancel_order(o["order_id"], cancel_reason)
                 self.db.add_diagnostic(aid, symbol, hz, ts.isoformat(), "ORDER_CANCELLED", "Pending Taiwan BUY cancelled before fill",
                                        {**sizing, "cash_room": max(0.0, cash), "risk_adjusted_notional": risk_adjusted,

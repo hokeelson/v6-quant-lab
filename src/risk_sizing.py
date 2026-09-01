@@ -1,8 +1,10 @@
 from __future__ import annotations
 
 import os
+import math
 
 from .backtest import ExecutionCosts
+from .entry_gate import finalize_entry, multiplier
 from .data_quality_drift import assess_pair
 from .decision_engine import HORIZON_SPECS
 from .expected_live_sizing import expected_live_sizing_assessment
@@ -20,13 +22,6 @@ def _flag(name: str, default: bool = True) -> bool:
     if raw is None:
         return default
     return raw.strip().lower() not in ("0", "false", "no", "off")
-
-
-def _min_multiplier() -> float:
-    try:
-        return max(0.10, min(1.0, float(os.getenv("V6_MIN_ACTIVE_SIZE_MULTIPLIER", "0.25"))))
-    except Exception:
-        return 0.25
 
 
 def _find_pretrade_row(snapshot: dict, market: str, symbol: str, horizon: str) -> dict | None:
@@ -77,8 +72,8 @@ def _trade_ev_multiplier(expected_value_pct: float, expected_value_r: float, evi
     ev_r = float(expected_value_r or 0.0)
     evidence = max(0.0, min(1.0, float(evidence_weight or 0.0)))
     if ev_pct <= 0.0 or ev_r <= 0.0:
-        # Immature evidence is reduced, not killed. Mature negative EV gets the
-        # normal minimum-size floor so the shadow system can keep learning.
+        # Immature evidence reduces sizing; finalize_entry vetoes mature negative EV.
+        # Independent V10 observations continue without funding a rejected entry.
         return (0.50 if evidence < 0.25 else 0.25), "NEGATIVE_EV"
     if ev_r >= 0.50:
         return 1.00, "STRONG_POSITIVE_EV"
@@ -111,7 +106,13 @@ def active_entry_sizing(db, cache, market: str, symbol: str, horizon: str, decis
     de-duplicated with min() rather than multiplied repeatedly. Broker orders remain
     disabled; this only changes virtual position size.
     """
-    original = max(0.0, float(requested_notional or 0.0))
+    try:
+        original = float(requested_notional)
+        if not math.isfinite(original) or original < 0:
+            raise ValueError("invalid requested notional")
+    except (TypeError, ValueError, OverflowError):
+        return finalize_entry({"original_notional": 0.0, "adjusted_notional": 0.0,
+                               "error": "INVALID_REQUESTED_NOTIONAL"})
     result = {
         "original_notional": original,
         "adjusted_notional": original,
@@ -208,7 +209,7 @@ def active_entry_sizing(db, cache, market: str, symbol: str, horizon: str, decis
         "error": None,
     }
     if original <= 0:
-        return result
+        return finalize_entry(result)
 
     try:
         pretrade_row = None
@@ -216,7 +217,7 @@ def active_entry_sizing(db, cache, market: str, symbol: str, horizon: str, decis
             pre = build_pretrade_risk_snapshot(db, cache)
             pretrade_row = _find_pretrade_row(pre, market, symbol, horizon)
             if pretrade_row:
-                result["pretrade_multiplier"] = float(pretrade_row.get("shadow_size_multiplier", 1.0) or 1.0)
+                result["pretrade_multiplier"] = multiplier(pretrade_row.get("shadow_size_multiplier", 1.0))
                 result["pretrade_verdict"] = str(pretrade_row.get("verdict") or "ALLOW")
                 result["pretrade_score"] = float(pretrade_row.get("risk_score", 0.0) or 0.0)
                 result["pretrade_max_correlation"] = max(0.0, float(pretrade_row.get("max_correlation", 0.0) or 0.0))
@@ -231,7 +232,7 @@ def active_entry_sizing(db, cache, market: str, symbol: str, horizon: str, decis
                 None,
             )
             if global_row:
-                result["global_multiplier"] = float(global_row.get("shadow_risk_multiplier", 1.0) or 1.0)
+                result["global_multiplier"] = multiplier(global_row.get("shadow_risk_multiplier", 1.0))
             result["portfolio_multiplier"] = min(result["pretrade_multiplier"], result["global_multiplier"])
 
         trade_ev_multiplier = 1.0
@@ -305,10 +306,10 @@ def active_entry_sizing(db, cache, market: str, symbol: str, horizon: str, decis
             srow = _find_health_row(health.get("strategies") or [], market, horizon, strategy)
             rrow = _find_health_row(health.get("regimes") or [], market, horizon, strategy, regime)
             if srow:
-                result["strategy_multiplier"] = float(srow.get("shadow_weight_multiplier", 1.0) or 1.0)
+                result["strategy_multiplier"] = multiplier(srow.get("shadow_weight_multiplier", 1.0))
                 result["strategy_state"] = str(srow.get("state") or "LEARNING")
             if rrow:
-                result["regime_multiplier"] = float(rrow.get("shadow_weight_multiplier", 1.0) or 1.0)
+                result["regime_multiplier"] = multiplier(rrow.get("shadow_weight_multiplier", 1.0))
                 result["regime_state"] = str(rrow.get("state") or "LEARNING")
             health_multiplier = min(result["strategy_multiplier"], result["regime_multiplier"])
 
@@ -318,7 +319,7 @@ def active_entry_sizing(db, cache, market: str, symbol: str, horizon: str, decis
                 symbol_health = symbol_strategy_health_snapshot(db)
                 hrow = find_symbol_strategy_health(symbol_health, market, symbol, horizon, strategy)
                 if hrow:
-                    result["symbol_strategy_multiplier"] = float(hrow.get("shadow_weight_multiplier", 1.0) or 1.0)
+                    result["symbol_strategy_multiplier"] = multiplier(hrow.get("shadow_weight_multiplier", 1.0))
                     result["symbol_strategy_state"] = str(hrow.get("state") or "LEARNING")
                     result["symbol_strategy_samples"] = int(hrow.get("samples", 0) or 0)
                     result["symbol_strategy_failure_votes"] = int(hrow.get("failure_votes", 0) or 0)
@@ -335,7 +336,7 @@ def active_entry_sizing(db, cache, market: str, symbol: str, horizon: str, decis
             try:
                 strategy = str(decision.get("strategy") or "")
                 deviation = expected_live_sizing_assessment(db, market, symbol, horizon, strategy)
-                result["expected_live_multiplier"] = float(deviation.get("expected_live_multiplier", 1.0) or 1.0)
+                result["expected_live_multiplier"] = multiplier(deviation.get("expected_live_multiplier", 1.0))
                 result["expected_live_state"] = str(deviation.get("expected_live_state") or "LEARNING")
                 result["expected_live_samples"] = int(deviation.get("expected_live_samples", 0) or 0)
                 result["expected_live_deviation_score"] = deviation.get("expected_live_deviation_score")
@@ -343,8 +344,8 @@ def active_entry_sizing(db, cache, market: str, symbol: str, horizon: str, decis
                 result["expected_live_performance_key"] = deviation.get("expected_live_performance_key")
                 result["expected_live_evidence_weight"] = float(deviation.get("expected_live_evidence_weight", 0.0) or 0.0)
                 result["forward_shadow_weight"] = float(deviation.get("forward_shadow_weight", 0.0) or 0.0)
-                result["backtest_oos_weight"] = float(deviation.get("backtest_oos_weight", 1.0) or 1.0)
-                result["raw_expected_live_multiplier"] = float(deviation.get("raw_expected_live_multiplier", 1.0) or 1.0)
+                result["backtest_oos_weight"] = multiplier(deviation.get("backtest_oos_weight", 1.0))
+                result["raw_expected_live_multiplier"] = multiplier(deviation.get("raw_expected_live_multiplier", 1.0))
                 expected_live_multiplier = result["expected_live_multiplier"]
             except Exception as exc:
                 result["expected_live_error"] = f"{type(exc).__name__}: {exc}"
@@ -355,7 +356,7 @@ def active_entry_sizing(db, cache, market: str, symbol: str, horizon: str, decis
             try:
                 meta = meta_entry_assessment(db, market, symbol, horizon, decision)
                 result.update(meta)
-                meta_multiplier = float(meta.get("meta_multiplier", 1.0) or 1.0)
+                meta_multiplier = multiplier(meta.get("meta_multiplier", 1.0))
             except Exception as exc:
                 result["meta_error"] = f"{type(exc).__name__}: {exc}"
                 meta_multiplier = 1.0
@@ -364,9 +365,9 @@ def active_entry_sizing(db, cache, market: str, symbol: str, horizon: str, decis
         if result["active_data_quality_sizing"]:
             try:
                 health = assess_pair(db, cache, market, symbol, horizon)
-                result["quality_drift_multiplier"] = float(health.get("quality_drift_multiplier", 1.0) or 1.0)
-                result["data_multiplier"] = float(health.get("data_multiplier", 1.0) or 1.0)
-                result["drift_multiplier"] = float(health.get("drift_multiplier", 1.0) or 1.0)
+                result["quality_drift_multiplier"] = multiplier(health.get("quality_drift_multiplier", 1.0))
+                result["data_multiplier"] = multiplier(health.get("data_multiplier", 1.0))
+                result["drift_multiplier"] = multiplier(health.get("drift_multiplier", 1.0))
                 result["data_status"] = str(health.get("data_status") or "UNKNOWN")
                 result["drift_status"] = str(health.get("drift_status") or "LEARNING")
                 result["quality_score"] = health.get("quality_score")
@@ -395,7 +396,7 @@ def active_entry_sizing(db, cache, market: str, symbol: str, horizon: str, decis
             * meta_multiplier
             * quality_multiplier
         )
-        combined = max(_min_multiplier(), min(1.0, float(combined)))
+        combined = multiplier(combined)
         result["combined_multiplier"] = combined
         result["adjusted_notional"] = original * combined
         result["pre_execution_adjusted_notional"] = result["adjusted_notional"]
@@ -424,8 +425,8 @@ def active_entry_sizing(db, cache, market: str, symbol: str, horizon: str, decis
                 result["leverage_guard_error"] = f"{type(exc).__name__}: {exc}"
     except Exception as exc:
         result["error"] = f"{type(exc).__name__}: {exc}"
-        result["combined_multiplier"] = 1.0
-        result["adjusted_notional"] = original
-        result["pre_execution_adjusted_notional"] = original
+        result["combined_multiplier"] = 0.0
+        result["adjusted_notional"] = 0.0
+        result["pre_execution_adjusted_notional"] = 0.0
 
-    return result
+    return finalize_entry(result)

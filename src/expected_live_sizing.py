@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from .entry_gate import multiplier as risk_multiplier
+
 import time
 
 from .expected_live_deviation import expected_live_deviation_snapshot
@@ -35,7 +37,7 @@ def forward_shadow_weight(samples: int) -> float:
 
 
 def blend_expected_live_multiplier(suggested: float, samples: int) -> tuple[float, float, float]:
-    suggested = max(0.0, min(1.0, float(suggested or 1.0)))
+    suggested = risk_multiplier(suggested)
     forward_weight = forward_shadow_weight(samples)
     backtest_weight = 1.0 - forward_weight
     effective = backtest_weight * 1.0 + forward_weight * suggested
@@ -78,13 +80,12 @@ def expected_live_sizing_assessment(db, market: str, symbol: str, horizon: str, 
 
     samples = int(row.get("live_closed_trades", 0) or 0)
     state = str(row.get("state") or "LEARNING")
-    suggested = float(row.get("suggested_confidence_multiplier", 1.0) or 1.0)
+    suggested = risk_multiplier(row.get("suggested_confidence_multiplier", 1.0))
     quarantined = _should_quarantine(row)
 
     if quarantined:
-        # Keep a 25% research allocation rather than deleting the signal entirely.
-        # This is a quarantine: it sharply limits new Shadow exposure while still
-        # collecting evidence that can later support recovery.
+        # This is a diagnostic weight only. The entry gate vetoes QUARANTINED.
+        # Recovery evidence must come from the independent observation ledger.
         multiplier = 0.25
         forward_weight = forward_shadow_weight(samples)
         backtest_weight = 1.0 - forward_weight
