@@ -4,10 +4,10 @@
     "accounts": [
       {
         "closed_trades": 301,
-        "equity": 92449.59927812348,
+        "equity": 92409.05388940974,
         "horizon": "short",
         "initial_equity": 100000.0,
-        "return_pct": -0.07550400721876516
+        "return_pct": -0.07590946110590258
       },
       {
         "closed_trades": 63,
@@ -25,9 +25,9 @@
       }
     ],
     "closed_trades": 366,
-    "equity": 287257.61550243106,
+    "equity": 287217.0701137173,
     "initial_equity": 300000.0,
-    "return_pct": -0.04247461499189642
+    "return_pct": -0.04260976628760904
   },
   "broker_order_api_calls": 0,
   "catchup": {
@@ -43,15 +43,15 @@
   "contains_secrets": false,
   "errors": [],
   "forward_only": true,
-  "generated_at": "2026-09-01T11:44:52.537203+00:00",
+  "generated_at": "2026-09-01T11:53:31.424302+00:00",
   "latest_market_regime": {
-    "realized_vol": 0.01878809161724758,
-    "reason": "No dominant directional regime",
-    "ret_fast": -0.008858955955578729,
-    "ret_slow": -0.008643627411557886,
-    "state": "SIDEWAYS",
-    "trend": 0.0003615232944647051,
-    "vol_ratio": 0.9939233769061865
+    "realized_vol": 0.0,
+    "reason": "Need >=96 BTC 1h bars",
+    "ret_fast": 0.0,
+    "ret_slow": 0.0,
+    "state": "INSUFFICIENT_DATA",
+    "trend": 0.0,
+    "vol_ratio": 1.0
   },
   "market_data_api_calls": 0,
   "persistent_checkpoint": true,
@@ -12279,9 +12279,9 @@
   "scope": "PUBLIC_READ_ONLY_CRYPTO_V2_SHADOW",
   "shared_cache_only": true,
   "status": "ONLINE",
-  "symbols": 44,
-  "sync_checked_at": "2026-09-01T11:45:17.055382+00:00",
-  "sync_snapshot_age_seconds": 24.518179,
+  "symbols": 45,
+  "sync_checked_at": "2026-09-01T11:53:49.902622+00:00",
+  "sync_snapshot_age_seconds": 18.47832,
   "v2": {
     "accounts": [
       {
