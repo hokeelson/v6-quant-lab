@@ -254,8 +254,13 @@ def _direction_health(raw: dict, backup: dict) -> dict:
     backup_age = _age(backup.get("last_snapshot_at"))
     backup_ok = (backup.get("success") is True and backup_age is not None
                  and backup_age <= DIRECTION_BACKUP_MAX_AGE)
+    backup_pending = int(backup.get("pending", 0) or 0)
+    backup_evaluated = int(backup.get("evaluated", 0) or 0)
+    backup_covers_ledger = pending + evaluated > 0 and backup_pending + backup_evaluated >= pending + evaluated
     if not backup_ok:
         reasons.append("missing_failed_or_stale_direction_backup")
+    elif not backup_covers_ledger:
+        reasons.append("direction_backup_behind_ledger")
     return {
         "healthy": not reasons, "status": status, "degraded_reasons": reasons,
         "heartbeat_at": raw.get("heartbeat_at"), "heartbeat_age_seconds": _round_age(heartbeat_age),
@@ -268,7 +273,8 @@ def _direction_health(raw: dict, backup: dict) -> dict:
         "insufficient_cache": int(raw.get("insufficient_cache", 0) or 0),
         "true_errors": errors, "error_samples": _public_error_samples(raw),
         "input_path_mode": raw.get("input_path_mode"),
-        "backup_healthy": backup_ok, "backup_at": backup.get("last_snapshot_at"),
+        "backup_healthy": backup_ok and backup_covers_ledger, "backup_at": backup.get("last_snapshot_at"),
+        "backup_pending": backup_pending, "backup_evaluated": backup_evaluated,
         "backup_age_seconds": _round_age(backup_age),
         "broker_order_api_calls": broker_calls, "market_data_api_calls": market_calls,
     }

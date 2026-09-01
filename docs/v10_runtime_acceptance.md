@@ -36,3 +36,9 @@ Do not infer success from CI alone. In a post-deployment runtime_health.json sna
 Cross-check direction_shadow.pending in research_snapshot.json. Zero evaluated outcomes on
 the first repaired cycle is expected; zero total registrations is not a pass.
 The health snapshot copied into GitHub is timestamped backup evidence, not a continuous monitor.
+
+## Independent backup acceptance
+V10 backups run on their own 60-second loop, with a 20-second SQLite-copy deadline.
+They do not wait for large legacy snapshots. The backup status reports the pending/evaluated
+counts read from the persisted snapshot itself. A recent but empty snapshot does not count
+as a healthy backup of a nonempty ledger.

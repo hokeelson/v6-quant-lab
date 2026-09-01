@@ -6,6 +6,7 @@ import shutil
 import sqlite3
 import sys
 import time
+import threading
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -198,14 +199,20 @@ def bootstrap_runtime():
     )
 
 
-def sqlite_backup(src: Path, dst: Path):
+def sqlite_backup(src: Path, dst: Path, max_seconds=None):
     dst.parent.mkdir(parents=True, exist_ok=True)
     tmp = dst.with_suffix(dst.suffix + ".tmp")
     tmp.unlink(missing_ok=True)
     src_con = sqlite3.connect(str(src), timeout=30)
     dst_con = sqlite3.connect(str(tmp), timeout=30)
     try:
-        src_con.backup(dst_con, pages=256, sleep=0.02)
+        deadline = time.monotonic() + max_seconds if max_seconds is not None else None
+
+        def progress(status, remaining, total):
+            if deadline is not None and time.monotonic() > deadline:
+                raise TimeoutError("direction snapshot exceeded time budget")
+
+        src_con.backup(dst_con, pages=256, sleep=0.02, progress=progress)
         dst_con.commit()
     finally:
         dst_con.close()
@@ -227,10 +234,13 @@ def cleanup_snapshot_storage():
 def persist_one(src: Path, stamp: str):
     local_stage = RUNTIME_DIR / ".snapshot-stage" / src.name
     local_stage.parent.mkdir(parents=True, exist_ok=True)
-    sqlite_backup(src, local_stage)
+    sqlite_backup(src, local_stage, max_seconds=20 if src.name == "direction_forward.sqlite3" else None)
 
     CURRENT_DIR.mkdir(parents=True, exist_ok=True)
-    persistent_tmp = CURRENT_DIR / (src.name + ".new")
+    # Dedicated direction snapshots must not share the legacy cleanup temp namespace.
+    temp_dir = SNAPSHOT_DIR / ".direction-stage" if src.name == "direction_forward.sqlite3" else CURRENT_DIR
+    temp_dir.mkdir(parents=True, exist_ok=True)
+    persistent_tmp = temp_dir / (src.name + ".new")
     persistent_tmp.unlink(missing_ok=True)
     shutil.copy2(local_stage, persistent_tmp)
     persistent_final = CURRENT_DIR / src.name
@@ -246,7 +256,10 @@ def persist_one(src: Path, stamp: str):
         except Exception:
             pass
     if src.name == "direction_forward.sqlite3":
-        status = {"last_snapshot_at": now_iso(), "success": True, "database": src.name}
+        with sqlite3.connect(f"file:{persistent_final}?mode=ro", uri=True, timeout=10) as con:
+            counts = dict(con.execute("SELECT status, COUNT(*) FROM direction_predictions GROUP BY status"))
+        status = {"last_snapshot_at": now_iso(), "success": True, "database": src.name,
+                  "pending": int(counts.get("PENDING", 0)), "evaluated": int(counts.get("EVALUATED", 0))}
         status_path = RUNTIME_DIR / "direction_forward_backup_status.json"
         tmp = status_path.with_suffix(".json.tmp")
         tmp.write_text(json.dumps(status), encoding="utf-8")
@@ -254,7 +267,7 @@ def persist_one(src: Path, stamp: str):
     return persistent_final
 
 
-def snapshot_all():
+def snapshot_all(include_direction=True):
     cleanup_snapshot_storage()
     stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     ok, failed, skipped = [], [], []
@@ -262,6 +275,8 @@ def snapshot_all():
     # Persist the small direction evidence ledger before potentially large legacy databases.
     for src in sorted(RUNTIME_DIR.glob("*.sqlite3"), key=lambda p: (p.name != "direction_forward.sqlite3", p.name)):
         if not src.is_file():
+            continue
+        if not include_direction and src.name == "direction_forward.sqlite3":
             continue
         if src.name not in CRITICAL_DBS:
             skipped.append(src.name)
@@ -301,6 +316,33 @@ def snapshot_all():
     print("STORAGE_SNAPSHOT", json.dumps({"ok": ok, "failed": failed, "skipped": skipped}, ensure_ascii=False), flush=True)
 
 
+def snapshot_direction():
+    src = RUNTIME_DIR / "direction_forward.sqlite3"
+    if not src.is_file():
+        return False
+    try:
+        persist_one(src, datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ"))
+        print("DIRECTION_BACKUP_OK", flush=True)
+        return True
+    except Exception as exc:
+        status_path = RUNTIME_DIR / "direction_forward_backup_status.json"
+        tmp = status_path.with_suffix(".json.tmp")
+        tmp.write_text(json.dumps({"last_snapshot_at": now_iso(), "success": False,
+                                   "error": type(exc).__name__}), encoding="utf-8")
+        tmp.replace(status_path)
+        print("DIRECTION_BACKUP_ERROR", type(exc).__name__, flush=True)
+        return False
+
+
+def watch_direction():
+    while True:
+        try:
+            snapshot_direction()
+        except Exception as exc:
+            print("DIRECTION_BACKUP_STATUS_ERROR", type(exc).__name__, flush=True)
+        time.sleep(INTERVAL)
+
+
 def watch():
     # Purge historical duplicate snapshots immediately, then expose free space
     # before the first scheduled backup attempt.
@@ -313,10 +355,13 @@ def watch():
         )
     except Exception as exc:
         write_status(last_cleanup_error=f"{type(exc).__name__}: {exc}")
+    # An active, large legacy SQLite backup can take a long time. Direction evidence
+    # has its own loop, so it continues to persist even if that backup is blocked.
+    threading.Thread(target=watch_direction, daemon=True).start()
     time.sleep(45)
     while True:
         try:
-            snapshot_all()
+            snapshot_all(include_direction=False)
         except Exception as exc:
             write_status(
                 persistence_status="ERROR",

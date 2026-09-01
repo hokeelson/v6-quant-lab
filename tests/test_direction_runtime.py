@@ -150,10 +150,12 @@ class DirectionRuntimeTests(unittest.TestCase):
         current = persist / "v6-snapshots" / "current"
         archive = persist / "v6-snapshots" / "archive"
         with patch.multiple(rescue, PERSIST_DIR=persist, CURRENT_DIR=current, ARCHIVE_DIR=archive,
+                            SNAPSHOT_DIR=persist / "v6-snapshots",
                             RUNTIME_DIR=self.runtime, STATUS_PATH=self.runtime / "storage.json"):
             rescue.persist_one(Path(ledger.path), "synthetic")
             backup = json.loads((self.runtime / "direction_forward_backup_status.json").read_text())
             self.assertTrue(backup["success"])
+            self.assertEqual(backup["pending"], 1)
             new_runtime = self.root / "after-restart"
             with patch.multiple(rescue, RUNTIME_DIR=new_runtime, STATUS_PATH=new_runtime / "storage.json"):
                 rescue.bootstrap_runtime()
@@ -170,13 +172,14 @@ class DirectionRuntimeTests(unittest.TestCase):
     def test_direction_health_checks_counts_freshness_and_backup(self):
         status = {"status": "ONLINE", "heartbeat_at": stamp(5), "last_cycle_finished_at": stamp(900),
                   "candidates": 1, "pending": 1, "evaluated": 0, "shared_cache_only": True}
-        backup = {"success": True, "last_snapshot_at": stamp(30)}
+        backup = {"success": True, "last_snapshot_at": stamp(30), "pending": 1, "evaluated": 0}
         self.assertTrue(health._direction_health(status, backup)["healthy"])
         self.assertFalse(health._direction_health({}, backup)["healthy"])
         self.assertFalse(health._direction_health({**status, "pending": 0}, backup)["healthy"])
         self.assertFalse(health._direction_health({**status, "heartbeat_at": stamp(120)}, backup)["healthy"])
         self.assertFalse(health._direction_health({**status, "true_errors": 1}, backup)["healthy"])
         self.assertFalse(health._direction_health(status, {})["healthy"])
+        self.assertFalse(health._direction_health(status, {**backup, "pending": 0})["healthy"])
 
     def test_supervisor_allows_normal_idle_and_restarts_stale_or_stalled_worker(self):
         status = {"pid": 123, "status": "ONLINE", "heartbeat_at": stamp(5),
@@ -188,6 +191,23 @@ class DirectionRuntimeTests(unittest.TestCase):
                          "stale_heartbeat")
         self.assertEqual(supervisor.restart_reason({**status, "status": "RUNNING",
                          "last_cycle_started_at": stamp(1900)}, 123, 2000), "stalled_cycle")
+
+
+    def test_direction_backup_can_run_without_legacy_snapshot_loop(self):
+        self.seed()
+        ledger = DirectionForwardLedger(str(self.runtime / "direction_forward.sqlite3"))
+        with patch("src.direction_engine.external_intelligence_assessment", return_value={}):
+            db, cache, _ = worker.open_runtime()
+            worker.build_snapshot(db, cache, ledger)
+        persist = self.root / "persistent"
+        snapshot_dir = persist / "v6-snapshots"
+        with patch.multiple(rescue, PERSIST_DIR=persist, RUNTIME_DIR=self.runtime,
+                            SNAPSHOT_DIR=snapshot_dir, CURRENT_DIR=snapshot_dir / "current",
+                            ARCHIVE_DIR=snapshot_dir / "archive"), \
+             patch.object(rescue, "snapshot_all", side_effect=AssertionError("legacy loop blocked")):
+            self.assertTrue(rescue.snapshot_direction())
+            status = json.loads((self.runtime / "direction_forward_backup_status.json").read_text())
+            self.assertEqual(status["pending"], 1)
 
 
 if __name__ == "__main__":
