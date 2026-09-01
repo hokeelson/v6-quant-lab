@@ -33,14 +33,14 @@
       "as_of": "2026-09-01T10:00:00+00:00",
       "cash": 28449.30788141688,
       "closed_trades": 301,
-      "drawdown": -0.10203808129641623,
-      "equity": 92419.22355172668,
-      "gross_exposure": 57977.59170390705,
+      "drawdown": -0.10174294523587557,
+      "equity": 92449.59927812348,
+      "gross_exposure": 64000.291396706605,
       "horizon": "short",
       "initial_equity": 100000.0,
-      "leverage": 0.6273325989528273,
+      "leverage": 0.6922722423508775,
       "market": "crypto",
-      "return_pct": -0.07580776448273319
+      "return_pct": -0.07550400721876516
     },
     {
       "account_id": "stock_long",
@@ -186,7 +186,7 @@
   "expected_live_deviation": {
     "active_sizing": true,
     "contains_secrets": false,
-    "generated_at": "2026-09-01T11:40:38.126782+00:00",
+    "generated_at": "2026-09-01T11:41:38.363686+00:00",
     "minimum_live_trades_for_active_sizing": 5,
     "rows": [
       {
@@ -11207,7 +11207,7 @@
       }
     ]
   },
-  "generated_at": "2026-09-01T11:40:36.508471+00:00",
+  "generated_at": "2026-09-01T11:41:36.564441+00:00",
   "governance": {
     "arenas": [
       {
@@ -26733,7 +26733,7 @@
         "total_reduction_notional": 2641.274257418074
       }
     ],
-    "generated_at": "2026-09-01T11:41:23.288031+00:00",
+    "generated_at": "2026-09-01T11:41:48.409079+00:00",
     "scope": "PUBLIC_READ_ONLY_RISK_SIZING_AUDIT",
     "status": "AVAILABLE",
     "summary": {
@@ -29412,8 +29412,8 @@
       "worst_trade_return": -0.00029986839109497065
     }
   ],
-  "sync_checked_at": "2026-09-01T11:41:25.921156+00:00",
-  "sync_snapshot_age_seconds": 49.412685,
+  "sync_checked_at": "2026-09-01T11:41:52.595868+00:00",
+  "sync_snapshot_age_seconds": 16.031427,
   "trial_ledger": {
     "challenges": 58,
     "cycles": 679,
@@ -29431,7 +29431,7 @@
     "data_quality": "STARTING",
     "data_quality_critical": 0,
     "data_quality_warnings": 0,
-    "heartbeat_at": "2026-09-01T11:40:36.423756+00:00",
+    "heartbeat_at": "2026-09-01T11:41:36.426212+00:00",
     "last_cycle_finished_at": null,
     "last_cycle_started_at": "2026-09-01T11:36:36.412661+00:00",
     "market_data_api_calls": 0,
