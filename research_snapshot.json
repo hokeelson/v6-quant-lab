@@ -33,14 +33,14 @@
       "as_of": "2026-09-01T22:00:00+00:00",
       "cash": 55288.426966280495,
       "closed_trades": 324,
-      "drawdown": -0.11965001784675855,
-      "equity": 90606.5837645352,
-      "gross_exposure": 35318.15679825471,
+      "drawdown": -0.11989276675838123,
+      "equity": 90581.59978084624,
+      "gross_exposure": 35293.172814565754,
       "horizon": "short",
       "initial_equity": 100000.0,
-      "leverage": 0.38979680428122243,
+      "leverage": 0.3896284996064797,
       "market": "crypto",
-      "return_pct": -0.09393416235464802
+      "return_pct": -0.09418400219153755
     },
     {
       "account_id": "stock_long",
@@ -417,6 +417,56 @@
   "entry_gate": {
     "broker_order_api_calls": 0,
     "entries": [
+      {
+        "account_id": "crypto_short",
+        "created_at": "2026-09-01T23:13:20.800555+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3453,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "meta_verdict:SHADOW_ONLY",
+          "regime_state:PAUSE_CANDIDATE",
+          "strategy_state:PAUSE_CANDIDATE"
+        ],
+        "symbol": "CRVUSDT"
+      },
+      {
+        "account_id": "crypto_short",
+        "created_at": "2026-09-01T23:11:49.150266+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3452,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "meta_verdict:SHADOW_ONLY",
+          "pretrade_verdict:BLOCK_CANDIDATE",
+          "regime_state:SHADOW_ONLY_CANDIDATE",
+          "strategy_state:PAUSE_CANDIDATE"
+        ],
+        "symbol": "BNBUSDT"
+      },
+      {
+        "account_id": "crypto_short",
+        "created_at": "2026-09-01T23:10:16.793819+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3451,
+        "reasons": [
+          "MATURE_NEGATIVE_EV",
+          "ZERO_NOTIONAL",
+          "expected_live_state:QUARANTINED",
+          "meta_verdict:SHADOW_ONLY",
+          "pretrade_verdict:BLOCK_CANDIDATE",
+          "regime_state:PAUSE_CANDIDATE",
+          "strategy_state:PAUSE_CANDIDATE",
+          "symbol_strategy_state:PAUSE_CANDIDATE"
+        ],
+        "symbol": "AAVEUSDT"
+      },
       {
         "account_id": "crypto_short",
         "created_at": "2026-09-01T23:04:55.829199+00:00",
@@ -796,16 +846,16 @@
     "simulation_only": true,
     "status": "OK",
     "summary": {
-      "blocked": 25,
+      "blocked": 28,
       "blocked_but_filled": 0,
       "filled": 0,
-      "sampled_events": 25
+      "sampled_events": 28
     }
   },
   "expected_live_deviation": {
     "active_sizing": true,
     "contains_secrets": false,
-    "generated_at": "2026-09-01T23:09:34.577524+00:00",
+    "generated_at": "2026-09-01T23:21:37.651312+00:00",
     "minimum_live_trades_for_active_sizing": 5,
     "rows": [
       {
@@ -12064,7 +12114,7 @@
       }
     ]
   },
-  "generated_at": "2026-09-01T23:09:50.950024+00:00",
+  "generated_at": "2026-09-01T23:21:51.618735+00:00",
   "governance": {
     "arenas": [
       {
@@ -27846,7 +27896,7 @@
         "total_reduction_notional": 3051.550301414807
       }
     ],
-    "generated_at": "2026-09-01T23:09:59.658129+00:00",
+    "generated_at": "2026-09-01T23:22:17.819639+00:00",
     "scope": "PUBLIC_READ_ONLY_RISK_SIZING_AUDIT",
     "status": "AVAILABLE",
     "summary": {
@@ -30619,11 +30669,11 @@
       "worst_trade_return": -0.00029986839109497065
     }
   ],
-  "sync_checked_at": "2026-09-01T23:10:03.192309+00:00",
-  "sync_snapshot_age_seconds": 12.242285,
+  "sync_checked_at": "2026-09-01T23:22:20.170655+00:00",
+  "sync_snapshot_age_seconds": 28.55192,
   "trial_ledger": {
     "challenges": 64,
-    "cycles": 719,
+    "cycles": 721,
     "distinct_hypotheses": 63,
     "events": 190,
     "last_event_at": "2026-09-01T21:57:25.153780+00:00",
@@ -30632,16 +30682,16 @@
   },
   "worker": {
     "assets_checked": 253,
-    "bars_processed": 33,
+    "bars_processed": 0,
     "broker_order_api_calls": 0,
     "concept_drift_pairs": 10,
     "data_quality": "OK",
     "data_quality_critical": 0,
     "data_quality_warnings": 35,
-    "heartbeat_at": "2026-09-01T23:09:46.218435+00:00",
-    "last_cycle_finished_at": "2026-09-01T23:07:46.294095+00:00",
-    "last_cycle_started_at": "2026-09-01T23:08:46.304574+00:00",
-    "market_data_api_calls": 5,
+    "heartbeat_at": "2026-09-01T23:21:46.430708+00:00",
+    "last_cycle_finished_at": "2026-09-01T23:19:12.630795+00:00",
+    "last_cycle_started_at": "2026-09-01T23:20:12.644449+00:00",
+    "market_data_api_calls": 0,
     "portfolio_risk": "MEDIUM",
     "realtime_watchlist_sync": "ONLINE",
     "realtime_watchlist_total": 62,
