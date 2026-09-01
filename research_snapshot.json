@@ -114,17 +114,17 @@
     },
     {
       "account_id": "twstock_short",
-      "as_of": "2026-09-01T01:37:54+00:00",
+      "as_of": "2026-09-01T01:53:15+00:00",
       "cash": 84557.4899381545,
       "closed_trades": 13,
-      "drawdown": -0.009906559613246935,
-      "equity": 99187.4899381545,
-      "gross_exposure": 14630.0,
+      "drawdown": -0.009761820040801283,
+      "equity": 99201.9899381545,
+      "gross_exposure": 14644.5,
       "horizon": "short",
       "initial_equity": 100000.0,
-      "leverage": 0.14749843966332968,
+      "leverage": 0.14762304676680196,
       "market": "twstock",
-      "return_pct": -0.008125100618455061
+      "return_pct": -0.007980100618455
     }
   ],
   "contains_secrets": false,
@@ -180,7 +180,7 @@
   "expected_live_deviation": {
     "active_sizing": true,
     "contains_secrets": false,
-    "generated_at": "2026-09-01T02:45:11.503393+00:00",
+    "generated_at": "2026-09-01T02:57:15.163015+00:00",
     "minimum_live_trades_for_active_sizing": 5,
     "rows": [
       {
@@ -11200,7 +11200,7 @@
       }
     ]
   },
-  "generated_at": "2026-09-01T02:45:51.362072+00:00",
+  "generated_at": "2026-09-01T02:56:51.897222+00:00",
   "governance": {
     "arenas": [
       {
@@ -26705,7 +26705,7 @@
         "total_reduction_notional": 20506.57224465366
       }
     ],
-    "generated_at": "2026-09-01T02:45:56.718447+00:00",
+    "generated_at": "2026-09-01T02:57:30.206468+00:00",
     "scope": "PUBLIC_READ_ONLY_RISK_SIZING_AUDIT",
     "status": "AVAILABLE",
     "summary": {
@@ -29384,11 +29384,11 @@
       "worst_trade_return": -0.00029986839109497065
     }
   ],
-  "sync_checked_at": "2026-09-01T02:46:02.345801+00:00",
-  "sync_snapshot_age_seconds": 10.983729,
+  "sync_checked_at": "2026-09-01T02:57:32.074831+00:00",
+  "sync_snapshot_age_seconds": 40.177609,
   "trial_ledger": {
     "challenges": 58,
-    "cycles": 782,
+    "cycles": 785,
     "distinct_hypotheses": 64,
     "events": 181,
     "last_event_at": "2026-09-01T02:16:23.797192+00:00",
@@ -29397,16 +29397,16 @@
   },
   "worker": {
     "assets_checked": 247,
-    "bars_processed": 0,
+    "bars_processed": 1,
     "broker_order_api_calls": 0,
     "concept_drift_pairs": 12,
     "data_quality": "OK",
     "data_quality_critical": 0,
     "data_quality_warnings": 49,
-    "heartbeat_at": "2026-09-01T02:45:48.108988+00:00",
-    "last_cycle_finished_at": "2026-09-01T02:44:48.098037+00:00",
-    "last_cycle_started_at": "2026-09-01T02:45:48.108932+00:00",
-    "market_data_api_calls": 4,
+    "heartbeat_at": "2026-09-01T02:56:39.825355+00:00",
+    "last_cycle_finished_at": "2026-09-01T02:55:09.713088+00:00",
+    "last_cycle_started_at": "2026-09-01T02:56:09.722685+00:00",
+    "market_data_api_calls": 1,
     "portfolio_risk": "HIGH",
     "realtime_watchlist_sync": "ONLINE",
     "realtime_watchlist_total": 65,
