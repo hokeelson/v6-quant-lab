@@ -419,6 +419,36 @@
     "entries": [
       {
         "account_id": "crypto_short",
+        "created_at": "2026-09-01T21:11:19.843145+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3441,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "pretrade_verdict:BLOCK_CANDIDATE",
+          "strategy_state:PAUSE_CANDIDATE"
+        ],
+        "symbol": "PENGUUSDT"
+      },
+      {
+        "account_id": "crypto_short",
+        "created_at": "2026-09-01T21:09:47.407550+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3440,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "meta_verdict:SHADOW_ONLY",
+          "pretrade_verdict:BLOCK_CANDIDATE",
+          "strategy_state:PAUSE_CANDIDATE",
+          "symbol_strategy_state:SHADOW_ONLY_CANDIDATE"
+        ],
+        "symbol": "PAXGUSDT"
+      },
+      {
+        "account_id": "crypto_short",
         "created_at": "2026-09-01T21:08:06.609419+00:00",
         "entry_allowed": false,
         "filled": false,
@@ -645,16 +675,16 @@
     "simulation_only": true,
     "status": "OK",
     "summary": {
-      "blocked": 15,
+      "blocked": 17,
       "blocked_but_filled": 0,
       "filled": 0,
-      "sampled_events": 15
+      "sampled_events": 17
     }
   },
   "expected_live_deviation": {
     "active_sizing": true,
     "contains_secrets": false,
-    "generated_at": "2026-09-01T21:09:03.126942+00:00",
+    "generated_at": "2026-09-01T21:25:07.360536+00:00",
     "minimum_live_trades_for_active_sizing": 5,
     "rows": [
       {
@@ -11913,7 +11943,7 @@
       }
     ]
   },
-  "generated_at": "2026-09-01T21:08:43.823584+00:00",
+  "generated_at": "2026-09-01T21:24:44.786049+00:00",
   "governance": {
     "arenas": [
       {
@@ -27665,7 +27695,7 @@
         "total_reduction_notional": 3051.550301414807
       }
     ],
-    "generated_at": "2026-09-01T21:09:33.245487+00:00",
+    "generated_at": "2026-09-01T21:25:17.407059+00:00",
     "scope": "PUBLIC_READ_ONLY_RISK_SIZING_AUDIT",
     "status": "AVAILABLE",
     "summary": {
@@ -30438,11 +30468,11 @@
       "worst_trade_return": -0.00029986839109497065
     }
   ],
-  "sync_checked_at": "2026-09-01T21:09:35.439189+00:00",
-  "sync_snapshot_age_seconds": 51.615605,
+  "sync_checked_at": "2026-09-01T21:25:22.144449+00:00",
+  "sync_snapshot_age_seconds": 37.3584,
   "trial_ledger": {
     "challenges": 63,
-    "cycles": 690,
+    "cycles": 694,
     "distinct_hypotheses": 63,
     "events": 186,
     "last_event_at": "2026-09-01T20:17:43.250567+00:00",
@@ -30451,22 +30481,22 @@
   },
   "worker": {
     "assets_checked": 253,
-    "bars_processed": 34,
+    "bars_processed": 0,
     "broker_order_api_calls": 0,
     "concept_drift_pairs": 9,
     "data_quality": "OK",
     "data_quality_critical": 0,
     "data_quality_warnings": 36,
-    "heartbeat_at": "2026-09-01T21:08:29.186250+00:00",
-    "last_cycle_finished_at": "2026-09-01T21:02:23.962926+00:00",
-    "last_cycle_started_at": "2026-09-01T21:03:23.973646+00:00",
-    "market_data_api_calls": 5,
+    "heartbeat_at": "2026-09-01T21:24:44.431566+00:00",
+    "last_cycle_finished_at": "2026-09-01T21:24:35.309037+00:00",
+    "last_cycle_started_at": "2026-09-01T21:21:59.309178+00:00",
+    "market_data_api_calls": 0,
     "portfolio_risk": "MEDIUM",
     "realtime_watchlist_sync": "ONLINE",
     "realtime_watchlist_total": 62,
     "risk_layer": "ONLINE",
     "risk_sizing": "ACTIVE",
-    "status": "RUNNING",
+    "status": "ONLINE",
     "true_errors": 0
   }
 }
