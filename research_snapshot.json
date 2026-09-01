@@ -153,8 +153,14 @@
       "reason": "Forward evidence is diagnostic until independently reviewed; no online parameter chasing.",
       "state": "LEARNING"
     },
-    "pending": 0,
-    "policies": [],
+    "pending": 6,
+    "policies": [
+      {
+        "engine_version": "V10_ADAPTIVE_EVIDENCE_SHADOW",
+        "evaluated": 0,
+        "predictions": 6
+      }
+    ],
     "policy_performance": {
       "avg_directional_trade_return_pct": 0.0,
       "avg_policy_return_pct": 0.0,
@@ -180,7 +186,7 @@
   "expected_live_deviation": {
     "active_sizing": true,
     "contains_secrets": false,
-    "generated_at": "2026-09-01T11:54:31.227579+00:00",
+    "generated_at": "2026-09-01T11:56:31.703176+00:00",
     "minimum_live_trades_for_active_sizing": 5,
     "rows": [
       {
@@ -11201,7 +11207,7 @@
       }
     ]
   },
-  "generated_at": "2026-09-01T11:54:31.349999+00:00",
+  "generated_at": "2026-09-01T11:56:31.438399+00:00",
   "governance": {
     "arenas": [
       {
@@ -26727,7 +26733,7 @@
         "total_reduction_notional": 2641.274257418074
       }
     ],
-    "generated_at": "2026-09-01T11:55:11.365199+00:00",
+    "generated_at": "2026-09-01T11:56:31.680358+00:00",
     "scope": "PUBLIC_READ_ONLY_RISK_SIZING_AUDIT",
     "status": "AVAILABLE",
     "summary": {
@@ -29410,8 +29416,8 @@
       "worst_trade_return": -0.00029986839109497065
     }
   ],
-  "sync_checked_at": "2026-09-01T11:55:14.935192+00:00",
-  "sync_snapshot_age_seconds": 43.585193,
+  "sync_checked_at": "2026-09-01T11:56:36.932388+00:00",
+  "sync_snapshot_age_seconds": 5.493989,
   "trial_ledger": {
     "challenges": 58,
     "cycles": 679,
@@ -29429,9 +29435,9 @@
     "data_quality": "STARTING",
     "data_quality_critical": 0,
     "data_quality_warnings": 0,
-    "heartbeat_at": "2026-09-01T11:54:19.802288+00:00",
+    "heartbeat_at": "2026-09-01T11:56:24.754181+00:00",
     "last_cycle_finished_at": null,
-    "last_cycle_started_at": "2026-09-01T11:54:19.802277+00:00",
+    "last_cycle_started_at": "2026-09-01T11:55:09.751120+00:00",
     "market_data_api_calls": 0,
     "realtime_watchlist_sync": "STARTING",
     "realtime_watchlist_total": 0,
