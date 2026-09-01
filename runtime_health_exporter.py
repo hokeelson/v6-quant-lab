@@ -19,6 +19,11 @@ V2_STATUS_PATH = DATA_DIR / "crypto_v2_shadow_worker_status.json"
 RESEARCH_PATH = STATIC_DIR / "research_snapshot.json"
 V2_SNAPSHOT_PATH = STATIC_DIR / "crypto_v2_shadow_snapshot.json"
 STORAGE_PATH = STATIC_DIR / "storage_persistence.json"
+DIRECTION_STATUS_PATH = DATA_DIR / "direction_shadow_worker_status.json"
+DIRECTION_BACKUP_PATH = DATA_DIR / "direction_forward_backup_status.json"
+DIRECTION_MAX_CYCLE_AGE = 1800
+DIRECTION_MAX_COMPLETED_AGE = 1800
+DIRECTION_BACKUP_MAX_AGE = 1800
 
 MAIN_HEARTBEAT_MAX_AGE = 60
 MAIN_COMPLETED_MAX_AGE = 300
@@ -219,6 +224,56 @@ def _v2_health(raw: dict, snapshot: dict) -> dict:
     }
 
 
+def _direction_health(raw: dict, backup: dict) -> dict:
+    status = str(raw.get("status") or "UNKNOWN").upper()
+    heartbeat_age = _age(raw.get("heartbeat_at"))
+    activity_age = _age(raw.get("last_cycle_started_at") if status == "RUNNING"
+                        else raw.get("last_cycle_finished_at"))
+    limit = DIRECTION_MAX_CYCLE_AGE if status == "RUNNING" else DIRECTION_MAX_COMPLETED_AGE
+    pending = int(raw.get("pending", 0) or 0)
+    evaluated = int(raw.get("evaluated", 0) or 0)
+    candidates = int(raw.get("candidates", 0) or 0)
+    errors = int(raw.get("true_errors", 0) or 0)
+    broker_calls = int(raw.get("broker_order_api_calls", 0) or 0)
+    market_calls = int(raw.get("market_data_api_calls", 0) or 0)
+    reasons = []
+    if heartbeat_age is None or heartbeat_age > MAIN_HEARTBEAT_MAX_AGE:
+        reasons.append("missing_or_stale_heartbeat")
+    if activity_age is None or activity_age > limit:
+        reasons.append("missing_or_stale_cycle")
+    if status not in {"ONLINE", "RUNNING"}:
+        reasons.append("worker_status:" + status)
+    if candidates <= 0:
+        reasons.append("no_candidates")
+    if pending + evaluated <= 0:
+        reasons.append("empty_forward_ledger")
+    if errors:
+        reasons.append("worker_errors")
+    if broker_calls or market_calls or raw.get("shared_cache_only") is not True:
+        reasons.append("safety_or_cache_only_violation")
+    backup_age = _age(backup.get("last_snapshot_at"))
+    backup_ok = (backup.get("success") is True and backup_age is not None
+                 and backup_age <= DIRECTION_BACKUP_MAX_AGE)
+    if not backup_ok:
+        reasons.append("missing_failed_or_stale_direction_backup")
+    return {
+        "healthy": not reasons, "status": status, "degraded_reasons": reasons,
+        "heartbeat_at": raw.get("heartbeat_at"), "heartbeat_age_seconds": _round_age(heartbeat_age),
+        "last_cycle_finished_at": raw.get("last_cycle_finished_at"),
+        "candidates": candidates, "pending": pending, "evaluated": evaluated,
+        "registered_last_cycle": int(raw.get("registered", 0) or 0),
+        "eligible_assets": int(raw.get("eligible_assets", 0) or 0),
+        "models_found": int(raw.get("models_found", 0) or 0),
+        "missing_models": int(raw.get("missing_models", 0) or 0),
+        "insufficient_cache": int(raw.get("insufficient_cache", 0) or 0),
+        "true_errors": errors, "error_samples": _public_error_samples(raw),
+        "input_path_mode": raw.get("input_path_mode"),
+        "backup_healthy": backup_ok, "backup_at": backup.get("last_snapshot_at"),
+        "backup_age_seconds": _round_age(backup_age),
+        "broker_order_api_calls": broker_calls, "market_data_api_calls": market_calls,
+    }
+
+
 def _research_health(raw: dict) -> dict:
     generated_age = _age(raw.get("generated_at"))
     healthy = (
@@ -269,11 +324,12 @@ def build_snapshot() -> dict:
     v2 = _v2_health(v2_raw, v2_snapshot)
     research = _research_health(research_raw)
     storage = _storage_health(storage_raw)
+    direction = _direction_health(_read_json(DIRECTION_STATUS_PATH), _read_json(DIRECTION_BACKUP_PATH))
 
-    broker_calls = int(main.get("broker_order_api_calls", 0) or 0) + int(v2.get("broker_order_api_calls", 0) or 0)
-    safety_ok = broker_calls == 0 and int(v2.get("market_data_api_calls", 0) or 0) == 0
+    broker_calls = int(main.get("broker_order_api_calls", 0) or 0) + int(v2.get("broker_order_api_calls", 0) or 0) + direction["broker_order_api_calls"]
+    safety_ok = broker_calls == 0 and int(v2.get("market_data_api_calls", 0) or 0) == 0 and direction["market_data_api_calls"] == 0
     hard_failure = bool(main.get("hard_failure")) or not bool(v2.get("healthy")) or not safety_ok
-    degraded = bool(main.get("degraded")) or not bool(research.get("healthy")) or not bool(storage.get("healthy"))
+    degraded = bool(main.get("degraded")) or not bool(research.get("healthy")) or not bool(storage.get("healthy")) or not direction["healthy"]
 
     if hard_failure:
         overall = "ERROR"
@@ -292,6 +348,7 @@ def build_snapshot() -> dict:
             "crypto_v2": v2,
             "research": research,
             "storage": storage,
+            "direction_v10": direction,
         },
         "safety": {
             "broker_order_api_calls": broker_calls,

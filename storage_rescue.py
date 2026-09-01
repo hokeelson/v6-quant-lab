@@ -24,6 +24,7 @@ KEEP_ARCHIVES = max(0, int(os.getenv("V6_SNAPSHOT_KEEP", "0")))
 # market_cache/realtime quote caches are intentionally excluded in rescue mode.
 DEFAULT_CRITICAL_DBS = {
     "simulation_lab.sqlite3",
+    "direction_forward.sqlite3",
     "forward_validation.sqlite3",
     "model_governance.sqlite3",
     "trial_ledger.sqlite3",
@@ -33,6 +34,8 @@ DEFAULT_CRITICAL_DBS = {
 CRITICAL_DBS = {
     x.strip() for x in os.getenv("V6_SNAPSHOT_DBS", ",".join(sorted(DEFAULT_CRITICAL_DBS))).split(",") if x.strip()
 }
+# Direction evidence is irreplaceable, even when an old environment override is present.
+CRITICAL_DBS.add("direction_forward.sqlite3")
 
 
 def now_iso() -> str:
@@ -242,6 +245,12 @@ def persist_one(src: Path, stamp: str):
                 shutil.copy2(local_stage, ARCHIVE_DIR / f"{stamp}__{src.name}")
         except Exception:
             pass
+    if src.name == "direction_forward.sqlite3":
+        status = {"last_snapshot_at": now_iso(), "success": True, "database": src.name}
+        status_path = RUNTIME_DIR / "direction_forward_backup_status.json"
+        tmp = status_path.with_suffix(".json.tmp")
+        tmp.write_text(json.dumps(status), encoding="utf-8")
+        tmp.replace(status_path)
     return persistent_final
 
 
@@ -250,7 +259,8 @@ def snapshot_all():
     stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     ok, failed, skipped = [], [], []
 
-    for src in sorted(RUNTIME_DIR.glob("*.sqlite3")):
+    # Persist the small direction evidence ledger before potentially large legacy databases.
+    for src in sorted(RUNTIME_DIR.glob("*.sqlite3"), key=lambda p: (p.name != "direction_forward.sqlite3", p.name)):
         if not src.is_file():
             continue
         if src.name not in CRITICAL_DBS:
@@ -272,6 +282,11 @@ def snapshot_all():
         except Exception as exc:
             failed.append({"db": src.name, "error": f"{type(exc).__name__}: {exc}"})
 
+    if any(item.get("db") == "direction_forward.sqlite3" for item in failed):
+        status_path = RUNTIME_DIR / "direction_forward_backup_status.json"
+        tmp = status_path.with_suffix(".json.tmp")
+        tmp.write_text(json.dumps({"last_snapshot_at": now_iso(), "success": False}), encoding="utf-8")
+        tmp.replace(status_path)
     cleanup_snapshot_storage()
     write_status(
         last_snapshot_at=now_iso(),
