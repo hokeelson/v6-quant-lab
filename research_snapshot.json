@@ -430,7 +430,7 @@
   "expected_live_deviation": {
     "active_sizing": true,
     "contains_secrets": false,
-    "generated_at": "2026-09-01T19:44:39.321108+00:00",
+    "generated_at": "2026-09-01T19:46:40.101375+00:00",
     "minimum_live_trades_for_active_sizing": 5,
     "rows": [
       {
@@ -11688,9 +11688,45 @@
       }
     ]
   },
-  "generated_at": "2026-09-01T19:44:38.405754+00:00",
+  "generated_at": "2026-09-01T19:46:38.554749+00:00",
   "governance": {
     "arenas": [
+      {
+        "arena_id": "43ab6ccb5ba7949cdee5",
+        "challenger_signature": "1d246494bfe79523988e",
+        "champion_signature": "369bc12184ca217dd33b",
+        "decision_at": null,
+        "horizon": "short",
+        "latest_verdict": "WAITING",
+        "market": "crypto",
+        "registered_at": "2026-09-01T19:44:43.258460+00:00",
+        "status": "ACTIVE",
+        "symbol": "ADAUSDT"
+      },
+      {
+        "arena_id": "dc454059b5c97d4a1920",
+        "challenger_signature": "73ce7601b7dbb58705d4",
+        "champion_signature": "f0abaa6c60a3695cd7f2",
+        "decision_at": null,
+        "horizon": "medium",
+        "latest_verdict": "WAITING",
+        "market": "crypto",
+        "registered_at": "2026-09-01T19:44:43.258460+00:00",
+        "status": "ACTIVE",
+        "symbol": "CRCLBUSDT"
+      },
+      {
+        "arena_id": "885efb0a5b8c62fbfbb5",
+        "challenger_signature": "0b620c51d61b2bc4250d",
+        "champion_signature": "d6fdfe47123feff7fce3",
+        "decision_at": null,
+        "horizon": "short",
+        "latest_verdict": "WAITING",
+        "market": "crypto",
+        "registered_at": "2026-09-01T19:44:43.258460+00:00",
+        "status": "ACTIVE",
+        "symbol": "NEARUSDT"
+      },
       {
         "arena_id": "a07637e7285e11a0db3d",
         "challenger_signature": "88408443a25f967bebf9",
@@ -12389,6 +12425,33 @@
       }
     ],
     "recent_events": [
+      {
+        "arena_id": "885efb0a5b8c62fbfbb5",
+        "created_at": "2026-09-01T19:44:43.258460+00:00",
+        "event_type": "CHALLENGE_REGISTERED",
+        "horizon": "short",
+        "id": 76,
+        "market": "crypto",
+        "symbol": "NEARUSDT"
+      },
+      {
+        "arena_id": "dc454059b5c97d4a1920",
+        "created_at": "2026-09-01T19:44:43.258460+00:00",
+        "event_type": "CHALLENGE_REGISTERED",
+        "horizon": "medium",
+        "id": 75,
+        "market": "crypto",
+        "symbol": "CRCLBUSDT"
+      },
+      {
+        "arena_id": "43ab6ccb5ba7949cdee5",
+        "created_at": "2026-09-01T19:44:43.258460+00:00",
+        "event_type": "CHALLENGE_REGISTERED",
+        "horizon": "short",
+        "id": 74,
+        "market": "crypto",
+        "symbol": "ADAUSDT"
+      },
       {
         "arena_id": "a07637e7285e11a0db3d",
         "created_at": "2026-09-01T11:36:43.062983+00:00",
@@ -27335,7 +27398,7 @@
         "total_reduction_notional": 3051.550301414807
       }
     ],
-    "generated_at": "2026-09-01T19:45:29.543552+00:00",
+    "generated_at": "2026-09-01T19:46:40.073089+00:00",
     "scope": "PUBLIC_READ_ONLY_RISK_SIZING_AUDIT",
     "status": "AVAILABLE",
     "summary": {
@@ -30108,16 +30171,34 @@
       "worst_trade_return": -0.00029986839109497065
     }
   ],
-  "sync_checked_at": "2026-09-01T19:45:31.424832+00:00",
-  "sync_snapshot_age_seconds": 53.019078,
+  "sync_checked_at": "2026-09-01T19:46:42.407067+00:00",
+  "sync_snapshot_age_seconds": 3.852318,
   "trial_ledger": {
-    "challenges": 58,
+    "challenges": 61,
     "cycles": 679,
     "distinct_hypotheses": 62,
-    "events": 176,
-    "last_event_at": "2026-09-01T11:36:43.062983+00:00",
+    "events": 182,
+    "last_event_at": "2026-09-01T19:44:43.258460+00:00",
     "promotions": 0,
-    "research_trials": 103
+    "research_trials": 106
   },
-  "worker": {}
+  "worker": {
+    "assets_checked": 0,
+    "bars_processed": 0,
+    "broker_order_api_calls": 0,
+    "concept_drift_pairs": 0,
+    "data_quality": "STARTING",
+    "data_quality_critical": 0,
+    "data_quality_warnings": 0,
+    "heartbeat_at": "2026-09-01T19:46:23.636147+00:00",
+    "last_cycle_finished_at": null,
+    "last_cycle_started_at": "2026-09-01T19:44:38.623302+00:00",
+    "market_data_api_calls": 0,
+    "realtime_watchlist_sync": "STARTING",
+    "realtime_watchlist_total": 0,
+    "risk_layer": "STARTING",
+    "risk_sizing": "ACTIVE",
+    "status": "RUNNING",
+    "true_errors": 0
+  }
 }
