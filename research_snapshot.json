@@ -760,7 +760,7 @@
   "expected_live_deviation": {
     "active_sizing": true,
     "contains_secrets": false,
-    "generated_at": "2026-09-01T22:18:21.054872+00:00",
+    "generated_at": "2026-09-01T22:31:24.236415+00:00",
     "minimum_live_trades_for_active_sizing": 5,
     "rows": [
       {
@@ -12019,7 +12019,7 @@
       }
     ]
   },
-  "generated_at": "2026-09-01T22:18:47.837065+00:00",
+  "generated_at": "2026-09-01T22:31:48.535019+00:00",
   "governance": {
     "arenas": [
       {
@@ -27801,7 +27801,7 @@
         "total_reduction_notional": 3051.550301414807
       }
     ],
-    "generated_at": "2026-09-01T22:19:11.225781+00:00",
+    "generated_at": "2026-09-01T22:32:14.441653+00:00",
     "scope": "PUBLIC_READ_ONLY_RISK_SIZING_AUDIT",
     "status": "AVAILABLE",
     "summary": {
@@ -30574,11 +30574,11 @@
       "worst_trade_return": -0.00029986839109497065
     }
   ],
-  "sync_checked_at": "2026-09-01T22:19:16.673092+00:00",
-  "sync_snapshot_age_seconds": 28.836027,
+  "sync_checked_at": "2026-09-01T22:32:18.199149+00:00",
+  "sync_snapshot_age_seconds": 29.66413,
   "trial_ledger": {
     "challenges": 64,
-    "cycles": 707,
+    "cycles": 710,
     "distinct_hypotheses": 63,
     "events": 190,
     "last_event_at": "2026-09-01T21:57:25.153780+00:00",
@@ -30593,16 +30593,16 @@
     "data_quality": "OK",
     "data_quality_critical": 0,
     "data_quality_warnings": 37,
-    "heartbeat_at": "2026-09-01T22:18:45.404615+00:00",
-    "last_cycle_finished_at": "2026-09-01T22:18:27.831525+00:00",
-    "last_cycle_started_at": "2026-09-01T22:15:55.149539+00:00",
-    "market_data_api_calls": 5,
+    "heartbeat_at": "2026-09-01T22:31:45.607341+00:00",
+    "last_cycle_finished_at": "2026-09-01T22:29:09.613398+00:00",
+    "last_cycle_started_at": "2026-09-01T22:30:09.623652+00:00",
+    "market_data_api_calls": 0,
     "portfolio_risk": "MEDIUM",
     "realtime_watchlist_sync": "ONLINE",
     "realtime_watchlist_total": 62,
     "risk_layer": "ONLINE",
     "risk_sizing": "ACTIVE",
-    "status": "ONLINE",
+    "status": "RUNNING",
     "true_errors": 0
   }
 }
