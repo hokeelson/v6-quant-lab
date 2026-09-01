@@ -30,17 +30,17 @@
     },
     {
       "account_id": "crypto_short",
-      "as_of": "2026-09-01T19:00:00+00:00",
+      "as_of": "2026-09-01T20:00:00+00:00",
       "cash": 53624.79788492908,
       "closed_trades": 323,
-      "drawdown": -0.11928347761477665,
-      "equity": 90644.30848641333,
-      "gross_exposure": 37019.51060148425,
+      "drawdown": -0.11954136075458965,
+      "equity": 90617.7668713936,
+      "gross_exposure": 36992.96898646451,
       "horizon": "short",
       "initial_equity": 100000.0,
-      "leverage": 0.40840413722206403,
+      "leverage": 0.4082308609410516,
       "market": "crypto",
-      "return_pct": -0.09355691513586673
+      "return_pct": -0.09382233128606399
     },
     {
       "account_id": "stock_long",
@@ -72,17 +72,17 @@
     },
     {
       "account_id": "stock_short",
-      "as_of": "2026-09-01T19:00:00+00:00",
-      "cash": 51013.45069321849,
-      "closed_trades": 108,
-      "drawdown": -0.04203210027985438,
-      "equity": 98131.6109776734,
-      "gross_exposure": 47118.160284454905,
+      "as_of": "2026-09-01T20:00:00+00:00",
+      "cash": 59091.31158783451,
+      "closed_trades": 109,
+      "drawdown": -0.040993519493961794,
+      "equity": 98238.00035218152,
+      "gross_exposure": 39146.68876434701,
       "horizon": "short",
       "initial_equity": 100000.0,
-      "leverage": 0.4801527236231257,
+      "leverage": 0.3984882491908102,
       "market": "stock",
-      "return_pct": -0.01868389022326611
+      "return_pct": -0.017619996478184796
     },
     {
       "account_id": "twstock_long",
@@ -418,6 +418,51 @@
     "broker_order_api_calls": 0,
     "entries": [
       {
+        "account_id": "crypto_short",
+        "created_at": "2026-09-01T21:08:06.609419+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3439,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "pretrade_verdict:BLOCK_CANDIDATE",
+          "regime_state:SHADOW_ONLY_CANDIDATE",
+          "strategy_state:PAUSE_CANDIDATE"
+        ],
+        "symbol": "ETHUSDT"
+      },
+      {
+        "account_id": "crypto_short",
+        "created_at": "2026-09-01T21:06:33.057203+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3438,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "meta_verdict:SHADOW_ONLY",
+          "regime_state:PAUSE_CANDIDATE",
+          "strategy_state:PAUSE_CANDIDATE"
+        ],
+        "symbol": "CRVUSDT"
+      },
+      {
+        "account_id": "crypto_short",
+        "created_at": "2026-09-01T21:04:58.867610+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3437,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "pretrade_verdict:BLOCK_CANDIDATE",
+          "regime_state:SHADOW_ONLY_CANDIDATE",
+          "strategy_state:PAUSE_CANDIDATE"
+        ],
+        "symbol": "BNBUSDT"
+      },
+      {
         "account_id": "stock_medium",
         "created_at": "2026-09-01T20:27:20.144021+00:00",
         "entry_allowed": false,
@@ -600,16 +645,16 @@
     "simulation_only": true,
     "status": "OK",
     "summary": {
-      "blocked": 12,
+      "blocked": 15,
       "blocked_but_filled": 0,
       "filled": 0,
-      "sampled_events": 12
+      "sampled_events": 15
     }
   },
   "expected_live_deviation": {
     "active_sizing": true,
     "contains_secrets": false,
-    "generated_at": "2026-09-01T20:53:59.008406+00:00",
+    "generated_at": "2026-09-01T21:09:03.126942+00:00",
     "minimum_live_trades_for_active_sizing": 5,
     "rows": [
       {
@@ -4321,18 +4366,18 @@
         "win_rate_gap": 0.20000000000000007
       },
       {
-        "deviation_score": 11.1875,
-        "evidence_weight": 0.15,
+        "deviation_score": 12.0,
+        "evidence_weight": 0.2,
         "horizon": "short",
-        "live_closed_trades": 3,
-        "live_compound_return": 0.002673525022081069,
+        "live_closed_trades": 4,
+        "live_compound_return": 0.028094750038737848,
         "live_losses": 2,
         "live_max_loss_streak": 2,
-        "live_per_trade_return": 0.0008903819919763301,
-        "live_profit_factor": 1.5129512968992513,
+        "live_per_trade_return": 0.006950879017661782,
+        "live_profit_factor": 2.033868344665119,
         "live_profit_factor_infinite": false,
-        "live_win_rate": 0.3333333333333333,
-        "live_wins": 1,
+        "live_win_rate": 0.5,
+        "live_wins": 2,
         "market": "stock",
         "oos_closed_trades": 10,
         "oos_max_drawdown": -0.019251179669509733,
@@ -4342,9 +4387,9 @@
         "oos_sharpe": 3.316380936431658,
         "oos_total_return": 0.045338462810418756,
         "oos_win_rate": 0.8,
-        "per_trade_return_gap": 0.0035535351348046085,
+        "per_trade_return_gap": -0.0025069618908808433,
         "performance_key": "stock:NOK:short:Mean Reversion RSI",
-        "profit_factor_gap": 3.637096286599154,
+        "profit_factor_gap": 3.116179238833286,
         "reasons": [
           "WIN_RATE_DETERIORATION"
         ],
@@ -4353,7 +4398,7 @@
         "strategy": "Mean Reversion RSI",
         "suggested_confidence_multiplier": 1.0,
         "symbol": "NOK",
-        "win_rate_gap": 0.46666666666666673
+        "win_rate_gap": 0.30000000000000004
       },
       {
         "deviation_score": 10.375,
@@ -11868,7 +11913,7 @@
       }
     ]
   },
-  "generated_at": "2026-09-01T20:53:42.916385+00:00",
+  "generated_at": "2026-09-01T21:08:43.823584+00:00",
   "governance": {
     "arenas": [
       {
@@ -27620,7 +27665,7 @@
         "total_reduction_notional": 3051.550301414807
       }
     ],
-    "generated_at": "2026-09-01T20:53:58.987534+00:00",
+    "generated_at": "2026-09-01T21:09:33.245487+00:00",
     "scope": "PUBLIC_READ_ONLY_RISK_SIZING_AUDIT",
     "status": "AVAILABLE",
     "summary": {
@@ -27741,19 +27786,19 @@
       "worst_trade_return": -0.1754387572936471
     },
     {
-      "avg_pnl": 36.69215328929233,
-      "avg_return_pct": 0.0003604154624235705,
+      "avg_pnl": 39.95306108567259,
+      "avg_return_pct": 0.0008602759922789694,
       "best_trade_return": 0.07078397832467842,
-      "closed_trades": 49,
+      "closed_trades": 50,
       "horizon": "short",
-      "last_exit_bar": "2026-09-01T19:00:00+00:00",
+      "last_exit_bar": "2026-09-01T20:00:00+00:00",
       "losses": 23,
       "market": "stock",
-      "profit_factor": 1.3159974940990766,
-      "realized_pnl": 1797.9155111753241,
+      "profit_factor": 1.3511029051750791,
+      "realized_pnl": 1997.6530542836292,
       "strategy": "Mean Reversion RSI",
-      "win_rate": 0.5306122448979592,
-      "wins": 26,
+      "win_rate": 0.54,
+      "wins": 27,
       "worst_trade_return": -0.15500109850272703
     },
     {
@@ -29025,6 +29070,24 @@
       "worst_trade_return": -0.03481717069269841
     },
     {
+      "avg_pnl": 99.10518572319604,
+      "avg_return_pct": 0.007208062074828464,
+      "best_trade_return": 0.034170344827586296,
+      "closed_trades": 4,
+      "horizon": "short",
+      "last_exit_bar": "2026-09-01T20:00:00+00:00",
+      "losses": 2,
+      "market": "stock",
+      "performance_key": "stock:NOK:short:Mean Reversion RSI",
+      "profit_factor": 2.033868344665119,
+      "realized_pnl": 396.4207428927842,
+      "strategy": "Mean Reversion RSI",
+      "symbol": "NOK",
+      "win_rate": 0.5,
+      "wins": 2,
+      "worst_trade_return": -0.015624536991670657
+    },
+    {
       "avg_pnl": -1.1845369726251391,
       "avg_return_pct": -0.0005303980290821964,
       "best_trade_return": 0.012373404640398933,
@@ -29185,24 +29248,6 @@
       "win_rate": 0.6666666666666666,
       "wins": 2,
       "worst_trade_return": -0.04028078315789485
-    },
-    {
-      "avg_pnl": 65.56106659482636,
-      "avg_return_pct": 0.0011596021147067814,
-      "best_trade_return": 0.034170344827586296,
-      "closed_trades": 3,
-      "horizon": "short",
-      "last_exit_bar": "2026-09-01T13:00:00+00:00",
-      "losses": 2,
-      "market": "stock",
-      "performance_key": "stock:NOK:short:Mean Reversion RSI",
-      "profit_factor": 1.5129512968992513,
-      "realized_pnl": 196.6831997844791,
-      "strategy": "Mean Reversion RSI",
-      "symbol": "NOK",
-      "win_rate": 0.3333333333333333,
-      "wins": 1,
-      "worst_trade_return": -0.015624536991670657
     },
     {
       "avg_pnl": -119.62514465418838,
@@ -30393,11 +30438,11 @@
       "worst_trade_return": -0.00029986839109497065
     }
   ],
-  "sync_checked_at": "2026-09-01T20:54:01.340235+00:00",
-  "sync_snapshot_age_seconds": 18.42385,
+  "sync_checked_at": "2026-09-01T21:09:35.439189+00:00",
+  "sync_snapshot_age_seconds": 51.615605,
   "trial_ledger": {
     "challenges": 63,
-    "cycles": 687,
+    "cycles": 690,
     "distinct_hypotheses": 63,
     "events": 186,
     "last_event_at": "2026-09-01T20:17:43.250567+00:00",
@@ -30406,19 +30451,19 @@
   },
   "worker": {
     "assets_checked": 253,
-    "bars_processed": 0,
+    "bars_processed": 34,
     "broker_order_api_calls": 0,
-    "concept_drift_pairs": 8,
+    "concept_drift_pairs": 9,
     "data_quality": "OK",
     "data_quality_critical": 0,
-    "data_quality_warnings": 41,
-    "heartbeat_at": "2026-09-01T20:53:28.929270+00:00",
-    "last_cycle_finished_at": "2026-09-01T20:51:28.762729+00:00",
-    "last_cycle_started_at": "2026-09-01T20:52:28.776101+00:00",
+    "data_quality_warnings": 36,
+    "heartbeat_at": "2026-09-01T21:08:29.186250+00:00",
+    "last_cycle_finished_at": "2026-09-01T21:02:23.962926+00:00",
+    "last_cycle_started_at": "2026-09-01T21:03:23.973646+00:00",
     "market_data_api_calls": 5,
     "portfolio_risk": "MEDIUM",
     "realtime_watchlist_sync": "ONLINE",
-    "realtime_watchlist_total": 63,
+    "realtime_watchlist_total": 62,
     "risk_layer": "ONLINE",
     "risk_sizing": "ACTIVE",
     "status": "RUNNING",
