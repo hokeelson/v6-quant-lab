@@ -72,7 +72,7 @@
     },
     {
       "account_id": "stock_short",
-      "as_of": "2026-09-02T15:00:00+00:00",
+      "as_of": "2026-09-02T16:00:00+00:00",
       "cash": 86507.88892189218,
       "closed_trades": 114,
       "drawdown": -0.03695508252360413,
@@ -539,6 +539,34 @@
   "entry_gate": {
     "broker_order_api_calls": 0,
     "entries": [
+      {
+        "account_id": "stock_short",
+        "created_at": "2026-09-02T17:02:24.838106+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3692,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "pretrade_verdict:BLOCK_CANDIDATE",
+          "regime_state:SHADOW_ONLY_CANDIDATE",
+          "strategy_state:SHADOW_ONLY_CANDIDATE"
+        ],
+        "symbol": "BMNR"
+      },
+      {
+        "account_id": "stock_short",
+        "created_at": "2026-09-02T17:01:14.496948+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3691,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "strategy_state:SHADOW_ONLY_CANDIDATE"
+        ],
+        "symbol": "BAC"
+      },
       {
         "account_id": "stock_short",
         "created_at": "2026-09-02T16:34:09.655693+00:00",
@@ -3323,37 +3351,6 @@
           "strategy_state:PAUSE_CANDIDATE"
         ],
         "symbol": "OPUSDT"
-      },
-      {
-        "account_id": "crypto_short",
-        "created_at": "2026-09-01T23:13:20.800555+00:00",
-        "entry_allowed": false,
-        "filled": false,
-        "filled_notional": 0.0,
-        "id": 3453,
-        "reasons": [
-          "ZERO_NOTIONAL",
-          "meta_verdict:SHADOW_ONLY",
-          "regime_state:PAUSE_CANDIDATE",
-          "strategy_state:PAUSE_CANDIDATE"
-        ],
-        "symbol": "CRVUSDT"
-      },
-      {
-        "account_id": "crypto_short",
-        "created_at": "2026-09-01T23:11:49.150266+00:00",
-        "entry_allowed": false,
-        "filled": false,
-        "filled_notional": 0.0,
-        "id": 3452,
-        "reasons": [
-          "ZERO_NOTIONAL",
-          "meta_verdict:SHADOW_ONLY",
-          "pretrade_verdict:BLOCK_CANDIDATE",
-          "regime_state:SHADOW_ONLY_CANDIDATE",
-          "strategy_state:PAUSE_CANDIDATE"
-        ],
-        "symbol": "BNBUSDT"
       }
     ],
     "policy_version": "ENTRY_GATE_V1",
@@ -3369,7 +3366,7 @@
   "expected_live_deviation": {
     "active_sizing": true,
     "contains_secrets": false,
-    "generated_at": "2026-09-02T16:50:06.778131+00:00",
+    "generated_at": "2026-09-02T17:03:10.842405+00:00",
     "minimum_live_trades_for_active_sizing": 5,
     "rows": [
       {
@@ -14857,7 +14854,7 @@
       }
     ]
   },
-  "generated_at": "2026-09-02T16:50:51.353607+00:00",
+  "generated_at": "2026-09-02T17:02:52.372174+00:00",
   "governance": {
     "arenas": [
       {
@@ -30804,7 +30801,7 @@
         "total_reduction_notional": 15562.03397903989
       }
     ],
-    "generated_at": "2026-09-02T16:50:57.025184+00:00",
+    "generated_at": "2026-09-02T17:03:10.818616+00:00",
     "scope": "PUBLIC_READ_ONLY_RISK_SIZING_AUDIT",
     "status": "AVAILABLE",
     "summary": {
@@ -33788,11 +33785,11 @@
       "worst_trade_return": -0.00029986839109497065
     }
   ],
-  "sync_checked_at": "2026-09-02T16:51:01.474510+00:00",
-  "sync_snapshot_age_seconds": 10.120903,
+  "sync_checked_at": "2026-09-02T17:03:12.191244+00:00",
+  "sync_snapshot_age_seconds": 19.81907,
   "trial_ledger": {
     "challenges": 66,
-    "cycles": 933,
+    "cycles": 936,
     "distinct_hypotheses": 66,
     "events": 202,
     "last_event_at": "2026-09-02T07:58:46.649870+00:00",
@@ -33807,10 +33804,10 @@
     "data_quality": "OK",
     "data_quality_critical": 0,
     "data_quality_warnings": 43,
-    "heartbeat_at": "2026-09-02T16:50:37.058837+00:00",
-    "last_cycle_finished_at": "2026-09-02T16:48:57.859547+00:00",
-    "last_cycle_started_at": "2026-09-02T16:49:57.875596+00:00",
-    "market_data_api_calls": 5,
+    "heartbeat_at": "2026-09-02T17:02:37.399350+00:00",
+    "last_cycle_finished_at": "2026-09-02T16:58:22.835039+00:00",
+    "last_cycle_started_at": "2026-09-02T16:59:22.845570+00:00",
+    "market_data_api_calls": 0,
     "portfolio_risk": "MEDIUM",
     "realtime_watchlist_sync": "ONLINE",
     "realtime_watchlist_total": 55,
