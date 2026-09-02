@@ -17,16 +17,16 @@
     {
       "account_id": "crypto_medium",
       "as_of": "2026-09-02T00:00:00+00:00",
-      "cash": 53363.76502309996,
-      "closed_trades": 73,
-      "drawdown": -0.05290132990260432,
-      "equity": 95070.38412687113,
-      "gross_exposure": 41706.619103771176,
+      "cash": 61107.30423471586,
+      "closed_trades": 75,
+      "drawdown": -0.054264636294120594,
+      "equity": 94933.53453937171,
+      "gross_exposure": 33826.23030465585,
       "horizon": "medium",
       "initial_equity": 100000.0,
-      "leverage": 0.4386920226188823,
+      "leverage": 0.35631487301915554,
       "market": "crypto",
-      "return_pct": -0.049296158731288786
+      "return_pct": -0.05066465460628289
     },
     {
       "account_id": "crypto_short",
@@ -114,7 +114,7 @@
     },
     {
       "account_id": "twstock_short",
-      "as_of": "2026-09-02T03:00:49+00:00",
+      "as_of": "2026-09-02T03:31:07+00:00",
       "cash": 98952.82731315448,
       "closed_trades": 17,
       "drawdown": -0.012248971200245706,
@@ -423,6 +423,60 @@
   "entry_gate": {
     "broker_order_api_calls": 0,
     "entries": [
+      {
+        "account_id": "crypto_short",
+        "created_at": "2026-09-02T04:24:46.129776+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3539,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "strategy_state:PAUSE_CANDIDATE"
+        ],
+        "symbol": "PENGUUSDT"
+      },
+      {
+        "account_id": "crypto_medium",
+        "created_at": "2026-09-02T04:23:29.393963+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3538,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "pretrade_verdict:BLOCK_CANDIDATE"
+        ],
+        "symbol": "PAXGUSDT"
+      },
+      {
+        "account_id": "crypto_short",
+        "created_at": "2026-09-02T04:20:55.136685+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3535,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "regime_state:PAUSE_CANDIDATE",
+          "strategy_state:PAUSE_CANDIDATE"
+        ],
+        "symbol": "FILUSDT"
+      },
+      {
+        "account_id": "crypto_short",
+        "created_at": "2026-09-02T04:19:35.170179+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3534,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "pretrade_verdict:BLOCK_CANDIDATE",
+          "strategy_state:PAUSE_CANDIDATE"
+        ],
+        "symbol": "ETHUSDT"
+      },
       {
         "account_id": "crypto_medium",
         "created_at": "2026-09-02T04:18:10.821833+00:00",
@@ -1631,16 +1685,16 @@
     "simulation_only": true,
     "status": "OK",
     "summary": {
-      "blocked": 81,
+      "blocked": 85,
       "blocked_but_filled": 0,
       "filled": 1,
-      "sampled_events": 82
+      "sampled_events": 86
     }
   },
   "expected_live_deviation": {
     "active_sizing": true,
     "contains_secrets": false,
-    "generated_at": "2026-09-02T04:19:07.429897+00:00",
+    "generated_at": "2026-09-02T04:34:12.662198+00:00",
     "minimum_live_trades_for_active_sizing": 5,
     "rows": [
       {
@@ -6289,6 +6343,39 @@
         "evidence_weight": 0.1,
         "horizon": "medium",
         "live_closed_trades": 2,
+        "live_compound_return": 0.14741028118822985,
+        "live_losses": 1,
+        "live_max_loss_streak": 1,
+        "live_per_trade_return": 0.07117238630774536,
+        "live_profit_factor": 2.825921308407854,
+        "live_profit_factor_infinite": false,
+        "live_win_rate": 0.5,
+        "live_wins": 1,
+        "market": "crypto",
+        "oos_closed_trades": 14,
+        "oos_max_drawdown": -0.10375940561472818,
+        "oos_per_trade_return": 0.013287025391163887,
+        "oos_profit_factor": 1.9483566772174077,
+        "oos_profit_factor_infinite": false,
+        "oos_sharpe": 3.3284378766757796,
+        "oos_total_return": 0.20296985573453719,
+        "oos_win_rate": 0.42857142857142855,
+        "per_trade_return_gap": -0.057885360916581474,
+        "performance_key": "crypto:HEMIUSDT:medium:Trend MA",
+        "profit_factor_gap": -0.8775646311904464,
+        "reasons": [],
+        "shadow_only": true,
+        "state": "LEARNING",
+        "strategy": "Trend MA",
+        "suggested_confidence_multiplier": 1.0,
+        "symbol": "HEMIUSDT",
+        "win_rate_gap": -0.07142857142857145
+      },
+      {
+        "deviation_score": 0.0,
+        "evidence_weight": 0.1,
+        "horizon": "medium",
+        "live_closed_trades": 2,
         "live_compound_return": 0.0349824666330083,
         "live_losses": 1,
         "live_max_loss_streak": 1,
@@ -6355,39 +6442,6 @@
         "evidence_weight": 0.05,
         "horizon": "medium",
         "live_closed_trades": 1,
-        "live_compound_return": 0.3947511756085125,
-        "live_losses": 0,
-        "live_max_loss_streak": 0,
-        "live_per_trade_return": 0.3947511756085125,
-        "live_profit_factor": null,
-        "live_profit_factor_infinite": true,
-        "live_win_rate": 1.0,
-        "live_wins": 1,
-        "market": "crypto",
-        "oos_closed_trades": 14,
-        "oos_max_drawdown": -0.10375940561472818,
-        "oos_per_trade_return": 0.013287025391163887,
-        "oos_profit_factor": 1.9483566772174077,
-        "oos_profit_factor_infinite": false,
-        "oos_sharpe": 3.3284378766757796,
-        "oos_total_return": 0.20296985573453719,
-        "oos_win_rate": 0.42857142857142855,
-        "per_trade_return_gap": -0.3814641502173486,
-        "performance_key": "crypto:HEMIUSDT:medium:Trend MA",
-        "profit_factor_gap": null,
-        "reasons": [],
-        "shadow_only": true,
-        "state": "LEARNING",
-        "strategy": "Trend MA",
-        "suggested_confidence_multiplier": 1.0,
-        "symbol": "HEMIUSDT",
-        "win_rate_gap": -0.5714285714285714
-      },
-      {
-        "deviation_score": 0.0,
-        "evidence_weight": 0.05,
-        "horizon": "medium",
-        "live_closed_trades": 1,
         "live_compound_return": 0.05780814425223468,
         "live_losses": 0,
         "live_max_loss_streak": 0,
@@ -6415,6 +6469,39 @@
         "suggested_confidence_multiplier": 1.0,
         "symbol": "SNDKBUSDT",
         "win_rate_gap": 0.0
+      },
+      {
+        "deviation_score": 0.0,
+        "evidence_weight": 0.05,
+        "horizon": "medium",
+        "live_closed_trades": 1,
+        "live_compound_return": 0.04509324815738158,
+        "live_losses": 0,
+        "live_max_loss_streak": 0,
+        "live_per_trade_return": 0.04509324815738158,
+        "live_profit_factor": null,
+        "live_profit_factor_infinite": true,
+        "live_win_rate": 1.0,
+        "live_wins": 1,
+        "market": "crypto",
+        "oos_closed_trades": 5,
+        "oos_max_drawdown": -0.03254030693481458,
+        "oos_per_trade_return": 0.01069494862849174,
+        "oos_profit_factor": 3.236773963574476,
+        "oos_profit_factor_infinite": false,
+        "oos_sharpe": 4.234141269451877,
+        "oos_total_return": 0.05463086104841319,
+        "oos_win_rate": 0.4,
+        "per_trade_return_gap": -0.03439829952888984,
+        "performance_key": "crypto:SOLUSDT:medium:Trend MA",
+        "profit_factor_gap": null,
+        "reasons": [],
+        "shadow_only": true,
+        "state": "LEARNING",
+        "strategy": "Trend MA",
+        "suggested_confidence_multiplier": 1.0,
+        "symbol": "SOLUSDT",
+        "win_rate_gap": -0.6
       },
       {
         "deviation_score": 0.0,
@@ -8920,39 +9007,6 @@
         "shadow_only": true,
         "state": "LEARNING",
         "strategy": "Momentum",
-        "suggested_confidence_multiplier": 1.0,
-        "symbol": "SOLUSDT",
-        "win_rate_gap": null
-      },
-      {
-        "deviation_score": 0.0,
-        "evidence_weight": 0.0,
-        "horizon": "medium",
-        "live_closed_trades": 0,
-        "live_compound_return": null,
-        "live_losses": 0,
-        "live_max_loss_streak": 0,
-        "live_per_trade_return": null,
-        "live_profit_factor": null,
-        "live_profit_factor_infinite": false,
-        "live_win_rate": null,
-        "live_wins": 0,
-        "market": "crypto",
-        "oos_closed_trades": 5,
-        "oos_max_drawdown": -0.03254030693481458,
-        "oos_per_trade_return": 0.01069494862849174,
-        "oos_profit_factor": 3.236773963574476,
-        "oos_profit_factor_infinite": false,
-        "oos_sharpe": 4.234141269451877,
-        "oos_total_return": 0.05463086104841319,
-        "oos_win_rate": 0.4,
-        "per_trade_return_gap": null,
-        "performance_key": "crypto:SOLUSDT:medium:Trend MA",
-        "profit_factor_gap": null,
-        "reasons": [],
-        "shadow_only": true,
-        "state": "LEARNING",
-        "strategy": "Trend MA",
         "suggested_confidence_multiplier": 1.0,
         "symbol": "SOLUSDT",
         "win_rate_gap": null
@@ -12994,7 +13048,7 @@
       "models": 328,
       "severe": 6,
       "watch": 5,
-      "with_live_trades": 138
+      "with_live_trades": 139
     }
   },
   "forward_validation": {
@@ -13121,7 +13175,7 @@
       }
     ]
   },
-  "generated_at": "2026-09-02T04:19:11.955517+00:00",
+  "generated_at": "2026-09-02T04:34:12.922687+00:00",
   "governance": {
     "arenas": [
       {
@@ -29048,7 +29102,7 @@
         "total_reduction_notional": 6359.781433276954
       }
     ],
-    "generated_at": "2026-09-02T04:19:17.470270+00:00",
+    "generated_at": "2026-09-02T04:34:27.726173+00:00",
     "scope": "PUBLIC_READ_ONLY_RISK_SIZING_AUDIT",
     "status": "AVAILABLE",
     "summary": {
@@ -29073,7 +29127,7 @@
   "storage_persistence": {
     "bootstrap_at": "2026-09-01T19:44:37.021398+00:00",
     "bootstrap_warnings": [],
-    "last_snapshot_at": "2026-09-02T04:16:13.141703+00:00",
+    "last_snapshot_at": "2026-09-02T04:26:29.731120+00:00",
     "last_snapshot_failed": [],
     "last_snapshot_success": [
       "crypto_v2_shadow.sqlite3",
@@ -29087,9 +29141,9 @@
     "mode": "RESCUE_RUNTIME",
     "persistence_status": "OK",
     "persistent_disk": {
-      "free": 2640605184,
+      "free": 2635673600,
       "total": 4685873152,
-      "used": 2028490752
+      "used": 2033422336
     },
     "restored": [
       {
@@ -29132,7 +29186,7 @@
     "snapshot_interval_seconds": 60,
     "snapshot_keep_archives": 0,
     "status": "AVAILABLE",
-    "updated_at": "2026-09-02T04:16:13.141811+00:00"
+    "updated_at": "2026-09-02T04:26:29.731261+00:00"
   },
   "strategy_performance": [
     {
@@ -29232,19 +29286,19 @@
       "worst_trade_return": -0.05207278790611425
     },
     {
-      "avg_pnl": -179.35836149469867,
-      "avg_return_pct": -0.04053168282408084,
+      "avg_pnl": -155.54127785640088,
+      "avg_return_pct": -0.04309069873503958,
       "best_trade_return": 0.3947511756085125,
-      "closed_trades": 18,
+      "closed_trades": 20,
       "horizon": "medium",
-      "last_exit_bar": "2026-09-01T20:00:00+00:00",
-      "losses": 14,
+      "last_exit_bar": "2026-09-02T00:00:00+00:00",
+      "losses": 15,
       "market": "crypto",
-      "profit_factor": 0.15602767677562382,
-      "realized_pnl": -3228.450506904576,
+      "profit_factor": 0.22339793032227478,
+      "realized_pnl": -3110.8255571280174,
       "strategy": "Trend MA",
-      "win_rate": 0.2222222222222222,
-      "wins": 4,
+      "win_rate": 0.25,
+      "wins": 5,
       "worst_trade_return": -0.2355762284966343
     },
     {
@@ -30864,6 +30918,24 @@
       "worst_trade_return": -0.1237614577007845
     },
     {
+      "avg_pnl": 164.68366761501403,
+      "avg_return_pct": 0.10870712179189712,
+      "best_trade_return": 0.3947511756085125,
+      "closed_trades": 2,
+      "horizon": "medium",
+      "last_exit_bar": "2026-09-02T00:00:00+00:00",
+      "losses": 1,
+      "market": "crypto",
+      "performance_key": "crypto:HEMIUSDT:medium:Trend MA",
+      "profit_factor": 2.825921308407854,
+      "realized_pnl": 329.36733523002806,
+      "strategy": "Trend MA",
+      "symbol": "HEMIUSDT",
+      "win_rate": 0.5,
+      "wins": 1,
+      "worst_trade_return": -0.17733693202471823
+    },
+    {
       "avg_pnl": -53.77578210143571,
       "avg_return_pct": -0.011239460222790543,
       "best_trade_return": 0.0010514007583066753,
@@ -31296,24 +31368,6 @@
       "worst_trade_return": 0.030826709594333312
     },
     {
-      "avg_pnl": 509.7515246873635,
-      "avg_return_pct": 0.3947511756085125,
-      "best_trade_return": 0.3947511756085125,
-      "closed_trades": 1,
-      "horizon": "medium",
-      "last_exit_bar": "2026-08-31T00:00:00+00:00",
-      "losses": 0,
-      "market": "crypto",
-      "performance_key": "crypto:HEMIUSDT:medium:Trend MA",
-      "profit_factor": 999.0,
-      "realized_pnl": 509.7515246873635,
-      "strategy": "Trend MA",
-      "symbol": "HEMIUSDT",
-      "win_rate": 1.0,
-      "wins": 1,
-      "worst_trade_return": 0.3947511756085125
-    },
-    {
       "avg_pnl": -458.0039584191274,
       "avg_return_pct": -0.06679544255833703,
       "best_trade_return": -0.06679544255833703,
@@ -31492,6 +31546,24 @@
       "win_rate": 1.0,
       "wins": 1,
       "worst_trade_return": 0.05780814425223468
+    },
+    {
+      "avg_pnl": 298.0091392338936,
+      "avg_return_pct": 0.04509324815738158,
+      "best_trade_return": 0.04509324815738158,
+      "closed_trades": 1,
+      "horizon": "medium",
+      "last_exit_bar": "2026-09-02T00:00:00+00:00",
+      "losses": 0,
+      "market": "crypto",
+      "performance_key": "crypto:SOLUSDT:medium:Trend MA",
+      "profit_factor": 999.0,
+      "realized_pnl": 298.0091392338936,
+      "strategy": "Trend MA",
+      "symbol": "SOLUSDT",
+      "win_rate": 1.0,
+      "wins": 1,
+      "worst_trade_return": 0.04509324815738158
     },
     {
       "avg_pnl": -293.6320964390952,
@@ -31926,11 +31998,11 @@
       "worst_trade_return": -0.00029986839109497065
     }
   ],
-  "sync_checked_at": "2026-09-02T04:19:20.100092+00:00",
-  "sync_snapshot_age_seconds": 8.144575,
+  "sync_checked_at": "2026-09-02T04:34:29.996065+00:00",
+  "sync_snapshot_age_seconds": 17.073378,
   "trial_ledger": {
     "challenges": 65,
-    "cycles": 779,
+    "cycles": 781,
     "distinct_hypotheses": 66,
     "events": 198,
     "last_event_at": "2026-09-02T01:48:46.404379+00:00",
@@ -31939,19 +32011,19 @@
   },
   "worker": {
     "assets_checked": 256,
-    "bars_processed": 72,
+    "bars_processed": 2,
     "broker_order_api_calls": 0,
     "concept_drift_pairs": 12,
     "data_quality": "OK",
     "data_quality_critical": 0,
-    "data_quality_warnings": 32,
-    "heartbeat_at": "2026-09-02T04:19:00.321380+00:00",
-    "last_cycle_finished_at": "2026-09-02T04:05:42.036604+00:00",
-    "last_cycle_started_at": "2026-09-02T04:06:42.053801+00:00",
-    "market_data_api_calls": 7,
+    "data_quality_warnings": 34,
+    "heartbeat_at": "2026-09-02T04:34:08.984265+00:00",
+    "last_cycle_finished_at": "2026-09-02T04:30:54.802171+00:00",
+    "last_cycle_started_at": "2026-09-02T04:31:54.817114+00:00",
+    "market_data_api_calls": 0,
     "portfolio_risk": "MEDIUM",
     "realtime_watchlist_sync": "ONLINE",
-    "realtime_watchlist_total": 58,
+    "realtime_watchlist_total": 57,
     "risk_layer": "ONLINE",
     "risk_sizing": "ACTIVE",
     "status": "RUNNING",
