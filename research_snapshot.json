@@ -114,7 +114,7 @@
     },
     {
       "account_id": "twstock_short",
-      "as_of": "2026-09-02T02:29:51+00:00",
+      "as_of": "2026-09-02T02:37:04+00:00",
       "cash": 98952.82731315448,
       "closed_trades": 17,
       "drawdown": -0.012248971200245706,
@@ -423,6 +423,21 @@
   "entry_gate": {
     "broker_order_api_calls": 0,
     "entries": [
+      {
+        "account_id": "twstock_short",
+        "created_at": "2026-09-02T03:36:21.844442+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3518,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "regime_state:SHADOW_ONLY_CANDIDATE",
+          "strategy_state:SHADOW_ONLY_CANDIDATE",
+          "symbol_strategy_state:PAUSE_CANDIDATE"
+        ],
+        "symbol": "2317.TW"
+      },
       {
         "account_id": "crypto_short",
         "created_at": "2026-09-02T03:19:35.684427+00:00",
@@ -1459,16 +1474,16 @@
     "simulation_only": true,
     "status": "OK",
     "summary": {
-      "blocked": 69,
+      "blocked": 70,
       "blocked_but_filled": 0,
       "filled": 1,
-      "sampled_events": 70
+      "sampled_events": 71
     }
   },
   "expected_live_deviation": {
     "active_sizing": true,
     "contains_secrets": false,
-    "generated_at": "2026-09-02T03:34:51.915365+00:00",
+    "generated_at": "2026-09-02T03:46:55.838056+00:00",
     "minimum_live_trades_for_active_sizing": 5,
     "rows": [
       {
@@ -12945,7 +12960,7 @@
       }
     ]
   },
-  "generated_at": "2026-09-02T03:34:08.999099+00:00",
+  "generated_at": "2026-09-02T03:47:09.783735+00:00",
   "governance": {
     "arenas": [
       {
@@ -28872,7 +28887,7 @@
         "total_reduction_notional": 6359.781433276954
       }
     ],
-    "generated_at": "2026-09-02T03:35:06.961490+00:00",
+    "generated_at": "2026-09-02T03:47:41.025489+00:00",
     "scope": "PUBLIC_READ_ONLY_RISK_SIZING_AUDIT",
     "status": "AVAILABLE",
     "summary": {
@@ -31732,11 +31747,11 @@
       "worst_trade_return": -0.00029986839109497065
     }
   ],
-  "sync_checked_at": "2026-09-02T03:35:08.246438+00:00",
-  "sync_snapshot_age_seconds": 59.247339,
+  "sync_checked_at": "2026-09-02T03:47:45.167831+00:00",
+  "sync_snapshot_age_seconds": 35.384096,
   "trial_ledger": {
     "challenges": 65,
-    "cycles": 772,
+    "cycles": 775,
     "distinct_hypotheses": 66,
     "events": 198,
     "last_event_at": "2026-09-02T01:48:46.404379+00:00",
@@ -31745,16 +31760,16 @@
   },
   "worker": {
     "assets_checked": 256,
-    "bars_processed": 1,
+    "bars_processed": 0,
     "broker_order_api_calls": 0,
     "concept_drift_pairs": 12,
     "data_quality": "OK",
     "data_quality_critical": 0,
     "data_quality_warnings": 33,
-    "heartbeat_at": "2026-09-02T03:33:59.226620+00:00",
-    "last_cycle_finished_at": "2026-09-02T03:32:45.536041+00:00",
-    "last_cycle_started_at": "2026-09-02T03:33:45.545146+00:00",
-    "market_data_api_calls": 0,
+    "heartbeat_at": "2026-09-02T03:46:59.413793+00:00",
+    "last_cycle_finished_at": "2026-09-02T03:45:35.738685+00:00",
+    "last_cycle_started_at": "2026-09-02T03:46:35.750065+00:00",
+    "market_data_api_calls": 3,
     "portfolio_risk": "MEDIUM",
     "realtime_watchlist_sync": "ONLINE",
     "realtime_watchlist_total": 59,
