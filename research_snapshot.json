@@ -30,17 +30,17 @@
     },
     {
       "account_id": "crypto_short",
-      "as_of": "2026-09-02T15:00:00+00:00",
+      "as_of": "2026-09-02T16:00:00+00:00",
       "cash": 83285.23640546303,
       "closed_trades": 329,
-      "drawdown": -0.11650148170343488,
-      "equity": 90930.63455068727,
-      "gross_exposure": 7645.398145224238,
+      "drawdown": -0.11659313386064662,
+      "equity": 90921.20161034769,
+      "gross_exposure": 7635.965204884665,
       "horizon": "short",
       "initial_equity": 100000.0,
-      "leverage": 0.08407945444351297,
+      "leverage": 0.08398442904009773,
       "market": "crypto",
-      "return_pct": -0.09069365449312727
+      "return_pct": -0.0907879838965231
     },
     {
       "account_id": "stock_long",
@@ -73,16 +73,16 @@
     {
       "account_id": "stock_short",
       "as_of": "2026-09-02T16:00:00+00:00",
-      "cash": 86507.88892189218,
-      "closed_trades": 114,
-      "drawdown": -0.03695508252360413,
-      "equity": 98651.68678765475,
-      "gross_exposure": 12143.797865762564,
+      "cash": 98644.01340716693,
+      "closed_trades": 116,
+      "drawdown": -0.03702999062015355,
+      "equity": 98644.01340716693,
+      "gross_exposure": 0.0,
       "horizon": "short",
       "initial_equity": 100000.0,
-      "leverage": 0.12309772150071575,
+      "leverage": 0.0,
       "market": "stock",
-      "return_pct": -0.013483132123452535
+      "return_pct": -0.013559865928330694
     },
     {
       "account_id": "twstock_long",
@@ -131,9 +131,9 @@
   "data_quality": {},
   "direction_shadow": {
     "benchmarks": {
-      "always_long_after_cost_avg_return_pct": -0.016512777903928095,
+      "always_long_after_cost_avg_return_pct": -0.016475859729731607,
       "note": "Equal-weight prediction-window diagnostic; not a portfolio equity curve.",
-      "policy_minus_always_long_avg_return_pct": 0.014585614483212566
+      "policy_minus_always_long_avg_return_pct": 0.014555729752157376
     },
     "broker_order_api_calls": 0,
     "confidence_calibration": {
@@ -191,11 +191,11 @@
       },
       "NO_TRADE": {
         "avg_forward_return_pct": 0.0,
-        "avg_opportunity_return_pct": 0.019248311739122125,
-        "avg_reward_r": -0.5462241733969391,
-        "completed": 119,
-        "evaluated": 119,
-        "hit_rate": 0.3277310924369748
+        "avg_opportunity_return_pct": 0.019087909141296107,
+        "avg_reward_r": -0.5416723052852979,
+        "completed": 120,
+        "evaluated": 120,
+        "hit_rate": 0.3333333333333333
       },
       "SHORT": {
         "avg_forward_return_pct": 0.004835111788305387,
@@ -207,11 +207,11 @@
       }
     },
     "engine_version": "V10_ADAPTIVE_EVIDENCE_SHADOW",
-    "evaluated": 273,
+    "evaluated": 274,
     "evidence_maturity": {
       "automatic_retuning_allowed": false,
       "directional_trades": 154,
-      "forward_days": 1.5,
+      "forward_days": 1.625,
       "reason": "Forward evidence is diagnostic until independently reviewed; no online parameter chasing.",
       "state": "PRELIMINARY"
     },
@@ -219,16 +219,16 @@
     "policies": [
       {
         "engine_version": "V10_ADAPTIVE_EVIDENCE_SHADOW",
-        "evaluated": 273,
-        "predictions": 525
+        "evaluated": 274,
+        "predictions": 526
       }
     ],
     "policy_performance": {
       "avg_directional_trade_return_pct": -0.0034163351549048025,
-      "avg_policy_return_pct": -0.0019271634207155294,
+      "avg_policy_return_pct": -0.0019201299775742319,
       "directional_trade_samples": 154,
       "max_drawdown_pct": -0.5507052319760979,
-      "samples_including_no_trade": 273,
+      "samples_including_no_trade": 274,
       "trade_sequence_sharpe": -0.0920354511134767
     },
     "promotion_gate": {
@@ -427,18 +427,18 @@
       {
         "avg_forward_return_pct": 0.0,
         "decision": "NO_TRADE",
-        "hit_rate": 0.16666666666666666,
-        "horizon": "medium",
+        "hit_rate": 0.14285714285714285,
+        "horizon": "short",
         "market": "crypto",
         "maturity": "DIAGNOSTIC",
         "regime": "NORMAL_UP_TREND",
-        "samples": 6
+        "samples": 7
       },
       {
         "avg_forward_return_pct": 0.0,
         "decision": "NO_TRADE",
-        "hit_rate": 0.0,
-        "horizon": "short",
+        "hit_rate": 0.16666666666666666,
+        "horizon": "medium",
         "market": "crypto",
         "maturity": "DIAGNOSTIC",
         "regime": "NORMAL_UP_TREND",
@@ -539,6 +539,133 @@
   "entry_gate": {
     "broker_order_api_calls": 0,
     "entries": [
+      {
+        "account_id": "crypto_short",
+        "created_at": "2026-09-02T17:16:16.086046+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3701,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "pretrade_verdict:BLOCK_CANDIDATE",
+          "regime_state:PAUSE_CANDIDATE"
+        ],
+        "symbol": "UNIUSDT"
+      },
+      {
+        "account_id": "crypto_short",
+        "created_at": "2026-09-02T17:15:10.050944+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3700,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "strategy_state:PAUSE_CANDIDATE",
+          "symbol_strategy_state:SHADOW_ONLY_CANDIDATE"
+        ],
+        "symbol": "TAOUSDT"
+      },
+      {
+        "account_id": "crypto_short",
+        "created_at": "2026-09-02T17:12:43.894181+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3699,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "pretrade_verdict:BLOCK_CANDIDATE",
+          "strategy_state:PAUSE_CANDIDATE"
+        ],
+        "symbol": "ETHUSDT"
+      },
+      {
+        "account_id": "crypto_short",
+        "created_at": "2026-09-02T17:12:11.647784+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3698,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "pretrade_verdict:BLOCK_CANDIDATE",
+          "regime_state:SHADOW_ONLY_CANDIDATE",
+          "strategy_state:PAUSE_CANDIDATE"
+        ],
+        "symbol": "ENSOUSDT"
+      },
+      {
+        "account_id": "crypto_short",
+        "created_at": "2026-09-02T17:11:47.042036+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3697,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "pretrade_verdict:BLOCK_CANDIDATE",
+          "strategy_state:PAUSE_CANDIDATE"
+        ],
+        "symbol": "ENAUSDT"
+      },
+      {
+        "account_id": "crypto_short",
+        "created_at": "2026-09-02T17:10:38.230697+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3696,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "pretrade_verdict:BLOCK_CANDIDATE",
+          "regime_state:PAUSE_CANDIDATE",
+          "strategy_state:PAUSE_CANDIDATE"
+        ],
+        "symbol": "ARBUSDT"
+      },
+      {
+        "account_id": "stock_short",
+        "created_at": "2026-09-02T17:05:59.278634+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3695,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "strategy_state:SHADOW_ONLY_CANDIDATE"
+        ],
+        "symbol": "PCG"
+      },
+      {
+        "account_id": "stock_short",
+        "created_at": "2026-09-02T17:04:50.381274+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3694,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "pretrade_verdict:BLOCK_CANDIDATE",
+          "strategy_state:SHADOW_ONLY_CANDIDATE"
+        ],
+        "symbol": "LITE"
+      },
+      {
+        "account_id": "stock_short",
+        "created_at": "2026-09-02T17:03:33.936168+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3693,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "regime_state:SHADOW_ONLY_CANDIDATE",
+          "strategy_state:SHADOW_ONLY_CANDIDATE"
+        ],
+        "symbol": "CRCL"
+      },
       {
         "account_id": "stock_short",
         "created_at": "2026-09-02T17:02:24.838106+00:00",
@@ -3221,136 +3348,6 @@
           "symbol_strategy_state:SHADOW_ONLY_CANDIDATE"
         ],
         "symbol": "ADAUSDT"
-      },
-      {
-        "account_id": "crypto_short",
-        "created_at": "2026-09-02T00:18:16.356282+00:00",
-        "entry_allowed": false,
-        "filled": false,
-        "filled_notional": 0.0,
-        "id": 3478,
-        "reasons": [
-          "ZERO_NOTIONAL",
-          "pretrade_verdict:BLOCK_CANDIDATE",
-          "regime_state:SHADOW_ONLY_CANDIDATE",
-          "strategy_state:PAUSE_CANDIDATE"
-        ],
-        "symbol": "ETHUSDT"
-      },
-      {
-        "account_id": "crypto_short",
-        "created_at": "2026-09-02T00:16:25.825328+00:00",
-        "entry_allowed": false,
-        "filled": false,
-        "filled_notional": 0.0,
-        "id": 3474,
-        "reasons": [
-          "ZERO_NOTIONAL",
-          "meta_verdict:SHADOW_ONLY",
-          "regime_state:PAUSE_CANDIDATE",
-          "strategy_state:PAUSE_CANDIDATE"
-        ],
-        "symbol": "CRVUSDT"
-      },
-      {
-        "account_id": "crypto_short",
-        "created_at": "2026-09-02T00:14:42.880227+00:00",
-        "entry_allowed": false,
-        "filled": false,
-        "filled_notional": 0.0,
-        "id": 3472,
-        "reasons": [
-          "ZERO_NOTIONAL",
-          "meta_verdict:SHADOW_ONLY",
-          "pretrade_verdict:BLOCK_CANDIDATE",
-          "regime_state:SHADOW_ONLY_CANDIDATE",
-          "strategy_state:PAUSE_CANDIDATE"
-        ],
-        "symbol": "BNBUSDT"
-      },
-      {
-        "account_id": "crypto_medium",
-        "created_at": "2026-09-02T00:13:00.740669+00:00",
-        "entry_allowed": false,
-        "filled": false,
-        "filled_notional": 0.0,
-        "id": 3471,
-        "reasons": [
-          "ZERO_NOTIONAL",
-          "pretrade_verdict:BLOCK_CANDIDATE",
-          "strategy_state:SHADOW_ONLY_CANDIDATE"
-        ],
-        "symbol": "AAVEUSDT"
-      },
-      {
-        "account_id": "stock_medium",
-        "created_at": "2026-09-02T00:08:10.499643+00:00",
-        "entry_allowed": false,
-        "filled": false,
-        "filled_notional": 0.0,
-        "id": 3470,
-        "reasons": [
-          "ZERO_NOTIONAL",
-          "meta_verdict:SHADOW_ONLY",
-          "regime_state:SHADOW_ONLY_CANDIDATE",
-          "strategy_state:SHADOW_ONLY_CANDIDATE"
-        ],
-        "symbol": "SMCI"
-      },
-      {
-        "account_id": "crypto_short",
-        "created_at": "2026-09-02T00:05:57.952289+00:00",
-        "entry_allowed": false,
-        "filled": false,
-        "filled_notional": 0.0,
-        "id": 3457,
-        "reasons": [
-          "ZERO_NOTIONAL",
-          "pretrade_verdict:BLOCK_CANDIDATE",
-          "strategy_state:PAUSE_CANDIDATE"
-        ],
-        "symbol": "PENGUUSDT"
-      },
-      {
-        "account_id": "crypto_medium",
-        "created_at": "2026-09-02T00:04:28.819542+00:00",
-        "entry_allowed": false,
-        "filled": false,
-        "filled_notional": 0.0,
-        "id": 3456,
-        "reasons": [
-          "ZERO_NOTIONAL",
-          "meta_verdict:SHADOW_ONLY",
-          "pretrade_verdict:BLOCK_CANDIDATE"
-        ],
-        "symbol": "PAXGUSDT"
-      },
-      {
-        "account_id": "crypto_medium",
-        "created_at": "2026-09-02T00:03:04.189788+00:00",
-        "entry_allowed": false,
-        "filled": false,
-        "filled_notional": 0.0,
-        "id": 3455,
-        "reasons": [
-          "ZERO_NOTIONAL",
-          "meta_verdict:SHADOW_ONLY"
-        ],
-        "symbol": "OPUSDT"
-      },
-      {
-        "account_id": "crypto_short",
-        "created_at": "2026-09-02T00:01:36.666116+00:00",
-        "entry_allowed": false,
-        "filled": false,
-        "filled_notional": 0.0,
-        "id": 3454,
-        "reasons": [
-          "ZERO_NOTIONAL",
-          "meta_verdict:SHADOW_ONLY",
-          "strategy_state:PAUSE_CANDIDATE"
-        ],
-        "symbol": "OPUSDT"
       }
     ],
     "policy_version": "ENTRY_GATE_V1",
@@ -3366,7 +3363,7 @@
   "expected_live_deviation": {
     "active_sizing": true,
     "contains_secrets": false,
-    "generated_at": "2026-09-02T17:03:10.842405+00:00",
+    "generated_at": "2026-09-02T17:20:02.170682+00:00",
     "minimum_live_trades_for_active_sizing": 5,
     "rows": [
       {
@@ -4672,44 +4669,6 @@
         "suggested_confidence_multiplier": 1.0,
         "symbol": "DEXEUSDT",
         "win_rate_gap": 0.46666666666666673
-      },
-      {
-        "deviation_score": 44.77333656571629,
-        "evidence_weight": 0.15,
-        "horizon": "short",
-        "live_closed_trades": 3,
-        "live_compound_return": -0.050098883704298935,
-        "live_losses": 2,
-        "live_max_loss_streak": 1,
-        "live_per_trade_return": -0.0169865365464682,
-        "live_profit_factor": 0.34113803188944675,
-        "live_profit_factor_infinite": false,
-        "live_win_rate": 0.3333333333333333,
-        "live_wins": 1,
-        "market": "stock",
-        "oos_closed_trades": 23,
-        "oos_max_drawdown": -0.09301437095172971,
-        "oos_per_trade_return": 0.006250994164000767,
-        "oos_profit_factor": 1.7236675814754538,
-        "oos_profit_factor_infinite": false,
-        "oos_sharpe": 2.5415109262895417,
-        "oos_total_return": 0.15410524950246307,
-        "oos_win_rate": 0.6521739130434783,
-        "per_trade_return_gap": 0.023237530710468968,
-        "performance_key": "stock:SOXL:short:Mean Reversion RSI",
-        "profit_factor_gap": 1.382529549586007,
-        "reasons": [
-          "OOS_POSITIVE_LIVE_NEGATIVE",
-          "WIN_RATE_DETERIORATION",
-          "PROFIT_FACTOR_DETERIORATION",
-          "EXPECTANCY_SIGN_REVERSAL"
-        ],
-        "shadow_only": true,
-        "state": "LEARNING",
-        "strategy": "Mean Reversion RSI",
-        "suggested_confidence_multiplier": 1.0,
-        "symbol": "SOXL",
-        "win_rate_gap": 0.31884057971014496
       },
       {
         "deviation_score": 44.67934385705553,
@@ -6414,6 +6373,44 @@
         "suggested_confidence_multiplier": 0.85,
         "symbol": "XLMUSDT",
         "win_rate_gap": 0.12222222222222223
+      },
+      {
+        "deviation_score": 38.98838637312647,
+        "evidence_weight": 0.2,
+        "horizon": "short",
+        "live_closed_trades": 4,
+        "live_compound_return": -0.01438830218889342,
+        "live_losses": 2,
+        "live_max_loss_streak": 1,
+        "live_per_trade_return": -0.0036166485032986806,
+        "live_profit_factor": 0.7898089258026926,
+        "live_profit_factor_infinite": false,
+        "live_win_rate": 0.5,
+        "live_wins": 2,
+        "market": "stock",
+        "oos_closed_trades": 23,
+        "oos_max_drawdown": -0.09301437095172971,
+        "oos_per_trade_return": 0.006250994164000767,
+        "oos_profit_factor": 1.7236675814754538,
+        "oos_profit_factor_infinite": false,
+        "oos_sharpe": 2.5415109262895417,
+        "oos_total_return": 0.15410524950246307,
+        "oos_win_rate": 0.6521739130434783,
+        "per_trade_return_gap": 0.009867642667299448,
+        "performance_key": "stock:SOXL:short:Mean Reversion RSI",
+        "profit_factor_gap": 0.9338586556727613,
+        "reasons": [
+          "OOS_POSITIVE_LIVE_NEGATIVE",
+          "WIN_RATE_DETERIORATION",
+          "PROFIT_FACTOR_DETERIORATION",
+          "EXPECTANCY_SIGN_REVERSAL"
+        ],
+        "shadow_only": true,
+        "state": "LEARNING",
+        "strategy": "Mean Reversion RSI",
+        "suggested_confidence_multiplier": 1.0,
+        "symbol": "SOXL",
+        "win_rate_gap": 0.15217391304347827
       },
       {
         "deviation_score": 38.98815789473684,
@@ -8184,6 +8181,39 @@
       },
       {
         "deviation_score": 0.0,
+        "evidence_weight": 0.1,
+        "horizon": "short",
+        "live_closed_trades": 2,
+        "live_compound_return": 0.011439631032660103,
+        "live_losses": 0,
+        "live_max_loss_streak": 0,
+        "live_per_trade_return": 0.005703550273469027,
+        "live_profit_factor": null,
+        "live_profit_factor_infinite": true,
+        "live_win_rate": 1.0,
+        "live_wins": 2,
+        "market": "stock",
+        "oos_closed_trades": 10,
+        "oos_max_drawdown": -0.0038482475594769916,
+        "oos_per_trade_return": 0.0012862845197474382,
+        "oos_profit_factor": 8.73891268151332,
+        "oos_profit_factor_infinite": false,
+        "oos_sharpe": 3.018231511274975,
+        "oos_total_return": 0.012937554910418037,
+        "oos_win_rate": 0.7,
+        "per_trade_return_gap": -0.004417265753721589,
+        "performance_key": "stock:QQQ:short:Mean Reversion RSI",
+        "profit_factor_gap": null,
+        "reasons": [],
+        "shadow_only": true,
+        "state": "LEARNING",
+        "strategy": "Mean Reversion RSI",
+        "suggested_confidence_multiplier": 1.0,
+        "symbol": "QQQ",
+        "win_rate_gap": -0.30000000000000004
+      },
+      {
+        "deviation_score": 0.0,
         "evidence_weight": 0.05,
         "horizon": "short",
         "live_closed_trades": 1,
@@ -8511,39 +8541,6 @@
         "suggested_confidence_multiplier": 1.0,
         "symbol": "PFE",
         "win_rate_gap": 0.0
-      },
-      {
-        "deviation_score": 0.0,
-        "evidence_weight": 0.05,
-        "horizon": "short",
-        "live_closed_trades": 1,
-        "live_compound_return": 0.009736578247699468,
-        "live_losses": 0,
-        "live_max_loss_streak": 0,
-        "live_per_trade_return": 0.009736578247699468,
-        "live_profit_factor": null,
-        "live_profit_factor_infinite": true,
-        "live_win_rate": 1.0,
-        "live_wins": 1,
-        "market": "stock",
-        "oos_closed_trades": 10,
-        "oos_max_drawdown": -0.0038482475594769916,
-        "oos_per_trade_return": 0.0012862845197474382,
-        "oos_profit_factor": 8.73891268151332,
-        "oos_profit_factor_infinite": false,
-        "oos_sharpe": 3.018231511274975,
-        "oos_total_return": 0.012937554910418037,
-        "oos_win_rate": 0.7,
-        "per_trade_return_gap": -0.00845029372795203,
-        "performance_key": "stock:QQQ:short:Mean Reversion RSI",
-        "profit_factor_gap": null,
-        "reasons": [],
-        "shadow_only": true,
-        "state": "LEARNING",
-        "strategy": "Mean Reversion RSI",
-        "suggested_confidence_multiplier": 1.0,
-        "symbol": "QQQ",
-        "win_rate_gap": -0.30000000000000004
       },
       {
         "deviation_score": 0.0,
@@ -14854,7 +14851,7 @@
       }
     ]
   },
-  "generated_at": "2026-09-02T17:02:52.372174+00:00",
+  "generated_at": "2026-09-02T17:20:01.006913+00:00",
   "governance": {
     "arenas": [
       {
@@ -30801,7 +30798,7 @@
         "total_reduction_notional": 15562.03397903989
       }
     ],
-    "generated_at": "2026-09-02T17:03:10.818616+00:00",
+    "generated_at": "2026-09-02T17:20:12.203289+00:00",
     "scope": "PUBLIC_READ_ONLY_RISK_SIZING_AUDIT",
     "status": "AVAILABLE",
     "summary": {
@@ -30824,9 +30821,9 @@
   "schema_version": 2,
   "scope": "PUBLIC_READ_ONLY_RESEARCH_SUMMARY",
   "storage_persistence": {
-    "bootstrap_at": "2026-09-01T19:44:37.021398+00:00",
+    "bootstrap_at": "2026-09-02T17:09:57.180719+00:00",
     "bootstrap_warnings": [],
-    "last_snapshot_at": "2026-09-02T15:57:16.118847+00:00",
+    "last_snapshot_at": "2026-09-02T17:19:54.377134+00:00",
     "last_snapshot_failed": [],
     "last_snapshot_success": [
       "crypto_v2_shadow.sqlite3",
@@ -30840,9 +30837,9 @@
     "mode": "RESCUE_RUNTIME",
     "persistence_status": "OK",
     "persistent_disk": {
-      "free": 2390175744,
+      "free": 2399883264,
       "total": 4685873152,
-      "used": 2278920192
+      "used": 2269212672
     },
     "restored": [
       {
@@ -30885,7 +30882,7 @@
     "snapshot_interval_seconds": 60,
     "snapshot_keep_archives": 0,
     "status": "AVAILABLE",
-    "updated_at": "2026-09-02T15:57:16.118973+00:00"
+    "updated_at": "2026-09-02T17:19:54.377211+00:00"
   },
   "strategy_performance": [
     {
@@ -30937,19 +30934,19 @@
       "worst_trade_return": -0.1754387572936471
     },
     {
-      "avg_pnl": 40.69186754262018,
-      "avg_return_pct": 0.0015500952111465905,
+      "avg_pnl": 41.90096533645292,
+      "avg_return_pct": 0.0022079213792220533,
       "best_trade_return": 0.07078397832467842,
-      "closed_trades": 53,
+      "closed_trades": 55,
       "horizon": "short",
-      "last_exit_bar": "2026-09-02T14:00:00+00:00",
+      "last_exit_bar": "2026-09-02T16:00:00+00:00",
       "losses": 24,
       "market": "stock",
-      "profit_factor": 1.3709189743525425,
-      "realized_pnl": 2156.6689797588697,
+      "profit_factor": 1.3963531157569637,
+      "realized_pnl": 2304.5530935049105,
       "strategy": "Mean Reversion RSI",
-      "win_rate": 0.5471698113207547,
-      "wins": 29,
+      "win_rate": 0.5636363636363636,
+      "wins": 31,
       "worst_trade_return": -0.15500109850272703
     },
     {
@@ -32273,6 +32270,24 @@
       "worst_trade_return": -0.015798415723644932
     },
     {
+      "avg_pnl": -15.654206820896567,
+      "avg_return_pct": -0.002984262631960749,
+      "best_trade_return": 0.03759399889397419,
+      "closed_trades": 4,
+      "horizon": "short",
+      "last_exit_bar": "2026-09-02T16:00:00+00:00",
+      "losses": 2,
+      "market": "stock",
+      "performance_key": "stock:SOXL:short:Mean Reversion RSI",
+      "profit_factor": 0.7898089258026926,
+      "realized_pnl": -62.61682728358627,
+      "strategy": "Mean Reversion RSI",
+      "symbol": "SOXL",
+      "win_rate": 0.5,
+      "wins": 2,
+      "worst_trade_return": -0.05830208188386399
+    },
+    {
       "avg_pnl": -36.580485091206775,
       "avg_return_pct": -0.02974672995982645,
       "best_trade_return": 0.0040542438094401945,
@@ -32505,24 +32520,6 @@
       "win_rate": 0.0,
       "wins": 0,
       "worst_trade_return": -0.018617181632321733
-    },
-    {
-      "avg_pnl": -65.42594037108535,
-      "avg_return_pct": -0.016510349807272395,
-      "best_trade_return": 0.01328458436515767,
-      "closed_trades": 3,
-      "horizon": "short",
-      "last_exit_bar": "2026-09-01T13:00:00+00:00",
-      "losses": 2,
-      "market": "stock",
-      "performance_key": "stock:SOXL:short:Mean Reversion RSI",
-      "profit_factor": 0.34113803188944675,
-      "realized_pnl": -196.27782111325604,
-      "strategy": "Mean Reversion RSI",
-      "symbol": "SOXL",
-      "win_rate": 0.3333333333333333,
-      "wins": 1,
-      "worst_trade_return": -0.05830208188386399
     },
     {
       "avg_pnl": -44.62272857516291,
@@ -32919,6 +32916,24 @@
       "win_rate": 0.5,
       "wins": 1,
       "worst_trade_return": -0.0430139519650653
+    },
+    {
+      "avg_pnl": 129.85899225396324,
+      "avg_return_pct": 0.005711604510084456,
+      "best_trade_return": 0.009736578247699468,
+      "closed_trades": 2,
+      "horizon": "short",
+      "last_exit_bar": "2026-09-02T16:00:00+00:00",
+      "losses": 0,
+      "market": "stock",
+      "performance_key": "stock:QQQ:short:Mean Reversion RSI",
+      "profit_factor": 999.0,
+      "realized_pnl": 259.7179845079265,
+      "strategy": "Mean Reversion RSI",
+      "symbol": "QQQ",
+      "win_rate": 1.0,
+      "wins": 2,
+      "worst_trade_return": 0.001686630772469444
     },
     {
       "avg_pnl": -111.8480298617377,
@@ -33695,24 +33710,6 @@
       "worst_trade_return": -0.007403437188254203
     },
     {
-      "avg_pnl": 245.49486459155528,
-      "avg_return_pct": 0.009736578247699468,
-      "best_trade_return": 0.009736578247699468,
-      "closed_trades": 1,
-      "horizon": "short",
-      "last_exit_bar": "2026-08-25T13:00:00+00:00",
-      "losses": 0,
-      "market": "stock",
-      "performance_key": "stock:QQQ:short:Mean Reversion RSI",
-      "profit_factor": 999.0,
-      "realized_pnl": 245.49486459155528,
-      "strategy": "Mean Reversion RSI",
-      "symbol": "QQQ",
-      "win_rate": 1.0,
-      "wins": 1,
-      "worst_trade_return": 0.009736578247699468
-    },
-    {
       "avg_pnl": 366.89338711610753,
       "avg_return_pct": 0.038344671258609964,
       "best_trade_return": 0.038344671258609964,
@@ -33785,8 +33782,8 @@
       "worst_trade_return": -0.00029986839109497065
     }
   ],
-  "sync_checked_at": "2026-09-02T17:03:12.191244+00:00",
-  "sync_snapshot_age_seconds": 19.81907,
+  "sync_checked_at": "2026-09-02T17:20:14.680794+00:00",
+  "sync_snapshot_age_seconds": 13.673881,
   "trial_ledger": {
     "challenges": 66,
     "cycles": 936,
@@ -33797,21 +33794,39 @@
     "research_trials": 119
   },
   "worker": {
-    "assets_checked": 247,
-    "bars_processed": 0,
+    "assets_checked": 175,
+    "bars_processed": 46,
     "broker_order_api_calls": 0,
-    "concept_drift_pairs": 12,
-    "data_quality": "OK",
+    "concept_drift_pairs": 0,
+    "cycle_elapsed_seconds": 600.526,
+    "data_quality": "STARTING",
     "data_quality_critical": 0,
-    "data_quality_warnings": 43,
-    "heartbeat_at": "2026-09-02T17:02:37.399350+00:00",
-    "last_cycle_finished_at": "2026-09-02T16:58:22.835039+00:00",
-    "last_cycle_started_at": "2026-09-02T16:59:22.845570+00:00",
+    "data_quality_warnings": 0,
+    "first_cycle_complete": false,
+    "heartbeat_at": "2026-09-02T17:19:59.839011+00:00",
+    "last_cycle_duration_seconds": null,
+    "last_cycle_finished_at": null,
+    "last_cycle_phase_durations_seconds": {},
+    "last_cycle_started_at": "2026-09-02T17:09:59.313052+00:00",
+    "last_progress_at": "2026-09-02T17:19:59.839000+00:00",
     "market_data_api_calls": 0,
-    "portfolio_risk": "MEDIUM",
-    "realtime_watchlist_sync": "ONLINE",
-    "realtime_watchlist_total": 55,
-    "risk_layer": "ONLINE",
+    "phase": "SIMULATION",
+    "phase_completed": 193,
+    "phase_durations_seconds": {
+      "CALIBRATION": 2.729,
+      "PREPARE": 0.792,
+      "SIMULATION": 593.18,
+      "UNIVERSE": 3.825
+    },
+    "phase_elapsed_seconds": 593.18,
+    "phase_started_at": "2026-09-02T17:10:06.658804+00:00",
+    "phase_total": 408,
+    "progress_events": 382,
+    "progress_schema_version": "WORKER_PROGRESS_V1",
+    "progress_unit": "stock:HOOD:medium",
+    "realtime_watchlist_sync": "STARTING",
+    "realtime_watchlist_total": 0,
+    "risk_layer": "STARTING",
     "risk_sizing": "ACTIVE",
     "status": "RUNNING",
     "true_errors": 0
