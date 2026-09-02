@@ -8,6 +8,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from src.paths import data_dir
+from src.worker_progress import public_progress, running_progress_problem
 
 POLL_SECONDS = 5
 DATA_DIR = Path(data_dir())
@@ -126,8 +127,13 @@ def _main_health(raw: dict) -> dict:
     cycle_age = _age(raw.get("last_cycle_started_at"))
     completed_age = _age(raw.get("last_cycle_finished_at"))
     heartbeat_ok = heartbeat_age is not None and heartbeat_age <= MAIN_HEARTBEAT_MAX_AGE
+    progress_problem = None
     if status == "RUNNING":
-        activity_ok = cycle_age is not None and cycle_age <= MAIN_RUNNING_MAX_AGE
+        progress_problem = running_progress_problem(raw, now=_now())
+        activity_ok = progress_problem is None
+    elif status == "STARTING":
+        started_age = _age(raw.get("worker_started_at"))
+        activity_ok = started_age is not None and started_age <= MAIN_RUNNING_MAX_AGE
     else:
         activity_ok = completed_age is not None and completed_age <= MAIN_COMPLETED_MAX_AGE
 
@@ -136,7 +142,7 @@ def _main_health(raw: dict) -> dict:
     data_quality = str(raw.get("data_quality") or "UNKNOWN").upper()
     realtime_sync = str(raw.get("realtime_watchlist_sync") or "UNKNOWN").upper()
 
-    operational = heartbeat_ok and activity_ok and status not in {"ERROR", "STOPPED"}
+    operational = heartbeat_ok and activity_ok and status in {"STARTING", "RUNNING", "ONLINE", "DEGRADED"}
     degraded_reasons = []
     if status == "DEGRADED":
         degraded_reasons.append("worker_status_degraded")
@@ -150,14 +156,22 @@ def _main_health(raw: dict) -> dict:
         degraded_reasons.append("realtime_watchlist_sync_error")
 
     degraded = operational and bool(degraded_reasons)
-    healthy = operational and not degraded
+    completed_once = (raw.get("first_cycle_complete") is True if "first_cycle_complete" in raw
+                      else completed_age is not None)
+    ready = (completed_once and risk_layer == "ONLINE" and realtime_sync == "ONLINE"
+             and data_quality not in {"UNKNOWN", "STARTING", "ERROR"})
+    starting = operational and not ready and not degraded
+    healthy = operational and ready and not degraded
     hard_failure = not operational
 
     return {
         "healthy": healthy,
+        "ready": ready and operational and not degraded,
+        "starting": starting,
         "degraded": degraded,
         "hard_failure": hard_failure,
         "degraded_reasons": degraded_reasons,
+        "progress_problem": progress_problem,
         "status": status,
         "heartbeat_at": raw.get("heartbeat_at"),
         "heartbeat_age_seconds": _round_age(heartbeat_age),
@@ -174,6 +188,7 @@ def _main_health(raw: dict) -> dict:
         "realtime_watchlist_sync": realtime_sync,
         "broker_order_api_calls": int(raw.get("broker_order_api_calls", 0) or 0),
         "market_data_api_calls": int(raw.get("market_data_api_calls", 0) or 0),
+        **public_progress(raw),
     }
 
 
@@ -341,6 +356,8 @@ def build_snapshot() -> dict:
         overall = "ERROR"
     elif degraded:
         overall = "DEGRADED"
+    elif main.get("starting"):
+        overall = "STARTING"
     else:
         overall = "HEALTHY"
 

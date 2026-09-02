@@ -23,6 +23,8 @@ from src.live_analytics import (
     trade_diagnostics_table,
 )
 from src.paths import data_dir
+from src.worker_progress import running_progress_problem
+from src.worker_progress_ui import render_worker_progress
 from src.twstock_support import TW_MARKET, normalize_tw_symbol
 from src.ui_zh import (
     account_label,
@@ -204,12 +206,17 @@ def worker_status_panel():
     except Exception:
         age = 999999
     raw_status = str(s.get("status", "UNKNOWN")).upper()
+    stalled = running_progress_problem(s) if raw_status == "RUNNING" else None
     if age > 180:
         display, alert = "🔴 離線", "error"
+    elif stalled:
+        display, alert = "🔴 進度逾時", "error"
     elif raw_status == "ERROR":
         display, alert = "🔴 錯誤", "error"
     elif raw_status == "DEGRADED":
         display, alert = "🟠 部分異常", "warning"
+    elif s.get("first_cycle_complete") is False or not s.get("last_cycle_finished_at"):
+        display, alert = "🟡 啟動中", "info"
     elif raw_status == "RUNNING":
         display, alert = "🟢 執行中", "success"
     else:
@@ -222,14 +229,17 @@ def worker_status_panel():
     e.metric("本次新K線", int(s.get("bars_processed", 0) or 0))
     f.metric("行情介面呼叫", int(s.get("market_data_api_calls", 0) or 0))
     g.metric("交易介面呼叫", "0")
-    msg = f"最後心跳（台灣）：{_fmt_taipei(s.get('heartbeat_at'))}｜背景程序每約 60 秒自動執行。"
+    msg = f"最後心跳（台灣）：{_fmt_taipei(s.get('heartbeat_at'))}｜每輪完成後等待約 60 秒再執行；運算時間另計。"
     if alert == "success":
         st.success(msg)
+    elif alert == "info":
+        st.info(msg + "｜第一輪尚未完成，不能視為已就緒。")
     elif alert == "warning":
         st.warning(msg + f"｜真正錯誤：{int(s.get('true_errors', 0) or 0)}")
     else:
-        detail = translate_reason(s.get("message", ""))
+        detail = "分析進度逾時，正在等待背景監督程序處理" if stalled else translate_reason(s.get("message", ""))
         st.error(msg + (f"｜{detail}" if detail != "—" else ""))
+    render_worker_progress(st, s)
 
 
 worker_status_panel()
