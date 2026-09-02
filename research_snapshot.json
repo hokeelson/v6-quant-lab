@@ -3398,7 +3398,7 @@
   "expected_live_deviation": {
     "active_sizing": true,
     "contains_secrets": false,
-    "generated_at": "2026-09-02T15:46:47.048663+00:00",
+    "generated_at": "2026-09-02T15:58:51.111986+00:00",
     "minimum_live_trades_for_active_sizing": 5,
     "rows": [
       {
@@ -14881,7 +14881,7 @@
       }
     ]
   },
-  "generated_at": "2026-09-02T15:46:45.981126+00:00",
+  "generated_at": "2026-09-02T15:58:46.986998+00:00",
   "governance": {
     "arenas": [
       {
@@ -30839,7 +30839,7 @@
         "total_reduction_notional": 5959.2218117151115
       }
     ],
-    "generated_at": "2026-09-02T15:46:57.083206+00:00",
+    "generated_at": "2026-09-02T15:59:16.238486+00:00",
     "scope": "PUBLIC_READ_ONLY_RISK_SIZING_AUDIT",
     "status": "AVAILABLE",
     "summary": {
@@ -30864,27 +30864,23 @@
   "storage_persistence": {
     "bootstrap_at": "2026-09-01T19:44:37.021398+00:00",
     "bootstrap_warnings": [],
-    "last_snapshot_at": "2026-09-02T15:43:30.928414+00:00",
-    "last_snapshot_failed": [
-      {
-        "db": "realtime_execution.sqlite3",
-        "error": "OSError: [Errno 28] No space left on device: '/tmp/v6-data-runtime/.snapshot-stage/realtime_execution.sqlite3' -> '/data/v6-snapshots/current/realtime_execution.sqlite3.new'"
-      }
-    ],
+    "last_snapshot_at": "2026-09-02T15:57:16.118847+00:00",
+    "last_snapshot_failed": [],
     "last_snapshot_success": [
       "crypto_v2_shadow.sqlite3",
       "data_quality.sqlite3",
       "forward_validation.sqlite3",
       "model_governance.sqlite3",
+      "realtime_execution.sqlite3",
       "simulation_lab.sqlite3",
       "trial_ledger.sqlite3"
     ],
     "mode": "RESCUE_RUNTIME",
-    "persistence_status": "PARTIAL",
+    "persistence_status": "OK",
     "persistent_disk": {
-      "free": 1068134400,
+      "free": 2390175744,
       "total": 4685873152,
-      "used": 3600961536
+      "used": 2278920192
     },
     "restored": [
       {
@@ -30927,7 +30923,7 @@
     "snapshot_interval_seconds": 60,
     "snapshot_keep_archives": 0,
     "status": "AVAILABLE",
-    "updated_at": "2026-09-02T15:43:30.928559+00:00"
+    "updated_at": "2026-09-02T15:57:16.118973+00:00"
   },
   "strategy_performance": [
     {
@@ -33775,11 +33771,11 @@
       "worst_trade_return": -0.00029986839109497065
     }
   ],
-  "sync_checked_at": "2026-09-02T15:46:59.029622+00:00",
-  "sync_snapshot_age_seconds": 13.048496,
+  "sync_checked_at": "2026-09-02T15:59:21.428089+00:00",
+  "sync_snapshot_age_seconds": 34.441091,
   "trial_ledger": {
     "challenges": 66,
-    "cycles": 923,
+    "cycles": 927,
     "distinct_hypotheses": 66,
     "events": 202,
     "last_event_at": "2026-09-02T07:58:46.649870+00:00",
@@ -33787,20 +33783,21 @@
     "research_trials": 119
   },
   "worker": {
-    "assets_checked": 0,
+    "assets_checked": 247,
     "bars_processed": 0,
     "broker_order_api_calls": 0,
-    "concept_drift_pairs": 0,
-    "data_quality": "STARTING",
+    "concept_drift_pairs": 12,
+    "data_quality": "OK",
     "data_quality_critical": 0,
-    "data_quality_warnings": 0,
-    "heartbeat_at": "2026-09-02T15:46:41.501830+00:00",
-    "last_cycle_finished_at": null,
-    "last_cycle_started_at": "2026-09-02T15:43:41.467142+00:00",
+    "data_quality_warnings": 41,
+    "heartbeat_at": "2026-09-02T15:58:41.694125+00:00",
+    "last_cycle_finished_at": "2026-09-02T15:56:27.353982+00:00",
+    "last_cycle_started_at": "2026-09-02T15:57:27.369189+00:00",
     "market_data_api_calls": 0,
-    "realtime_watchlist_sync": "STARTING",
-    "realtime_watchlist_total": 0,
-    "risk_layer": "STARTING",
+    "portfolio_risk": "MEDIUM",
+    "realtime_watchlist_sync": "ONLINE",
+    "realtime_watchlist_total": 55,
+    "risk_layer": "ONLINE",
     "risk_sizing": "ACTIVE",
     "status": "RUNNING",
     "true_errors": 0
