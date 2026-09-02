@@ -33,14 +33,14 @@
       "as_of": "2026-09-02T13:00:00+00:00",
       "cash": 83285.23640546303,
       "closed_trades": 329,
-      "drawdown": -0.11663895993925233,
-      "equity": 90916.48514017792,
-      "gross_exposure": 7631.248734714878,
+      "drawdown": -0.11636400346761744,
+      "equity": 90944.78396119663,
+      "gross_exposure": 7659.547555733598,
       "horizon": "short",
       "initial_equity": 100000.0,
-      "leverage": 0.08393690894394759,
+      "leverage": 0.08422195558792787,
       "market": "crypto",
-      "return_pct": -0.09083514859822084
+      "return_pct": -0.09055216038803371
     },
     {
       "account_id": "stock_long",
@@ -529,6 +529,33 @@
   "entry_gate": {
     "broker_order_api_calls": 0,
     "entries": [
+      {
+        "account_id": "crypto_short",
+        "created_at": "2026-09-02T14:18:57.668950+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3649,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "regime_state:PAUSE_CANDIDATE"
+        ],
+        "symbol": "UNIUSDT"
+      },
+      {
+        "account_id": "crypto_short",
+        "created_at": "2026-09-02T14:17:33.748728+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3648,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "strategy_state:PAUSE_CANDIDATE",
+          "symbol_strategy_state:SHADOW_ONLY_CANDIDATE"
+        ],
+        "symbol": "TAOUSDT"
+      },
       {
         "account_id": "crypto_short",
         "created_at": "2026-09-02T14:16:10.069829+00:00",
@@ -3221,16 +3248,16 @@
     "simulation_only": true,
     "status": "OK",
     "summary": {
-      "blocked": 184,
+      "blocked": 186,
       "blocked_but_filled": 0,
       "filled": 4,
-      "sampled_events": 188
+      "sampled_events": 190
     }
   },
   "expected_live_deviation": {
     "active_sizing": true,
     "contains_secrets": false,
-    "generated_at": "2026-09-02T14:16:25.794601+00:00",
+    "generated_at": "2026-09-02T14:32:30.514003+00:00",
     "minimum_live_trades_for_active_sizing": 5,
     "rows": [
       {
@@ -14713,7 +14740,7 @@
       }
     ]
   },
-  "generated_at": "2026-09-02T14:17:05.527211+00:00",
+  "generated_at": "2026-09-02T14:33:06.927826+00:00",
   "governance": {
     "arenas": [
       {
@@ -30671,7 +30698,7 @@
         "total_reduction_notional": 5959.2218117151115
       }
     ],
-    "generated_at": "2026-09-02T14:17:05.968384+00:00",
+    "generated_at": "2026-09-02T14:33:20.728248+00:00",
     "scope": "PUBLIC_READ_ONLY_RISK_SIZING_AUDIT",
     "status": "AVAILABLE",
     "summary": {
@@ -33585,11 +33612,11 @@
       "worst_trade_return": -0.00029986839109497065
     }
   ],
-  "sync_checked_at": "2026-09-02T14:17:09.419200+00:00",
-  "sync_snapshot_age_seconds": 3.891989,
+  "sync_checked_at": "2026-09-02T14:33:23.037097+00:00",
+  "sync_snapshot_age_seconds": 16.109271,
   "trial_ledger": {
     "challenges": 66,
-    "cycles": 907,
+    "cycles": 911,
     "distinct_hypotheses": 66,
     "events": 202,
     "last_event_at": "2026-09-02T07:58:46.649870+00:00",
@@ -33598,16 +33625,16 @@
   },
   "worker": {
     "assets_checked": 247,
-    "bars_processed": 37,
+    "bars_processed": 0,
     "broker_order_api_calls": 0,
     "concept_drift_pairs": 12,
     "data_quality": "OK",
     "data_quality_critical": 0,
     "data_quality_warnings": 41,
-    "heartbeat_at": "2026-09-02T14:17:01.364671+00:00",
-    "last_cycle_finished_at": "2026-09-02T14:06:26.396619+00:00",
-    "last_cycle_started_at": "2026-09-02T14:07:26.417960+00:00",
-    "market_data_api_calls": 5,
+    "heartbeat_at": "2026-09-02T14:33:01.691356+00:00",
+    "last_cycle_finished_at": "2026-09-02T14:31:45.145142+00:00",
+    "last_cycle_started_at": "2026-09-02T14:32:45.172489+00:00",
+    "market_data_api_calls": 0,
     "portfolio_risk": "MEDIUM",
     "realtime_watchlist_sync": "ONLINE",
     "realtime_watchlist_total": 57,
