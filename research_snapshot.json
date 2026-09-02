@@ -215,12 +215,12 @@
       "reason": "Forward evidence is diagnostic until independently reviewed; no online parameter chasing.",
       "state": "PRELIMINARY"
     },
-    "pending": 249,
+    "pending": 252,
     "policies": [
       {
         "engine_version": "V10_ADAPTIVE_EVIDENCE_SHADOW",
         "evaluated": 254,
-        "predictions": 503
+        "predictions": 506
       }
     ],
     "policy_performance": {
@@ -3103,7 +3103,7 @@
   "expected_live_deviation": {
     "active_sizing": true,
     "contains_secrets": false,
-    "generated_at": "2026-09-02T13:46:16.268608+00:00",
+    "generated_at": "2026-09-02T13:57:19.592930+00:00",
     "minimum_live_trades_for_active_sizing": 5,
     "rows": [
       {
@@ -14589,7 +14589,7 @@
       }
     ]
   },
-  "generated_at": "2026-09-02T13:46:03.090994+00:00",
+  "generated_at": "2026-09-02T13:57:03.931562+00:00",
   "governance": {
     "arenas": [
       {
@@ -30547,7 +30547,7 @@
         "total_reduction_notional": 5959.2218117151115
       }
     ],
-    "generated_at": "2026-09-02T13:46:46.388932+00:00",
+    "generated_at": "2026-09-02T13:57:49.718544+00:00",
     "scope": "PUBLIC_READ_ONLY_RISK_SIZING_AUDIT",
     "status": "AVAILABLE",
     "summary": {
@@ -33461,11 +33461,11 @@
       "worst_trade_return": -0.00029986839109497065
     }
   ],
-  "sync_checked_at": "2026-09-02T13:46:51.271903+00:00",
-  "sync_snapshot_age_seconds": 48.180909,
+  "sync_checked_at": "2026-09-02T13:57:53.845428+00:00",
+  "sync_snapshot_age_seconds": 49.913866,
   "trial_ledger": {
     "challenges": 66,
-    "cycles": 902,
+    "cycles": 905,
     "distinct_hypotheses": 66,
     "events": 202,
     "last_event_at": "2026-09-02T07:58:46.649870+00:00",
@@ -33473,17 +33473,17 @@
     "research_trials": 119
   },
   "worker": {
-    "assets_checked": 250,
+    "assets_checked": 247,
     "bars_processed": 0,
     "broker_order_api_calls": 0,
     "concept_drift_pairs": 13,
     "data_quality": "OK",
     "data_quality_critical": 0,
     "data_quality_warnings": 40,
-    "heartbeat_at": "2026-09-02T13:46:00.230066+00:00",
-    "last_cycle_finished_at": "2026-09-02T13:44:22.104721+00:00",
-    "last_cycle_started_at": "2026-09-02T13:45:22.114502+00:00",
-    "market_data_api_calls": 0,
+    "heartbeat_at": "2026-09-02T13:57:00.508240+00:00",
+    "last_cycle_finished_at": "2026-09-02T13:55:00.306066+00:00",
+    "last_cycle_started_at": "2026-09-02T13:56:00.323195+00:00",
+    "market_data_api_calls": 5,
     "portfolio_risk": "MEDIUM",
     "realtime_watchlist_sync": "ONLINE",
     "realtime_watchlist_total": 57,
