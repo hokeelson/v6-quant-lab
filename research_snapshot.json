@@ -33,14 +33,14 @@
       "as_of": "2026-09-02T14:00:00+00:00",
       "cash": 83285.23640546303,
       "closed_trades": 329,
-      "drawdown": -0.11636400346761744,
-      "equity": 90944.78396119663,
-      "gross_exposure": 7659.547555733598,
+      "drawdown": -0.11631817738901173,
+      "equity": 90949.50043136641,
+      "gross_exposure": 7664.264025903385,
       "horizon": "short",
       "initial_equity": 100000.0,
-      "leverage": 0.08422195558792787,
+      "leverage": 0.08426944611627746,
       "market": "crypto",
-      "return_pct": -0.09055216038803371
+      "return_pct": -0.09050499568633585
     },
     {
       "account_id": "stock_long",
@@ -72,17 +72,17 @@
     },
     {
       "account_id": "stock_short",
-      "as_of": "2026-09-02T13:00:00+00:00",
-      "cash": 66102.20578732408,
-      "closed_trades": 111,
-      "drawdown": -0.039777930077906865,
-      "equity": 98362.52200652895,
-      "gross_exposure": 32260.316219204862,
+      "as_of": "2026-09-02T14:00:00+00:00",
+      "cash": 86507.88892189218,
+      "closed_trades": 114,
+      "drawdown": -0.03805592046468298,
+      "equity": 98538.91996048343,
+      "gross_exposure": 12031.031038591242,
       "horizon": "short",
       "initial_equity": 100000.0,
-      "leverage": 0.3279736586772708,
+      "leverage": 0.12209420443633831,
       "market": "stock",
-      "return_pct": -0.01637477993471048
+      "return_pct": -0.014610800395165713
     },
     {
       "account_id": "twstock_long",
@@ -131,9 +131,9 @@
   "data_quality": {},
   "direction_shadow": {
     "benchmarks": {
-      "always_long_after_cost_avg_return_pct": -0.01771620244630686,
+      "always_long_after_cost_avg_return_pct": -0.017235238433028162,
       "note": "Equal-weight prediction-window diagnostic; not a portfolio equity curve.",
-      "policy_minus_always_long_avg_return_pct": 0.016097579774503896
+      "policy_minus_always_long_avg_return_pct": 0.015603890527549279
     },
     "broker_order_api_calls": 0,
     "confidence_calibration": {
@@ -145,22 +145,22 @@
           "samples": 4
         },
         {
-          "mean_confidence": 0.5500393238826532,
-          "observed_hit_rate": 0.38095238095238093,
+          "mean_confidence": 0.5530362041189397,
+          "observed_hit_rate": 0.3333333333333333,
           "range": "0.5-0.6",
-          "samples": 21
+          "samples": 24
         },
         {
-          "mean_confidence": 0.6564585901072341,
-          "observed_hit_rate": 0.53125,
+          "mean_confidence": 0.6570341596101562,
+          "observed_hit_rate": 0.5373134328358209,
           "range": "0.6-0.7",
-          "samples": 64
+          "samples": 67
         },
         {
-          "mean_confidence": 0.7391083598479576,
-          "observed_hit_rate": 0.44,
+          "mean_confidence": 0.7385016699597912,
+          "observed_hit_rate": 0.43137254901960786,
           "range": "0.7-0.8",
-          "samples": 50
+          "samples": 51
         },
         {
           "mean_confidence": 0.8162290614962687,
@@ -175,42 +175,42 @@
           "samples": 1
         }
       ],
-      "brier_score": 0.29477604862133167,
-      "mean_confidence": 0.6689114950713081,
-      "observed_hit_rate": 0.4647887323943662,
-      "samples": 142
+      "brier_score": 0.29560185290795765,
+      "mean_confidence": 0.6672723590604935,
+      "observed_hit_rate": 0.4563758389261745,
+      "samples": 149
     },
     "decision_stats": {
       "LONG": {
-        "avg_forward_return_pct": -0.03898429560384029,
-        "avg_opportunity_return_pct": 0.044834268064534215,
-        "avg_reward_r": -0.5971678365108172,
-        "completed": 28,
-        "evaluated": 28,
-        "hit_rate": 0.17857142857142858
+        "avg_forward_return_pct": -0.037831738403849395,
+        "avg_opportunity_return_pct": 0.04341102215900214,
+        "avg_reward_r": -0.5817050959022074,
+        "completed": 29,
+        "evaluated": 29,
+        "hit_rate": 0.1724137931034483
       },
       "NO_TRADE": {
         "avg_forward_return_pct": 0.0,
-        "avg_opportunity_return_pct": 0.019627754752243147,
-        "avg_reward_r": -0.5529895863623786,
-        "completed": 113,
-        "evaluated": 113,
-        "hit_rate": 0.336283185840708
+        "avg_opportunity_return_pct": 0.01948882088385324,
+        "avg_reward_r": -0.5523264133706818,
+        "completed": 115,
+        "evaluated": 115,
+        "hit_rate": 0.33043478260869563
       },
       "SHORT": {
-        "avg_forward_return_pct": 0.005954486803489231,
-        "avg_opportunity_return_pct": 0.014127100858789925,
-        "avg_reward_r": 0.11474335163912552,
-        "completed": 114,
-        "evaluated": 114,
-        "hit_rate": 0.5350877192982456
+        "avg_forward_return_pct": 0.005553704722210062,
+        "avg_opportunity_return_pct": 0.013744449094141497,
+        "avg_reward_r": 0.10336655556152134,
+        "completed": 120,
+        "evaluated": 120,
+        "hit_rate": 0.525
       }
     },
     "engine_version": "V10_ADAPTIVE_EVIDENCE_SHADOW",
-    "evaluated": 255,
+    "evaluated": 264,
     "evidence_maturity": {
       "automatic_retuning_allowed": false,
-      "directional_trades": 142,
+      "directional_trades": 149,
       "forward_days": 1.5,
       "reason": "Forward evidence is diagnostic until independently reviewed; no online parameter chasing.",
       "state": "PRELIMINARY"
@@ -219,17 +219,17 @@
     "policies": [
       {
         "engine_version": "V10_ADAPTIVE_EVIDENCE_SHADOW",
-        "evaluated": 255,
-        "predictions": 507
+        "evaluated": 264,
+        "predictions": 516
       }
     ],
     "policy_performance": {
-      "avg_directional_trade_return_pct": -0.0029066815585194077,
-      "avg_policy_return_pct": -0.0016186226718029643,
-      "directional_trade_samples": 142,
-      "max_drawdown_pct": -0.5007159472635866,
-      "samples_including_no_trade": 255,
-      "trade_sequence_sharpe": -0.0755907041195595
+      "avg_directional_trade_return_pct": -0.0028904419264860733,
+      "avg_policy_return_pct": -0.0016313479054788822,
+      "directional_trade_samples": 149,
+      "max_drawdown_pct": -0.5051557156727797,
+      "samples_including_no_trade": 264,
+      "trade_sequence_sharpe": -0.07688819420763351
     },
     "promotion_gate": {
       "checks": {
@@ -295,16 +295,6 @@
         "samples": 1
       },
       {
-        "avg_forward_return_pct": -0.016445058384082993,
-        "decision": "LONG",
-        "hit_rate": 0.14285714285714285,
-        "horizon": "short",
-        "market": "stock",
-        "maturity": "DIAGNOSTIC",
-        "regime": "NORMAL_UP_TREND",
-        "samples": 7
-      },
-      {
         "avg_forward_return_pct": -0.015918383908467074,
         "decision": "LONG",
         "hit_rate": 0.25,
@@ -315,14 +305,24 @@
         "samples": 8
       },
       {
-        "avg_forward_return_pct": -0.013172048441695653,
+        "avg_forward_return_pct": -0.015084443186585639,
+        "decision": "LONG",
+        "hit_rate": 0.125,
+        "horizon": "short",
+        "market": "stock",
+        "maturity": "DIAGNOSTIC",
+        "regime": "NORMAL_UP_TREND",
+        "samples": 8
+      },
+      {
+        "avg_forward_return_pct": -0.007809258011651887,
         "decision": "SHORT",
-        "hit_rate": 0.3333333333333333,
+        "hit_rate": 0.4,
         "horizon": "short",
         "market": "stock",
         "maturity": "DIAGNOSTIC",
         "regime": "NORMAL_SIDEWAYS",
-        "samples": 3
+        "samples": 5
       },
       {
         "avg_forward_return_pct": -0.0023717189071295053,
@@ -333,6 +333,16 @@
         "maturity": "PRELIMINARY",
         "regime": "NORMAL_SIDEWAYS",
         "samples": 30
+      },
+      {
+        "avg_forward_return_pct": -0.0006332580348492902,
+        "decision": "SHORT",
+        "hit_rate": 0.45454545454545453,
+        "horizon": "short",
+        "market": "stock",
+        "maturity": "DIAGNOSTIC",
+        "regime": "NORMAL_DOWN_TREND",
+        "samples": 11
       },
       {
         "avg_forward_return_pct": -0.00014684312103660675,
@@ -422,7 +432,7 @@
         "market": "stock",
         "maturity": "DIAGNOSTIC",
         "regime": "NORMAL_UP_TREND",
-        "samples": 3
+        "samples": 5
       },
       {
         "avg_forward_return_pct": 0.0,
@@ -463,16 +473,6 @@
         "maturity": "DIAGNOSTIC",
         "regime": "NORMAL_DOWN_TREND",
         "samples": 1
-      },
-      {
-        "avg_forward_return_pct": 0.000838706545150027,
-        "decision": "SHORT",
-        "hit_rate": 0.5714285714285714,
-        "horizon": "short",
-        "market": "stock",
-        "maturity": "DIAGNOSTIC",
-        "regime": "NORMAL_DOWN_TREND",
-        "samples": 7
       },
       {
         "avg_forward_return_pct": 0.006607779748700082,
@@ -529,6 +529,133 @@
   "entry_gate": {
     "broker_order_api_calls": 0,
     "entries": [
+      {
+        "account_id": "stock_short",
+        "created_at": "2026-09-02T15:18:54.596224+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3662,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "strategy_state:SHADOW_ONLY_CANDIDATE"
+        ],
+        "symbol": "PCG"
+      },
+      {
+        "account_id": "stock_short",
+        "created_at": "2026-09-02T15:17:37.990434+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3661,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "pretrade_verdict:BLOCK_CANDIDATE",
+          "regime_state:PAUSE_CANDIDATE",
+          "strategy_state:PAUSE_CANDIDATE"
+        ],
+        "symbol": "MRNA"
+      },
+      {
+        "account_id": "stock_short",
+        "created_at": "2026-09-02T15:13:57.277655+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3660,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "regime_state:SHADOW_ONLY_CANDIDATE",
+          "strategy_state:SHADOW_ONLY_CANDIDATE"
+        ],
+        "symbol": "EWY"
+      },
+      {
+        "account_id": "stock_short",
+        "created_at": "2026-09-02T15:12:44.082258+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3659,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "pretrade_verdict:BLOCK_CANDIDATE",
+          "regime_state:SHADOW_ONLY_CANDIDATE",
+          "strategy_state:SHADOW_ONLY_CANDIDATE"
+        ],
+        "symbol": "CRCL"
+      },
+      {
+        "account_id": "stock_short",
+        "created_at": "2026-09-02T15:11:26.381326+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3658,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "pretrade_verdict:BLOCK_CANDIDATE",
+          "regime_state:SHADOW_ONLY_CANDIDATE",
+          "strategy_state:SHADOW_ONLY_CANDIDATE"
+        ],
+        "symbol": "BMNR"
+      },
+      {
+        "account_id": "crypto_short",
+        "created_at": "2026-09-02T15:09:51.200202+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3656,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "regime_state:PAUSE_CANDIDATE"
+        ],
+        "symbol": "UNIUSDT"
+      },
+      {
+        "account_id": "crypto_short",
+        "created_at": "2026-09-02T15:08:24.917250+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3655,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "strategy_state:PAUSE_CANDIDATE",
+          "symbol_strategy_state:SHADOW_ONLY_CANDIDATE"
+        ],
+        "symbol": "TAOUSDT"
+      },
+      {
+        "account_id": "crypto_short",
+        "created_at": "2026-09-02T15:06:57.539563+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3654,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "pretrade_verdict:BLOCK_CANDIDATE",
+          "strategy_state:PAUSE_CANDIDATE"
+        ],
+        "symbol": "PENGUUSDT"
+      },
+      {
+        "account_id": "crypto_short",
+        "created_at": "2026-09-02T15:05:26.535920+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3653,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "pretrade_verdict:BLOCK_CANDIDATE",
+          "strategy_state:PAUSE_CANDIDATE"
+        ],
+        "symbol": "ETHUSDT"
+      },
       {
         "account_id": "crypto_short",
         "created_at": "2026-09-02T15:04:07.657220+00:00",
@@ -3256,52 +3383,22 @@
           "strategy_state:PAUSE_CANDIDATE"
         ],
         "symbol": "ETHUSDT"
-      },
-      {
-        "account_id": "crypto_short",
-        "created_at": "2026-09-01T20:05:06.096921+00:00",
-        "entry_allowed": false,
-        "filled": false,
-        "filled_notional": 0.0,
-        "id": 3384,
-        "reasons": [
-          "ZERO_NOTIONAL",
-          "meta_verdict:SHADOW_ONLY",
-          "regime_state:PAUSE_CANDIDATE",
-          "strategy_state:PAUSE_CANDIDATE"
-        ],
-        "symbol": "CRVUSDT"
-      },
-      {
-        "account_id": "crypto_short",
-        "created_at": "2026-09-01T20:02:56.221382+00:00",
-        "entry_allowed": false,
-        "filled": false,
-        "filled_notional": 0.0,
-        "id": 3383,
-        "reasons": [
-          "ZERO_NOTIONAL",
-          "pretrade_verdict:BLOCK_CANDIDATE",
-          "regime_state:SHADOW_ONLY_CANDIDATE",
-          "strategy_state:PAUSE_CANDIDATE"
-        ],
-        "symbol": "BNBUSDT"
       }
     ],
     "policy_version": "ENTRY_GATE_V1",
     "simulation_only": true,
     "status": "OK",
     "summary": {
-      "blocked": 189,
+      "blocked": 196,
       "blocked_but_filled": 0,
       "filled": 4,
-      "sampled_events": 193
+      "sampled_events": 200
     }
   },
   "expected_live_deviation": {
     "active_sizing": true,
     "contains_secrets": false,
-    "generated_at": "2026-09-02T15:04:40.231409+00:00",
+    "generated_at": "2026-09-02T15:30:48.639171+00:00",
     "minimum_live_trades_for_active_sizing": 5,
     "rows": [
       {
@@ -3923,6 +4020,44 @@
         "win_rate_gap": 0.4375
       },
       {
+        "deviation_score": 54.53033156079602,
+        "evidence_weight": 0.3,
+        "horizon": "short",
+        "live_closed_trades": 6,
+        "live_compound_return": -0.06743028382031513,
+        "live_losses": 4,
+        "live_max_loss_streak": 3,
+        "live_per_trade_return": -0.011567800433540998,
+        "live_profit_factor": 0.762877930307229,
+        "live_profit_factor_infinite": false,
+        "live_win_rate": 0.3333333333333333,
+        "live_wins": 2,
+        "market": "stock",
+        "oos_closed_trades": 19,
+        "oos_max_drawdown": -0.020403067450588175,
+        "oos_per_trade_return": 0.0030120830408286725,
+        "oos_profit_factor": 3.857324949226984,
+        "oos_profit_factor_infinite": false,
+        "oos_sharpe": 4.36430097500948,
+        "oos_total_return": 0.05880780229322724,
+        "oos_win_rate": 0.7894736842105263,
+        "per_trade_return_gap": 0.01457988347436967,
+        "performance_key": "stock:SOFI:short:Mean Reversion RSI",
+        "profit_factor_gap": 3.094447018919755,
+        "reasons": [
+          "OOS_POSITIVE_LIVE_NEGATIVE",
+          "WIN_RATE_DETERIORATION",
+          "PROFIT_FACTOR_DETERIORATION",
+          "EXPECTANCY_SIGN_REVERSAL"
+        ],
+        "shadow_only": true,
+        "state": "DIVERGING",
+        "strategy": "Mean Reversion RSI",
+        "suggested_confidence_multiplier": 0.65,
+        "symbol": "SOFI",
+        "win_rate_gap": 0.456140350877193
+      },
+      {
         "deviation_score": 53.74071857466639,
         "evidence_weight": 0.25,
         "horizon": "short",
@@ -4075,44 +4210,6 @@
         "suggested_confidence_multiplier": 1.0,
         "symbol": "XRPUSDT",
         "win_rate_gap": 0.2857142857142857
-      },
-      {
-        "deviation_score": 51.63165011624933,
-        "evidence_weight": 0.25,
-        "horizon": "short",
-        "live_closed_trades": 5,
-        "live_compound_return": -0.07955725461591234,
-        "live_losses": 4,
-        "live_max_loss_streak": 3,
-        "live_per_trade_return": -0.016443402658011363,
-        "live_profit_factor": 0.6565655935305504,
-        "live_profit_factor_infinite": false,
-        "live_win_rate": 0.2,
-        "live_wins": 1,
-        "market": "stock",
-        "oos_closed_trades": 19,
-        "oos_max_drawdown": -0.020403067450588175,
-        "oos_per_trade_return": 0.0030120830408286725,
-        "oos_profit_factor": 3.857324949226984,
-        "oos_profit_factor_infinite": false,
-        "oos_sharpe": 4.36430097500948,
-        "oos_total_return": 0.05880780229322724,
-        "oos_win_rate": 0.7894736842105263,
-        "per_trade_return_gap": 0.019455485698840036,
-        "performance_key": "stock:SOFI:short:Mean Reversion RSI",
-        "profit_factor_gap": 3.2007593556964333,
-        "reasons": [
-          "OOS_POSITIVE_LIVE_NEGATIVE",
-          "WIN_RATE_DETERIORATION",
-          "PROFIT_FACTOR_DETERIORATION",
-          "EXPECTANCY_SIGN_REVERSAL"
-        ],
-        "shadow_only": true,
-        "state": "DIVERGING",
-        "strategy": "Mean Reversion RSI",
-        "suggested_confidence_multiplier": 0.65,
-        "symbol": "SOFI",
-        "win_rate_gap": 0.5894736842105264
       },
       {
         "deviation_score": 51.272353427139755,
@@ -8016,6 +8113,39 @@
       {
         "deviation_score": 0.0,
         "evidence_weight": 0.1,
+        "horizon": "short",
+        "live_closed_trades": 2,
+        "live_compound_return": 0.0029813516120791306,
+        "live_losses": 0,
+        "live_max_loss_streak": 0,
+        "live_per_trade_return": 0.0014895664020064814,
+        "live_profit_factor": null,
+        "live_profit_factor_infinite": true,
+        "live_win_rate": 1.0,
+        "live_wins": 2,
+        "market": "stock",
+        "oos_closed_trades": 5,
+        "oos_max_drawdown": -0.01728401204272889,
+        "oos_per_trade_return": 0.004627333145991841,
+        "oos_profit_factor": 3.483361588703189,
+        "oos_profit_factor_infinite": false,
+        "oos_sharpe": 2.2456391900465418,
+        "oos_total_return": 0.02335178095932,
+        "oos_win_rate": 0.6,
+        "per_trade_return_gap": 0.0031377667439853596,
+        "performance_key": "stock:AMZN:short:Trend MA",
+        "profit_factor_gap": null,
+        "reasons": [],
+        "shadow_only": true,
+        "state": "LEARNING",
+        "strategy": "Trend MA",
+        "suggested_confidence_multiplier": 1.0,
+        "symbol": "AMZN",
+        "win_rate_gap": -0.4
+      },
+      {
+        "deviation_score": 0.0,
+        "evidence_weight": 0.1,
         "horizon": "medium",
         "live_closed_trades": 2,
         "live_compound_return": 0.0349824666330083,
@@ -8183,33 +8313,33 @@
         "evidence_weight": 0.05,
         "horizon": "short",
         "live_closed_trades": 1,
-        "live_compound_return": 0.0004229104060593514,
+        "live_compound_return": 0.019592000000000054,
         "live_losses": 0,
         "live_max_loss_streak": 0,
-        "live_per_trade_return": 0.0004229104060593514,
+        "live_per_trade_return": 0.019592000000000054,
         "live_profit_factor": null,
         "live_profit_factor_infinite": true,
         "live_win_rate": 1.0,
         "live_wins": 1,
         "market": "stock",
-        "oos_closed_trades": 5,
-        "oos_max_drawdown": -0.01728401204272889,
-        "oos_per_trade_return": 0.004627333145991841,
-        "oos_profit_factor": 3.483361588703189,
-        "oos_profit_factor_infinite": false,
-        "oos_sharpe": 2.2456391900465418,
-        "oos_total_return": 0.02335178095932,
-        "oos_win_rate": 0.6,
-        "per_trade_return_gap": 0.00420442273993249,
-        "performance_key": "stock:AMZN:short:Trend MA",
+        "oos_closed_trades": 4,
+        "oos_max_drawdown": -0.006197847893255282,
+        "oos_per_trade_return": 0.0045432294786227345,
+        "oos_profit_factor": null,
+        "oos_profit_factor_infinite": true,
+        "oos_sharpe": 3.2362116853837946,
+        "oos_total_return": 0.018297139051112854,
+        "oos_win_rate": 1.0,
+        "per_trade_return_gap": -0.01504877052137732,
+        "performance_key": "stock:BAC:short:Trend MA",
         "profit_factor_gap": null,
         "reasons": [],
         "shadow_only": true,
         "state": "LEARNING",
         "strategy": "Trend MA",
         "suggested_confidence_multiplier": 1.0,
-        "symbol": "AMZN",
-        "win_rate_gap": -0.4
+        "symbol": "BAC",
+        "win_rate_gap": 0.0
       },
       {
         "deviation_score": 0.0,
@@ -11811,39 +11941,6 @@
       {
         "deviation_score": 0.0,
         "evidence_weight": 0.0,
-        "horizon": "short",
-        "live_closed_trades": 0,
-        "live_compound_return": null,
-        "live_losses": 0,
-        "live_max_loss_streak": 0,
-        "live_per_trade_return": null,
-        "live_profit_factor": null,
-        "live_profit_factor_infinite": false,
-        "live_win_rate": null,
-        "live_wins": 0,
-        "market": "stock",
-        "oos_closed_trades": 4,
-        "oos_max_drawdown": -0.006197847893255282,
-        "oos_per_trade_return": 0.0045432294786227345,
-        "oos_profit_factor": null,
-        "oos_profit_factor_infinite": true,
-        "oos_sharpe": 3.2362116853837946,
-        "oos_total_return": 0.018297139051112854,
-        "oos_win_rate": 1.0,
-        "per_trade_return_gap": null,
-        "performance_key": "stock:BAC:short:Trend MA",
-        "profit_factor_gap": null,
-        "reasons": [],
-        "shadow_only": true,
-        "state": "LEARNING",
-        "strategy": "Trend MA",
-        "suggested_confidence_multiplier": 1.0,
-        "symbol": "BAC",
-        "win_rate_gap": null
-      },
-      {
-        "deviation_score": 0.0,
-        "evidence_weight": 0.0,
         "horizon": "long",
         "live_closed_trades": 0,
         "live_compound_return": null,
@@ -14657,7 +14754,7 @@
       "models": 328,
       "severe": 6,
       "watch": 5,
-      "with_live_trades": 140
+      "with_live_trades": 141
     }
   },
   "forward_validation": {
@@ -14784,7 +14881,7 @@
       }
     ]
   },
-  "generated_at": "2026-09-02T15:05:09.873485+00:00",
+  "generated_at": "2026-09-02T15:31:12.082931+00:00",
   "governance": {
     "arenas": [
       {
@@ -30742,7 +30839,7 @@
         "total_reduction_notional": 5959.2218117151115
       }
     ],
-    "generated_at": "2026-09-02T15:05:30.429469+00:00",
+    "generated_at": "2026-09-02T15:31:13.741378+00:00",
     "scope": "PUBLIC_READ_ONLY_RISK_SIZING_AUDIT",
     "status": "AVAILABLE",
     "summary": {
@@ -30878,19 +30975,19 @@
       "worst_trade_return": -0.1754387572936471
     },
     {
-      "avg_pnl": 39.91821030306362,
-      "avg_return_pct": 0.001326536474426118,
+      "avg_pnl": 40.69186754262018,
+      "avg_return_pct": 0.0015500952111465905,
       "best_trade_return": 0.07078397832467842,
-      "closed_trades": 52,
+      "closed_trades": 53,
       "horizon": "short",
-      "last_exit_bar": "2026-09-02T13:00:00+00:00",
+      "last_exit_bar": "2026-09-02T14:00:00+00:00",
       "losses": 24,
       "market": "stock",
-      "profit_factor": 1.3570014367774508,
-      "realized_pnl": 2075.746935759308,
+      "profit_factor": 1.3709189743525425,
+      "realized_pnl": 2156.6689797588697,
       "strategy": "Mean Reversion RSI",
-      "win_rate": 0.5384615384615384,
-      "wins": 28,
+      "win_rate": 0.5471698113207547,
+      "wins": 29,
       "worst_trade_return": -0.15500109850272703
     },
     {
@@ -30942,19 +31039,19 @@
       "worst_trade_return": -0.2355762284966343
     },
     {
-      "avg_pnl": -56.58997879995872,
-      "avg_return_pct": -0.0034226010033402486,
+      "avg_pnl": -42.40659358190791,
+      "avg_return_pct": -0.0018965714413042962,
       "best_trade_return": 0.033698504672897034,
-      "closed_trades": 17,
+      "closed_trades": 19,
       "horizon": "short",
-      "last_exit_bar": "2026-09-01T16:00:00+00:00",
+      "last_exit_bar": "2026-09-02T14:00:00+00:00",
       "losses": 10,
       "market": "stock",
-      "profit_factor": 0.4514313069590665,
-      "realized_pnl": -962.0296395992983,
+      "profit_factor": 0.5405592046857739,
+      "realized_pnl": -805.7252780562503,
       "strategy": "Trend MA",
-      "win_rate": 0.4117647058823529,
-      "wins": 7,
+      "win_rate": 0.47368421052631576,
+      "wins": 9,
       "worst_trade_return": -0.02489130820399099
     },
     {
@@ -31694,6 +31791,24 @@
       "worst_trade_return": -0.03596156239431836
     },
     {
+      "avg_pnl": -30.08180602353011,
+      "avg_return_pct": -0.011322360885184846,
+      "best_trade_return": 0.025580948894258215,
+      "closed_trades": 6,
+      "horizon": "short",
+      "last_exit_bar": "2026-09-02T14:00:00+00:00",
+      "losses": 4,
+      "market": "stock",
+      "performance_key": "stock:SOFI:short:Mean Reversion RSI",
+      "profit_factor": 0.762877930307229,
+      "realized_pnl": -180.49083614118067,
+      "strategy": "Mean Reversion RSI",
+      "symbol": "SOFI",
+      "win_rate": 0.3333333333333333,
+      "wins": 2,
+      "worst_trade_return": -0.03137630193824126
+    },
+    {
       "avg_pnl": -71.60026257843721,
       "avg_return_pct": -0.005522017258747125,
       "best_trade_return": 0.014772500000000077,
@@ -31980,24 +32095,6 @@
       "win_rate": 0.4,
       "wins": 2,
       "worst_trade_return": -0.01645997069762206
-    },
-    {
-      "avg_pnl": -52.28257602814841,
-      "avg_return_pct": -0.016221862966344047,
-      "best_trade_return": 0.025580948894258215,
-      "closed_trades": 5,
-      "horizon": "short",
-      "last_exit_bar": "2026-09-01T16:00:00+00:00",
-      "losses": 4,
-      "market": "stock",
-      "performance_key": "stock:SOFI:short:Mean Reversion RSI",
-      "profit_factor": 0.6565655935305504,
-      "realized_pnl": -261.41288014074206,
-      "strategy": "Mean Reversion RSI",
-      "symbol": "SOFI",
-      "win_rate": 0.2,
-      "wins": 1,
-      "worst_trade_return": -0.03137630193824126
     },
     {
       "avg_pnl": 16.475565233860507,
@@ -32666,6 +32763,24 @@
       "worst_trade_return": -0.05207278790611425
     },
     {
+      "avg_pnl": 13.902194419892929,
+      "avg_return_pct": 0.0014901350390309487,
+      "best_trade_return": 0.002557359672002546,
+      "closed_trades": 2,
+      "horizon": "short",
+      "last_exit_bar": "2026-09-02T14:00:00+00:00",
+      "losses": 0,
+      "market": "stock",
+      "performance_key": "stock:AMZN:short:Trend MA",
+      "profit_factor": 999.0,
+      "realized_pnl": 27.804388839785858,
+      "strategy": "Trend MA",
+      "symbol": "AMZN",
+      "win_rate": 1.0,
+      "wins": 2,
+      "worst_trade_return": 0.0004229104060593514
+    },
+    {
       "avg_pnl": -150.81941574567577,
       "avg_return_pct": -0.0035356614946867038,
       "best_trade_return": 0.013501851167929901,
@@ -33314,22 +33429,22 @@
       "worst_trade_return": -0.08361301577372682
     },
     {
-      "avg_pnl": 10.014102266218648,
-      "avg_return_pct": 0.0004229104060593514,
-      "best_trade_return": 0.0004229104060593514,
+      "avg_pnl": 138.5140749694808,
+      "avg_return_pct": 0.019592000000000054,
+      "best_trade_return": 0.019592000000000054,
       "closed_trades": 1,
       "horizon": "short",
-      "last_exit_bar": "2026-08-24T15:00:00+00:00",
+      "last_exit_bar": "2026-09-02T14:00:00+00:00",
       "losses": 0,
       "market": "stock",
-      "performance_key": "stock:AMZN:short:Trend MA",
+      "performance_key": "stock:BAC:short:Trend MA",
       "profit_factor": 999.0,
-      "realized_pnl": 10.014102266218648,
+      "realized_pnl": 138.5140749694808,
       "strategy": "Trend MA",
-      "symbol": "AMZN",
+      "symbol": "BAC",
       "win_rate": 1.0,
       "wins": 1,
-      "worst_trade_return": 0.0004229104060593514
+      "worst_trade_return": 0.019592000000000054
     },
     {
       "avg_pnl": -130.6930562568026,
@@ -33656,11 +33771,11 @@
       "worst_trade_return": -0.00029986839109497065
     }
   ],
-  "sync_checked_at": "2026-09-02T15:05:34.003878+00:00",
-  "sync_snapshot_age_seconds": 24.130393,
+  "sync_checked_at": "2026-09-02T15:31:18.123470+00:00",
+  "sync_snapshot_age_seconds": 6.040539,
   "trial_ledger": {
     "challenges": 66,
-    "cycles": 919,
+    "cycles": 922,
     "distinct_hypotheses": 66,
     "events": 202,
     "last_event_at": "2026-09-02T07:58:46.649870+00:00",
@@ -33675,13 +33790,13 @@
     "data_quality": "OK",
     "data_quality_critical": 0,
     "data_quality_warnings": 41,
-    "heartbeat_at": "2026-09-02T15:05:02.280092+00:00",
-    "last_cycle_finished_at": "2026-09-02T14:59:03.035823+00:00",
-    "last_cycle_started_at": "2026-09-02T15:00:03.047625+00:00",
-    "market_data_api_calls": 0,
+    "heartbeat_at": "2026-09-02T15:31:05.177945+00:00",
+    "last_cycle_finished_at": "2026-09-02T15:27:47.330634+00:00",
+    "last_cycle_started_at": "2026-09-02T15:28:47.344518+00:00",
+    "market_data_api_calls": 10,
     "portfolio_risk": "MEDIUM",
     "realtime_watchlist_sync": "ONLINE",
-    "realtime_watchlist_total": 57,
+    "realtime_watchlist_total": 55,
     "risk_layer": "ONLINE",
     "risk_sizing": "ACTIVE",
     "status": "RUNNING",
