@@ -1,12 +1,15 @@
 from __future__ import annotations
 
 import json
+import errno
 import os
 import shutil
 import sqlite3
 import sys
 import time
 import threading
+import tempfile
+from contextlib import closing
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -20,6 +23,9 @@ INTERVAL = max(60, int(os.getenv("V6_SNAPSHOT_INTERVAL_SECONDS", "60")))
 # Rescue mode keeps only the latest current snapshot. Historical archives are
 # disabled because the Railway persistent volume is space constrained.
 KEEP_ARCHIVES = max(0, int(os.getenv("V6_SNAPSHOT_KEEP", "0")))
+BACKUP_TIMEOUT_SECONDS = 90
+COPY_TIMEOUT_SECONDS = 90
+PERSISTENCE_RESERVE_BYTES = 64 * 1024 * 1024
 
 # Only persist state that cannot be cheaply rebuilt from market APIs/cache.
 # market_cache/realtime quote caches are intentionally excluded in rescue mode.
@@ -199,28 +205,51 @@ def bootstrap_runtime():
     )
 
 
-def sqlite_backup(src: Path, dst: Path, max_seconds=None):
+def sqlite_backup(src: Path, dst: Path, max_seconds=None, on_progress=None):
+    """Pin a committed read snapshot so concurrent writes cannot restart copying.
+
+    All outputs are staged; any failure leaves the previous destination intact.
+    Deadlines are cooperative (SQLite callbacks and bounded busy waits).
+    """
+    if not src.is_file():
+        raise FileNotFoundError(src)
+    budget = BACKUP_TIMEOUT_SECONDS if max_seconds is None else max_seconds
+    deadline = time.monotonic() + budget
     dst.parent.mkdir(parents=True, exist_ok=True)
-    tmp = dst.with_suffix(dst.suffix + ".tmp")
-    tmp.unlink(missing_ok=True)
-    src_con = sqlite3.connect(str(src), timeout=30)
-    dst_con = sqlite3.connect(str(tmp), timeout=30)
+    fd, filename = tempfile.mkstemp(prefix=dst.name + "-", suffix=".tmp", dir=dst.parent)
+    os.close(fd)
+    tmp = Path(filename)
+
+    def check_deadline():
+        if time.monotonic() >= deadline:
+            raise TimeoutError("SQLite snapshot exceeded time budget")
+
+    def progress(status, remaining, total):
+        check_deadline()
+        if on_progress:
+            on_progress("SQLITE_BACKUP", pages_done=total - remaining, pages_total=total)
+
     try:
-        deadline = time.monotonic() + max_seconds if max_seconds is not None else None
-
-        def progress(status, remaining, total):
-            if deadline is not None and time.monotonic() > deadline:
-                raise TimeoutError("direction snapshot exceeded time budget")
-
-        src_con.backup(dst_con, pages=256, sleep=0.02, progress=progress)
-        dst_con.commit()
+        with closing(sqlite3.connect(src.resolve().as_uri() + "?mode=ro", uri=True, timeout=5)) as src_con, \
+                closing(sqlite3.connect(str(tmp), timeout=5)) as dst_con:
+            interrupted = lambda: int(time.monotonic() >= deadline)
+            src_con.set_progress_handler(interrupted, 10000)
+            dst_con.set_progress_handler(interrupted, 10000)
+            check_deadline()
+            src_con.execute("BEGIN")
+            src_con.execute("SELECT name FROM sqlite_master LIMIT 1").fetchone()
+            src_con.backup(dst_con, pages=256, sleep=0.02, progress=progress)
+            src_con.rollback()  # Release the WAL reader before integrity checking.
+            if on_progress:
+                on_progress("VERIFY")
+            if dst_con.execute("PRAGMA quick_check").fetchall() != [("ok",)]:
+                raise sqlite3.DatabaseError("snapshot quick_check failed")
+            check_deadline()
+        tmp.replace(dst)
     finally:
-        dst_con.close()
-        src_con.close()
-    if not quick_check(tmp):
-        tmp.unlink(missing_ok=True)
-        raise sqlite3.DatabaseError("snapshot quick_check failed")
-    tmp.replace(dst)
+        # Only this invocation's unique staging files, never live WAL/SHM files.
+        for suffix in ("", "-wal", "-shm", "-journal"):
+            Path(str(tmp) + suffix).unlink(missing_ok=True)
 
 
 def cleanup_snapshot_storage():
@@ -231,10 +260,11 @@ def cleanup_snapshot_storage():
         ARCHIVE_DIR.mkdir(parents=True, exist_ok=True)
 
 
-def persist_one(src: Path, stamp: str):
+def persist_one(src: Path, stamp: str, on_progress=None):
     local_stage = RUNTIME_DIR / ".snapshot-stage" / src.name
     local_stage.parent.mkdir(parents=True, exist_ok=True)
-    sqlite_backup(src, local_stage, max_seconds=20 if src.name == "direction_forward.sqlite3" else None)
+    sqlite_backup(src, local_stage, max_seconds=20 if src.name == "direction_forward.sqlite3" else None,
+                  on_progress=on_progress)
 
     CURRENT_DIR.mkdir(parents=True, exist_ok=True)
     # Dedicated direction snapshots must not share the legacy cleanup temp namespace.
@@ -242,9 +272,33 @@ def persist_one(src: Path, stamp: str):
     temp_dir.mkdir(parents=True, exist_ok=True)
     persistent_tmp = temp_dir / (src.name + ".new")
     persistent_tmp.unlink(missing_ok=True)
-    shutil.copy2(local_stage, persistent_tmp)
     persistent_final = CURRENT_DIR / src.name
-    persistent_tmp.replace(persistent_final)
+    size = local_stage.stat().st_size
+    if shutil.disk_usage(PERSIST_DIR).free < size + PERSISTENCE_RESERVE_BYTES:
+        raise OSError(errno.ENOSPC, "insufficient space for staged snapshot plus reserve")
+    deadline = time.monotonic() + COPY_TIMEOUT_SECONDS
+    try:
+        copied = 0
+        with local_stage.open("rb") as reader, persistent_tmp.open("xb") as writer:
+            while True:
+                if time.monotonic() >= deadline:
+                    raise TimeoutError("persistent snapshot copy exceeded time budget")
+                block = reader.read(4 * 1024 * 1024)
+                if not block:
+                    break
+                writer.write(block)
+                copied += len(block)
+                if on_progress:
+                    on_progress("PERSIST_COPY", bytes_done=copied, bytes_total=size)
+            writer.flush()
+            os.fsync(writer.fileno())
+        if time.monotonic() >= deadline:
+            raise TimeoutError("persistent snapshot copy exceeded time budget")
+        if copied != size or persistent_tmp.stat().st_size != size:
+            raise OSError("persistent snapshot size mismatch")
+        persistent_tmp.replace(persistent_final)
+    finally:
+        persistent_tmp.unlink(missing_ok=True)
 
     if KEEP_ARCHIVES > 0:
         try:
@@ -271,6 +325,12 @@ def snapshot_all(include_direction=True):
     cleanup_snapshot_storage()
     stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     ok, failed, skipped = [], [], []
+    write_status(current_snapshot_started_at=now_iso(), current_snapshot_phase="STARTING",
+                 current_snapshot_db=None, current_snapshot_progress={})
+    expected = CRITICAL_DBS - ({"direction_forward.sqlite3"} if not include_direction else set())
+    for name in sorted(expected):
+        if not (RUNTIME_DIR / name).is_file():
+            failed.append({"db": name, "error": "FileNotFoundError: critical database missing"})
 
     # Persist the small direction evidence ledger before potentially large legacy databases.
     for src in sorted(RUNTIME_DIR.glob("*.sqlite3"), key=lambda p: (p.name != "direction_forward.sqlite3", p.name)):
@@ -281,14 +341,24 @@ def snapshot_all(include_direction=True):
         if src.name not in CRITICAL_DBS:
             skipped.append(src.name)
             continue
+        last_report = [None, 0.0]
+
+        def report(phase, **details):
+            now = time.monotonic()
+            if phase != last_report[0] or now - last_report[1] >= 5:
+                write_status(current_snapshot_db=src.name, current_snapshot_phase=phase,
+                             current_snapshot_progress=details, current_snapshot_progress_at=now_iso())
+                last_report[:] = [phase, now]
+
         try:
-            persist_one(src, stamp)
+            report("PREPARE")
+            persist_one(src, stamp, on_progress=report)
             ok.append(src.name)
         except OSError as exc:
             if getattr(exc, "errno", None) == 28:
                 cleanup_snapshot_storage()
                 try:
-                    persist_one(src, stamp)
+                    persist_one(src, stamp, on_progress=report)
                     ok.append(src.name)
                     continue
                 except Exception as retry_exc:
@@ -304,6 +374,8 @@ def snapshot_all(include_direction=True):
         tmp.replace(status_path)
     cleanup_snapshot_storage()
     write_status(
+        current_snapshot_phase="IDLE", current_snapshot_db=None,
+        current_snapshot_progress={}, current_snapshot_finished_at=now_iso(),
         last_snapshot_at=now_iso(),
         last_snapshot_success=ok,
         last_snapshot_failed=failed,
@@ -364,6 +436,7 @@ def watch():
             snapshot_all(include_direction=False)
         except Exception as exc:
             write_status(
+                current_snapshot_phase="ERROR", current_snapshot_finished_at=now_iso(),
                 persistence_status="ERROR",
                 persistent_disk=disk_usage_payload(),
                 last_snapshot_failed=[{"error": f"{type(exc).__name__}: {exc}"}],
