@@ -72,17 +72,17 @@
     },
     {
       "account_id": "stock_short",
-      "as_of": "2026-09-01T20:00:00+00:00",
+      "as_of": "2026-09-02T12:00:00+00:00",
       "cash": 59091.31158783451,
       "closed_trades": 109,
-      "drawdown": -0.040993519493961794,
-      "equity": 98238.00035218152,
-      "gross_exposure": 39146.68876434701,
+      "drawdown": -0.042038588172962466,
+      "equity": 98130.94637565204,
+      "gross_exposure": 39039.63478781753,
       "horizon": "short",
       "initial_equity": 100000.0,
-      "leverage": 0.3984882491908102,
+      "leverage": 0.3978320420794793,
       "market": "stock",
-      "return_pct": -0.017619996478184796
+      "return_pct": -0.018690536243479605
     },
     {
       "account_id": "twstock_long",
@@ -529,6 +529,47 @@
   "entry_gate": {
     "broker_order_api_calls": 0,
     "entries": [
+      {
+        "account_id": "stock_short",
+        "created_at": "2026-09-02T13:18:18.019956+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3635,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "strategy_state:SHADOW_ONLY_CANDIDATE"
+        ],
+        "symbol": "NVD"
+      },
+      {
+        "account_id": "stock_short",
+        "created_at": "2026-09-02T13:15:17.701271+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3634,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "pretrade_verdict:BLOCK_CANDIDATE",
+          "regime_state:SHADOW_ONLY_CANDIDATE",
+          "strategy_state:SHADOW_ONLY_CANDIDATE"
+        ],
+        "symbol": "BMNR"
+      },
+      {
+        "account_id": "crypto_short",
+        "created_at": "2026-09-02T13:13:32.157048+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3633,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "regime_state:PAUSE_CANDIDATE"
+        ],
+        "symbol": "UNIUSDT"
+      },
       {
         "account_id": "crypto_short",
         "created_at": "2026-09-02T13:11:45.731912+00:00",
@@ -3053,16 +3094,16 @@
     "simulation_only": true,
     "status": "OK",
     "summary": {
-      "blocked": 172,
+      "blocked": 175,
       "blocked_but_filled": 0,
       "filled": 4,
-      "sampled_events": 176
+      "sampled_events": 179
     }
   },
   "expected_live_deviation": {
     "active_sizing": true,
     "contains_secrets": false,
-    "generated_at": "2026-09-02T13:12:06.037894+00:00",
+    "generated_at": "2026-09-02T13:30:11.479407+00:00",
     "minimum_live_trades_for_active_sizing": 5,
     "rows": [
       {
@@ -14548,7 +14589,7 @@
       }
     ]
   },
-  "generated_at": "2026-09-02T13:13:00.432471+00:00",
+  "generated_at": "2026-09-02T13:30:01.814683+00:00",
   "governance": {
     "arenas": [
       {
@@ -30506,7 +30547,7 @@
         "total_reduction_notional": 5959.2218117151115
       }
     ],
-    "generated_at": "2026-09-02T13:13:01.274910+00:00",
+    "generated_at": "2026-09-02T13:30:31.550901+00:00",
     "scope": "PUBLIC_READ_ONLY_RISK_SIZING_AUDIT",
     "status": "AVAILABLE",
     "summary": {
@@ -33420,11 +33461,11 @@
       "worst_trade_return": -0.00029986839109497065
     }
   ],
-  "sync_checked_at": "2026-09-02T13:13:05.858756+00:00",
-  "sync_snapshot_age_seconds": 5.426285,
+  "sync_checked_at": "2026-09-02T13:30:36.739114+00:00",
+  "sync_snapshot_age_seconds": 34.924431,
   "trial_ledger": {
     "challenges": 66,
-    "cycles": 894,
+    "cycles": 897,
     "distinct_hypotheses": 66,
     "events": 202,
     "last_event_at": "2026-09-02T07:58:46.649870+00:00",
@@ -33438,10 +33479,10 @@
     "concept_drift_pairs": 13,
     "data_quality": "OK",
     "data_quality_critical": 0,
-    "data_quality_warnings": 42,
-    "heartbeat_at": "2026-09-02T13:12:46.252811+00:00",
-    "last_cycle_finished_at": "2026-09-02T13:00:06.075621+00:00",
-    "last_cycle_started_at": "2026-09-02T13:01:06.090883+00:00",
+    "data_quality_warnings": 40,
+    "heartbeat_at": "2026-09-02T13:29:59.791094+00:00",
+    "last_cycle_finished_at": "2026-09-02T13:26:59.051437+00:00",
+    "last_cycle_started_at": "2026-09-02T13:27:59.066887+00:00",
     "market_data_api_calls": 5,
     "portfolio_risk": "MEDIUM",
     "realtime_watchlist_sync": "ONLINE",
