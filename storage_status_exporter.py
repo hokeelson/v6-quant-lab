@@ -22,6 +22,12 @@ PUBLIC_EXPECTED_LIVE_PATH = Path("static") / "expected_live_deviation.json"
 _last_expected_live_export = 0.0
 
 SAFE_KEYS = (
+    "current_snapshot_started_at",
+    "current_snapshot_finished_at",
+    "current_snapshot_db",
+    "current_snapshot_phase",
+    "current_snapshot_progress",
+    "current_snapshot_progress_at",
     "mode",
     "persistence_status",
     "last_snapshot_at",
