@@ -30,17 +30,17 @@
     },
     {
       "account_id": "crypto_short",
-      "as_of": "2026-09-02T04:00:00+00:00",
+      "as_of": "2026-09-02T05:00:00+00:00",
       "cash": 77683.37305357453,
       "closed_trades": 328,
-      "drawdown": -0.11717990598144823,
-      "equity": 90860.81038141387,
-      "gross_exposure": 13177.437327839347,
+      "drawdown": -0.11674171530982114,
+      "equity": 90905.90944496643,
+      "gross_exposure": 13222.536391391903,
       "horizon": "short",
       "initial_equity": 100000.0,
-      "leverage": 0.14502883336086633,
+      "leverage": 0.14545299059349603,
       "market": "crypto",
-      "return_pct": -0.0913918961858613
+      "return_pct": -0.09094090555033574
     },
     {
       "account_id": "stock_long",
@@ -114,7 +114,7 @@
     },
     {
       "account_id": "twstock_short",
-      "as_of": "2026-09-02T04:47:40+00:00",
+      "as_of": "2026-09-02T05:05:03+00:00",
       "cash": 98952.82731315448,
       "closed_trades": 17,
       "drawdown": -0.012248971200245706,
@@ -131,9 +131,9 @@
   "data_quality": {},
   "direction_shadow": {
     "benchmarks": {
-      "always_long_after_cost_avg_return_pct": -0.011257658383254175,
+      "always_long_after_cost_avg_return_pct": -0.008710523816285445,
       "note": "Equal-weight prediction-window diagnostic; not a portfolio equity curve.",
-      "policy_minus_always_long_avg_return_pct": 0.010809736541409085
+      "policy_minus_always_long_avg_return_pct": 0.007615481442422916
     },
     "broker_order_api_calls": 0,
     "confidence_calibration": {
@@ -145,22 +145,28 @@
           "samples": 3
         },
         {
-          "mean_confidence": 0.5506607879615232,
-          "observed_hit_rate": 0.4166666666666667,
+          "mean_confidence": 0.5492058493944778,
+          "observed_hit_rate": 0.42857142857142855,
           "range": "0.5-0.6",
-          "samples": 12
+          "samples": 14
         },
         {
-          "mean_confidence": 0.6552294507120304,
-          "observed_hit_rate": 0.65,
+          "mean_confidence": 0.6593475500840119,
+          "observed_hit_rate": 0.47058823529411764,
           "range": "0.6-0.7",
-          "samples": 20
+          "samples": 34
         },
         {
-          "mean_confidence": 0.7387635649726751,
-          "observed_hit_rate": 0.5517241379310345,
+          "mean_confidence": 0.7381436363263751,
+          "observed_hit_rate": 0.4146341463414634,
           "range": "0.7-0.8",
-          "samples": 29
+          "samples": 41
+        },
+        {
+          "mean_confidence": 0.8198768949507087,
+          "observed_hit_rate": 0.0,
+          "range": "0.8-0.9",
+          "samples": 1
         },
         {
           "mean_confidence": 0.9018810554236686,
@@ -169,43 +175,43 @@
           "samples": 1
         }
       ],
-      "brier_score": 0.26359420027245994,
-      "mean_confidence": 0.6692743608551628,
-      "observed_hit_rate": 0.5230769230769231,
-      "samples": 65
+      "brier_score": 0.31654966924005934,
+      "mean_confidence": 0.6761344274501095,
+      "observed_hit_rate": 0.4148936170212766,
+      "samples": 94
     },
     "decision_stats": {
       "LONG": {
-        "avg_forward_return_pct": -0.020765533730658654,
-        "avg_opportunity_return_pct": 0.02082594323520529,
-        "avg_reward_r": -0.6764068664631151,
-        "completed": 12,
-        "evaluated": 12,
-        "hit_rate": 0.16666666666666666
+        "avg_forward_return_pct": -0.0137503112767275,
+        "avg_opportunity_return_pct": 0.02189952612258445,
+        "avg_reward_r": -0.474135713921441,
+        "completed": 14,
+        "evaluated": 14,
+        "hit_rate": 0.21428571428571427
       },
       "NO_TRADE": {
         "avg_forward_return_pct": 0.0,
-        "avg_opportunity_return_pct": 0.01771624056868468,
-        "avg_reward_r": -0.625664130949159,
-        "completed": 61,
-        "evaluated": 61,
-        "hit_rate": 0.32786885245901637
+        "avg_opportunity_return_pct": 0.016947109432404864,
+        "avg_reward_r": -0.568367028534325,
+        "completed": 73,
+        "evaluated": 73,
+        "hit_rate": 0.3698630136986301
       },
       "SHORT": {
-        "avg_forward_return_pct": 0.0036367594848192896,
-        "avg_opportunity_return_pct": 0.012413391150860566,
-        "avg_reward_r": 0.1370345274990719,
-        "completed": 53,
-        "evaluated": 53,
-        "hit_rate": 0.6037735849056604
+        "avg_forward_return_pct": 0.00012040351798928403,
+        "avg_opportunity_return_pct": 0.010388833320235106,
+        "avg_reward_r": -0.02359132398664949,
+        "completed": 80,
+        "evaluated": 80,
+        "hit_rate": 0.45
       }
     },
     "engine_version": "V10_ADAPTIVE_EVIDENCE_SHADOW",
-    "evaluated": 126,
+    "evaluated": 167,
     "evidence_maturity": {
       "automatic_retuning_allowed": false,
-      "directional_trades": 65,
-      "forward_days": 1.125,
+      "directional_trades": 94,
+      "forward_days": 1.1666666666666667,
       "reason": "Forward evidence is diagnostic until independently reviewed; no online parameter chasing.",
       "state": "PRELIMINARY"
     },
@@ -213,17 +219,17 @@
     "policies": [
       {
         "engine_version": "V10_ADAPTIVE_EVIDENCE_SHADOW",
-        "evaluated": 126,
-        "predictions": 375
+        "evaluated": 167,
+        "predictions": 416
       }
     ],
     "policy_performance": {
-      "avg_directional_trade_return_pct": -0.0008682792626535617,
-      "avg_policy_return_pct": -0.00044792184184509135,
-      "directional_trade_samples": 65,
+      "avg_directional_trade_return_pct": -0.001945447621649386,
+      "avg_policy_return_pct": -0.0010950423738625287,
+      "directional_trade_samples": 94,
       "max_drawdown_pct": -0.31001096483647483,
-      "samples_including_no_trade": 126,
-      "trade_sequence_sharpe": -0.03592138489288909
+      "samples_including_no_trade": 167,
+      "trade_sequence_sharpe": -0.08532227363579849
     },
     "promotion_gate": {
       "checks": {
@@ -259,16 +265,6 @@
         "samples": 1
       },
       {
-        "avg_forward_return_pct": -0.023744283347153866,
-        "decision": "LONG",
-        "hit_rate": 0.25,
-        "horizon": "short",
-        "market": "crypto",
-        "maturity": "DIAGNOSTIC",
-        "regime": "NORMAL_UP_TREND",
-        "samples": 4
-      },
-      {
         "avg_forward_return_pct": -0.016445058384082993,
         "decision": "LONG",
         "hit_rate": 0.14285714285714285,
@@ -289,24 +285,54 @@
         "samples": 3
       },
       {
-        "avg_forward_return_pct": 0.0,
-        "decision": "NO_TRADE",
-        "hit_rate": 0.4782608695652174,
+        "avg_forward_return_pct": -0.006382514415816102,
+        "decision": "LONG",
+        "hit_rate": 0.3333333333333333,
+        "horizon": "short",
+        "market": "crypto",
+        "maturity": "DIAGNOSTIC",
+        "regime": "NORMAL_UP_TREND",
+        "samples": 6
+      },
+      {
+        "avg_forward_return_pct": -0.0026564337600202804,
+        "decision": "SHORT",
+        "hit_rate": 0.39285714285714285,
         "horizon": "short",
         "market": "crypto",
         "maturity": "PRELIMINARY",
         "regime": "NORMAL_SIDEWAYS",
-        "samples": 23
+        "samples": 28
+      },
+      {
+        "avg_forward_return_pct": -0.00014684312103660675,
+        "decision": "SHORT",
+        "hit_rate": 0.5,
+        "horizon": "short",
+        "market": "crypto",
+        "maturity": "DIAGNOSTIC",
+        "regime": "HIGH_VOL_DOWN_TREND",
+        "samples": 2
       },
       {
         "avg_forward_return_pct": 0.0,
         "decision": "NO_TRADE",
-        "hit_rate": 0.25,
+        "hit_rate": 0.5517241379310345,
+        "horizon": "short",
+        "market": "crypto",
+        "maturity": "PRELIMINARY",
+        "regime": "NORMAL_SIDEWAYS",
+        "samples": 29
+      },
+      {
+        "avg_forward_return_pct": 0.0,
+        "decision": "NO_TRADE",
+        "hit_rate": 0.2857142857142857,
         "horizon": "short",
         "market": "crypto",
         "maturity": "DIAGNOSTIC",
         "regime": "HIGH_VOL_UP_TREND",
-        "samples": 12
+        "samples": 14
       },
       {
         "avg_forward_return_pct": 0.0,
@@ -321,12 +347,12 @@
       {
         "avg_forward_return_pct": 0.0,
         "decision": "NO_TRADE",
-        "hit_rate": 0.3333333333333333,
+        "hit_rate": 0.25,
         "horizon": "short",
         "market": "crypto",
         "maturity": "DIAGNOSTIC",
         "regime": "NORMAL_DOWN_TREND",
-        "samples": 6
+        "samples": 8
       },
       {
         "avg_forward_return_pct": 0.0,
@@ -336,7 +362,7 @@
         "market": "crypto",
         "maturity": "DIAGNOSTIC",
         "regime": "NORMAL_UP_TREND",
-        "samples": 4
+        "samples": 5
       },
       {
         "avg_forward_return_pct": 0.0,
@@ -364,6 +390,16 @@
         "hit_rate": 1.0,
         "horizon": "short",
         "market": "stock",
+        "maturity": "DIAGNOSTIC",
+        "regime": "HIGH_VOL_SIDEWAYS",
+        "samples": 1
+      },
+      {
+        "avg_forward_return_pct": 0.0,
+        "decision": "NO_TRADE",
+        "hit_rate": 1.0,
+        "horizon": "short",
+        "market": "crypto",
         "maturity": "DIAGNOSTIC",
         "regime": "HIGH_VOL_SIDEWAYS",
         "samples": 1
@@ -379,50 +415,159 @@
         "samples": 7
       },
       {
-        "avg_forward_return_pct": 0.002367234833024328,
+        "avg_forward_return_pct": 0.0032710840299798767,
         "decision": "SHORT",
-        "hit_rate": 0.6470588235294118,
-        "horizon": "short",
-        "market": "crypto",
-        "maturity": "DIAGNOSTIC",
-        "regime": "NORMAL_SIDEWAYS",
-        "samples": 17
-      },
-      {
-        "avg_forward_return_pct": 0.004747008547008517,
-        "decision": "SHORT",
-        "hit_rate": 1.0,
-        "horizon": "short",
-        "market": "crypto",
-        "maturity": "DIAGNOSTIC",
-        "regime": "HIGH_VOL_DOWN_TREND",
-        "samples": 1
-      },
-      {
-        "avg_forward_return_pct": 0.010024087615438458,
-        "decision": "SHORT",
-        "hit_rate": 0.6,
+        "hit_rate": 0.4411764705882353,
         "horizon": "short",
         "market": "crypto",
         "maturity": "PRELIMINARY",
         "regime": "NORMAL_DOWN_TREND",
-        "samples": 20
+        "samples": 34
       },
       {
-        "avg_forward_return_pct": 0.021243110167791263,
+        "avg_forward_return_pct": 0.022385521691902662,
         "decision": "SHORT",
-        "hit_rate": 0.6666666666666666,
+        "hit_rate": 0.75,
         "horizon": "short",
         "market": "crypto",
         "maturity": "DIAGNOSTIC",
         "regime": "HIGH_VOL_SIDEWAYS",
-        "samples": 3
+        "samples": 4
       }
     ]
   },
   "entry_gate": {
     "broker_order_api_calls": 0,
     "entries": [
+      {
+        "account_id": "crypto_short",
+        "created_at": "2026-09-02T06:14:11.638936+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3560,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "regime_state:PAUSE_CANDIDATE",
+          "strategy_state:PAUSE_CANDIDATE"
+        ],
+        "symbol": "ARBUSDT"
+      },
+      {
+        "account_id": "crypto_short",
+        "created_at": "2026-09-02T06:13:07.977063+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3559,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "regime_state:PAUSE_CANDIDATE",
+          "strategy_state:PAUSE_CANDIDATE",
+          "symbol_strategy_state:SHADOW_ONLY_CANDIDATE"
+        ],
+        "symbol": "ADAUSDT"
+      },
+      {
+        "account_id": "crypto_short",
+        "created_at": "2026-09-02T06:12:01.190109+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3558,
+        "reasons": [
+          "MATURE_NEGATIVE_EV",
+          "ZERO_NOTIONAL",
+          "expected_live_state:QUARANTINED",
+          "regime_state:PAUSE_CANDIDATE",
+          "strategy_state:PAUSE_CANDIDATE",
+          "symbol_strategy_state:PAUSE_CANDIDATE"
+        ],
+        "symbol": "AAVEUSDT"
+      },
+      {
+        "account_id": "crypto_short",
+        "created_at": "2026-09-02T06:07:49.927839+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3557,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "strategy_state:PAUSE_CANDIDATE",
+          "symbol_strategy_state:SHADOW_ONLY_CANDIDATE"
+        ],
+        "symbol": "XAUTUSDT"
+      },
+      {
+        "account_id": "crypto_short",
+        "created_at": "2026-09-02T06:06:36.485587+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3556,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "regime_state:PAUSE_CANDIDATE"
+        ],
+        "symbol": "UNIUSDT"
+      },
+      {
+        "account_id": "crypto_short",
+        "created_at": "2026-09-02T06:05:21.037094+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3555,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "strategy_state:PAUSE_CANDIDATE",
+          "symbol_strategy_state:SHADOW_ONLY_CANDIDATE"
+        ],
+        "symbol": "TAOUSDT"
+      },
+      {
+        "account_id": "crypto_short",
+        "created_at": "2026-09-02T06:03:43.665553+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3554,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "regime_state:PAUSE_CANDIDATE",
+          "strategy_state:PAUSE_CANDIDATE"
+        ],
+        "symbol": "FILUSDT"
+      },
+      {
+        "account_id": "crypto_short",
+        "created_at": "2026-09-02T06:02:35.040250+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3553,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "regime_state:SHADOW_ONLY_CANDIDATE",
+          "strategy_state:PAUSE_CANDIDATE"
+        ],
+        "symbol": "ETHUSDT"
+      },
+      {
+        "account_id": "crypto_short",
+        "created_at": "2026-09-02T06:01:17.785346+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3552,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "regime_state:PAUSE_CANDIDATE",
+          "strategy_state:PAUSE_CANDIDATE"
+        ],
+        "symbol": "CRVUSDT"
+      },
       {
         "account_id": "crypto_short",
         "created_at": "2026-09-02T05:17:42.614089+00:00",
@@ -1843,16 +1988,16 @@
     "simulation_only": true,
     "status": "OK",
     "summary": {
-      "blocked": 96,
+      "blocked": 105,
       "blocked_but_filled": 0,
       "filled": 1,
-      "sampled_events": 97
+      "sampled_events": 106
     }
   },
   "expected_live_deviation": {
     "active_sizing": true,
     "contains_secrets": false,
-    "generated_at": "2026-09-02T05:58:38.400451+00:00",
+    "generated_at": "2026-09-02T06:27:48.344458+00:00",
     "minimum_live_trades_for_active_sizing": 5,
     "rows": [
       {
@@ -13333,7 +13478,7 @@
       }
     ]
   },
-  "generated_at": "2026-09-02T05:59:20.185114+00:00",
+  "generated_at": "2026-09-02T06:28:23.585802+00:00",
   "governance": {
     "arenas": [
       {
@@ -29281,7 +29426,7 @@
         "total_reduction_notional": 6359.781433276954
       }
     ],
-    "generated_at": "2026-09-02T05:59:28.591834+00:00",
+    "generated_at": "2026-09-02T06:28:28.570739+00:00",
     "scope": "PUBLIC_READ_ONLY_RISK_SIZING_AUDIT",
     "status": "AVAILABLE",
     "summary": {
@@ -32177,11 +32322,11 @@
       "worst_trade_return": -0.00029986839109497065
     }
   ],
-  "sync_checked_at": "2026-09-02T05:59:29.500125+00:00",
-  "sync_snapshot_age_seconds": 9.315011,
+  "sync_checked_at": "2026-09-02T06:28:31.544701+00:00",
+  "sync_snapshot_age_seconds": 7.958899,
   "trial_ledger": {
     "challenges": 66,
-    "cycles": 803,
+    "cycles": 808,
     "distinct_hypotheses": 66,
     "events": 200,
     "last_event_at": "2026-09-02T04:49:01.853160+00:00",
@@ -32195,17 +32340,17 @@
     "concept_drift_pairs": 13,
     "data_quality": "OK",
     "data_quality_critical": 0,
-    "data_quality_warnings": 34,
-    "heartbeat_at": "2026-09-02T05:59:11.105574+00:00",
-    "last_cycle_finished_at": "2026-09-02T05:58:52.955092+00:00",
-    "last_cycle_started_at": "2026-09-02T05:56:09.183382+00:00",
-    "market_data_api_calls": 5,
+    "data_quality_warnings": 36,
+    "heartbeat_at": "2026-09-02T06:28:11.791252+00:00",
+    "last_cycle_finished_at": "2026-09-02T06:26:20.525927+00:00",
+    "last_cycle_started_at": "2026-09-02T06:27:20.558103+00:00",
+    "market_data_api_calls": 0,
     "portfolio_risk": "MEDIUM",
     "realtime_watchlist_sync": "ONLINE",
     "realtime_watchlist_total": 57,
     "risk_layer": "ONLINE",
     "risk_sizing": "ACTIVE",
-    "status": "ONLINE",
+    "status": "RUNNING",
     "true_errors": 0
   }
 }
