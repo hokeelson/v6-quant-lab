@@ -1,26 +1,26 @@
 {
   "components": {
     "crypto_v2": {
-      "active_blocked_candidates": 27,
+      "active_blocked_candidates": 31,
       "backlog_remaining": 0,
       "broker_order_api_calls": 0,
-      "finished_age_seconds": 5.1,
-      "finished_at": "2026-09-02T09:58:47.007056+00:00",
+      "finished_age_seconds": 55.3,
+      "finished_at": "2026-09-02T10:18:40.509578+00:00",
       "healthy": true,
       "is_catching_up": false,
       "market_data_api_calls": 0,
       "persistent_checkpoint": true,
       "research_layer_present": true,
-      "snapshot_age_seconds": 5.4,
-      "snapshot_generated_at": "2026-09-02T09:58:46.672886+00:00",
-      "started_age_seconds": 10.4,
-      "started_at": "2026-09-02T09:58:41.729380+00:00",
+      "snapshot_age_seconds": 55.6,
+      "snapshot_generated_at": "2026-09-02T10:18:40.176510+00:00",
+      "started_age_seconds": 57.7,
+      "started_at": "2026-09-02T10:18:38.098260+00:00",
       "status": "ONLINE",
-      "tracked_research_trades": 79
+      "tracked_research_trades": 80
     },
     "direction_v10": {
-      "backup_age_seconds": 12.2,
-      "backup_at": "2026-09-02T09:58:39.901372+00:00",
+      "backup_age_seconds": 55.5,
+      "backup_at": "2026-09-02T10:18:40.337670+00:00",
       "backup_evaluated": 170,
       "backup_healthy": true,
       "backup_pending": 249,
@@ -31,11 +31,11 @@
       "error_samples": [],
       "evaluated": 170,
       "healthy": true,
-      "heartbeat_age_seconds": 4.6,
-      "heartbeat_at": "2026-09-02T09:58:47.454221+00:00",
+      "heartbeat_age_seconds": 3.2,
+      "heartbeat_at": "2026-09-02T10:19:32.595474+00:00",
       "input_path_mode": "SHARED_V6_DATA_DIR",
       "insufficient_cache": 0,
-      "last_cycle_finished_at": "2026-09-02T09:51:19.476486+00:00",
+      "last_cycle_finished_at": "2026-09-02T10:06:26.615112+00:00",
       "market_data_api_calls": 0,
       "missing_models": 74,
       "models_found": 235,
@@ -48,18 +48,18 @@
       "assets_checked": 250,
       "bars_processed": 0,
       "broker_order_api_calls": 0,
-      "completed_age_seconds": 81.9,
-      "cycle_age_seconds": 21.8,
+      "completed_age_seconds": 95.3,
+      "cycle_age_seconds": 35.3,
       "data_quality": "OK",
       "degraded": false,
       "degraded_reasons": [],
       "error_samples": [],
       "hard_failure": false,
       "healthy": true,
-      "heartbeat_age_seconds": 11.8,
-      "heartbeat_at": "2026-09-02T09:58:40.318835+00:00",
-      "last_cycle_finished_at": "2026-09-02T09:57:30.224545+00:00",
-      "last_cycle_started_at": "2026-09-02T09:58:30.239909+00:00",
+      "heartbeat_age_seconds": 9.9,
+      "heartbeat_at": "2026-09-02T10:19:25.936360+00:00",
+      "last_cycle_finished_at": "2026-09-02T10:18:00.517912+00:00",
+      "last_cycle_started_at": "2026-09-02T10:19:00.531483+00:00",
       "market_data_api_calls": 0,
       "realtime_watchlist_sync": "ONLINE",
       "risk_layer": "ONLINE",
@@ -67,14 +67,14 @@
       "true_errors": 0
     },
     "research": {
-      "age_seconds": 7.4,
-      "generated_at": "2026-09-02T09:58:44.657705+00:00",
+      "age_seconds": 49.0,
+      "generated_at": "2026-09-02T10:18:46.740311+00:00",
       "healthy": true,
-      "latest_account_as_of": "2026-09-02T08:00:00+00:00"
+      "latest_account_as_of": "2026-09-02T09:00:00+00:00"
     },
     "storage": {
-      "exporter_heartbeat_age_seconds": 1.1,
-      "exporter_heartbeat_at": "2026-09-02T09:58:51.023058+00:00",
+      "exporter_heartbeat_age_seconds": 3.0,
+      "exporter_heartbeat_at": "2026-09-02T10:19:32.805441+00:00",
       "healthy": true,
       "last_snapshot_at": "2026-09-02T09:51:22.804279+00:00",
       "last_snapshot_success": [
@@ -92,7 +92,7 @@
     }
   },
   "contains_secrets": false,
-  "generated_at": "2026-09-02T09:58:52.085667+00:00",
+  "generated_at": "2026-09-02T10:19:35.789190+00:00",
   "overall_status": "HEALTHY",
   "public_paths": {
     "health_alias": "/app/static/health.json",
@@ -106,6 +106,6 @@
   },
   "scope": "PUBLIC_READ_ONLY_RUNTIME_HEALTH",
   "source": "RAILWAY_RUNTIME_DIRECT",
-  "sync_checked_at": "2026-09-02T09:58:58.557392+00:00",
-  "sync_snapshot_age_seconds": 6.471725
+  "sync_checked_at": "2026-09-02T10:19:38.501555+00:00",
+  "sync_snapshot_age_seconds": 2.712365
 }
