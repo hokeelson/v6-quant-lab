@@ -1694,7 +1694,7 @@
   "expected_live_deviation": {
     "active_sizing": true,
     "contains_secrets": false,
-    "generated_at": "2026-09-02T04:47:17.376056+00:00",
+    "generated_at": "2026-09-02T04:58:20.555205+00:00",
     "minimum_live_trades_for_active_sizing": 5,
     "rows": [
       {
@@ -13175,9 +13175,21 @@
       }
     ]
   },
-  "generated_at": "2026-09-02T04:47:13.810285+00:00",
+  "generated_at": "2026-09-02T04:58:14.575776+00:00",
   "governance": {
     "arenas": [
+      {
+        "arena_id": "449828b5cbc8d0f0ee77",
+        "challenger_signature": "369bc12184ca217dd33b",
+        "champion_signature": "0bf7b98c1a86a11a3c60",
+        "decision_at": null,
+        "horizon": "short",
+        "latest_verdict": "WAITING",
+        "market": "crypto",
+        "registered_at": "2026-09-02T04:49:01.853160+00:00",
+        "status": "ACTIVE",
+        "symbol": "ENAUSDT"
+      },
       {
         "arena_id": "06a26b02ad5ee6a09a3b",
         "challenger_signature": "33813df508d6a208c8d5",
@@ -13960,6 +13972,15 @@
       }
     ],
     "recent_events": [
+      {
+        "arena_id": "449828b5cbc8d0f0ee77",
+        "created_at": "2026-09-02T04:49:01.853160+00:00",
+        "event_type": "CHALLENGE_REGISTERED",
+        "horizon": "short",
+        "id": 82,
+        "market": "crypto",
+        "symbol": "ENAUSDT"
+      },
       {
         "arena_id": "06a26b02ad5ee6a09a3b",
         "created_at": "2026-09-02T01:02:01.215011+00:00",
@@ -29102,7 +29123,7 @@
         "total_reduction_notional": 6359.781433276954
       }
     ],
-    "generated_at": "2026-09-02T04:48:07.571652+00:00",
+    "generated_at": "2026-09-02T04:59:00.719734+00:00",
     "scope": "PUBLIC_READ_ONLY_RISK_SIZING_AUDIT",
     "status": "AVAILABLE",
     "summary": {
@@ -29127,7 +29148,7 @@
   "storage_persistence": {
     "bootstrap_at": "2026-09-01T19:44:37.021398+00:00",
     "bootstrap_warnings": [],
-    "last_snapshot_at": "2026-09-02T04:46:31.561047+00:00",
+    "last_snapshot_at": "2026-09-02T04:57:17.568210+00:00",
     "last_snapshot_failed": [],
     "last_snapshot_success": [
       "crypto_v2_shadow.sqlite3",
@@ -29141,9 +29162,9 @@
     "mode": "RESCUE_RUNTIME",
     "persistence_status": "OK",
     "persistent_disk": {
-      "free": 2625970176,
+      "free": 2647228416,
       "total": 4685873152,
-      "used": 2043125760
+      "used": 2021867520
     },
     "restored": [
       {
@@ -29186,7 +29207,7 @@
     "snapshot_interval_seconds": 60,
     "snapshot_keep_archives": 0,
     "status": "AVAILABLE",
-    "updated_at": "2026-09-02T04:46:31.561168+00:00"
+    "updated_at": "2026-09-02T04:57:17.568349+00:00"
   },
   "strategy_performance": [
     {
@@ -31998,16 +32019,16 @@
       "worst_trade_return": -0.00029986839109497065
     }
   ],
-  "sync_checked_at": "2026-09-02T04:48:12.995864+00:00",
-  "sync_snapshot_age_seconds": 59.185579,
+  "sync_checked_at": "2026-09-02T04:59:06.351146+00:00",
+  "sync_snapshot_age_seconds": 51.77537,
   "trial_ledger": {
-    "challenges": 65,
-    "cycles": 785,
+    "challenges": 66,
+    "cycles": 788,
     "distinct_hypotheses": 66,
-    "events": 198,
-    "last_event_at": "2026-09-02T01:48:46.404379+00:00",
+    "events": 200,
+    "last_event_at": "2026-09-02T04:49:01.853160+00:00",
     "promotions": 0,
-    "research_trials": 117
+    "research_trials": 118
   },
   "worker": {
     "assets_checked": 256,
@@ -32017,10 +32038,10 @@
     "data_quality": "OK",
     "data_quality_critical": 0,
     "data_quality_warnings": 35,
-    "heartbeat_at": "2026-09-02T04:47:09.500239+00:00",
-    "last_cycle_finished_at": "2026-09-02T04:44:27.567808+00:00",
-    "last_cycle_started_at": "2026-09-02T04:45:27.579976+00:00",
-    "market_data_api_calls": 0,
+    "heartbeat_at": "2026-09-02T04:58:09.696738+00:00",
+    "last_cycle_finished_at": "2026-09-02T04:55:17.284794+00:00",
+    "last_cycle_started_at": "2026-09-02T04:56:17.297235+00:00",
+    "market_data_api_calls": 5,
     "portfolio_risk": "MEDIUM",
     "realtime_watchlist_sync": "ONLINE",
     "realtime_watchlist_total": 57,
