@@ -43,7 +43,7 @@
   "contains_secrets": false,
   "errors": [],
   "forward_only": true,
-  "generated_at": "2026-09-02T23:12:22.692925+00:00",
+  "generated_at": "2026-09-02T23:26:28.815466+00:00",
   "latest_market_regime": {
     "realized_vol": 0.014430684891688075,
     "reason": "No dominant directional regime",
@@ -1950,6 +1950,45 @@
       "stop_distance": 0.02795459116877982,
       "symbol": "ZECUSDT",
       "target_distance": 0.0465909852812997
+    },
+    {
+      "bars_held": 0,
+      "best_realized_action": null,
+      "conflict_margin": 0.0015,
+      "context_json": "{\"avg_pairwise_correlation\": 0.2550521743793236, \"breadth_above_ema20\": 0.4318181818181818, \"btc_return_24h\": -0.0031057009846259254, \"external_derivatives_data\": \"NOT_CONNECTED\", \"funding_rate\": null, \"horizon\": \"short\", \"liquidation_shock_score\": null, \"median_one_bar_return\": -0.002212563859015082, \"open_interest_change\": null, \"session\": \"US\", \"symbols_observed\": 44, \"version\": 1}",
+      "created_at": "2026-09-02T23:14:36.845132+00:00",
+      "decision_bar": "2026-09-02T22:00:00+00:00",
+      "decision_correct": null,
+      "entry_bar": null,
+      "entry_price": null,
+      "ev_is_calibrated": 0,
+      "evaluation_bars": 6,
+      "exit_bar": null,
+      "exit_price": null,
+      "features_json": "{\"atr_pct\": 0.09140667761357413, \"bars\": 4319, \"breakout_pct\": -0.15806451612903227, \"price\": 0.00522, \"ready\": true, \"realized_vol\": 0.26318637672095024, \"relative_strength\": 0.4490890804860109, \"ret_fast\": 0.019531249999999778, \"ret_slow\": 0.445983379501385, \"volume_z\": -0.8324149116048556, \"zscore20\": 0.4926759372985438}",
+      "horizon": "short",
+      "long_ev_proxy": 0.09848126199406378,
+      "long_mae_pct": 0.0,
+      "long_mfe_pct": 0.0,
+      "long_return_pct": null,
+      "long_score": 0.7210045071216564,
+      "method": "HEURISTIC_FORWARD_SHADOW_V1",
+      "min_trade_ev": 0.003,
+      "no_trade_ev": 0.0,
+      "reason": "LONG has the stronger cost-adjusted EV proxy",
+      "regime": "SIDEWAYS",
+      "selected_action": "LONG",
+      "selected_return_pct": null,
+      "shadow_id": "2a15271618364953a27f191480580a58",
+      "short_ev_proxy": -0.02528126199406379,
+      "short_mae_pct": 0.0,
+      "short_mfe_pct": 0.0,
+      "short_return_pct": null,
+      "short_score": 0.27899549287834363,
+      "status": "PENDING_ENTRY",
+      "stop_distance": 0.1,
+      "symbol": "TUSDT",
+      "target_distance": 0.18
     },
     {
       "bars_held": 1,
@@ -4095,45 +4134,6 @@
       "stop_distance": 0.015770421279051428,
       "symbol": "DOGEUSDT",
       "target_distance": 0.02628403546508571
-    },
-    {
-      "bars_held": 2,
-      "best_realized_action": null,
-      "conflict_margin": 0.0015,
-      "context_json": "{\"avg_pairwise_correlation\": 0.2602870818464335, \"breadth_above_ema20\": 0.5, \"btc_return_24h\": -0.0004901324687581754, \"external_derivatives_data\": \"NOT_CONNECTED\", \"funding_rate\": null, \"horizon\": \"short\", \"liquidation_shock_score\": null, \"median_one_bar_return\": 0.0022568404677597576, \"open_interest_change\": null, \"session\": \"US\", \"symbols_observed\": 44, \"version\": 1}",
-      "created_at": "2026-09-02T21:00:03.845151+00:00",
-      "decision_bar": "2026-09-02T20:00:00+00:00",
-      "decision_correct": null,
-      "entry_bar": "2026-09-02T21:00:00+00:00",
-      "entry_price": 0.1493,
-      "ev_is_calibrated": 0,
-      "evaluation_bars": 6,
-      "exit_bar": null,
-      "exit_price": null,
-      "features_json": "{\"atr_pct\": 0.020414993306559593, \"bars\": 4323, \"breakout_pct\": -0.08004926108374377, \"price\": 0.1494, \"ready\": true, \"realized_vol\": 0.04810263985238262, \"relative_strength\": -0.06047781222011661, \"ret_fast\": -0.0039999999999998925, \"ret_slow\": -0.06096794468887479, \"volume_z\": -0.985716959070756, \"zscore20\": -1.063625236257508}",
-      "horizon": "short",
-      "long_ev_proxy": -0.007994867483135486,
-      "long_mae_pct": -0.020093770931011168,
-      "long_mfe_pct": 0.0013395847287340779,
-      "long_return_pct": null,
-      "long_score": 0.32810975396308467,
-      "method": "HEURISTIC_FORWARD_SHADOW_V1",
-      "min_trade_ev": 0.003,
-      "no_trade_ev": 0.0,
-      "reason": "SHORT has the stronger cost-adjusted EV proxy",
-      "regime": "SIDEWAYS",
-      "selected_action": "SHORT",
-      "selected_return_pct": null,
-      "shadow_id": "3ccf4a0a4abe48c0b15a601f31893bba",
-      "short_ev_proxy": 0.026191640419579908,
-      "short_mae_pct": -0.0013377926421405117,
-      "short_mfe_pct": 0.020505809979493916,
-      "short_return_pct": null,
-      "short_score": 0.676980264937516,
-      "status": "OPEN",
-      "stop_distance": 0.03674698795180727,
-      "symbol": "ENAUSDT",
-      "target_distance": 0.06124497991967878
     }
   ],
   "recent_blocked_candidates": [
@@ -7513,6 +7513,19 @@
     },
     {
       "action": "NO_TRADE",
+      "bar_time": "2026-09-02T22:00:00+00:00",
+      "confidence": 0.0,
+      "created_at": "2026-09-02T23:14:36.852093+00:00",
+      "decision_id": "858da93fb9414fafb8c0a548048f0206",
+      "features_json": "{\"_research\": {\"avg_pairwise_correlation\": 0.2550521743793236, \"breadth_above_ema20\": 0.4318181818181818, \"btc_return_24h\": -0.0031057009846259254, \"external_derivatives_data\": \"NOT_CONNECTED\", \"funding_rate\": null, \"horizon\": \"short\", \"liquidation_shock_score\": null, \"median_one_bar_return\": -0.002212563859015082, \"open_interest_change\": null, \"session\": \"US\", \"symbols_observed\": 44, \"version\": 1}, \"atr_pct\": 0.09140667761357413, \"bars\": 4319, \"breakout_pct\": -0.15806451612903227, \"price\": 0.00522, \"ready\": true, \"realized_vol\": 0.26318637672095024, \"relative_strength\": 0.4490890804860109, \"ret_fast\": 0.019531249999999778, \"ret_slow\": 0.445983379501385, \"volume_z\": -0.8324149116048556, \"zscore20\": 0.4926759372985438}",
+      "horizon": "short",
+      "reason": "No V2 setup in SIDEWAYS",
+      "regime": "SIDEWAYS",
+      "strategy": "NONE",
+      "symbol": "TUSDT"
+    },
+    {
+      "action": "NO_TRADE",
       "bar_time": "2026-09-02T21:00:00+00:00",
       "confidence": 0.0,
       "created_at": "2026-09-02T22:00:17.366150+00:00",
@@ -9525,19 +9538,6 @@
       "regime": "SIDEWAYS",
       "strategy": "NONE",
       "symbol": "PAXGUSDT"
-    },
-    {
-      "action": "NO_TRADE",
-      "bar_time": "2026-09-02T18:00:00+00:00",
-      "confidence": 0.0,
-      "created_at": "2026-09-02T19:00:42.517126+00:00",
-      "decision_id": "022f00e14b12483582dfd2b054a9de11",
-      "features_json": "{\"_research\": {\"avg_pairwise_correlation\": 0.261357137657198, \"breadth_above_ema20\": 0.4318181818181818, \"btc_return_24h\": 0.0029016031593998015, \"external_derivatives_data\": \"NOT_CONNECTED\", \"funding_rate\": null, \"horizon\": \"short\", \"liquidation_shock_score\": null, \"median_one_bar_return\": 0.0003015866886498797, \"open_interest_change\": null, \"session\": \"US\", \"symbols_observed\": 44, \"version\": 1}, \"atr_pct\": 0.012548379818456322, \"bars\": 4321, \"breakout_pct\": -0.030163779898668475, \"price\": 0.008231, \"ready\": true, \"realized_vol\": 0.03268497121265389, \"relative_strength\": -0.03897140055956372, \"ret_fast\": 0.008577380223012021, \"ret_slow\": -0.03606979740016392, \"volume_z\": -1.0965770771858232, \"zscore20\": -0.8047466363835768}",
-      "horizon": "short",
-      "reason": "No V2 setup in SIDEWAYS",
-      "regime": "SIDEWAYS",
-      "strategy": "NONE",
-      "symbol": "PENGUUSDT"
     }
   ],
   "recent_research_trades": [
@@ -12886,7 +12886,7 @@
   ],
   "research_layer": {
     "bidirectional_decision_shadow": {
-      "active_evaluations": 933,
+      "active_evaluations": 936,
       "avg_selected_return_pct": -0.004166402937465571,
       "by_selected_action": {
         "LONG": {
@@ -12919,7 +12919,7 @@
       "no_trade_missed_opportunities": 231,
       "observation_only": true,
       "status": "ACTIVE",
-      "total_decisions": 6782
+      "total_decisions": 6785
     },
     "bidirectional_registration": {
       "forward_only": true,
@@ -12981,8 +12981,8 @@
   "shared_cache_only": true,
   "status": "ONLINE",
   "symbols": 44,
-  "sync_checked_at": "2026-09-02T23:13:17.252809+00:00",
-  "sync_snapshot_age_seconds": 54.559884,
+  "sync_checked_at": "2026-09-02T23:26:55.065729+00:00",
+  "sync_snapshot_age_seconds": 26.250263,
   "v2": {
     "accounts": [
       {
