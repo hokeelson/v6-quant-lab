@@ -114,7 +114,7 @@
     },
     {
       "account_id": "twstock_short",
-      "as_of": "2026-09-02T02:37:04+00:00",
+      "as_of": "2026-09-02T02:54:20+00:00",
       "cash": 98952.82731315448,
       "closed_trades": 17,
       "drawdown": -0.012248971200245706,
@@ -423,6 +423,21 @@
   "entry_gate": {
     "broker_order_api_calls": 0,
     "entries": [
+      {
+        "account_id": "twstock_short",
+        "created_at": "2026-09-02T03:56:23.165607+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3519,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "regime_state:SHADOW_ONLY_CANDIDATE",
+          "strategy_state:SHADOW_ONLY_CANDIDATE",
+          "symbol_strategy_state:PAUSE_CANDIDATE"
+        ],
+        "symbol": "2317.TW"
+      },
       {
         "account_id": "twstock_short",
         "created_at": "2026-09-02T03:36:21.844442+00:00",
@@ -1474,16 +1489,16 @@
     "simulation_only": true,
     "status": "OK",
     "summary": {
-      "blocked": 70,
+      "blocked": 71,
       "blocked_but_filled": 0,
       "filled": 1,
-      "sampled_events": 71
+      "sampled_events": 72
     }
   },
   "expected_live_deviation": {
     "active_sizing": true,
     "contains_secrets": false,
-    "generated_at": "2026-09-02T03:46:55.838056+00:00",
+    "generated_at": "2026-09-02T03:57:59.481528+00:00",
     "minimum_live_trades_for_active_sizing": 5,
     "rows": [
       {
@@ -12960,7 +12975,7 @@
       }
     ]
   },
-  "generated_at": "2026-09-02T03:47:09.783735+00:00",
+  "generated_at": "2026-09-02T03:58:10.547770+00:00",
   "governance": {
     "arenas": [
       {
@@ -28887,7 +28902,7 @@
         "total_reduction_notional": 6359.781433276954
       }
     ],
-    "generated_at": "2026-09-02T03:47:41.025489+00:00",
+    "generated_at": "2026-09-02T03:58:29.589486+00:00",
     "scope": "PUBLIC_READ_ONLY_RISK_SIZING_AUDIT",
     "status": "AVAILABLE",
     "summary": {
@@ -28912,7 +28927,7 @@
   "storage_persistence": {
     "bootstrap_at": "2026-09-01T19:44:37.021398+00:00",
     "bootstrap_warnings": [],
-    "last_snapshot_at": "2026-09-02T03:32:21.574545+00:00",
+    "last_snapshot_at": "2026-09-02T03:52:40.106086+00:00",
     "last_snapshot_failed": [],
     "last_snapshot_success": [
       "crypto_v2_shadow.sqlite3",
@@ -28926,9 +28941,9 @@
     "mode": "RESCUE_RUNTIME",
     "persistence_status": "OK",
     "persistent_disk": {
-      "free": 2637733888,
+      "free": 2628046848,
       "total": 4685873152,
-      "used": 2031362048
+      "used": 2041049088
     },
     "restored": [
       {
@@ -28971,7 +28986,7 @@
     "snapshot_interval_seconds": 60,
     "snapshot_keep_archives": 0,
     "status": "AVAILABLE",
-    "updated_at": "2026-09-02T03:32:21.574701+00:00"
+    "updated_at": "2026-09-02T03:52:40.106183+00:00"
   },
   "strategy_performance": [
     {
@@ -31747,11 +31762,11 @@
       "worst_trade_return": -0.00029986839109497065
     }
   ],
-  "sync_checked_at": "2026-09-02T03:47:45.167831+00:00",
-  "sync_snapshot_age_seconds": 35.384096,
+  "sync_checked_at": "2026-09-02T03:58:32.487698+00:00",
+  "sync_snapshot_age_seconds": 21.939928,
   "trial_ledger": {
     "challenges": 65,
-    "cycles": 775,
+    "cycles": 777,
     "distinct_hypotheses": 66,
     "events": 198,
     "last_event_at": "2026-09-02T01:48:46.404379+00:00",
@@ -31766,9 +31781,9 @@
     "data_quality": "OK",
     "data_quality_critical": 0,
     "data_quality_warnings": 33,
-    "heartbeat_at": "2026-09-02T03:46:59.413793+00:00",
-    "last_cycle_finished_at": "2026-09-02T03:45:35.738685+00:00",
-    "last_cycle_started_at": "2026-09-02T03:46:35.750065+00:00",
+    "heartbeat_at": "2026-09-02T03:57:59.604494+00:00",
+    "last_cycle_finished_at": "2026-09-02T03:52:48.124763+00:00",
+    "last_cycle_started_at": "2026-09-02T03:53:48.135777+00:00",
     "market_data_api_calls": 3,
     "portfolio_risk": "MEDIUM",
     "realtime_watchlist_sync": "ONLINE",
