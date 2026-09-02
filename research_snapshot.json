@@ -1997,7 +1997,7 @@
   "expected_live_deviation": {
     "active_sizing": true,
     "contains_secrets": false,
-    "generated_at": "2026-09-02T06:47:55.700198+00:00",
+    "generated_at": "2026-09-02T06:59:59.265127+00:00",
     "minimum_live_trades_for_active_sizing": 5,
     "rows": [
       {
@@ -13478,7 +13478,7 @@
       }
     ]
   },
-  "generated_at": "2026-09-02T06:48:26.656956+00:00",
+  "generated_at": "2026-09-02T07:00:27.439753+00:00",
   "governance": {
     "arenas": [
       {
@@ -29426,7 +29426,7 @@
         "total_reduction_notional": 6359.781433276954
       }
     ],
-    "generated_at": "2026-09-02T06:48:45.919908+00:00",
+    "generated_at": "2026-09-02T07:00:44.434041+00:00",
     "scope": "PUBLIC_READ_ONLY_RISK_SIZING_AUDIT",
     "status": "AVAILABLE",
     "summary": {
@@ -32322,11 +32322,11 @@
       "worst_trade_return": -0.00029986839109497065
     }
   ],
-  "sync_checked_at": "2026-09-02T06:48:46.788285+00:00",
-  "sync_snapshot_age_seconds": 20.131329,
+  "sync_checked_at": "2026-09-02T07:00:49.943457+00:00",
+  "sync_snapshot_age_seconds": 22.503704,
   "trial_ledger": {
     "challenges": 66,
-    "cycles": 814,
+    "cycles": 818,
     "distinct_hypotheses": 66,
     "events": 200,
     "last_event_at": "2026-09-02T04:49:01.853160+00:00",
@@ -32341,16 +32341,16 @@
     "data_quality": "OK",
     "data_quality_critical": 0,
     "data_quality_warnings": 36,
-    "heartbeat_at": "2026-09-02T06:48:12.316264+00:00",
-    "last_cycle_finished_at": "2026-09-02T06:46:21.796989+00:00",
-    "last_cycle_started_at": "2026-09-02T06:47:21.806143+00:00",
+    "heartbeat_at": "2026-09-02T07:00:13.120020+00:00",
+    "last_cycle_finished_at": "2026-09-02T07:00:04.098769+00:00",
+    "last_cycle_started_at": "2026-09-02T06:57:58.311595+00:00",
     "market_data_api_calls": 0,
     "portfolio_risk": "MEDIUM",
     "realtime_watchlist_sync": "ONLINE",
     "realtime_watchlist_total": 57,
     "risk_layer": "ONLINE",
     "risk_sizing": "ACTIVE",
-    "status": "RUNNING",
+    "status": "ONLINE",
     "true_errors": 0
   }
 }
