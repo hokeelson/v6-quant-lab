@@ -114,7 +114,7 @@
     },
     {
       "account_id": "twstock_short",
-      "as_of": "2026-09-02T04:33:32+00:00",
+      "as_of": "2026-09-02T04:47:40+00:00",
       "cash": 98952.82731315448,
       "closed_trades": 17,
       "drawdown": -0.012248971200245706,
@@ -1852,7 +1852,7 @@
   "expected_live_deviation": {
     "active_sizing": true,
     "contains_secrets": false,
-    "generated_at": "2026-09-02T05:47:35.371357+00:00",
+    "generated_at": "2026-09-02T05:58:38.400451+00:00",
     "minimum_live_trades_for_active_sizing": 5,
     "rows": [
       {
@@ -13333,7 +13333,7 @@
       }
     ]
   },
-  "generated_at": "2026-09-02T05:47:19.391969+00:00",
+  "generated_at": "2026-09-02T05:59:20.185114+00:00",
   "governance": {
     "arenas": [
       {
@@ -29281,7 +29281,7 @@
         "total_reduction_notional": 6359.781433276954
       }
     ],
-    "generated_at": "2026-09-02T05:48:10.524549+00:00",
+    "generated_at": "2026-09-02T05:59:28.591834+00:00",
     "scope": "PUBLIC_READ_ONLY_RISK_SIZING_AUDIT",
     "status": "AVAILABLE",
     "summary": {
@@ -32177,11 +32177,11 @@
       "worst_trade_return": -0.00029986839109497065
     }
   ],
-  "sync_checked_at": "2026-09-02T05:48:14.651048+00:00",
-  "sync_snapshot_age_seconds": 55.259079,
+  "sync_checked_at": "2026-09-02T05:59:29.500125+00:00",
+  "sync_snapshot_age_seconds": 9.315011,
   "trial_ledger": {
     "challenges": 66,
-    "cycles": 799,
+    "cycles": 803,
     "distinct_hypotheses": 66,
     "events": 200,
     "last_event_at": "2026-09-02T04:49:01.853160+00:00",
@@ -32196,16 +32196,16 @@
     "data_quality": "OK",
     "data_quality_critical": 0,
     "data_quality_warnings": 34,
-    "heartbeat_at": "2026-09-02T05:47:10.908728+00:00",
-    "last_cycle_finished_at": "2026-09-02T05:45:52.666952+00:00",
-    "last_cycle_started_at": "2026-09-02T05:46:52.676777+00:00",
+    "heartbeat_at": "2026-09-02T05:59:11.105574+00:00",
+    "last_cycle_finished_at": "2026-09-02T05:58:52.955092+00:00",
+    "last_cycle_started_at": "2026-09-02T05:56:09.183382+00:00",
     "market_data_api_calls": 5,
     "portfolio_risk": "MEDIUM",
     "realtime_watchlist_sync": "ONLINE",
     "realtime_watchlist_total": 57,
     "risk_layer": "ONLINE",
     "risk_sizing": "ACTIVE",
-    "status": "RUNNING",
+    "status": "ONLINE",
     "true_errors": 0
   }
 }
