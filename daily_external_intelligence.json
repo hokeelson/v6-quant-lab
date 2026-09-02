@@ -2,47 +2,47 @@
   "broker_order_api_calls": 0,
   "can_increase_exposure": false,
   "contains_secrets": false,
-  "generated_at": "2026-09-01T19:44:39.064911+00:00",
+  "generated_at": "2026-09-02T01:44:40.224617+00:00",
   "headline_summary": {
     "crypto": {
       "duplicate_count": 1,
-      "effective_headline_count": 13.592377117770353,
+      "effective_headline_count": 12.841390398124133,
       "event_risk": 1.0,
       "evidence_quality": 0.9933333333333334,
       "headline_count": 29,
       "raw_headline_count": 30,
       "recency_coverage": 1.0,
-      "sentiment": -0.7195753402619753,
-      "source_count": 16,
+      "sentiment": -0.28665511069436206,
+      "source_count": 17,
       "source_diversity": 1.0
     },
     "macro": {
       "duplicate_count": 0,
-      "effective_headline_count": 22.882723836274074,
-      "event_risk": 0.3442986171089348,
+      "effective_headline_count": 18.352280739105126,
+      "event_risk": 0.3617358842844889,
       "evidence_quality": 1.0,
       "headline_count": 30,
       "raw_headline_count": 30,
       "recency_coverage": 1.0,
-      "sentiment": -0.8932394912027831,
-      "source_count": 19,
+      "sentiment": -0.710054695686713,
+      "source_count": 22,
       "source_diversity": 1.0
     }
   },
   "market_data": {
     "BTC": {
-      "change_pct": -0.016160370391551826,
-      "last": 77279.2578125,
+      "change_pct": -0.021303680790911272,
+      "last": 76875.2578125,
       "symbol": "BTC-USD"
     },
     "DXY": {
-      "change_pct": 0.002554538891227809,
-      "last": 99.68399810791016,
+      "change_pct": 0.0008227223229488878,
+      "last": 99.75199890136719,
       "symbol": "DX-Y.NYB"
     },
     "SPX": {
-      "change_pct": -0.007794569860077538,
-      "last": 7626.22998046875,
+      "change_pct": -0.007112792754561781,
+      "last": 7631.47021484375,
       "symbol": "^GSPC"
     },
     "TNX": {
@@ -51,8 +51,8 @@
       "symbol": "^TNX"
     },
     "VIX": {
-      "change_pct": 0.09316349748931807,
-      "last": 16.309999465942383,
+      "change_pct": 0.09517426736144263,
+      "last": 16.34000015258789,
       "symbol": "^VIX"
     }
   },
@@ -61,10 +61,10 @@
       "confidence": 0.9991666666666666,
       "event_risk": 1.0,
       "market_multiplier": 0.85,
-      "market_stress": 0.003196869492530823,
+      "market_stress": 0.0035062515735626225,
       "risk_regime": "CAUTION",
-      "risk_score": 0.5075101498898904,
-      "sentiment_score": -0.780357793091258,
+      "risk_score": 0.43854680629644016,
+      "sentiment_score": -0.4348449654416849,
       "strategy_multipliers": {
         "Breakout": 0.7999999999999999,
         "Mean Reversion RSI": 0.85,
@@ -74,12 +74,12 @@
     },
     "stock": {
       "confidence": 0.9991666666666666,
-      "event_risk": 0.3442986171089348,
+      "event_risk": 0.3617358842844889,
       "market_multiplier": 1.0,
-      "market_stress": 0.005812489986419678,
+      "market_stress": 0.006375002861022949,
       "risk_regime": "NORMAL",
-      "risk_score": 0.30176803472257263,
-      "sentiment_score": -0.8932394912027831,
+      "risk_score": 0.27148724992437406,
+      "sentiment_score": -0.710054695686713,
       "strategy_multipliers": {
         "Breakout": 1.0,
         "Mean Reversion RSI": 1.0,
@@ -89,12 +89,12 @@
     },
     "twstock": {
       "confidence": 0.9991666666666666,
-      "event_risk": 0.3442986171089348,
+      "event_risk": 0.3617358842844889,
       "market_multiplier": 1.0,
-      "market_stress": 0.005812489986419678,
+      "market_stress": 0.006375002861022949,
       "risk_regime": "NORMAL",
-      "risk_score": 0.30176803472257263,
-      "sentiment_score": -0.8932394912027831,
+      "risk_score": 0.27148724992437406,
+      "sentiment_score": -0.710054695686713,
       "strategy_multipliers": {
         "Breakout": 1.0,
         "Mean Reversion RSI": 1.0,
@@ -118,6 +118,6 @@
     "source_coverage": 0.9991666666666666
   },
   "status": "AVAILABLE",
-  "sync_checked_at": "2026-09-02T01:40:58.769680+00:00",
-  "sync_snapshot_age_seconds": 21379.704769
+  "sync_checked_at": "2026-09-02T02:02:22.938517+00:00",
+  "sync_snapshot_age_seconds": 1062.7139
 }

@@ -30,17 +30,17 @@
     },
     {
       "account_id": "crypto_short",
-      "as_of": "2026-09-02T00:00:00+00:00",
+      "as_of": "2026-09-02T01:00:00+00:00",
       "cash": 68959.63391294325,
       "closed_trades": 326,
-      "drawdown": -0.11969965116970649,
-      "equity": 90601.47544861045,
-      "gross_exposure": 21641.8415356672,
+      "drawdown": -0.1200554448369564,
+      "equity": 90564.85677493736,
+      "gross_exposure": 21605.222861994112,
       "horizon": "short",
       "initial_equity": 100000.0,
-      "leverage": 0.23886853308412784,
+      "leverage": 0.23856077988049196,
       "market": "crypto",
-      "return_pct": -0.09398524551389553
+      "return_pct": -0.09435143225062637
     },
     {
       "account_id": "stock_long",
@@ -209,12 +209,12 @@
       "reason": "Forward evidence is diagnostic until independently reviewed; no online parameter chasing.",
       "state": "PRELIMINARY"
     },
-    "pending": 243,
+    "pending": 246,
     "policies": [
       {
         "engine_version": "V10_ADAPTIVE_EVIDENCE_SHADOW",
         "evaluated": 123,
-        "predictions": 366
+        "predictions": 369
       }
     ],
     "policy_performance": {
@@ -423,6 +423,21 @@
   "entry_gate": {
     "broker_order_api_calls": 0,
     "entries": [
+      {
+        "account_id": "crypto_short",
+        "created_at": "2026-09-02T02:01:39.890603+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3491,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "pretrade_verdict:BLOCK_CANDIDATE",
+          "strategy_state:PAUSE_CANDIDATE",
+          "symbol_strategy_state:SHADOW_ONLY_CANDIDATE"
+        ],
+        "symbol": "XAUTUSDT"
+      },
       {
         "account_id": "twstock_short",
         "created_at": "2026-09-02T01:14:30.749610+00:00",
@@ -1094,16 +1109,16 @@
     "simulation_only": true,
     "status": "OK",
     "summary": {
-      "blocked": 44,
+      "blocked": 45,
       "blocked_but_filled": 0,
       "filled": 1,
-      "sampled_events": 45
+      "sampled_events": 46
     }
   },
   "expected_live_deviation": {
     "active_sizing": true,
     "contains_secrets": false,
-    "generated_at": "2026-09-02T01:40:16.154187+00:00",
+    "generated_at": "2026-09-02T02:01:22.571474+00:00",
     "minimum_live_trades_for_active_sizing": 5,
     "rows": [
       {
@@ -6219,6 +6234,105 @@
         "live_win_rate": null,
         "live_wins": 0,
         "market": "crypto",
+        "oos_closed_trades": 12,
+        "oos_max_drawdown": -0.1216949339379716,
+        "oos_per_trade_return": 0.019744912878878473,
+        "oos_profit_factor": 2.4510271943109236,
+        "oos_profit_factor_infinite": false,
+        "oos_sharpe": 1.553221581793438,
+        "oos_total_return": 0.26444100000000037,
+        "oos_win_rate": 0.5,
+        "per_trade_return_gap": null,
+        "performance_key": "crypto:ACEUSDT:long:Mean Reversion RSI",
+        "profit_factor_gap": null,
+        "reasons": [],
+        "shadow_only": true,
+        "state": "LEARNING",
+        "strategy": "Mean Reversion RSI",
+        "suggested_confidence_multiplier": 1.0,
+        "symbol": "ACEUSDT",
+        "win_rate_gap": null
+      },
+      {
+        "deviation_score": 0.0,
+        "evidence_weight": 0.0,
+        "horizon": "medium",
+        "live_closed_trades": 0,
+        "live_compound_return": null,
+        "live_losses": 0,
+        "live_max_loss_streak": 0,
+        "live_per_trade_return": null,
+        "live_profit_factor": null,
+        "live_profit_factor_infinite": false,
+        "live_win_rate": null,
+        "live_wins": 0,
+        "market": "crypto",
+        "oos_closed_trades": 44,
+        "oos_max_drawdown": -0.13792689938531844,
+        "oos_per_trade_return": 0.0033627125808322056,
+        "oos_profit_factor": 1.2441304838751148,
+        "oos_profit_factor_infinite": false,
+        "oos_sharpe": 1.9461877225457676,
+        "oos_total_return": 0.1591780048983935,
+        "oos_win_rate": 0.3409090909090909,
+        "per_trade_return_gap": null,
+        "performance_key": "crypto:ACEUSDT:medium:Momentum",
+        "profit_factor_gap": null,
+        "reasons": [],
+        "shadow_only": true,
+        "state": "LEARNING",
+        "strategy": "Momentum",
+        "suggested_confidence_multiplier": 1.0,
+        "symbol": "ACEUSDT",
+        "win_rate_gap": null
+      },
+      {
+        "deviation_score": 0.0,
+        "evidence_weight": 0.0,
+        "horizon": "short",
+        "live_closed_trades": 0,
+        "live_compound_return": null,
+        "live_losses": 0,
+        "live_max_loss_streak": 0,
+        "live_per_trade_return": null,
+        "live_profit_factor": null,
+        "live_profit_factor_infinite": false,
+        "live_win_rate": null,
+        "live_wins": 0,
+        "market": "crypto",
+        "oos_closed_trades": 24,
+        "oos_max_drawdown": -0.08744816145682921,
+        "oos_per_trade_return": 0.003614138684280066,
+        "oos_profit_factor": 1.659388101979427,
+        "oos_profit_factor_infinite": false,
+        "oos_sharpe": 4.829141056011384,
+        "oos_total_return": 0.09044182820128466,
+        "oos_win_rate": 0.375,
+        "per_trade_return_gap": null,
+        "performance_key": "crypto:ACEUSDT:short:Momentum",
+        "profit_factor_gap": null,
+        "reasons": [],
+        "shadow_only": true,
+        "state": "LEARNING",
+        "strategy": "Momentum",
+        "suggested_confidence_multiplier": 1.0,
+        "symbol": "ACEUSDT",
+        "win_rate_gap": null
+      },
+      {
+        "deviation_score": 0.0,
+        "evidence_weight": 0.0,
+        "horizon": "long",
+        "live_closed_trades": 0,
+        "live_compound_return": null,
+        "live_losses": 0,
+        "live_max_loss_streak": 0,
+        "live_per_trade_return": null,
+        "live_profit_factor": null,
+        "live_profit_factor_infinite": false,
+        "live_win_rate": null,
+        "live_wins": 0,
+        "market": "crypto",
         "oos_closed_trades": 5,
         "oos_max_drawdown": -0.051484400959923016,
         "oos_per_trade_return": 0.012660200367473395,
@@ -7193,6 +7307,105 @@
         "strategy": "Momentum",
         "suggested_confidence_multiplier": 1.0,
         "symbol": "FETUSDT",
+        "win_rate_gap": null
+      },
+      {
+        "deviation_score": 0.0,
+        "evidence_weight": 0.0,
+        "horizon": "long",
+        "live_closed_trades": 0,
+        "live_compound_return": null,
+        "live_losses": 0,
+        "live_max_loss_streak": 0,
+        "live_per_trade_return": null,
+        "live_profit_factor": null,
+        "live_profit_factor_infinite": false,
+        "live_win_rate": null,
+        "live_wins": 0,
+        "market": "crypto",
+        "oos_closed_trades": 10,
+        "oos_max_drawdown": -0.10310480281014767,
+        "oos_per_trade_return": 0.010204761990940892,
+        "oos_profit_factor": 1.7036519478510568,
+        "oos_profit_factor_infinite": false,
+        "oos_sharpe": 0.6857857397652716,
+        "oos_total_return": 0.10686362132014016,
+        "oos_win_rate": 0.5,
+        "per_trade_return_gap": null,
+        "performance_key": "crypto:FILUSDT:long:Mean Reversion RSI",
+        "profit_factor_gap": null,
+        "reasons": [],
+        "shadow_only": true,
+        "state": "LEARNING",
+        "strategy": "Mean Reversion RSI",
+        "suggested_confidence_multiplier": 1.0,
+        "symbol": "FILUSDT",
+        "win_rate_gap": null
+      },
+      {
+        "deviation_score": 0.0,
+        "evidence_weight": 0.0,
+        "horizon": "medium",
+        "live_closed_trades": 0,
+        "live_compound_return": null,
+        "live_losses": 0,
+        "live_max_loss_streak": 0,
+        "live_per_trade_return": null,
+        "live_profit_factor": null,
+        "live_profit_factor_infinite": false,
+        "live_win_rate": null,
+        "live_wins": 0,
+        "market": "crypto",
+        "oos_closed_trades": 8,
+        "oos_max_drawdown": -0.021401954116526234,
+        "oos_per_trade_return": 0.0036750642720906335,
+        "oos_profit_factor": 3.4196171247407445,
+        "oos_profit_factor_infinite": false,
+        "oos_sharpe": 2.306205654042328,
+        "oos_total_return": 0.029781477314130944,
+        "oos_win_rate": 0.5,
+        "per_trade_return_gap": null,
+        "performance_key": "crypto:FILUSDT:medium:Mean Reversion RSI",
+        "profit_factor_gap": null,
+        "reasons": [],
+        "shadow_only": true,
+        "state": "LEARNING",
+        "strategy": "Mean Reversion RSI",
+        "suggested_confidence_multiplier": 1.0,
+        "symbol": "FILUSDT",
+        "win_rate_gap": null
+      },
+      {
+        "deviation_score": 0.0,
+        "evidence_weight": 0.0,
+        "horizon": "short",
+        "live_closed_trades": 0,
+        "live_compound_return": null,
+        "live_losses": 0,
+        "live_max_loss_streak": 0,
+        "live_per_trade_return": null,
+        "live_profit_factor": null,
+        "live_profit_factor_infinite": false,
+        "live_win_rate": null,
+        "live_wins": 0,
+        "market": "crypto",
+        "oos_closed_trades": 20,
+        "oos_max_drawdown": -0.042210133468225663,
+        "oos_per_trade_return": 0.0017410292368433833,
+        "oos_profit_factor": 2.101308671264194,
+        "oos_profit_factor_infinite": false,
+        "oos_sharpe": 4.22508819112545,
+        "oos_total_return": 0.03540257044561956,
+        "oos_win_rate": 0.4,
+        "per_trade_return_gap": null,
+        "performance_key": "crypto:FILUSDT:short:Momentum",
+        "profit_factor_gap": null,
+        "reasons": [],
+        "shadow_only": true,
+        "state": "LEARNING",
+        "strategy": "Momentum",
+        "suggested_confidence_multiplier": 1.0,
+        "symbol": "FILUSDT",
         "win_rate_gap": null
       },
       {
@@ -12251,8 +12464,8 @@
     "summary": {
       "broker_order_api_calls": 0,
       "diverging": 23,
-      "learning": 276,
-      "models": 322,
+      "learning": 282,
+      "models": 328,
       "severe": 6,
       "watch": 5,
       "with_live_trades": 137
@@ -12382,7 +12595,7 @@
       }
     ]
   },
-  "generated_at": "2026-09-02T01:40:01.860787+00:00",
+  "generated_at": "2026-09-02T02:02:03.222573+00:00",
   "governance": {
     "arenas": [
       {
@@ -14020,6 +14233,66 @@
       "updated_at": "2026-08-23T12:12:16.585428+00:00"
     },
     {
+      "calibrated_through": "2026-09-01T00:00:00+00:00",
+      "calibration_score": 70.53716767441375,
+      "horizon": "long",
+      "market": "crypto",
+      "oos_metrics": {
+        "closed_trades": 12,
+        "max_drawdown": -0.1216949339379716,
+        "profit_factor": 2.4510271943109236,
+        "sharpe": 1.553221581793438,
+        "total_return": 0.26444100000000037,
+        "win_rate": 0.5
+      },
+      "oos_score": 81.30155922878505,
+      "regime_fit": 0.45,
+      "strategy": "Mean Reversion RSI",
+      "symbol": "ACEUSDT",
+      "train_score": 48.17155340486821,
+      "updated_at": "2026-09-02T01:44:57.887226+00:00"
+    },
+    {
+      "calibrated_through": "2026-09-01T20:00:00+00:00",
+      "calibration_score": 68.80155444249836,
+      "horizon": "medium",
+      "market": "crypto",
+      "oos_metrics": {
+        "closed_trades": 44,
+        "max_drawdown": -0.13792689938531844,
+        "profit_factor": 1.2441304838751148,
+        "sharpe": 1.9461877225457676,
+        "total_return": 0.1591780048983935,
+        "win_rate": 0.3409090909090909
+      },
+      "oos_score": 81.45984289590095,
+      "regime_fit": 0.25,
+      "strategy": "Momentum",
+      "symbol": "ACEUSDT",
+      "train_score": 48.815417131143086,
+      "updated_at": "2026-09-02T01:44:53.845123+00:00"
+    },
+    {
+      "calibrated_through": "2026-09-02T00:00:00+00:00",
+      "calibration_score": 93.73598978943184,
+      "horizon": "short",
+      "market": "crypto",
+      "oos_metrics": {
+        "closed_trades": 24,
+        "max_drawdown": -0.08744816145682921,
+        "profit_factor": 1.659388101979427,
+        "sharpe": 4.829141056011384,
+        "total_return": 0.09044182820128466,
+        "win_rate": 0.375
+      },
+      "oos_score": 92.59839871520269,
+      "regime_fit": 0.9,
+      "strategy": "Momentum",
+      "symbol": "ACEUSDT",
+      "train_score": 95.47030624550086,
+      "updated_at": "2026-09-02T01:44:48.463784+00:00"
+    },
+    {
       "calibrated_through": "2026-08-22T00:00:00+00:00",
       "calibration_score": 70.50382997636015,
       "horizon": "long",
@@ -15118,6 +15391,66 @@
       "symbol": "FETUSDT",
       "train_score": 0.0,
       "updated_at": "2026-08-29T21:47:14.729508+00:00"
+    },
+    {
+      "calibrated_through": "2026-09-01T00:00:00+00:00",
+      "calibration_score": 64.45577640098614,
+      "horizon": "long",
+      "market": "crypto",
+      "oos_metrics": {
+        "closed_trades": 10,
+        "max_drawdown": -0.10310480281014767,
+        "profit_factor": 1.7036519478510568,
+        "sharpe": 0.6857857397652716,
+        "total_return": 0.10686362132014016,
+        "win_rate": 0.5
+      },
+      "oos_score": 63.179608526869046,
+      "regime_fit": 0.6,
+      "strategy": "Mean Reversion RSI",
+      "symbol": "FILUSDT",
+      "train_score": 50.08317521298352,
+      "updated_at": "2026-09-02T01:49:05.181130+00:00"
+    },
+    {
+      "calibrated_through": "2026-09-01T20:00:00+00:00",
+      "calibration_score": 81.17146989764758,
+      "horizon": "medium",
+      "market": "crypto",
+      "oos_metrics": {
+        "closed_trades": 8,
+        "max_drawdown": -0.021401954116526234,
+        "profit_factor": 3.4196171247407445,
+        "sharpe": 2.306205654042328,
+        "total_return": 0.029781477314130944,
+        "win_rate": 0.5
+      },
+      "oos_score": 80.66666666666667,
+      "regime_fit": 0.9,
+      "strategy": "Mean Reversion RSI",
+      "symbol": "FILUSDT",
+      "train_score": 75.12712188104751,
+      "updated_at": "2026-09-02T01:48:59.557776+00:00"
+    },
+    {
+      "calibrated_through": "2026-09-02T00:00:00+00:00",
+      "calibration_score": 74.24743241275083,
+      "horizon": "short",
+      "market": "crypto",
+      "oos_metrics": {
+        "closed_trades": 20,
+        "max_drawdown": -0.042210133468225663,
+        "profit_factor": 2.101308671264194,
+        "sharpe": 4.22508819112545,
+        "total_return": 0.03540257044561956,
+        "win_rate": 0.4
+      },
+      "oos_score": 93.50408029615537,
+      "regime_fit": 0.9,
+      "strategy": "Momentum",
+      "symbol": "FILUSDT",
+      "train_score": 27.235320931603002,
+      "updated_at": "2026-09-02T01:48:53.041711+00:00"
     },
     {
       "calibrated_through": "2026-08-28T00:00:00+00:00",
@@ -28189,7 +28522,7 @@
         "total_reduction_notional": 6359.781433276954
       }
     ],
-    "generated_at": "2026-09-02T01:40:56.298081+00:00",
+    "generated_at": "2026-09-02T02:02:18.025879+00:00",
     "scope": "PUBLIC_READ_ONLY_RISK_SIZING_AUDIT",
     "status": "AVAILABLE",
     "summary": {
@@ -28214,7 +28547,7 @@
   "storage_persistence": {
     "bootstrap_at": "2026-09-01T19:44:37.021398+00:00",
     "bootstrap_warnings": [],
-    "last_snapshot_at": "2026-09-02T01:40:33.075272+00:00",
+    "last_snapshot_at": "2026-09-02T01:42:58.619001+00:00",
     "last_snapshot_failed": [],
     "last_snapshot_success": [
       "crypto_v2_shadow.sqlite3",
@@ -28228,9 +28561,9 @@
     "mode": "RESCUE_RUNTIME",
     "persistence_status": "OK",
     "persistent_disk": {
-      "free": 2650595328,
+      "free": 2649157632,
       "total": 4685873152,
-      "used": 2018500608
+      "used": 2019938304
     },
     "restored": [
       {
@@ -28273,7 +28606,7 @@
     "snapshot_interval_seconds": 60,
     "snapshot_keep_archives": 0,
     "status": "AVAILABLE",
-    "updated_at": "2026-09-02T01:40:33.075450+00:00"
+    "updated_at": "2026-09-02T01:42:58.619187+00:00"
   },
   "strategy_performance": [
     {
@@ -31049,29 +31382,29 @@
       "worst_trade_return": -0.00029986839109497065
     }
   ],
-  "sync_checked_at": "2026-09-02T01:40:58.769680+00:00",
-  "sync_snapshot_age_seconds": 56.908893,
+  "sync_checked_at": "2026-09-02T02:02:22.938517+00:00",
+  "sync_snapshot_age_seconds": 19.715944,
   "trial_ledger": {
     "challenges": 65,
-    "cycles": 752,
-    "distinct_hypotheses": 63,
-    "events": 192,
-    "last_event_at": "2026-09-02T01:02:01.215011+00:00",
+    "cycles": 758,
+    "distinct_hypotheses": 66,
+    "events": 198,
+    "last_event_at": "2026-09-02T01:48:46.404379+00:00",
     "promotions": 0,
-    "research_trials": 111
+    "research_trials": 117
   },
   "worker": {
-    "assets_checked": 253,
+    "assets_checked": 256,
     "bars_processed": 0,
     "broker_order_api_calls": 0,
     "concept_drift_pairs": 10,
     "data_quality": "OK",
     "data_quality_critical": 0,
     "data_quality_warnings": 35,
-    "heartbeat_at": "2026-09-02T01:39:49.317174+00:00",
-    "last_cycle_finished_at": "2026-09-02T01:37:06.339203+00:00",
-    "last_cycle_started_at": "2026-09-02T01:38:06.349059+00:00",
-    "market_data_api_calls": 1,
+    "heartbeat_at": "2026-09-02T02:01:49.764338+00:00",
+    "last_cycle_finished_at": "2026-09-02T01:58:17.419023+00:00",
+    "last_cycle_started_at": "2026-09-02T01:59:17.427888+00:00",
+    "market_data_api_calls": 6,
     "portfolio_risk": "MEDIUM",
     "realtime_watchlist_sync": "ONLINE",
     "realtime_watchlist_total": 59,
