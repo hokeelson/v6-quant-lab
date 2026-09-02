@@ -30,17 +30,17 @@
     },
     {
       "account_id": "crypto_short",
-      "as_of": "2026-09-02T17:00:00+00:00",
+      "as_of": "2026-09-02T18:00:00+00:00",
       "cash": 83285.23640546303,
       "closed_trades": 329,
-      "drawdown": -0.1165702208213436,
-      "equity": 90923.5598454326,
-      "gross_exposure": 7638.323439969558,
+      "drawdown": -0.11636400346761744,
+      "equity": 90944.78396119663,
+      "gross_exposure": 7659.547555733598,
       "horizon": "short",
       "initial_equity": 100000.0,
-      "leverage": 0.08400818723941832,
+      "leverage": 0.08422195558792787,
       "market": "crypto",
-      "return_pct": -0.090764401545674
+      "return_pct": -0.09055216038803371
     },
     {
       "account_id": "stock_long",
@@ -72,17 +72,17 @@
     },
     {
       "account_id": "stock_short",
-      "as_of": "2026-09-02T17:00:00+00:00",
-      "cash": 88799.42253128547,
-      "closed_trades": 116,
-      "drawdown": -0.03645442030799084,
-      "equity": 98702.97325538308,
-      "gross_exposure": 9903.550724097608,
+      "as_of": "2026-09-02T18:00:00+00:00",
+      "cash": 91855.0752265731,
+      "closed_trades": 117,
+      "drawdown": -0.03603336293909398,
+      "equity": 98746.10522038519,
+      "gross_exposure": 6891.029993812091,
       "horizon": "short",
       "initial_equity": 100000.0,
-      "leverage": 0.10033690371690486,
+      "leverage": 0.06978533460567823,
       "market": "stock",
-      "return_pct": -0.012970267446169137
+      "return_pct": -0.01253894779614817
     },
     {
       "account_id": "twstock_long",
@@ -131,9 +131,9 @@
   "data_quality": {},
   "direction_shadow": {
     "benchmarks": {
-      "always_long_after_cost_avg_return_pct": -0.012808957011862672,
+      "always_long_after_cost_avg_return_pct": -0.012866112396185106,
       "note": "Equal-weight prediction-window diagnostic; not a portfolio equity curve.",
-      "policy_minus_always_long_avg_return_pct": 0.010064941379470654
+      "policy_minus_always_long_avg_return_pct": 0.01013026347698473
     },
     "broker_order_api_calls": 0,
     "confidence_calibration": {
@@ -191,11 +191,11 @@
       },
       "NO_TRADE": {
         "avg_forward_return_pct": 0.0,
-        "avg_opportunity_return_pct": 0.020201092606708142,
-        "avg_reward_r": -0.5696314366153425,
-        "completed": 136,
-        "evaluated": 136,
-        "hit_rate": 0.33088235294117646
+        "avg_opportunity_return_pct": 0.020231837669025608,
+        "avg_reward_r": -0.5674784140010388,
+        "completed": 137,
+        "evaluated": 137,
+        "hit_rate": 0.3284671532846715
       },
       "SHORT": {
         "avg_forward_return_pct": 0.0010889507184205205,
@@ -207,11 +207,11 @@
       }
     },
     "engine_version": "V10_ADAPTIVE_EVIDENCE_SHADOW",
-    "evaluated": 335,
+    "evaluated": 336,
     "evidence_maturity": {
       "automatic_retuning_allowed": false,
       "directional_trades": 199,
-      "forward_days": 1.6666666666666667,
+      "forward_days": 1.7083333333333333,
       "reason": "Forward evidence is diagnostic until independently reviewed; no online parameter chasing.",
       "state": "PRELIMINARY"
     },
@@ -219,16 +219,16 @@
     "policies": [
       {
         "engine_version": "V10_ADAPTIVE_EVIDENCE_SHADOW",
-        "evaluated": 335,
-        "predictions": 587
+        "evaluated": 336,
+        "predictions": 588
       }
     ],
     "policy_performance": {
       "avg_directional_trade_return_pct": -0.00461932279824787,
-      "avg_policy_return_pct": -0.0027440156323920183,
+      "avg_policy_return_pct": -0.0027358489192003755,
       "directional_trade_samples": 199,
       "max_drawdown_pct": -0.64934654311984,
-      "samples_including_no_trade": 335,
+      "samples_including_no_trade": 336,
       "trade_sequence_sharpe": -0.1361537119620641
     },
     "promotion_gate": {
@@ -367,12 +367,12 @@
       {
         "avg_forward_return_pct": 0.0,
         "decision": "NO_TRADE",
-        "hit_rate": 0.2222222222222222,
+        "hit_rate": 0.21052631578947367,
         "horizon": "short",
         "market": "crypto",
         "maturity": "DIAGNOSTIC",
         "regime": "HIGH_VOL_UP_TREND",
-        "samples": 18
+        "samples": 19
       },
       {
         "avg_forward_return_pct": 0.0,
@@ -549,6 +549,160 @@
   "entry_gate": {
     "broker_order_api_calls": 0,
     "entries": [
+      {
+        "account_id": "crypto_short",
+        "created_at": "2026-09-02T19:14:14.242724+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3730,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "regime_state:PAUSE_CANDIDATE",
+          "strategy_state:PAUSE_CANDIDATE"
+        ],
+        "symbol": "FILUSDT"
+      },
+      {
+        "account_id": "crypto_short",
+        "created_at": "2026-09-02T19:13:21.704749+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3729,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "pretrade_verdict:BLOCK_CANDIDATE",
+          "strategy_state:PAUSE_CANDIDATE"
+        ],
+        "symbol": "ETHUSDT"
+      },
+      {
+        "account_id": "crypto_short",
+        "created_at": "2026-09-02T19:12:24.140904+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3728,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "pretrade_verdict:BLOCK_CANDIDATE",
+          "regime_state:SHADOW_ONLY_CANDIDATE",
+          "strategy_state:PAUSE_CANDIDATE"
+        ],
+        "symbol": "ENSOUSDT"
+      },
+      {
+        "account_id": "crypto_short",
+        "created_at": "2026-09-02T19:11:28.897426+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3727,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "pretrade_verdict:BLOCK_CANDIDATE",
+          "strategy_state:PAUSE_CANDIDATE"
+        ],
+        "symbol": "ENAUSDT"
+      },
+      {
+        "account_id": "crypto_short",
+        "created_at": "2026-09-02T19:10:24.537412+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3726,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "pretrade_verdict:BLOCK_CANDIDATE",
+          "regime_state:PAUSE_CANDIDATE",
+          "strategy_state:PAUSE_CANDIDATE"
+        ],
+        "symbol": "ARBUSDT"
+      },
+      {
+        "account_id": "stock_short",
+        "created_at": "2026-09-02T19:06:30.623758+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3725,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "strategy_state:PAUSE_CANDIDATE",
+          "symbol_strategy_state:SHADOW_ONLY_CANDIDATE"
+        ],
+        "symbol": "HOOD"
+      },
+      {
+        "account_id": "stock_short",
+        "created_at": "2026-09-02T19:05:25.991415+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3724,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "regime_state:SHADOW_ONLY_CANDIDATE"
+        ],
+        "symbol": "CRCL"
+      },
+      {
+        "account_id": "stock_short",
+        "created_at": "2026-09-02T19:04:25.881815+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3723,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "strategy_state:SHADOW_ONLY_CANDIDATE"
+        ],
+        "symbol": "BAC"
+      },
+      {
+        "account_id": "crypto_short",
+        "created_at": "2026-09-02T19:03:17.424789+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3722,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "pretrade_verdict:BLOCK_CANDIDATE",
+          "regime_state:PAUSE_CANDIDATE"
+        ],
+        "symbol": "UNIUSDT"
+      },
+      {
+        "account_id": "crypto_short",
+        "created_at": "2026-09-02T19:02:16.042838+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3721,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "strategy_state:PAUSE_CANDIDATE",
+          "symbol_strategy_state:SHADOW_ONLY_CANDIDATE"
+        ],
+        "symbol": "TAOUSDT"
+      },
+      {
+        "account_id": "crypto_short",
+        "created_at": "2026-09-02T19:01:02.884214+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3720,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "pretrade_verdict:BLOCK_CANDIDATE",
+          "strategy_state:PAUSE_CANDIDATE"
+        ],
+        "symbol": "LINKUSDT"
+      },
       {
         "account_id": "stock_short",
         "created_at": "2026-09-02T18:16:44.144085+00:00",
@@ -3179,160 +3333,6 @@
           "symbol_strategy_state:SHADOW_ONLY_CANDIDATE"
         ],
         "symbol": "XAUTUSDT"
-      },
-      {
-        "account_id": "crypto_short",
-        "created_at": "2026-09-02T03:12:17.187545+00:00",
-        "entry_allowed": false,
-        "filled": false,
-        "filled_notional": 0.0,
-        "id": 3513,
-        "reasons": [
-          "ZERO_NOTIONAL",
-          "strategy_state:PAUSE_CANDIDATE",
-          "symbol_strategy_state:SHADOW_ONLY_CANDIDATE"
-        ],
-        "symbol": "TAOUSDT"
-      },
-      {
-        "account_id": "crypto_short",
-        "created_at": "2026-09-02T03:10:40.181470+00:00",
-        "entry_allowed": false,
-        "filled": false,
-        "filled_notional": 0.0,
-        "id": 3512,
-        "reasons": [
-          "ZERO_NOTIONAL",
-          "pretrade_verdict:BLOCK_CANDIDATE",
-          "strategy_state:PAUSE_CANDIDATE"
-        ],
-        "symbol": "PENGUUSDT"
-      },
-      {
-        "account_id": "crypto_short",
-        "created_at": "2026-09-02T03:09:15.319182+00:00",
-        "entry_allowed": false,
-        "filled": false,
-        "filled_notional": 0.0,
-        "id": 3511,
-        "reasons": [
-          "ZERO_NOTIONAL",
-          "pretrade_verdict:BLOCK_CANDIDATE",
-          "strategy_state:PAUSE_CANDIDATE",
-          "symbol_strategy_state:SHADOW_ONLY_CANDIDATE"
-        ],
-        "symbol": "PAXGUSDT"
-      },
-      {
-        "account_id": "crypto_short",
-        "created_at": "2026-09-02T03:07:35.146065+00:00",
-        "entry_allowed": false,
-        "filled": false,
-        "filled_notional": 0.0,
-        "id": 3510,
-        "reasons": [
-          "ZERO_NOTIONAL",
-          "regime_state:PAUSE_CANDIDATE",
-          "strategy_state:PAUSE_CANDIDATE"
-        ],
-        "symbol": "FILUSDT"
-      },
-      {
-        "account_id": "crypto_short",
-        "created_at": "2026-09-02T03:06:08.142131+00:00",
-        "entry_allowed": false,
-        "filled": false,
-        "filled_notional": 0.0,
-        "id": 3509,
-        "reasons": [
-          "ZERO_NOTIONAL",
-          "pretrade_verdict:BLOCK_CANDIDATE",
-          "strategy_state:PAUSE_CANDIDATE"
-        ],
-        "symbol": "ETHUSDT"
-      },
-      {
-        "account_id": "crypto_short",
-        "created_at": "2026-09-02T03:04:32.804694+00:00",
-        "entry_allowed": false,
-        "filled": false,
-        "filled_notional": 0.0,
-        "id": 3508,
-        "reasons": [
-          "ZERO_NOTIONAL",
-          "strategy_state:PAUSE_CANDIDATE"
-        ],
-        "symbol": "DOGEUSDT"
-      },
-      {
-        "account_id": "crypto_short",
-        "created_at": "2026-09-02T03:03:02.523862+00:00",
-        "entry_allowed": false,
-        "filled": false,
-        "filled_notional": 0.0,
-        "id": 3507,
-        "reasons": [
-          "ZERO_NOTIONAL",
-          "strategy_state:PAUSE_CANDIDATE"
-        ],
-        "symbol": "DEXEUSDT"
-      },
-      {
-        "account_id": "crypto_short",
-        "created_at": "2026-09-02T03:01:34.055174+00:00",
-        "entry_allowed": false,
-        "filled": false,
-        "filled_notional": 0.0,
-        "id": 3506,
-        "reasons": [
-          "ZERO_NOTIONAL",
-          "regime_state:PAUSE_CANDIDATE",
-          "strategy_state:PAUSE_CANDIDATE"
-        ],
-        "symbol": "CRVUSDT"
-      },
-      {
-        "account_id": "twstock_short",
-        "created_at": "2026-09-02T02:28:17.377759+00:00",
-        "entry_allowed": false,
-        "filled": false,
-        "filled_notional": 0.0,
-        "id": 3505,
-        "reasons": [
-          "ZERO_NOTIONAL",
-          "symbol_strategy_state:SHADOW_ONLY_CANDIDATE"
-        ],
-        "symbol": "2382.TW"
-      },
-      {
-        "account_id": "twstock_short",
-        "created_at": "2026-09-02T02:26:54.370658+00:00",
-        "entry_allowed": false,
-        "filled": false,
-        "filled_notional": 0.0,
-        "id": 3504,
-        "reasons": [
-          "ZERO_NOTIONAL",
-          "regime_state:SHADOW_ONLY_CANDIDATE",
-          "strategy_state:SHADOW_ONLY_CANDIDATE",
-          "symbol_strategy_state:PAUSE_CANDIDATE"
-        ],
-        "symbol": "2317.TW"
-      },
-      {
-        "account_id": "twstock_short",
-        "created_at": "2026-09-02T02:20:53.036903+00:00",
-        "entry_allowed": false,
-        "filled": false,
-        "filled_notional": 0.0,
-        "id": 3503,
-        "reasons": [
-          "ZERO_NOTIONAL",
-          "regime_state:SHADOW_ONLY_CANDIDATE",
-          "strategy_state:SHADOW_ONLY_CANDIDATE",
-          "symbol_strategy_state:PAUSE_CANDIDATE"
-        ],
-        "symbol": "2317.TW"
       }
     ],
     "policy_version": "ENTRY_GATE_V1",
@@ -3348,7 +3348,7 @@
   "expected_live_deviation": {
     "active_sizing": true,
     "contains_secrets": false,
-    "generated_at": "2026-09-02T18:59:29.687693+00:00",
+    "generated_at": "2026-09-02T19:16:34.771254+00:00",
     "minimum_live_trades_for_active_sizing": 5,
     "rows": [
       {
@@ -6511,6 +6511,43 @@
         "win_rate_gap": -0.09999999999999998
       },
       {
+        "deviation_score": 37.98433482100008,
+        "evidence_weight": 0.2,
+        "horizon": "short",
+        "live_closed_trades": 4,
+        "live_compound_return": -0.07754548690080121,
+        "live_losses": 1,
+        "live_max_loss_streak": 1,
+        "live_per_trade_return": -0.01997706364172025,
+        "live_profit_factor": 0.36936118134812157,
+        "live_profit_factor_infinite": false,
+        "live_win_rate": 0.75,
+        "live_wins": 3,
+        "market": "stock",
+        "oos_closed_trades": 15,
+        "oos_max_drawdown": -0.008705022264247853,
+        "oos_per_trade_return": 0.002240166948548339,
+        "oos_profit_factor": 10.663231851274066,
+        "oos_profit_factor_infinite": false,
+        "oos_sharpe": 4.629239786177445,
+        "oos_total_return": 0.03413458039115036,
+        "oos_win_rate": 0.7333333333333333,
+        "per_trade_return_gap": 0.02221723059026859,
+        "performance_key": "stock:PCG:short:Mean Reversion RSI",
+        "profit_factor_gap": 10.293870669925944,
+        "reasons": [
+          "OOS_POSITIVE_LIVE_NEGATIVE",
+          "PROFIT_FACTOR_DETERIORATION",
+          "EXPECTANCY_SIGN_REVERSAL"
+        ],
+        "shadow_only": true,
+        "state": "LEARNING",
+        "strategy": "Mean Reversion RSI",
+        "suggested_confidence_multiplier": 1.0,
+        "symbol": "PCG",
+        "win_rate_gap": -0.01666666666666672
+      },
+      {
         "deviation_score": 36.974999999999994,
         "evidence_weight": 0.05,
         "horizon": "medium",
@@ -6658,43 +6695,6 @@
         "suggested_confidence_multiplier": 1.0,
         "symbol": "BICOUSDT",
         "win_rate_gap": 0.019607843137254943
-      },
-      {
-        "deviation_score": 35.46936577477971,
-        "evidence_weight": 0.15,
-        "horizon": "short",
-        "live_closed_trades": 3,
-        "live_compound_return": -0.0968390950936655,
-        "live_losses": 1,
-        "live_max_loss_streak": 1,
-        "live_per_trade_return": -0.033381632318450705,
-        "live_profit_factor": 0.31514005823377444,
-        "live_profit_factor_infinite": false,
-        "live_win_rate": 0.6666666666666666,
-        "live_wins": 2,
-        "market": "stock",
-        "oos_closed_trades": 15,
-        "oos_max_drawdown": -0.008705022264247853,
-        "oos_per_trade_return": 0.002240166948548339,
-        "oos_profit_factor": 10.663231851274066,
-        "oos_profit_factor_infinite": false,
-        "oos_sharpe": 4.629239786177445,
-        "oos_total_return": 0.03413458039115036,
-        "oos_win_rate": 0.7333333333333333,
-        "per_trade_return_gap": 0.035621799266999044,
-        "performance_key": "stock:PCG:short:Mean Reversion RSI",
-        "profit_factor_gap": 10.348091793040291,
-        "reasons": [
-          "OOS_POSITIVE_LIVE_NEGATIVE",
-          "PROFIT_FACTOR_DETERIORATION",
-          "EXPECTANCY_SIGN_REVERSAL"
-        ],
-        "shadow_only": true,
-        "state": "LEARNING",
-        "strategy": "Mean Reversion RSI",
-        "suggested_confidence_multiplier": 1.0,
-        "symbol": "PCG",
-        "win_rate_gap": 0.06666666666666665
       },
       {
         "deviation_score": 35.242880836820554,
@@ -14836,7 +14836,7 @@
       }
     ]
   },
-  "generated_at": "2026-09-02T18:59:08.693204+00:00",
+  "generated_at": "2026-09-02T19:16:10.050830+00:00",
   "governance": {
     "arenas": [
       {
@@ -30784,7 +30784,7 @@
         "total_reduction_notional": 20418.91989794247
       }
     ],
-    "generated_at": "2026-09-02T18:59:59.809437+00:00",
+    "generated_at": "2026-09-02T19:16:59.872605+00:00",
     "scope": "PUBLIC_READ_ONLY_RISK_SIZING_AUDIT",
     "status": "AVAILABLE",
     "summary": {
@@ -30809,7 +30809,7 @@
   "storage_persistence": {
     "bootstrap_at": "2026-09-02T17:09:57.180719+00:00",
     "bootstrap_warnings": [],
-    "last_snapshot_at": "2026-09-02T18:58:37.959731+00:00",
+    "last_snapshot_at": "2026-09-02T19:15:48.455287+00:00",
     "last_snapshot_failed": [],
     "last_snapshot_success": [
       "crypto_v2_shadow.sqlite3",
@@ -30823,9 +30823,9 @@
     "mode": "RESCUE_RUNTIME",
     "persistence_status": "OK",
     "persistent_disk": {
-      "free": 2399289344,
+      "free": 2398949376,
       "total": 4685873152,
-      "used": 2269806592
+      "used": 2270146560
     },
     "restored": [
       {
@@ -30868,7 +30868,7 @@
     "snapshot_interval_seconds": 60,
     "snapshot_keep_archives": 0,
     "status": "AVAILABLE",
-    "updated_at": "2026-09-02T18:59:54.703428+00:00"
+    "updated_at": "2026-09-02T19:16:52.031843+00:00"
   },
   "strategy_performance": [
     {
@@ -30920,19 +30920,19 @@
       "worst_trade_return": -0.1754387572936471
     },
     {
-      "avg_pnl": 41.90096533645292,
-      "avg_return_pct": 0.0022079213792220533,
+      "avg_pnl": 42.29399345193599,
+      "avg_return_pct": 0.002549964131279739,
       "best_trade_return": 0.07078397832467842,
-      "closed_trades": 55,
+      "closed_trades": 56,
       "horizon": "short",
-      "last_exit_bar": "2026-09-02T16:00:00+00:00",
+      "last_exit_bar": "2026-09-02T18:00:00+00:00",
       "losses": 24,
       "market": "stock",
-      "profit_factor": 1.3963531157569637,
-      "realized_pnl": 2304.5530935049105,
+      "profit_factor": 1.4073448961816462,
+      "realized_pnl": 2368.4636333084154,
       "strategy": "Mean Reversion RSI",
-      "win_rate": 0.5636363636363636,
-      "wins": 31,
+      "win_rate": 0.5714285714285714,
+      "wins": 32,
       "worst_trade_return": -0.15500109850272703
     },
     {
@@ -32256,6 +32256,24 @@
       "worst_trade_return": -0.015798415723644932
     },
     {
+      "avg_pnl": -185.83379044034217,
+      "avg_return_pct": -0.016400634616209164,
+      "best_trade_return": 0.05306056016255245,
+      "closed_trades": 4,
+      "horizon": "short",
+      "last_exit_bar": "2026-09-02T18:00:00+00:00",
+      "losses": 1,
+      "market": "stock",
+      "performance_key": "stock:PCG:short:Mean Reversion RSI",
+      "profit_factor": 0.36936118134812157,
+      "realized_pnl": -743.3351617613687,
+      "strategy": "Mean Reversion RSI",
+      "symbol": "PCG",
+      "win_rate": 0.75,
+      "wins": 3,
+      "worst_trade_return": -0.15500109850272703
+    },
+    {
       "avg_pnl": -15.654206820896567,
       "avg_return_pct": -0.002984262631960749,
       "best_trade_return": 0.03759399889397419,
@@ -32470,24 +32488,6 @@
       "win_rate": 0.6666666666666666,
       "wins": 2,
       "worst_trade_return": -0.02489130820399099
-    },
-    {
-      "avg_pnl": -269.0819005216246,
-      "avg_return_pct": -0.028988284653096368,
-      "best_trade_return": 0.05306056016255245,
-      "closed_trades": 3,
-      "horizon": "short",
-      "last_exit_bar": "2026-09-01T19:00:00+00:00",
-      "losses": 1,
-      "market": "stock",
-      "performance_key": "stock:PCG:short:Mean Reversion RSI",
-      "profit_factor": 0.31514005823377444,
-      "realized_pnl": -807.2457015648739,
-      "strategy": "Mean Reversion RSI",
-      "symbol": "PCG",
-      "win_rate": 0.6666666666666666,
-      "wins": 2,
-      "worst_trade_return": -0.15500109850272703
     },
     {
       "avg_pnl": -92.18688902996799,
@@ -33768,11 +33768,11 @@
       "worst_trade_return": -0.00029986839109497065
     }
   ],
-  "sync_checked_at": "2026-09-02T19:00:03.620153+00:00",
-  "sync_snapshot_age_seconds": 54.926949,
+  "sync_checked_at": "2026-09-02T19:17:04.203715+00:00",
+  "sync_snapshot_age_seconds": 54.152885,
   "trial_ledger": {
     "challenges": 66,
-    "cycles": 961,
+    "cycles": 962,
     "distinct_hypotheses": 66,
     "events": 202,
     "last_event_at": "2026-09-02T07:58:46.649870+00:00",
@@ -33781,58 +33781,57 @@
   },
   "worker": {
     "assets_checked": 247,
-    "bars_processed": 0,
+    "bars_processed": 17,
     "broker_order_api_calls": 0,
     "concept_drift_pairs": 11,
-    "cycle_elapsed_seconds": 116.649,
+    "cycle_elapsed_seconds": 397.857,
     "data_quality": "OK",
     "data_quality_critical": 0,
-    "data_quality_warnings": 38,
+    "data_quality_warnings": 39,
     "first_cycle_complete": true,
-    "heartbeat_at": "2026-09-02T18:59:01.312730+00:00",
-    "last_cycle_duration_seconds": 116.649,
-    "last_cycle_finished_at": "2026-09-02T18:58:44.113938+00:00",
+    "heartbeat_at": "2026-09-02T19:16:01.722499+00:00",
+    "last_cycle_duration_seconds": 519.729,
+    "last_cycle_finished_at": "2026-09-02T19:08:23.855529+00:00",
     "last_cycle_phase_durations_seconds": {
-      "CALIBRATION": 0.078,
-      "DATA_QUALITY": 5.602,
-      "GOVERNANCE": 6.503,
-      "MODEL_HEALTH": 0.064,
-      "PORTFOLIO_RISK": 0.981,
-      "PREPARE": 0.01,
-      "PRETRADE_RISK": 54.603,
-      "SIMULATION": 48.696,
-      "UNIVERSE": 0.01,
-      "WATCHLIST": 0.103
+      "CALIBRATION": 0.07,
+      "DATA_QUALITY": 5.429,
+      "GOVERNANCE": 38.351,
+      "MODEL_HEALTH": 0.071,
+      "PORTFOLIO_RISK": 0.825,
+      "PREPARE": 0.009,
+      "PRETRADE_RISK": 54.084,
+      "SIMULATION": 420.786,
+      "UNIVERSE": 0.006,
+      "WATCHLIST": 0.098
     },
-    "last_cycle_started_at": "2026-09-02T18:56:47.464888+00:00",
-    "last_progress_at": "2026-09-02T18:58:44.113973+00:00",
-    "market_data_api_calls": 0,
-    "phase": "COMPLETE",
+    "last_cycle_started_at": "2026-09-02T19:09:23.865131+00:00",
+    "last_progress_at": "2026-09-02T19:15:21.125148+00:00",
+    "market_data_api_calls": 5,
+    "phase": "PRETRADE_RISK",
     "phase_completed": 0,
     "phase_durations_seconds": {
-      "CALIBRATION": 0.078,
-      "DATA_QUALITY": 5.602,
-      "GOVERNANCE": 6.503,
-      "MODEL_HEALTH": 0.064,
-      "PORTFOLIO_RISK": 0.981,
-      "PREPARE": 0.01,
-      "PRETRADE_RISK": 54.603,
-      "SIMULATION": 48.696,
-      "UNIVERSE": 0.01,
-      "WATCHLIST": 0.103
+      "CALIBRATION": 0.081,
+      "GOVERNANCE": 19.018,
+      "MODEL_HEALTH": 0.13,
+      "PORTFOLIO_RISK": 0.874,
+      "PREPARE": 0.02,
+      "PRETRADE_RISK": 40.597,
+      "SIMULATION": 337.02,
+      "UNIVERSE": 0.006,
+      "WATCHLIST": 0.111
     },
-    "phase_elapsed_seconds": 0.0,
-    "phase_started_at": "2026-09-02T18:58:44.113973+00:00",
+    "phase_elapsed_seconds": 40.597,
+    "phase_started_at": "2026-09-02T19:15:21.125148+00:00",
     "phase_total": 0,
     "portfolio_risk": "MEDIUM",
-    "progress_events": 807,
+    "progress_events": 805,
     "progress_schema_version": "WORKER_PROGRESS_V1",
     "progress_unit": null,
     "realtime_watchlist_sync": "ONLINE",
-    "realtime_watchlist_total": 56,
+    "realtime_watchlist_total": 55,
     "risk_layer": "ONLINE",
     "risk_sizing": "ACTIVE",
-    "status": "ONLINE",
+    "status": "RUNNING",
     "true_errors": 0
   }
 }
