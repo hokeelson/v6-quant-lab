@@ -30,17 +30,17 @@
     },
     {
       "account_id": "crypto_short",
-      "as_of": "2026-09-01T23:00:00+00:00",
+      "as_of": "2026-09-02T00:00:00+00:00",
       "cash": 55288.426966280495,
       "closed_trades": 324,
-      "drawdown": -0.11922157548691137,
-      "equity": 90650.6795211692,
-      "gross_exposure": 35362.2525548887,
+      "drawdown": -0.1192762274202378,
+      "equity": 90645.05468437108,
+      "gross_exposure": 35356.627718090574,
       "horizon": "short",
       "initial_equity": 100000.0,
-      "leverage": 0.3900936291010453,
+      "leverage": 0.390055782317121,
       "market": "crypto",
-      "return_pct": -0.09349320478830803
+      "return_pct": -0.09354945315628926
     },
     {
       "account_id": "stock_long",
@@ -423,6 +423,66 @@
   "entry_gate": {
     "broker_order_api_calls": 0,
     "entries": [
+      {
+        "account_id": "crypto_short",
+        "created_at": "2026-09-02T01:07:57.961344+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3482,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "pretrade_verdict:BLOCK_CANDIDATE",
+          "regime_state:SHADOW_ONLY_CANDIDATE",
+          "strategy_state:PAUSE_CANDIDATE"
+        ],
+        "symbol": "ETHUSDT"
+      },
+      {
+        "account_id": "crypto_short",
+        "created_at": "2026-09-02T01:06:26.206630+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3481,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "regime_state:PAUSE_CANDIDATE",
+          "strategy_state:PAUSE_CANDIDATE"
+        ],
+        "symbol": "CRVUSDT"
+      },
+      {
+        "account_id": "crypto_short",
+        "created_at": "2026-09-02T01:05:00.037008+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3480,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "pretrade_verdict:BLOCK_CANDIDATE",
+          "regime_state:SHADOW_ONLY_CANDIDATE",
+          "strategy_state:PAUSE_CANDIDATE"
+        ],
+        "symbol": "BNBUSDT"
+      },
+      {
+        "account_id": "crypto_short",
+        "created_at": "2026-09-02T01:03:32.351346+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3479,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "pretrade_verdict:BLOCK_CANDIDATE",
+          "regime_state:PAUSE_CANDIDATE",
+          "strategy_state:PAUSE_CANDIDATE",
+          "symbol_strategy_state:SHADOW_ONLY_CANDIDATE"
+        ],
+        "symbol": "ADAUSDT"
+      },
       {
         "account_id": "crypto_short",
         "created_at": "2026-09-02T00:18:16.356282+00:00",
@@ -982,16 +1042,16 @@
     "simulation_only": true,
     "status": "OK",
     "summary": {
-      "blocked": 37,
+      "blocked": 41,
       "blocked_but_filled": 0,
       "filled": 0,
-      "sampled_events": 37
+      "sampled_events": 41
     }
   },
   "expected_live_deviation": {
     "active_sizing": true,
     "contains_secrets": false,
-    "generated_at": "2026-09-02T00:54:03.150551+00:00",
+    "generated_at": "2026-09-02T01:08:07.067861+00:00",
     "minimum_live_trades_for_active_sizing": 5,
     "rows": [
       {
@@ -12270,9 +12330,21 @@
       }
     ]
   },
-  "generated_at": "2026-09-02T00:53:57.304369+00:00",
+  "generated_at": "2026-09-02T01:07:58.246624+00:00",
   "governance": {
     "arenas": [
+      {
+        "arena_id": "06a26b02ad5ee6a09a3b",
+        "challenger_signature": "33813df508d6a208c8d5",
+        "champion_signature": "0b620c51d61b2bc4250d",
+        "decision_at": null,
+        "horizon": "short",
+        "latest_verdict": "WAITING",
+        "market": "crypto",
+        "registered_at": "2026-09-02T01:02:01.215011+00:00",
+        "status": "ACTIVE",
+        "symbol": "USD1USDT"
+      },
       {
         "arena_id": "e27f4eed54bef372f048",
         "challenger_signature": "7dc4f4e97813e40983bd",
@@ -13043,6 +13115,15 @@
       }
     ],
     "recent_events": [
+      {
+        "arena_id": "06a26b02ad5ee6a09a3b",
+        "created_at": "2026-09-02T01:02:01.215011+00:00",
+        "event_type": "CHALLENGE_REGISTERED",
+        "horizon": "short",
+        "id": 81,
+        "market": "crypto",
+        "symbol": "USD1USDT"
+      },
       {
         "arena_id": null,
         "created_at": "2026-09-01T21:57:25.153780+00:00",
@@ -28052,7 +28133,7 @@
         "total_reduction_notional": 3051.550301414807
       }
     ],
-    "generated_at": "2026-09-02T00:54:23.214323+00:00",
+    "generated_at": "2026-09-02T01:08:47.202029+00:00",
     "scope": "PUBLIC_READ_ONLY_RISK_SIZING_AUDIT",
     "status": "AVAILABLE",
     "summary": {
@@ -30897,16 +30978,16 @@
       "worst_trade_return": -0.00029986839109497065
     }
   ],
-  "sync_checked_at": "2026-09-02T00:54:25.830602+00:00",
-  "sync_snapshot_age_seconds": 28.526233,
+  "sync_checked_at": "2026-09-02T01:08:52.184942+00:00",
+  "sync_snapshot_age_seconds": 53.938318,
   "trial_ledger": {
-    "challenges": 64,
-    "cycles": 743,
+    "challenges": 65,
+    "cycles": 745,
     "distinct_hypotheses": 63,
-    "events": 190,
-    "last_event_at": "2026-09-01T21:57:25.153780+00:00",
+    "events": 192,
+    "last_event_at": "2026-09-02T01:02:01.215011+00:00",
     "promotions": 0,
-    "research_trials": 110
+    "research_trials": 111
   },
   "worker": {
     "assets_checked": 253,
@@ -30916,16 +30997,16 @@
     "data_quality": "OK",
     "data_quality_critical": 0,
     "data_quality_warnings": 35,
-    "heartbeat_at": "2026-09-02T00:53:48.579556+00:00",
-    "last_cycle_finished_at": "2026-09-02T00:53:44.850727+00:00",
-    "last_cycle_started_at": "2026-09-02T00:51:25.152647+00:00",
-    "market_data_api_calls": 5,
+    "heartbeat_at": "2026-09-02T01:07:48.851731+00:00",
+    "last_cycle_finished_at": "2026-09-02T01:01:01.187352+00:00",
+    "last_cycle_started_at": "2026-09-02T01:02:01.198922+00:00",
+    "market_data_api_calls": 0,
     "portfolio_risk": "MEDIUM",
     "realtime_watchlist_sync": "ONLINE",
     "realtime_watchlist_total": 60,
     "risk_layer": "ONLINE",
     "risk_sizing": "ACTIVE",
-    "status": "ONLINE",
+    "status": "RUNNING",
     "true_errors": 0
   }
 }
