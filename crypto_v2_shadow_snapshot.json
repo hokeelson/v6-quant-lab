@@ -43,7 +43,7 @@
   "contains_secrets": false,
   "errors": [],
   "forward_only": true,
-  "generated_at": "2026-09-03T11:08:12.996075+00:00",
+  "generated_at": "2026-09-03T11:24:30.793222+00:00",
   "latest_market_regime": {
     "realized_vol": 0.013659324934597466,
     "reason": "No dominant directional regime",
@@ -1926,6 +1926,45 @@
       "stop_distance": 0.021549535019388465,
       "symbol": "ZECUSDT",
       "target_distance": 0.035915891698980774
+    },
+    {
+      "bars_held": 0,
+      "best_realized_action": null,
+      "conflict_margin": 0.0015,
+      "context_json": "{\"avg_pairwise_correlation\": 0.28174623141538635, \"breadth_above_ema20\": 0.7441860465116279, \"btc_return_24h\": 0.013758318892532317, \"external_derivatives_data\": \"NOT_CONNECTED\", \"funding_rate\": null, \"horizon\": \"short\", \"liquidation_shock_score\": null, \"median_one_bar_return\": 0.0019321338002658006, \"open_interest_change\": null, \"session\": \"EUROPE\", \"symbols_observed\": 43, \"version\": 1}",
+      "created_at": "2026-09-03T11:19:08.859322+00:00",
+      "decision_bar": "2026-09-03T10:00:00+00:00",
+      "decision_correct": null,
+      "entry_bar": null,
+      "entry_price": null,
+      "ev_is_calibrated": 0,
+      "evaluation_bars": 6,
+      "exit_bar": null,
+      "exit_price": null,
+      "features_json": "{\"atr_pct\": 0.05309643627400636, \"bars\": 4319, \"breakout_pct\": -0.07080828323313293, \"price\": 0.02782, \"ready\": true, \"realized_vol\": 0.21849872221005343, \"relative_strength\": 0.24963859300574187, \"ret_fast\": 0.06549214860206809, \"ret_slow\": 0.2633969118982742, \"volume_z\": -0.7079584034053386, \"zscore20\": 0.43944901512356843}",
+      "horizon": "short",
+      "long_ev_proxy": 0.11169261817922738,
+      "long_mae_pct": 0.0,
+      "long_mfe_pct": 0.0,
+      "long_return_pct": null,
+      "long_score": 0.8265864052269251,
+      "method": "HEURISTIC_FORWARD_SHADOW_V1",
+      "min_trade_ev": 0.003,
+      "no_trade_ev": 0.0,
+      "reason": "LONG has the stronger cost-adjusted EV proxy",
+      "regime": "SIDEWAYS",
+      "selected_action": "LONG",
+      "selected_return_pct": null,
+      "shadow_id": "035999cc0c984c3fba4849c1e1bdd7d6",
+      "short_ev_proxy": -0.05477689465041978,
+      "short_mae_pct": 0.0,
+      "short_mfe_pct": 0.0,
+      "short_return_pct": null,
+      "short_score": 0.1734135947730749,
+      "status": "PENDING_ENTRY",
+      "stop_distance": 0.09557358529321146,
+      "symbol": "MUBARAKUSDT",
+      "target_distance": 0.15928930882201908
     },
     {
       "bars_held": 1,
@@ -4109,45 +4148,6 @@
       "status": "OPEN",
       "stop_distance": 0.015,
       "symbol": "EPICUSDT",
-      "target_distance": 0.025
-    },
-    {
-      "bars_held": 2,
-      "best_realized_action": null,
-      "conflict_margin": 0.0015,
-      "context_json": "{\"avg_pairwise_correlation\": 0.2793394597738976, \"breadth_above_ema20\": 0.7209302325581395, \"btc_return_24h\": 0.013114197796318283, \"external_derivatives_data\": \"NOT_CONNECTED\", \"funding_rate\": null, \"horizon\": \"short\", \"liquidation_shock_score\": null, \"median_one_bar_return\": 0.002560287601005351, \"open_interest_change\": null, \"session\": \"EUROPE\", \"symbols_observed\": 43, \"version\": 1}",
-      "created_at": "2026-09-03T09:00:50.326543+00:00",
-      "decision_bar": "2026-09-03T08:00:00+00:00",
-      "decision_correct": null,
-      "entry_bar": "2026-09-03T09:00:00+00:00",
-      "entry_price": 2403.69,
-      "ev_is_calibrated": 0,
-      "evaluation_bars": 6,
-      "exit_bar": null,
-      "exit_price": null,
-      "features_json": "{\"atr_pct\": 0.006801094211776555, \"bars\": 4335, \"breakout_pct\": -0.006356107318201909, \"price\": 2404.34, \"ready\": true, \"realized_vol\": 0.019733945972274895, \"relative_strength\": -0.008442550267527826, \"ret_fast\": -0.0007231679744645891, \"ret_slow\": 0.004671647528790457, \"volume_z\": 0.013676502180153306, \"zscore20\": 1.016777784504471}",
-      "horizon": "short",
-      "long_ev_proxy": 0.0033080082063631166,
-      "long_mae_pct": -0.005695409973831889,
-      "long_mfe_pct": 0.0016433067492063191,
-      "long_return_pct": null,
-      "long_score": 0.5427002051590779,
-      "method": "HEURISTIC_FORWARD_SHADOW_V1",
-      "min_trade_ev": 0.003,
-      "no_trade_ev": 0.0,
-      "reason": "LONG has the stronger cost-adjusted EV proxy",
-      "regime": "SIDEWAYS",
-      "selected_action": "LONG",
-      "selected_return_pct": null,
-      "shadow_id": "2530c5693f4d4e09a1e8027476acbcef",
-      "short_ev_proxy": -5.431929594880902e-05,
-      "short_mae_pct": -0.0016406107225331867,
-      "short_mfe_pct": 0.005728033472803373,
-      "short_return_pct": null,
-      "short_score": 0.4586420176012797,
-      "status": "OPEN",
-      "stop_distance": 0.015,
-      "symbol": "ETHUSDT",
       "target_distance": 0.025
     }
   ],
@@ -7515,6 +7515,19 @@
     },
     {
       "action": "NO_TRADE",
+      "bar_time": "2026-09-03T10:00:00+00:00",
+      "confidence": 0.0,
+      "created_at": "2026-09-03T11:19:08.868937+00:00",
+      "decision_id": "7318c7f4b9804c76b13c974a2a1d3df6",
+      "features_json": "{\"_research\": {\"avg_pairwise_correlation\": 0.28174623141538635, \"breadth_above_ema20\": 0.7441860465116279, \"btc_return_24h\": 0.013758318892532317, \"external_derivatives_data\": \"NOT_CONNECTED\", \"funding_rate\": null, \"horizon\": \"short\", \"liquidation_shock_score\": null, \"median_one_bar_return\": 0.0019321338002658006, \"open_interest_change\": null, \"session\": \"EUROPE\", \"symbols_observed\": 43, \"version\": 1}, \"atr_pct\": 0.05309643627400636, \"bars\": 4319, \"breakout_pct\": -0.07080828323313293, \"price\": 0.02782, \"ready\": true, \"realized_vol\": 0.21849872221005343, \"relative_strength\": 0.24963859300574187, \"ret_fast\": 0.06549214860206809, \"ret_slow\": 0.2633969118982742, \"volume_z\": -0.7079584034053386, \"zscore20\": 0.43944901512356843}",
+      "horizon": "short",
+      "reason": "No V2 setup in SIDEWAYS",
+      "regime": "SIDEWAYS",
+      "strategy": "NONE",
+      "symbol": "MUBARAKUSDT"
+    },
+    {
+      "action": "NO_TRADE",
       "bar_time": "2026-09-03T09:00:00+00:00",
       "confidence": 0.0,
       "created_at": "2026-09-03T10:00:11.937672+00:00",
@@ -9540,19 +9553,6 @@
       "regime": "SIDEWAYS",
       "strategy": "NONE",
       "symbol": "SNDKBUSDT"
-    },
-    {
-      "action": "NO_TRADE",
-      "bar_time": "2026-09-03T06:00:00+00:00",
-      "confidence": 0.0,
-      "created_at": "2026-09-03T07:00:52.365546+00:00",
-      "decision_id": "9ade90f4e98b4dc59b3c460cbb4ace7f",
-      "features_json": "{\"_research\": {\"avg_pairwise_correlation\": 0.31374903675542504, \"breadth_above_ema20\": 0.7209302325581395, \"btc_return_24h\": 0.0027856682137734623, \"external_derivatives_data\": \"NOT_CONNECTED\", \"funding_rate\": null, \"horizon\": \"short\", \"liquidation_shock_score\": null, \"median_one_bar_return\": -0.0005927682276228863, \"open_interest_change\": null, \"session\": \"ASIA\", \"symbols_observed\": 43, \"version\": 1}, \"atr_pct\": 0.008743610438525699, \"bars\": 4333, \"breakout_pct\": -0.004440497335701621, \"price\": 100.89, \"ready\": true, \"realized_vol\": 0.028438740024237786, \"relative_strength\": 0.0053078569660827135, \"ret_fast\": 0.013766077170418, \"ret_slow\": 0.008093525179856176, \"volume_z\": -0.9751671418877141, \"zscore20\": 1.3276168677138493}",
-      "horizon": "short",
-      "reason": "No V2 setup in SIDEWAYS",
-      "regime": "SIDEWAYS",
-      "strategy": "NONE",
-      "symbol": "SOLUSDT"
     }
   ],
   "recent_research_trades": [
@@ -13021,7 +13021,7 @@
   ],
   "research_layer": {
     "bidirectional_decision_shadow": {
-      "active_evaluations": 989,
+      "active_evaluations": 992,
       "avg_selected_return_pct": -0.0036613403192692078,
       "by_selected_action": {
         "LONG": {
@@ -13054,7 +13054,7 @@
       "no_trade_missed_opportunities": 245,
       "observation_only": true,
       "status": "ACTIVE",
-      "total_decisions": 7481
+      "total_decisions": 7484
     },
     "bidirectional_registration": {
       "forward_only": true,
@@ -13116,8 +13116,8 @@
   "shared_cache_only": true,
   "status": "ONLINE",
   "symbols": 43,
-  "sync_checked_at": "2026-09-03T11:09:17.973398+00:00",
-  "sync_snapshot_age_seconds": 64.977323,
+  "sync_checked_at": "2026-09-03T11:24:45.018033+00:00",
+  "sync_snapshot_age_seconds": 14.224811,
   "v2": {
     "accounts": [
       {
