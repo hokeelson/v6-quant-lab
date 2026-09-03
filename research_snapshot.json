@@ -16,45 +16,45 @@
     },
     {
       "account_id": "crypto_medium",
-      "as_of": "2026-09-02T20:00:00+00:00",
-      "cash": 38260.87699215359,
-      "closed_trades": 77,
-      "drawdown": -0.048877189262315435,
-      "equity": 95474.32999706591,
-      "gross_exposure": 57213.45300491233,
+      "as_of": "2026-09-03T00:00:00+00:00",
+      "cash": 40685.793117168105,
+      "closed_trades": 78,
+      "drawdown": -0.04367588752848328,
+      "equity": 95996.44006796733,
+      "gross_exposure": 55310.64695079922,
       "horizon": "medium",
       "initial_equity": 100000.0,
-      "leverage": 0.5992548259481957,
+      "leverage": 0.5761739384464488,
       "market": "crypto",
-      "return_pct": -0.0452567000293409
+      "return_pct": -0.04003559932032674
     },
     {
       "account_id": "crypto_short",
-      "as_of": "2026-09-03T01:00:00+00:00",
-      "cash": 80989.37065631854,
-      "closed_trades": 329,
-      "drawdown": -0.11622735383799743,
-      "equity": 90958.84809064919,
-      "gross_exposure": 9969.477434330653,
+      "as_of": "2026-09-03T04:00:00+00:00",
+      "cash": 91427.61554448267,
+      "closed_trades": 333,
+      "drawdown": -0.11167272433459641,
+      "equity": 91427.61554448267,
+      "gross_exposure": 0.0,
       "horizon": "short",
       "initial_equity": 100000.0,
-      "leverage": 0.10960426218673212,
+      "leverage": 0.0,
       "market": "crypto",
-      "return_pct": -0.09041151909350809
+      "return_pct": -0.08572384455517323
     },
     {
       "account_id": "stock_long",
-      "as_of": "2026-09-01T04:00:00+00:00",
-      "cash": 42903.4911998455,
-      "closed_trades": 0,
-      "drawdown": -0.027486102185899863,
-      "equity": 98887.26742333945,
-      "gross_exposure": 55983.77622349396,
+      "as_of": "2026-09-02T04:00:00+00:00",
+      "cash": 57792.96698652391,
+      "closed_trades": 1,
+      "drawdown": -0.02231769211069401,
+      "equity": 99412.80227729797,
+      "gross_exposure": 41619.835290774055,
       "horizon": "long",
       "initial_equity": 100000.0,
-      "leverage": 0.5661373570353166,
+      "leverage": 0.418656695489595,
       "market": "stock",
-      "return_pct": -0.011127325766605467
+      "return_pct": -0.005871977227020264
     },
     {
       "account_id": "stock_medium",
@@ -114,7 +114,7 @@
     },
     {
       "account_id": "twstock_short",
-      "as_of": "2026-09-03T01:09:35+00:00",
+      "as_of": "2026-09-03T04:11:26+00:00",
       "cash": 98952.82731315448,
       "closed_trades": 17,
       "drawdown": -0.012248971200245706,
@@ -131,9 +131,9 @@
   "data_quality": {},
   "direction_shadow": {
     "benchmarks": {
-      "always_long_after_cost_avg_return_pct": -0.011023176810343772,
+      "always_long_after_cost_avg_return_pct": -0.011073169871005921,
       "note": "Equal-weight prediction-window diagnostic; not a portfolio equity curve.",
-      "policy_minus_always_long_avg_return_pct": 0.008259188443883115
+      "policy_minus_always_long_avg_return_pct": 0.008330227101244203
     },
     "broker_order_api_calls": 0,
     "confidence_calibration": {
@@ -191,11 +191,11 @@
       },
       "NO_TRADE": {
         "avg_forward_return_pct": 0.0,
-        "avg_opportunity_return_pct": 0.017524357998615618,
-        "avg_reward_r": -0.49968324485982973,
-        "completed": 168,
-        "evaluated": 168,
-        "hit_rate": 0.39285714285714285
+        "avg_opportunity_return_pct": 0.01769555983655492,
+        "avg_reward_r": -0.496751560336312,
+        "completed": 171,
+        "evaluated": 171,
+        "hit_rate": 0.391812865497076
       },
       "SHORT": {
         "avg_forward_return_pct": 0.00017030815603993513,
@@ -207,11 +207,11 @@
       }
     },
     "engine_version": "V10_ADAPTIVE_EVIDENCE_SHADOW",
-    "evaluated": 391,
+    "evaluated": 394,
     "evidence_maturity": {
       "automatic_retuning_allowed": false,
       "directional_trades": 223,
-      "forward_days": 1.9166666666666667,
+      "forward_days": 2.125,
       "reason": "Forward evidence is diagnostic until independently reviewed; no online parameter chasing.",
       "state": "PRELIMINARY"
     },
@@ -219,16 +219,16 @@
     "policies": [
       {
         "engine_version": "V10_ADAPTIVE_EVIDENCE_SHADOW",
-        "evaluated": 391,
-        "predictions": 646
+        "evaluated": 394,
+        "predictions": 649
       }
     ],
     "policy_performance": {
       "avg_directional_trade_return_pct": -0.004846275566305458,
-      "avg_policy_return_pct": -0.0027639883664606576,
+      "avg_policy_return_pct": -0.0027429427697617187,
       "directional_trade_samples": 223,
       "max_drawdown_pct": -0.70241378491567,
-      "samples_including_no_trade": 391,
+      "samples_including_no_trade": 394,
       "trade_sequence_sharpe": -0.14987925498208618
     },
     "promotion_gate": {
@@ -377,22 +377,22 @@
       {
         "avg_forward_return_pct": 0.0,
         "decision": "NO_TRADE",
-        "hit_rate": 0.5538461538461539,
+        "hit_rate": 0.5606060606060606,
         "horizon": "short",
         "market": "crypto",
         "maturity": "CREDIBLE",
         "regime": "NORMAL_SIDEWAYS",
-        "samples": 65
+        "samples": 66
       },
       {
         "avg_forward_return_pct": 0.0,
         "decision": "NO_TRADE",
-        "hit_rate": 0.2,
+        "hit_rate": 0.18181818181818182,
         "horizon": "short",
         "market": "crypto",
         "maturity": "PRELIMINARY",
         "regime": "HIGH_VOL_UP_TREND",
-        "samples": 20
+        "samples": 22
       },
       {
         "avg_forward_return_pct": 0.0,
@@ -599,6 +599,370 @@
   "entry_gate": {
     "broker_order_api_calls": 0,
     "entries": [
+      {
+        "account_id": "crypto_short",
+        "created_at": "2026-09-03T05:07:33.829558+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3825,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "meta_verdict:SHADOW_ONLY",
+          "regime_state:SHADOW_ONLY_CANDIDATE",
+          "strategy_state:PAUSE_CANDIDATE"
+        ],
+        "symbol": "LINKUSDT"
+      },
+      {
+        "account_id": "crypto_short",
+        "created_at": "2026-09-03T05:06:43.642124+00:00",
+        "entry_allowed": true,
+        "filled": true,
+        "filled_notional": 2433.6711158318317,
+        "id": 3823,
+        "reasons": [],
+        "symbol": "HEMIUSDT"
+      },
+      {
+        "account_id": "crypto_short",
+        "created_at": "2026-09-03T05:05:39.613863+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3822,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "meta_verdict:SHADOW_ONLY",
+          "regime_state:PAUSE_CANDIDATE",
+          "strategy_state:PAUSE_CANDIDATE"
+        ],
+        "symbol": "FILUSDT"
+      },
+      {
+        "account_id": "crypto_short",
+        "created_at": "2026-09-03T05:04:45.276849+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3821,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "regime_state:SHADOW_ONLY_CANDIDATE",
+          "strategy_state:PAUSE_CANDIDATE"
+        ],
+        "symbol": "ENSOUSDT"
+      },
+      {
+        "account_id": "crypto_short",
+        "created_at": "2026-09-03T05:03:41.865529+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3820,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "meta_verdict:SHADOW_ONLY",
+          "regime_state:PAUSE_CANDIDATE",
+          "strategy_state:PAUSE_CANDIDATE"
+        ],
+        "symbol": "ARBUSDT"
+      },
+      {
+        "account_id": "crypto_short",
+        "created_at": "2026-09-03T05:02:50.704718+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3819,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "meta_verdict:SHADOW_ONLY",
+          "regime_state:PAUSE_CANDIDATE",
+          "strategy_state:PAUSE_CANDIDATE",
+          "symbol_strategy_state:SHADOW_ONLY_CANDIDATE"
+        ],
+        "symbol": "ADAUSDT"
+      },
+      {
+        "account_id": "crypto_medium",
+        "created_at": "2026-09-03T04:07:30.292307+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3817,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "meta_verdict:SHADOW_ONLY",
+          "regime_state:SHADOW_ONLY_CANDIDATE"
+        ],
+        "symbol": "TUSDT"
+      },
+      {
+        "account_id": "crypto_medium",
+        "created_at": "2026-09-03T04:06:13.913549+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3816,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "strategy_state:PAUSE_CANDIDATE"
+        ],
+        "symbol": "HEMIUSDT"
+      },
+      {
+        "account_id": "crypto_short",
+        "created_at": "2026-09-03T04:05:17.058569+00:00",
+        "entry_allowed": true,
+        "filled": true,
+        "filled_notional": 2624.5143887408785,
+        "id": 3813,
+        "reasons": [],
+        "symbol": "HEMIUSDT"
+      },
+      {
+        "account_id": "crypto_short",
+        "created_at": "2026-09-03T04:04:21.701065+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3812,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "meta_verdict:SHADOW_ONLY",
+          "regime_state:PAUSE_CANDIDATE",
+          "strategy_state:PAUSE_CANDIDATE"
+        ],
+        "symbol": "FILUSDT"
+      },
+      {
+        "account_id": "crypto_short",
+        "created_at": "2026-09-03T04:03:05.627751+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3810,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "meta_verdict:SHADOW_ONLY",
+          "regime_state:PAUSE_CANDIDATE",
+          "strategy_state:PAUSE_CANDIDATE"
+        ],
+        "symbol": "ARBUSDT"
+      },
+      {
+        "account_id": "crypto_short",
+        "created_at": "2026-09-03T04:02:05.059030+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3809,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "meta_verdict:SHADOW_ONLY",
+          "regime_state:PAUSE_CANDIDATE",
+          "strategy_state:PAUSE_CANDIDATE",
+          "symbol_strategy_state:SHADOW_ONLY_CANDIDATE"
+        ],
+        "symbol": "ADAUSDT"
+      },
+      {
+        "account_id": "crypto_medium",
+        "created_at": "2026-09-03T04:01:03.913202+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3808,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "strategy_state:PAUSE_CANDIDATE"
+        ],
+        "symbol": "AAVEUSDT"
+      },
+      {
+        "account_id": "crypto_short",
+        "created_at": "2026-09-03T03:07:31.135821+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3807,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "meta_verdict:SHADOW_ONLY",
+          "regime_state:PAUSE_CANDIDATE",
+          "strategy_state:PAUSE_CANDIDATE"
+        ],
+        "symbol": "WIFUSDT"
+      },
+      {
+        "account_id": "crypto_short",
+        "created_at": "2026-09-03T03:06:26.143660+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3806,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "meta_verdict:SHADOW_ONLY",
+          "strategy_state:PAUSE_CANDIDATE",
+          "symbol_strategy_state:SHADOW_ONLY_CANDIDATE"
+        ],
+        "symbol": "TAOUSDT"
+      },
+      {
+        "account_id": "crypto_short",
+        "created_at": "2026-09-03T03:04:57.597340+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3804,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "regime_state:PAUSE_CANDIDATE",
+          "strategy_state:PAUSE_CANDIDATE"
+        ],
+        "symbol": "FILUSDT"
+      },
+      {
+        "account_id": "crypto_short",
+        "created_at": "2026-09-03T03:03:56.527332+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3803,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "pretrade_verdict:BLOCK_CANDIDATE",
+          "regime_state:SHADOW_ONLY_CANDIDATE",
+          "strategy_state:PAUSE_CANDIDATE"
+        ],
+        "symbol": "ETHUSDT"
+      },
+      {
+        "account_id": "crypto_short",
+        "created_at": "2026-09-03T03:02:43.948550+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3802,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "regime_state:PAUSE_CANDIDATE",
+          "strategy_state:PAUSE_CANDIDATE"
+        ],
+        "symbol": "ARBUSDT"
+      },
+      {
+        "account_id": "crypto_short",
+        "created_at": "2026-09-03T03:01:45.129257+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3801,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "regime_state:PAUSE_CANDIDATE",
+          "strategy_state:PAUSE_CANDIDATE",
+          "symbol_strategy_state:SHADOW_ONLY_CANDIDATE"
+        ],
+        "symbol": "ADAUSDT"
+      },
+      {
+        "account_id": "twstock_short",
+        "created_at": "2026-09-03T02:58:03.011573+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3800,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "symbol_strategy_state:SHADOW_ONLY_CANDIDATE"
+        ],
+        "symbol": "2382.TW"
+      },
+      {
+        "account_id": "twstock_short",
+        "created_at": "2026-09-03T02:57:02.084977+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3799,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "regime_state:SHADOW_ONLY_CANDIDATE",
+          "strategy_state:SHADOW_ONLY_CANDIDATE",
+          "symbol_strategy_state:PAUSE_CANDIDATE"
+        ],
+        "symbol": "2317.TW"
+      },
+      {
+        "account_id": "twstock_short",
+        "created_at": "2026-09-03T02:52:48.741353+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3798,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "regime_state:SHADOW_ONLY_CANDIDATE",
+          "strategy_state:SHADOW_ONLY_CANDIDATE",
+          "symbol_strategy_state:PAUSE_CANDIDATE"
+        ],
+        "symbol": "2317.TW"
+      },
+      {
+        "account_id": "twstock_short",
+        "created_at": "2026-09-03T02:45:11.619923+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3797,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "symbol_strategy_state:SHADOW_ONLY_CANDIDATE"
+        ],
+        "symbol": "2382.TW"
+      },
+      {
+        "account_id": "twstock_short",
+        "created_at": "2026-09-03T02:37:57.294904+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3796,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "symbol_strategy_state:SHADOW_ONLY_CANDIDATE"
+        ],
+        "symbol": "2382.TW"
+      },
+      {
+        "account_id": "twstock_short",
+        "created_at": "2026-09-03T02:30:25.434863+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3795,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "symbol_strategy_state:SHADOW_ONLY_CANDIDATE"
+        ],
+        "symbol": "2382.TW"
+      },
+      {
+        "account_id": "twstock_short",
+        "created_at": "2026-09-03T02:23:19.455173+00:00",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 3794,
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "symbol_strategy_state:SHADOW_ONLY_CANDIDATE"
+        ],
+        "symbol": "2382.TW"
+      },
       {
         "account_id": "twstock_short",
         "created_at": "2026-09-03T02:12:06.319833+00:00",
@@ -3008,390 +3372,22 @@
           "symbol_strategy_state:SHADOW_ONLY_CANDIDATE"
         ],
         "symbol": "ZECUSDT"
-      },
-      {
-        "account_id": "crypto_short",
-        "created_at": "2026-09-02T11:11:06.963527+00:00",
-        "entry_allowed": false,
-        "filled": false,
-        "filled_notional": 0.0,
-        "id": 3609,
-        "reasons": [
-          "ZERO_NOTIONAL",
-          "regime_state:PAUSE_CANDIDATE"
-        ],
-        "symbol": "UNIUSDT"
-      },
-      {
-        "account_id": "crypto_short",
-        "created_at": "2026-09-02T11:09:45.381399+00:00",
-        "entry_allowed": false,
-        "filled": false,
-        "filled_notional": 0.0,
-        "id": 3608,
-        "reasons": [
-          "ZERO_NOTIONAL",
-          "strategy_state:PAUSE_CANDIDATE",
-          "symbol_strategy_state:SHADOW_ONLY_CANDIDATE"
-        ],
-        "symbol": "TAOUSDT"
-      },
-      {
-        "account_id": "crypto_short",
-        "created_at": "2026-09-02T11:08:15.835038+00:00",
-        "entry_allowed": false,
-        "filled": false,
-        "filled_notional": 0.0,
-        "id": 3607,
-        "reasons": [
-          "ZERO_NOTIONAL",
-          "pretrade_verdict:BLOCK_CANDIDATE",
-          "strategy_state:PAUSE_CANDIDATE"
-        ],
-        "symbol": "PENGUUSDT"
-      },
-      {
-        "account_id": "crypto_short",
-        "created_at": "2026-09-02T11:06:49.985276+00:00",
-        "entry_allowed": false,
-        "filled": false,
-        "filled_notional": 0.0,
-        "id": 3606,
-        "reasons": [
-          "ZERO_NOTIONAL",
-          "regime_state:PAUSE_CANDIDATE",
-          "strategy_state:PAUSE_CANDIDATE"
-        ],
-        "symbol": "FILUSDT"
-      },
-      {
-        "account_id": "crypto_short",
-        "created_at": "2026-09-02T11:05:33.691900+00:00",
-        "entry_allowed": false,
-        "filled": false,
-        "filled_notional": 0.0,
-        "id": 3605,
-        "reasons": [
-          "ZERO_NOTIONAL",
-          "pretrade_verdict:BLOCK_CANDIDATE",
-          "regime_state:SHADOW_ONLY_CANDIDATE",
-          "strategy_state:PAUSE_CANDIDATE"
-        ],
-        "symbol": "ETHUSDT"
-      },
-      {
-        "account_id": "crypto_short",
-        "created_at": "2026-09-02T11:04:11.992732+00:00",
-        "entry_allowed": false,
-        "filled": false,
-        "filled_notional": 0.0,
-        "id": 3604,
-        "reasons": [
-          "ZERO_NOTIONAL",
-          "strategy_state:PAUSE_CANDIDATE",
-          "symbol_strategy_state:SHADOW_ONLY_CANDIDATE"
-        ],
-        "symbol": "CRCLBUSDT"
-      },
-      {
-        "account_id": "crypto_short",
-        "created_at": "2026-09-02T11:02:51.458581+00:00",
-        "entry_allowed": false,
-        "filled": false,
-        "filled_notional": 0.0,
-        "id": 3603,
-        "reasons": [
-          "ZERO_NOTIONAL",
-          "regime_state:PAUSE_CANDIDATE",
-          "strategy_state:PAUSE_CANDIDATE"
-        ],
-        "symbol": "ARBUSDT"
-      },
-      {
-        "account_id": "crypto_short",
-        "created_at": "2026-09-02T11:01:34.850637+00:00",
-        "entry_allowed": false,
-        "filled": false,
-        "filled_notional": 0.0,
-        "id": 3602,
-        "reasons": [
-          "ZERO_NOTIONAL",
-          "regime_state:PAUSE_CANDIDATE",
-          "strategy_state:PAUSE_CANDIDATE"
-        ],
-        "symbol": "ACEUSDT"
-      },
-      {
-        "account_id": "crypto_short",
-        "created_at": "2026-09-02T10:12:25.718659+00:00",
-        "entry_allowed": false,
-        "filled": false,
-        "filled_notional": 0.0,
-        "id": 3601,
-        "reasons": [
-          "ZERO_NOTIONAL",
-          "regime_state:PAUSE_CANDIDATE"
-        ],
-        "symbol": "UNIUSDT"
-      },
-      {
-        "account_id": "crypto_short",
-        "created_at": "2026-09-02T10:10:58.610755+00:00",
-        "entry_allowed": false,
-        "filled": false,
-        "filled_notional": 0.0,
-        "id": 3600,
-        "reasons": [
-          "ZERO_NOTIONAL",
-          "strategy_state:PAUSE_CANDIDATE",
-          "symbol_strategy_state:SHADOW_ONLY_CANDIDATE"
-        ],
-        "symbol": "TAOUSDT"
-      },
-      {
-        "account_id": "crypto_short",
-        "created_at": "2026-09-02T10:09:27.379143+00:00",
-        "entry_allowed": false,
-        "filled": false,
-        "filled_notional": 0.0,
-        "id": 3599,
-        "reasons": [
-          "ZERO_NOTIONAL",
-          "pretrade_verdict:BLOCK_CANDIDATE",
-          "strategy_state:PAUSE_CANDIDATE"
-        ],
-        "symbol": "PENGUUSDT"
-      },
-      {
-        "account_id": "crypto_short",
-        "created_at": "2026-09-02T10:07:53.839085+00:00",
-        "entry_allowed": false,
-        "filled": false,
-        "filled_notional": 0.0,
-        "id": 3598,
-        "reasons": [
-          "ZERO_NOTIONAL",
-          "regime_state:PAUSE_CANDIDATE",
-          "strategy_state:PAUSE_CANDIDATE"
-        ],
-        "symbol": "FILUSDT"
-      },
-      {
-        "account_id": "crypto_short",
-        "created_at": "2026-09-02T10:06:28.504535+00:00",
-        "entry_allowed": false,
-        "filled": false,
-        "filled_notional": 0.0,
-        "id": 3597,
-        "reasons": [
-          "ZERO_NOTIONAL",
-          "pretrade_verdict:BLOCK_CANDIDATE",
-          "regime_state:SHADOW_ONLY_CANDIDATE",
-          "strategy_state:PAUSE_CANDIDATE"
-        ],
-        "symbol": "ETHUSDT"
-      },
-      {
-        "account_id": "crypto_short",
-        "created_at": "2026-09-02T10:04:49.643205+00:00",
-        "entry_allowed": false,
-        "filled": false,
-        "filled_notional": 0.0,
-        "id": 3596,
-        "reasons": [
-          "ZERO_NOTIONAL",
-          "regime_state:PAUSE_CANDIDATE",
-          "strategy_state:PAUSE_CANDIDATE"
-        ],
-        "symbol": "ARBUSDT"
-      },
-      {
-        "account_id": "crypto_short",
-        "created_at": "2026-09-02T10:03:18.712757+00:00",
-        "entry_allowed": false,
-        "filled": false,
-        "filled_notional": 0.0,
-        "id": 3595,
-        "reasons": [
-          "MATURE_NEGATIVE_EV",
-          "ZERO_NOTIONAL",
-          "expected_live_state:QUARANTINED",
-          "regime_state:PAUSE_CANDIDATE",
-          "strategy_state:PAUSE_CANDIDATE",
-          "symbol_strategy_state:PAUSE_CANDIDATE"
-        ],
-        "symbol": "AAVEUSDT"
-      },
-      {
-        "account_id": "crypto_short",
-        "created_at": "2026-09-02T09:14:30.708368+00:00",
-        "entry_allowed": false,
-        "filled": false,
-        "filled_notional": 0.0,
-        "id": 3594,
-        "reasons": [
-          "ZERO_NOTIONAL",
-          "expected_live_state:QUARANTINED",
-          "pretrade_verdict:BLOCK_CANDIDATE",
-          "regime_state:SHADOW_ONLY_CANDIDATE",
-          "symbol_strategy_state:PAUSE_CANDIDATE"
-        ],
-        "symbol": "ZECUSDT"
-      },
-      {
-        "account_id": "crypto_short",
-        "created_at": "2026-09-02T09:13:00.694190+00:00",
-        "entry_allowed": false,
-        "filled": false,
-        "filled_notional": 0.0,
-        "id": 3593,
-        "reasons": [
-          "ZERO_NOTIONAL",
-          "regime_state:PAUSE_CANDIDATE"
-        ],
-        "symbol": "UNIUSDT"
-      },
-      {
-        "account_id": "crypto_short",
-        "created_at": "2026-09-02T09:11:28.780284+00:00",
-        "entry_allowed": false,
-        "filled": false,
-        "filled_notional": 0.0,
-        "id": 3592,
-        "reasons": [
-          "ZERO_NOTIONAL",
-          "strategy_state:PAUSE_CANDIDATE",
-          "symbol_strategy_state:SHADOW_ONLY_CANDIDATE"
-        ],
-        "symbol": "TAOUSDT"
-      },
-      {
-        "account_id": "crypto_short",
-        "created_at": "2026-09-02T09:09:46.728991+00:00",
-        "entry_allowed": false,
-        "filled": false,
-        "filled_notional": 0.0,
-        "id": 3591,
-        "reasons": [
-          "ZERO_NOTIONAL",
-          "pretrade_verdict:BLOCK_CANDIDATE",
-          "strategy_state:PAUSE_CANDIDATE"
-        ],
-        "symbol": "PENGUUSDT"
-      },
-      {
-        "account_id": "crypto_short",
-        "created_at": "2026-09-02T09:08:05.862976+00:00",
-        "entry_allowed": false,
-        "filled": false,
-        "filled_notional": 0.0,
-        "id": 3590,
-        "reasons": [
-          "ZERO_NOTIONAL",
-          "regime_state:PAUSE_CANDIDATE",
-          "strategy_state:PAUSE_CANDIDATE"
-        ],
-        "symbol": "FILUSDT"
-      },
-      {
-        "account_id": "crypto_short",
-        "created_at": "2026-09-02T09:06:30.300873+00:00",
-        "entry_allowed": false,
-        "filled": false,
-        "filled_notional": 0.0,
-        "id": 3589,
-        "reasons": [
-          "ZERO_NOTIONAL",
-          "pretrade_verdict:BLOCK_CANDIDATE",
-          "regime_state:SHADOW_ONLY_CANDIDATE",
-          "strategy_state:PAUSE_CANDIDATE"
-        ],
-        "symbol": "ETHUSDT"
-      },
-      {
-        "account_id": "crypto_short",
-        "created_at": "2026-09-02T09:04:53.962416+00:00",
-        "entry_allowed": false,
-        "filled": false,
-        "filled_notional": 0.0,
-        "id": 3588,
-        "reasons": [
-          "ZERO_NOTIONAL",
-          "regime_state:PAUSE_CANDIDATE",
-          "strategy_state:PAUSE_CANDIDATE"
-        ],
-        "symbol": "ARBUSDT"
-      },
-      {
-        "account_id": "crypto_short",
-        "created_at": "2026-09-02T09:03:27.408198+00:00",
-        "entry_allowed": false,
-        "filled": false,
-        "filled_notional": 0.0,
-        "id": 3587,
-        "reasons": [
-          "MATURE_NEGATIVE_EV",
-          "ZERO_NOTIONAL",
-          "expected_live_state:QUARANTINED",
-          "regime_state:PAUSE_CANDIDATE",
-          "strategy_state:PAUSE_CANDIDATE",
-          "symbol_strategy_state:PAUSE_CANDIDATE"
-        ],
-        "symbol": "AAVEUSDT"
-      },
-      {
-        "account_id": "crypto_medium",
-        "created_at": "2026-09-02T08:23:11.819422+00:00",
-        "entry_allowed": false,
-        "filled": false,
-        "filled_notional": 0.0,
-        "id": 3586,
-        "reasons": [
-          "ZERO_NOTIONAL",
-          "strategy_state:PAUSE_CANDIDATE",
-          "symbol_strategy_state:SHADOW_ONLY_CANDIDATE"
-        ],
-        "symbol": "ZECUSDT"
-      },
-      {
-        "account_id": "crypto_medium",
-        "created_at": "2026-09-02T08:21:54.164422+00:00",
-        "entry_allowed": true,
-        "filled": true,
-        "filled_notional": 7812.235521345508,
-        "id": 3585,
-        "reasons": [],
-        "symbol": "XAUTUSDT"
-      },
-      {
-        "account_id": "crypto_short",
-        "created_at": "2026-09-02T08:20:46.021158+00:00",
-        "entry_allowed": false,
-        "filled": false,
-        "filled_notional": 0.0,
-        "id": 3584,
-        "reasons": [
-          "ZERO_NOTIONAL",
-          "strategy_state:PAUSE_CANDIDATE",
-          "symbol_strategy_state:SHADOW_ONLY_CANDIDATE"
-        ],
-        "symbol": "XAUTUSDT"
       }
     ],
     "policy_version": "ENTRY_GATE_V1",
     "simulation_only": true,
     "status": "OK",
     "summary": {
-      "blocked": 189,
+      "blocked": 188,
       "blocked_but_filled": 0,
-      "filled": 11,
+      "filled": 12,
       "sampled_events": 200
     }
   },
   "expected_live_deviation": {
     "active_sizing": true,
     "contains_secrets": false,
-    "generated_at": "2026-09-03T02:13:32.941706+00:00",
+    "generated_at": "2026-09-03T05:12:18.979312+00:00",
     "minimum_live_trades_for_active_sizing": 5,
     "rows": [
       {
@@ -3627,18 +3623,18 @@
         "win_rate_gap": 0.24545454545454543
       },
       {
-        "deviation_score": 63.51327542145346,
-        "evidence_weight": 0.35,
+        "deviation_score": 64.5328620572454,
+        "evidence_weight": 0.4,
         "horizon": "short",
-        "live_closed_trades": 7,
-        "live_compound_return": -0.06377771855854608,
+        "live_closed_trades": 8,
+        "live_compound_return": -0.059742697491003915,
         "live_losses": 6,
         "live_max_loss_streak": 4,
-        "live_per_trade_return": -0.009370442705610271,
-        "live_profit_factor": 0.05532476881076556,
+        "live_per_trade_return": -0.007670643685723788,
+        "live_profit_factor": 0.11378767512972748,
         "live_profit_factor_infinite": false,
-        "live_win_rate": 0.14285714285714285,
-        "live_wins": 1,
+        "live_win_rate": 0.25,
+        "live_wins": 2,
         "market": "crypto",
         "oos_closed_trades": 2,
         "oos_max_drawdown": -0.0008288821045643324,
@@ -3648,9 +3644,9 @@
         "oos_sharpe": 3.826173347285918,
         "oos_total_return": 0.001397017433397929,
         "oos_win_rate": 0.5,
-        "per_trade_return_gap": 0.010068707635353169,
+        "per_trade_return_gap": 0.008368908615466686,
         "performance_key": "crypto:TRXUSDT:short:Mean Reversion RSI",
-        "profit_factor_gap": 68.07090650979706,
+        "profit_factor_gap": 68.01244360347809,
         "reasons": [
           "OOS_POSITIVE_LIVE_NEGATIVE",
           "WIN_RATE_DETERIORATION",
@@ -3663,7 +3659,7 @@
         "strategy": "Mean Reversion RSI",
         "suggested_confidence_multiplier": 0.65,
         "symbol": "TRXUSDT",
-        "win_rate_gap": 0.35714285714285715
+        "win_rate_gap": 0.25
       },
       {
         "deviation_score": 63.39021363563292,
@@ -6255,6 +6251,44 @@
       {
         "deviation_score": 40.162499999999994,
         "evidence_weight": 0.05,
+        "horizon": "long",
+        "live_closed_trades": 1,
+        "live_compound_return": -0.00682767772642312,
+        "live_losses": 1,
+        "live_max_loss_streak": 1,
+        "live_per_trade_return": -0.00682767772642312,
+        "live_profit_factor": 0.0,
+        "live_profit_factor_infinite": false,
+        "live_win_rate": 0.0,
+        "live_wins": 0,
+        "market": "stock",
+        "oos_closed_trades": 17,
+        "oos_max_drawdown": -0.029942865675040897,
+        "oos_per_trade_return": 0.004434808492680853,
+        "oos_profit_factor": 3.904161416823367,
+        "oos_profit_factor_infinite": false,
+        "oos_sharpe": 1.5299755492791276,
+        "oos_total_return": 0.07812677004778368,
+        "oos_win_rate": 0.35294117647058826,
+        "per_trade_return_gap": 0.011262486219103973,
+        "performance_key": "stock:QQQ:long:Momentum",
+        "profit_factor_gap": 3.904161416823367,
+        "reasons": [
+          "OOS_POSITIVE_LIVE_NEGATIVE",
+          "WIN_RATE_DETERIORATION",
+          "PROFIT_FACTOR_DETERIORATION",
+          "EXPECTANCY_SIGN_REVERSAL"
+        ],
+        "shadow_only": true,
+        "state": "LEARNING",
+        "strategy": "Momentum",
+        "suggested_confidence_multiplier": 1.0,
+        "symbol": "QQQ",
+        "win_rate_gap": 0.35294117647058826
+      },
+      {
+        "deviation_score": 40.162499999999994,
+        "evidence_weight": 0.05,
         "horizon": "medium",
         "live_closed_trades": 1,
         "live_compound_return": -0.007403437188254203,
@@ -7722,6 +7756,39 @@
         "evidence_weight": 0.65,
         "horizon": "short",
         "live_closed_trades": 13,
+        "live_compound_return": 0.3185344113370543,
+        "live_losses": 7,
+        "live_max_loss_streak": 3,
+        "live_per_trade_return": 0.021498669437487905,
+        "live_profit_factor": 1.6964573130998726,
+        "live_profit_factor_infinite": false,
+        "live_win_rate": 0.46153846153846156,
+        "live_wins": 6,
+        "market": "crypto",
+        "oos_closed_trades": 20,
+        "oos_max_drawdown": -0.08579864093626077,
+        "oos_per_trade_return": 0.01044064410090284,
+        "oos_profit_factor": 1.8475155214351917,
+        "oos_profit_factor_infinite": false,
+        "oos_sharpe": 7.324553687463616,
+        "oos_total_return": 0.230881205321535,
+        "oos_win_rate": 0.4,
+        "per_trade_return_gap": -0.011058025336585064,
+        "performance_key": "crypto:HEMIUSDT:short:Trend MA",
+        "profit_factor_gap": 0.15105820833531913,
+        "reasons": [],
+        "shadow_only": true,
+        "state": "NORMAL",
+        "strategy": "Trend MA",
+        "suggested_confidence_multiplier": 1.0,
+        "symbol": "HEMIUSDT",
+        "win_rate_gap": -0.06153846153846154
+      },
+      {
+        "deviation_score": 0.0,
+        "evidence_weight": 0.65,
+        "horizon": "short",
+        "live_closed_trades": 13,
         "live_compound_return": 0.03798845057833922,
         "live_losses": 4,
         "live_max_loss_streak": 1,
@@ -7749,39 +7816,6 @@
         "suggested_confidence_multiplier": 1.0,
         "symbol": "PENGUUSDT",
         "win_rate_gap": 0.07692307692307698
-      },
-      {
-        "deviation_score": 0.0,
-        "evidence_weight": 0.5,
-        "horizon": "short",
-        "live_closed_trades": 10,
-        "live_compound_return": 0.09752080737662161,
-        "live_losses": 6,
-        "live_max_loss_streak": 3,
-        "live_per_trade_return": 0.009348812144101215,
-        "live_profit_factor": 1.2841621730795874,
-        "live_profit_factor_infinite": false,
-        "live_win_rate": 0.4,
-        "live_wins": 4,
-        "market": "crypto",
-        "oos_closed_trades": 20,
-        "oos_max_drawdown": -0.08579864093626077,
-        "oos_per_trade_return": 0.01044064410090284,
-        "oos_profit_factor": 1.8475155214351917,
-        "oos_profit_factor_infinite": false,
-        "oos_sharpe": 7.324553687463616,
-        "oos_total_return": 0.230881205321535,
-        "oos_win_rate": 0.4,
-        "per_trade_return_gap": 0.0010918319568016255,
-        "performance_key": "crypto:HEMIUSDT:short:Trend MA",
-        "profit_factor_gap": 0.5633533483556044,
-        "reasons": [],
-        "shadow_only": true,
-        "state": "NORMAL",
-        "strategy": "Trend MA",
-        "suggested_confidence_multiplier": 1.0,
-        "symbol": "HEMIUSDT",
-        "win_rate_gap": 0.0
       },
       {
         "deviation_score": 0.0,
@@ -8277,6 +8311,39 @@
         "suggested_confidence_multiplier": 1.0,
         "symbol": "QQQ",
         "win_rate_gap": -0.30000000000000004
+      },
+      {
+        "deviation_score": 0.0,
+        "evidence_weight": 0.05,
+        "horizon": "medium",
+        "live_closed_trades": 1,
+        "live_compound_return": 0.17874224535554117,
+        "live_losses": 0,
+        "live_max_loss_streak": 0,
+        "live_per_trade_return": 0.17874224535554117,
+        "live_profit_factor": null,
+        "live_profit_factor_infinite": true,
+        "live_win_rate": 1.0,
+        "live_wins": 1,
+        "market": "crypto",
+        "oos_closed_trades": 9,
+        "oos_max_drawdown": -0.03795056655565521,
+        "oos_per_trade_return": 0.007524079284528806,
+        "oos_profit_factor": 2.3877771253696616,
+        "oos_profit_factor_infinite": false,
+        "oos_sharpe": 2.9061721906971845,
+        "oos_total_return": 0.06979092403858966,
+        "oos_win_rate": 0.5555555555555556,
+        "per_trade_return_gap": -0.17121816607101237,
+        "performance_key": "crypto:ARBUSDT:medium:Momentum",
+        "profit_factor_gap": null,
+        "reasons": [],
+        "shadow_only": true,
+        "state": "LEARNING",
+        "strategy": "Momentum",
+        "suggested_confidence_multiplier": 1.0,
+        "symbol": "ARBUSDT",
+        "win_rate_gap": -0.4444444444444444
       },
       {
         "deviation_score": 0.0,
@@ -8896,39 +8963,6 @@
         "oos_win_rate": 0.3333333333333333,
         "per_trade_return_gap": null,
         "performance_key": "crypto:ARBUSDT:long:Momentum",
-        "profit_factor_gap": null,
-        "reasons": [],
-        "shadow_only": true,
-        "state": "LEARNING",
-        "strategy": "Momentum",
-        "suggested_confidence_multiplier": 1.0,
-        "symbol": "ARBUSDT",
-        "win_rate_gap": null
-      },
-      {
-        "deviation_score": 0.0,
-        "evidence_weight": 0.0,
-        "horizon": "medium",
-        "live_closed_trades": 0,
-        "live_compound_return": null,
-        "live_losses": 0,
-        "live_max_loss_streak": 0,
-        "live_per_trade_return": null,
-        "live_profit_factor": null,
-        "live_profit_factor_infinite": false,
-        "live_win_rate": null,
-        "live_wins": 0,
-        "market": "crypto",
-        "oos_closed_trades": 9,
-        "oos_max_drawdown": -0.03795056655565521,
-        "oos_per_trade_return": 0.007524079284528806,
-        "oos_profit_factor": 2.3877771253696616,
-        "oos_profit_factor_infinite": false,
-        "oos_sharpe": 2.9061721906971845,
-        "oos_total_return": 0.06979092403858966,
-        "oos_win_rate": 0.5555555555555556,
-        "per_trade_return_gap": null,
-        "performance_key": "crypto:ARBUSDT:medium:Momentum",
         "profit_factor_gap": null,
         "reasons": [],
         "shadow_only": true,
@@ -14133,39 +14167,6 @@
         "live_win_rate": null,
         "live_wins": 0,
         "market": "stock",
-        "oos_closed_trades": 17,
-        "oos_max_drawdown": -0.029942865675040897,
-        "oos_per_trade_return": 0.004434808492680853,
-        "oos_profit_factor": 3.904161416823367,
-        "oos_profit_factor_infinite": false,
-        "oos_sharpe": 1.5299755492791276,
-        "oos_total_return": 0.07812677004778368,
-        "oos_win_rate": 0.35294117647058826,
-        "per_trade_return_gap": null,
-        "performance_key": "stock:QQQ:long:Momentum",
-        "profit_factor_gap": null,
-        "reasons": [],
-        "shadow_only": true,
-        "state": "LEARNING",
-        "strategy": "Momentum",
-        "suggested_confidence_multiplier": 1.0,
-        "symbol": "QQQ",
-        "win_rate_gap": null
-      },
-      {
-        "deviation_score": 0.0,
-        "evidence_weight": 0.0,
-        "horizon": "long",
-        "live_closed_trades": 0,
-        "live_compound_return": null,
-        "live_losses": 0,
-        "live_max_loss_streak": 0,
-        "live_per_trade_return": null,
-        "live_profit_factor": null,
-        "live_profit_factor_infinite": false,
-        "live_win_rate": null,
-        "live_wins": 0,
-        "market": "stock",
         "oos_closed_trades": 4,
         "oos_max_drawdown": -0.04310444839268901,
         "oos_per_trade_return": 0.018627727619394463,
@@ -14856,7 +14857,7 @@
       "models": 331,
       "severe": 6,
       "watch": 5,
-      "with_live_trades": 145
+      "with_live_trades": 147
     }
   },
   "forward_validation": {
@@ -14983,7 +14984,7 @@
       }
     ]
   },
-  "generated_at": "2026-09-03T02:13:45.539733+00:00",
+  "generated_at": "2026-09-03T05:11:58.686865+00:00",
   "governance": {
     "arenas": [
       {
@@ -23156,6 +23157,156 @@
     "entries": [
       {
         "account_id": "crypto_short",
+        "bar_time": "2026-09-03T04:00:00+00:00",
+        "broad_health_multiplier": 0.8,
+        "broker_order_api_calls": 0,
+        "combined_multiplier": 0.5237738169762368,
+        "cost_adjusted_leverage_room": 173218.50510547476,
+        "created_at": "2026-09-03T05:06:43.642124+00:00",
+        "data_multiplier": 1.0,
+        "data_status": "OK",
+        "drift_multiplier": 1.0,
+        "drift_status": "NORMAL",
+        "effective_health_multiplier": 0.75,
+        "execution_cap_multiplier": 1.0,
+        "execution_reduction_notional": 0.0,
+        "execution_room": 174420.0648601941,
+        "execution_room_type": "LEVERAGE",
+        "expected_live_deviation_score": 0.0,
+        "expected_live_evidence_weight": 0.6,
+        "expected_live_multiplier": 1.0,
+        "expected_live_performance_key": "crypto:HEMIUSDT:short:Trend MA",
+        "expected_live_reasons": [],
+        "expected_live_samples": 12,
+        "expected_live_state": "NORMAL",
+        "fill_price": 0.017319393,
+        "filled_notional": 2433.6711158318317,
+        "final_effective_multiplier": 0.5237738169762368,
+        "flags": "外部情報風險:CAUTION",
+        "global_multiplier": 0.85,
+        "has_error": false,
+        "horizon": "short",
+        "id": 3823,
+        "legacy_leverage_room": 174420.0648601941,
+        "leverage_guard_applied": false,
+        "leverage_guard_multiplier": 1.0,
+        "leverage_guard_reduction_notional": 0.0,
+        "leverage_guarded_notional": 2433.6711158318317,
+        "market": "crypto",
+        "max_leverage": 2.0,
+        "meta_mode": "LEARNED_VALIDATED",
+        "meta_multiplier": 1.0,
+        "meta_probability": 0.6345728508966796,
+        "meta_samples": 73,
+        "meta_score": 63.12837055076362,
+        "meta_spread_bps": null,
+        "meta_tca_samples": 59,
+        "meta_verdict": "ALLOW",
+        "original_notional": 4646.416137945753,
+        "portfolio_multiplier": 0.6983650893016491,
+        "pretrade_multiplier": 0.6983650893016491,
+        "pretrade_score": 0.0,
+        "pretrade_verdict": "ALLOW",
+        "projected_post_fill_equity": 91048.64628140704,
+        "projected_post_fill_gross": 10115.029037975535,
+        "projected_post_fill_leverage": 0.11109477681538156,
+        "quality_drift_multiplier": 1.0,
+        "realized_evidence_dedup_applied": false,
+        "realized_evidence_multiplier": 0.75,
+        "regime": "HIGH_VOL_UP_TREND",
+        "regime_multiplier": 0.8,
+        "risk_adjusted_notional": 2433.6711158318317,
+        "risk_reduction_notional": 2212.745022113921,
+        "strategy": "Trend MA",
+        "strategy_multiplier": 1.0,
+        "symbol": "HEMIUSDT",
+        "symbol_strategy_failure_votes": 1,
+        "symbol_strategy_multiplier": 0.75,
+        "symbol_strategy_profit_factor": 1.2999434172194348,
+        "symbol_strategy_samples": 12,
+        "symbol_strategy_state": "WATCH",
+        "symbol_strategy_weighted_avg_return": 0.0068274845239413556,
+        "symbol_strategy_weighted_win_rate": 0.3745875958202202,
+        "target_leverage_cap": 1.99,
+        "total_reduction_notional": 2212.745022113921
+      },
+      {
+        "account_id": "crypto_short",
+        "bar_time": "2026-09-03T03:00:00+00:00",
+        "broad_health_multiplier": 0.8,
+        "broker_order_api_calls": 0,
+        "combined_multiplier": 0.5048017771043344,
+        "cost_adjusted_leverage_room": 173674.89599539313,
+        "created_at": "2026-09-03T04:05:17.058569+00:00",
+        "data_multiplier": 1.0,
+        "data_status": "OK",
+        "drift_multiplier": 1.0,
+        "drift_status": "NORMAL",
+        "effective_health_multiplier": 0.75,
+        "execution_cap_multiplier": 1.0,
+        "execution_reduction_notional": 0.0,
+        "execution_room": 174879.47242554132,
+        "execution_room_type": "LEVERAGE",
+        "expected_live_deviation_score": 0.0,
+        "expected_live_evidence_weight": 0.55,
+        "expected_live_multiplier": 1.0,
+        "expected_live_performance_key": "crypto:HEMIUSDT:short:Trend MA",
+        "expected_live_reasons": [],
+        "expected_live_samples": 11,
+        "expected_live_state": "NORMAL",
+        "fill_price": 0.017319393,
+        "filled_notional": 2624.5143887408785,
+        "final_effective_multiplier": 0.5048017771043344,
+        "flags": "外部情報風險:CAUTION",
+        "global_multiplier": 0.85,
+        "has_error": false,
+        "horizon": "short",
+        "id": 3813,
+        "legacy_leverage_room": 174879.47242554132,
+        "leverage_guard_applied": false,
+        "leverage_guard_multiplier": 1.0,
+        "leverage_guard_reduction_notional": 0.0,
+        "leverage_guarded_notional": 2624.5143887408785,
+        "market": "crypto",
+        "max_leverage": 2.0,
+        "meta_mode": "LEARNED_VALIDATED",
+        "meta_multiplier": 1.0,
+        "meta_probability": 0.637335675786771,
+        "meta_samples": 75,
+        "meta_score": 63.35492219175112,
+        "meta_spread_bps": null,
+        "meta_tca_samples": 59,
+        "meta_verdict": "ALLOW",
+        "original_notional": 5199.09894888986,
+        "portfolio_multiplier": 0.6730690361391125,
+        "pretrade_multiplier": 0.6730690361391125,
+        "pretrade_score": 0.0,
+        "pretrade_verdict": "ALLOW",
+        "projected_post_fill_equity": 91273.30971094796,
+        "projected_post_fill_gross": 10296.115487582098,
+        "projected_post_fill_leverage": 0.1128053263345956,
+        "quality_drift_multiplier": 1.0,
+        "realized_evidence_dedup_applied": false,
+        "realized_evidence_multiplier": 0.75,
+        "regime": "HIGH_VOL_UP_TREND",
+        "regime_multiplier": 0.8,
+        "risk_adjusted_notional": 2624.5143887408785,
+        "risk_reduction_notional": 2574.584560148982,
+        "strategy": "Trend MA",
+        "strategy_multiplier": 0.8,
+        "symbol": "HEMIUSDT",
+        "symbol_strategy_failure_votes": 1,
+        "symbol_strategy_multiplier": 0.75,
+        "symbol_strategy_profit_factor": 1.7096042637585651,
+        "symbol_strategy_samples": 11,
+        "symbol_strategy_state": "WATCH",
+        "symbol_strategy_weighted_avg_return": 0.023194745782485808,
+        "symbol_strategy_weighted_win_rate": 0.4383542811262837,
+        "target_leverage_cap": 1.99,
+        "total_reduction_notional": 2574.584560148982
+      },
+      {
+        "account_id": "crypto_short",
         "bar_time": "2026-09-03T01:00:00+00:00",
         "broad_health_multiplier": 0.8,
         "broker_order_api_calls": 0,
@@ -30821,169 +30972,9 @@
         "symbol_strategy_weighted_win_rate": 0.0,
         "target_leverage_cap": 1.99,
         "total_reduction_notional": 2524.392563963863
-      },
-      {
-        "account_id": "crypto_medium",
-        "bar_time": "2026-08-31T12:00:00+00:00",
-        "broad_health_multiplier": 0.5,
-        "broker_order_api_calls": 0,
-        "combined_multiplier": 0.25,
-        "cost_adjusted_leverage_room": 76630.58487989944,
-        "created_at": "2026-08-31T16:02:01.555506+00:00",
-        "data_multiplier": 1.0,
-        "data_status": "OK",
-        "drift_multiplier": 1.0,
-        "drift_status": "NORMAL",
-        "effective_health_multiplier": 0.5,
-        "execution_cap_multiplier": 1.0,
-        "execution_reduction_notional": 0.0,
-        "execution_room": 77716.34371244606,
-        "execution_room_type": "LEVERAGE",
-        "expected_live_deviation_score": 40.162499999999994,
-        "expected_live_evidence_weight": 0.05,
-        "expected_live_multiplier": 1.0,
-        "expected_live_performance_key": "crypto:PROMUSDT:medium:Trend MA",
-        "expected_live_reasons": [
-          "OOS_POSITIVE_LIVE_NEGATIVE",
-          "WIN_RATE_DETERIORATION",
-          "PROFIT_FACTOR_DETERIORATION",
-          "EXPECTANCY_SIGN_REVERSAL"
-        ],
-        "expected_live_samples": 1,
-        "expected_live_state": "LEARNING",
-        "fill_price": 6.8876892000000005,
-        "filled_notional": 767.8868898116655,
-        "final_effective_multiplier": 0.25,
-        "flags": "市場總曝險偏高 / 同標的跨週期重複曝險 / 與現有持倉高度相關 / 外部情報風險:CAUTION",
-        "global_multiplier": 0.65,
-        "has_error": false,
-        "horizon": "medium",
-        "id": 2777,
-        "legacy_leverage_room": 77716.34371244606,
-        "leverage_guard_applied": false,
-        "leverage_guard_multiplier": 1.0,
-        "leverage_guard_reduction_notional": 0.0,
-        "leverage_guarded_notional": 767.8868898116655,
-        "market": "crypto",
-        "max_leverage": 2.0,
-        "meta_mode": "LEARNED_VALIDATED",
-        "meta_multiplier": 0.85,
-        "meta_probability": 0.5173378724933799,
-        "meta_samples": 133,
-        "meta_score": 53.02037055061905,
-        "meta_spread_bps": 9.02282775421798,
-        "meta_tca_samples": 158,
-        "meta_verdict": "CAUTION",
-        "original_notional": 3071.547559246662,
-        "portfolio_multiplier": 0.5,
-        "pretrade_multiplier": 0.5,
-        "pretrade_score": 80.0,
-        "pretrade_verdict": "BLOCK_CANDIDATE",
-        "projected_post_fill_equity": 95699.54019486372,
-        "projected_post_fill_gross": 114451.92675937882,
-        "projected_post_fill_leverage": 1.1959506443430286,
-        "quality_drift_multiplier": 1.0,
-        "realized_evidence_dedup_applied": false,
-        "realized_evidence_multiplier": 0.5,
-        "regime": "NORMAL_UP_TREND",
-        "regime_multiplier": 1.0,
-        "risk_adjusted_notional": 767.8868898116655,
-        "risk_reduction_notional": 2303.6606694349966,
-        "strategy": "Trend MA",
-        "strategy_multiplier": 0.5,
-        "symbol": "PROMUSDT",
-        "symbol_strategy_failure_votes": 0,
-        "symbol_strategy_multiplier": 1.0,
-        "symbol_strategy_profit_factor": 0.0,
-        "symbol_strategy_samples": 1,
-        "symbol_strategy_state": "LEARNING",
-        "symbol_strategy_weighted_avg_return": -0.17158048364389233,
-        "symbol_strategy_weighted_win_rate": 0.0,
-        "target_leverage_cap": 1.99,
-        "total_reduction_notional": 2303.6606694349966
-      },
-      {
-        "account_id": "stock_short",
-        "bar_time": "2026-08-31T14:00:00+00:00",
-        "broad_health_multiplier": 0.8,
-        "broker_order_api_calls": 0,
-        "combined_multiplier": 0.25,
-        "cost_adjusted_leverage_room": 93529.4155826702,
-        "created_at": "2026-08-31T15:14:29.471101+00:00",
-        "data_multiplier": 1.0,
-        "data_status": "OK",
-        "drift_multiplier": 1.0,
-        "drift_status": "NORMAL",
-        "effective_health_multiplier": 0.8,
-        "execution_cap_multiplier": 1.0,
-        "execution_reduction_notional": 0.0,
-        "execution_room": 94558.09053317625,
-        "execution_room_type": "LEVERAGE",
-        "expected_live_deviation_score": 47.95541293034099,
-        "expected_live_evidence_weight": 0.2,
-        "expected_live_multiplier": 1.0,
-        "expected_live_performance_key": "stock:SOFI:short:Mean Reversion RSI",
-        "expected_live_reasons": [
-          "OOS_POSITIVE_LIVE_NEGATIVE",
-          "WIN_RATE_DETERIORATION",
-          "PROFIT_FACTOR_DETERIORATION",
-          "EXPECTANCY_SIGN_REVERSAL"
-        ],
-        "expected_live_samples": 4,
-        "expected_live_state": "LEARNING",
-        "fill_price": 17.60704,
-        "filled_notional": 5015.533179021391,
-        "final_effective_multiplier": 0.25,
-        "flags": "市場總曝險超過100% / 同標的跨週期重複曝險 / 與現有持倉高度相關 / 外部情報風險:CAUTION",
-        "global_multiplier": 0.65,
-        "has_error": false,
-        "horizon": "short",
-        "id": 2765,
-        "legacy_leverage_room": 94558.09053317625,
-        "leverage_guard_applied": false,
-        "leverage_guard_multiplier": 1.0,
-        "leverage_guard_reduction_notional": 0.0,
-        "leverage_guarded_notional": 5015.533179021391,
-        "market": "stock",
-        "max_leverage": 2.0,
-        "meta_mode": "LEARNED_VALIDATED",
-        "meta_multiplier": 0.6,
-        "meta_probability": 0.47782004841831793,
-        "meta_samples": 132,
-        "meta_score": 47.78200484183179,
-        "meta_spread_bps": null,
-        "meta_tca_samples": 0,
-        "meta_verdict": "SHADOW_ONLY",
-        "original_notional": 20062.132716085565,
-        "portfolio_multiplier": 0.5,
-        "pretrade_multiplier": 0.5,
-        "pretrade_score": 100.0,
-        "pretrade_verdict": "BLOCK_CANDIDATE",
-        "projected_post_fill_equity": 99163.20569599875,
-        "projected_post_fill_gross": 108785.85944894982,
-        "projected_post_fill_leverage": 1.097038550593563,
-        "quality_drift_multiplier": 1.0,
-        "realized_evidence_dedup_applied": false,
-        "realized_evidence_multiplier": 0.8,
-        "regime": "NORMAL_SIDEWAYS",
-        "regime_multiplier": 1.0,
-        "risk_adjusted_notional": 5015.533179021391,
-        "risk_reduction_notional": 15046.599537064174,
-        "strategy": "Mean Reversion RSI",
-        "strategy_multiplier": 0.8,
-        "symbol": "SOFI",
-        "symbol_strategy_failure_votes": 0,
-        "symbol_strategy_multiplier": 1.0,
-        "symbol_strategy_profit_factor": 0.785797224529449,
-        "symbol_strategy_samples": 4,
-        "symbol_strategy_state": "NORMAL",
-        "symbol_strategy_weighted_avg_return": -0.015007097704496961,
-        "symbol_strategy_weighted_win_rate": 0.2340121814983435,
-        "target_leverage_cap": 1.99,
-        "total_reduction_notional": 15046.599537064174
       }
     ],
-    "generated_at": "2026-09-03T02:14:08.061404+00:00",
+    "generated_at": "2026-09-03T05:12:34.034751+00:00",
     "scope": "PUBLIC_READ_ONLY_RISK_SIZING_AUDIT",
     "status": "AVAILABLE",
     "summary": {
@@ -30995,12 +30986,12 @@
       "expected_live_reduced": 32,
       "final_size_reduced": 100,
       "leverage_guard_reduced": 0,
-      "meta_reduced": 38,
+      "meta_reduced": 36,
       "portfolio_reduced": 100,
       "quality_drift_reduced": 22,
       "realized_evidence_dedup_applied": 32,
       "realized_evidence_reduced": 91,
-      "symbol_strategy_reduced": 47
+      "symbol_strategy_reduced": 49
     }
   },
   "schema_version": 2,
@@ -31008,7 +30999,7 @@
   "storage_persistence": {
     "bootstrap_at": "2026-09-02T17:09:57.180719+00:00",
     "bootstrap_warnings": [],
-    "last_snapshot_at": "2026-09-03T02:13:43.301623+00:00",
+    "last_snapshot_at": "2026-09-03T05:12:27.972883+00:00",
     "last_snapshot_failed": [],
     "last_snapshot_success": [
       "crypto_v2_shadow.sqlite3",
@@ -31022,9 +31013,9 @@
     "mode": "RESCUE_RUNTIME",
     "persistence_status": "OK",
     "persistent_disk": {
-      "free": 2395979776,
+      "free": 2394611712,
       "total": 4685873152,
-      "used": 2273116160
+      "used": 2274484224
     },
     "restored": [
       {
@@ -31067,23 +31058,23 @@
     "snapshot_interval_seconds": 60,
     "snapshot_keep_archives": 0,
     "status": "AVAILABLE",
-    "updated_at": "2026-09-03T02:13:43.301730+00:00"
+    "updated_at": "2026-09-03T05:12:27.972979+00:00"
   },
   "strategy_performance": [
     {
-      "avg_pnl": -20.446257094139067,
-      "avg_return_pct": -0.0026890865568903774,
+      "avg_pnl": -20.085637502747783,
+      "avg_return_pct": -0.002641796131309983,
       "best_trade_return": 0.057949181542606976,
-      "closed_trades": 147,
+      "closed_trades": 148,
       "horizon": "short",
-      "last_exit_bar": "2026-09-02T06:00:00+00:00",
+      "last_exit_bar": "2026-09-03T04:00:00+00:00",
       "losses": 86,
       "market": "crypto",
-      "profit_factor": 0.70241689757642,
-      "realized_pnl": -3005.599792838443,
+      "profit_factor": 0.7056768310282594,
+      "realized_pnl": -2972.6743504066717,
       "strategy": "Mean Reversion RSI",
-      "win_rate": 0.41496598639455784,
-      "wins": 61,
+      "win_rate": 0.4189189189189189,
+      "wins": 62,
       "worst_trade_return": -0.059396280347559616
     },
     {
@@ -31103,19 +31094,19 @@
       "worst_trade_return": -0.11405344518818628
     },
     {
-      "avg_pnl": -13.731655928094229,
-      "avg_return_pct": -0.00874112672729081,
+      "avg_pnl": -6.532341914329073,
+      "avg_return_pct": -0.005443395453696519,
       "best_trade_return": 0.24418091488318883,
-      "closed_trades": 68,
+      "closed_trades": 71,
       "horizon": "short",
-      "last_exit_bar": "2026-09-02T04:00:00+00:00",
-      "losses": 44,
+      "last_exit_bar": "2026-09-03T04:00:00+00:00",
+      "losses": 45,
       "market": "crypto",
-      "profit_factor": 0.8608541228433181,
-      "realized_pnl": -933.7526031104076,
+      "profit_factor": 0.9332188928590563,
+      "realized_pnl": -463.79627591736414,
       "strategy": "Trend MA",
-      "win_rate": 0.35294117647058826,
-      "wins": 24,
+      "win_rate": 0.36619718309859156,
+      "wins": 26,
       "worst_trade_return": -0.1754387572936471
     },
     {
@@ -31135,19 +31126,19 @@
       "worst_trade_return": -0.15500109850272703
     },
     {
-      "avg_pnl": 10.118194700569564,
-      "avg_return_pct": -0.007325757684248532,
+      "avg_pnl": 17.726524520539588,
+      "avg_return_pct": -0.0033668640025508794,
       "best_trade_return": 0.43840474521354933,
-      "closed_trades": 46,
+      "closed_trades": 47,
       "horizon": "medium",
-      "last_exit_bar": "2026-09-02T00:00:00+00:00",
+      "last_exit_bar": "2026-09-03T00:00:00+00:00",
       "losses": 33,
       "market": "crypto",
-      "profit_factor": 1.1181730468114017,
-      "realized_pnl": 465.4369562262,
+      "profit_factor": 1.21153343550722,
+      "realized_pnl": 833.1466524653606,
       "strategy": "Momentum",
-      "win_rate": 0.2826086956521739,
-      "wins": 13,
+      "win_rate": 0.2978723404255319,
+      "wins": 14,
       "worst_trade_return": -0.2700512486297818
     },
     {
@@ -31343,6 +31334,22 @@
       "worst_trade_return": -0.07631832767544111
     },
     {
+      "avg_pnl": -102.35941931416212,
+      "avg_return_pct": -0.00682767772642312,
+      "best_trade_return": -0.00682767772642312,
+      "closed_trades": 1,
+      "horizon": "long",
+      "last_exit_bar": "2026-09-02T04:00:00+00:00",
+      "losses": 1,
+      "market": "stock",
+      "profit_factor": 0.0,
+      "realized_pnl": -102.35941931416212,
+      "strategy": "Momentum",
+      "win_rate": 0.0,
+      "wins": 0,
+      "worst_trade_return": -0.00682767772642312
+    },
+    {
       "avg_pnl": 783.5963995785942,
       "avg_return_pct": 0.061517660356032566,
       "best_trade_return": 0.061517660356032566,
@@ -31483,6 +31490,24 @@
       "worst_trade_return": -0.053519372097020956
     },
     {
+      "avg_pnl": 52.41039283764204,
+      "avg_return_pct": 0.029374276489281113,
+      "best_trade_return": 0.2223609099018733,
+      "closed_trades": 13,
+      "horizon": "short",
+      "last_exit_bar": "2026-09-03T04:00:00+00:00",
+      "losses": 7,
+      "market": "crypto",
+      "performance_key": "crypto:HEMIUSDT:short:Trend MA",
+      "profit_factor": 1.6964573130998726,
+      "realized_pnl": 681.3351068893465,
+      "strategy": "Trend MA",
+      "symbol": "HEMIUSDT",
+      "win_rate": 0.46153846153846156,
+      "wins": 6,
+      "worst_trade_return": -0.15389061216517852
+    },
+    {
       "avg_pnl": 14.818213142749208,
       "avg_return_pct": 0.0031437921799328805,
       "best_trade_return": 0.03672622804072945,
@@ -31573,24 +31598,6 @@
       "worst_trade_return": -0.021903645833333374
     },
     {
-      "avg_pnl": 21.137877969630317,
-      "avg_return_pct": 0.017395005411733232,
-      "best_trade_return": 0.2223609099018733,
-      "closed_trades": 10,
-      "horizon": "short",
-      "last_exit_bar": "2026-09-01T21:00:00+00:00",
-      "losses": 6,
-      "market": "crypto",
-      "performance_key": "crypto:HEMIUSDT:short:Trend MA",
-      "profit_factor": 1.2841621730795874,
-      "realized_pnl": 211.37877969630316,
-      "strategy": "Trend MA",
-      "symbol": "HEMIUSDT",
-      "win_rate": 0.4,
-      "wins": 4,
-      "worst_trade_return": -0.15389061216517852
-    },
-    {
       "avg_pnl": -44.81670887390906,
       "avg_return_pct": -0.012080040676538006,
       "best_trade_return": 0.05239157932137162,
@@ -31625,6 +31632,24 @@
       "win_rate": 0.1111111111111111,
       "wins": 1,
       "worst_trade_return": -0.06680549155548887
+    },
+    {
+      "avg_pnl": -62.387705987554334,
+      "avg_return_pct": -0.0076461405485391265,
+      "best_trade_return": 0.004618979182679395,
+      "closed_trades": 8,
+      "horizon": "short",
+      "last_exit_bar": "2026-09-03T04:00:00+00:00",
+      "losses": 6,
+      "market": "crypto",
+      "performance_key": "crypto:TRXUSDT:short:Mean Reversion RSI",
+      "profit_factor": 0.11378767512972748,
+      "realized_pnl": -499.10164790043467,
+      "strategy": "Mean Reversion RSI",
+      "symbol": "TRXUSDT",
+      "win_rate": 0.25,
+      "wins": 2,
+      "worst_trade_return": -0.01168300000000011
     },
     {
       "avg_pnl": -35.40433173551162,
@@ -31751,24 +31776,6 @@
       "win_rate": 0.2857142857142857,
       "wins": 2,
       "worst_trade_return": -0.030509279139270706
-    },
-    {
-      "avg_pnl": -76.00387004745804,
-      "avg_return_pct": -0.009354145831045864,
-      "best_trade_return": 0.004618979182679395,
-      "closed_trades": 7,
-      "horizon": "short",
-      "last_exit_bar": "2026-09-01T16:00:00+00:00",
-      "losses": 6,
-      "market": "crypto",
-      "performance_key": "crypto:TRXUSDT:short:Mean Reversion RSI",
-      "profit_factor": 0.05532476881076556,
-      "realized_pnl": -532.0270903322063,
-      "strategy": "Mean Reversion RSI",
-      "symbol": "TRXUSDT",
-      "win_rate": 0.14285714285714285,
-      "wins": 1,
-      "worst_trade_return": -0.01168300000000011
     },
     {
       "avg_pnl": -92.70432543831872,
@@ -33211,6 +33218,24 @@
       "worst_trade_return": -0.05752864831478388
     },
     {
+      "avg_pnl": 367.7096962391606,
+      "avg_return_pct": 0.17874224535554117,
+      "best_trade_return": 0.17874224535554117,
+      "closed_trades": 1,
+      "horizon": "medium",
+      "last_exit_bar": "2026-09-03T00:00:00+00:00",
+      "losses": 0,
+      "market": "crypto",
+      "performance_key": "crypto:ARBUSDT:medium:Momentum",
+      "profit_factor": 999.0,
+      "realized_pnl": 367.7096962391606,
+      "strategy": "Momentum",
+      "symbol": "ARBUSDT",
+      "win_rate": 1.0,
+      "wins": 1,
+      "worst_trade_return": 0.17874224535554117
+    },
+    {
       "avg_pnl": -52.67358241419622,
       "avg_return_pct": -0.029994027946086077,
       "best_trade_return": -0.029994027946086077,
@@ -33913,6 +33938,24 @@
       "worst_trade_return": -0.06317012267867195
     },
     {
+      "avg_pnl": -102.35941931416212,
+      "avg_return_pct": -0.00682767772642312,
+      "best_trade_return": -0.00682767772642312,
+      "closed_trades": 1,
+      "horizon": "long",
+      "last_exit_bar": "2026-09-02T04:00:00+00:00",
+      "losses": 1,
+      "market": "stock",
+      "performance_key": "stock:QQQ:long:Momentum",
+      "profit_factor": 0.0,
+      "realized_pnl": -102.35941931416212,
+      "strategy": "Momentum",
+      "symbol": "QQQ",
+      "win_rate": 0.0,
+      "wins": 0,
+      "worst_trade_return": -0.00682767772642312
+    },
+    {
       "avg_pnl": -121.97430960743384,
       "avg_return_pct": -0.007403437188254203,
       "best_trade_return": -0.007403437188254203,
@@ -34003,11 +34046,11 @@
       "worst_trade_return": -0.00029986839109497065
     }
   ],
-  "sync_checked_at": "2026-09-03T02:14:09.167552+00:00",
-  "sync_snapshot_age_seconds": 23.627819,
+  "sync_checked_at": "2026-09-03T05:12:36.380585+00:00",
+  "sync_snapshot_age_seconds": 37.69372,
   "trial_ledger": {
     "challenges": 66,
-    "cycles": 1074,
+    "cycles": 1124,
     "distinct_hypotheses": 67,
     "events": 205,
     "last_event_at": "2026-09-02T23:20:16.474409+00:00",
@@ -34016,58 +34059,57 @@
   },
   "worker": {
     "assets_checked": 245,
-    "bars_processed": 35,
+    "bars_processed": 5,
     "broker_order_api_calls": 0,
-    "concept_drift_pairs": 12,
-    "cycle_elapsed_seconds": 517.444,
+    "concept_drift_pairs": 13,
+    "cycle_elapsed_seconds": 58.071,
     "data_quality": "OK",
     "data_quality_critical": 0,
-    "data_quality_warnings": 45,
+    "data_quality_warnings": 48,
     "first_cycle_complete": true,
-    "heartbeat_at": "2026-09-03T02:13:42.236272+00:00",
-    "last_cycle_duration_seconds": 517.444,
-    "last_cycle_finished_at": "2026-09-03T02:13:42.236229+00:00",
+    "heartbeat_at": "2026-09-03T05:11:58.227943+00:00",
+    "last_cycle_duration_seconds": 479.858,
+    "last_cycle_finished_at": "2026-09-03T05:10:00.146673+00:00",
     "last_cycle_phase_durations_seconds": {
-      "CALIBRATION": 0.066,
-      "DATA_QUALITY": 5.166,
-      "GOVERNANCE": 32.35,
-      "MODEL_HEALTH": 0.059,
-      "PORTFOLIO_RISK": 0.89,
-      "PREPARE": 0.012,
-      "PRETRADE_RISK": 56.269,
-      "SIMULATION": 421.691,
-      "UNIVERSE": 0.007,
-      "WATCHLIST": 0.934
+      "CALIBRATION": 2.357,
+      "DATA_QUALITY": 4.616,
+      "GOVERNANCE": 21.697,
+      "MODEL_HEALTH": 0.08,
+      "PORTFOLIO_RISK": 0.889,
+      "PREPARE": 0.011,
+      "PRETRADE_RISK": 47.429,
+      "SIMULATION": 402.233,
+      "UNIVERSE": 0.006,
+      "WATCHLIST": 0.541
     },
-    "last_cycle_started_at": "2026-09-03T02:05:04.792502+00:00",
-    "last_progress_at": "2026-09-03T02:13:42.236253+00:00",
-    "market_data_api_calls": 5,
-    "phase": "COMPLETE",
+    "last_cycle_started_at": "2026-09-03T05:11:00.156714+00:00",
+    "last_progress_at": "2026-09-03T05:11:45.786620+00:00",
+    "market_data_api_calls": 0,
+    "phase": "PRETRADE_RISK",
     "phase_completed": 0,
     "phase_durations_seconds": {
-      "CALIBRATION": 0.066,
-      "DATA_QUALITY": 5.166,
-      "GOVERNANCE": 32.35,
-      "MODEL_HEALTH": 0.059,
-      "PORTFOLIO_RISK": 0.89,
+      "CALIBRATION": 0.073,
+      "GOVERNANCE": 6.846,
+      "MODEL_HEALTH": 0.067,
+      "PORTFOLIO_RISK": 0.742,
       "PREPARE": 0.012,
-      "PRETRADE_RISK": 56.269,
-      "SIMULATION": 421.691,
-      "UNIVERSE": 0.007,
-      "WATCHLIST": 0.934
+      "PRETRADE_RISK": 12.441,
+      "SIMULATION": 37.76,
+      "UNIVERSE": 0.009,
+      "WATCHLIST": 0.121
     },
-    "phase_elapsed_seconds": 0.0,
-    "phase_started_at": "2026-09-03T02:13:42.236253+00:00",
+    "phase_elapsed_seconds": 12.441,
+    "phase_started_at": "2026-09-03T05:11:45.786620+00:00",
     "phase_total": 0,
     "portfolio_risk": "MEDIUM",
-    "progress_events": 805,
+    "progress_events": 803,
     "progress_schema_version": "WORKER_PROGRESS_V1",
     "progress_unit": null,
     "realtime_watchlist_sync": "ONLINE",
-    "realtime_watchlist_total": 56,
+    "realtime_watchlist_total": 52,
     "risk_layer": "ONLINE",
     "risk_sizing": "ACTIVE",
-    "status": "ONLINE",
+    "status": "RUNNING",
     "true_errors": 0
   }
 }
