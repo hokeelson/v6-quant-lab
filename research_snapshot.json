@@ -30,7 +30,7 @@
     },
     {
       "account_id": "crypto_short",
-      "as_of": "2026-09-03T19:00:00+00:00",
+      "as_of": "2026-09-03T20:00:00+00:00",
       "cash": 90926.62197883817,
       "closed_trades": 335,
       "drawdown": -0.1165404685784387,
@@ -72,7 +72,7 @@
     },
     {
       "account_id": "stock_short",
-      "as_of": "2026-09-03T19:00:00+00:00",
+      "as_of": "2026-09-03T20:00:00+00:00",
       "cash": 98494.89779978369,
       "closed_trades": 118,
       "drawdown": -0.0384856679885085,
@@ -131,9 +131,9 @@
   "data_quality": {},
   "direction_shadow": {
     "benchmarks": {
-      "always_long_after_cost_avg_return_pct": 0.0007753534910891457,
+      "always_long_after_cost_avg_return_pct": 0.0008317964442707239,
       "note": "Equal-weight prediction-window diagnostic; not a portfolio equity curve.",
-      "policy_minus_always_long_avg_return_pct": -0.003643941148709325
+      "policy_minus_always_long_avg_return_pct": -0.0036470835286539927
     },
     "broker_order_api_calls": 0,
     "confidence_calibration": {
@@ -145,10 +145,10 @@
           "samples": 11
         },
         {
-          "mean_confidence": 0.5564077463224696,
-          "observed_hit_rate": 0.4423076923076923,
+          "mean_confidence": 0.5559392597543908,
+          "observed_hit_rate": 0.4528301886792453,
           "range": "0.5-0.6",
-          "samples": 52
+          "samples": 53
         },
         {
           "mean_confidence": 0.6538790921643982,
@@ -157,10 +157,10 @@
           "samples": 162
         },
         {
-          "mean_confidence": 0.7375108352583468,
-          "observed_hit_rate": 0.28865979381443296,
+          "mean_confidence": 0.7374369630759053,
+          "observed_hit_rate": 0.2857142857142857,
           "range": "0.7-0.8",
-          "samples": 97
+          "samples": 98
         },
         {
           "mean_confidence": 0.8253222933314902,
@@ -175,19 +175,19 @@
           "samples": 1
         }
       ],
-      "brier_score": 0.3383551214491056,
-      "mean_confidence": 0.6610294033543006,
-      "observed_hit_rate": 0.35060975609756095,
-      "samples": 328
+      "brier_score": 0.3385854403205691,
+      "mean_confidence": 0.6608469503630423,
+      "observed_hit_rate": 0.3515151515151515,
+      "samples": 330
     },
     "decision_stats": {
       "LONG": {
-        "avg_forward_return_pct": -0.0065180373591034865,
-        "avg_opportunity_return_pct": 0.03471939053025076,
-        "avg_reward_r": 0.024600314442035368,
-        "completed": 77,
-        "evaluated": 77,
-        "hit_rate": 0.44155844155844154
+        "avg_forward_return_pct": -0.005999665716538481,
+        "avg_opportunity_return_pct": 0.03470907719987533,
+        "avg_reward_r": 0.03557446673421482,
+        "completed": 78,
+        "evaluated": 78,
+        "hit_rate": 0.44871794871794873
       },
       "NO_TRADE": {
         "avg_forward_return_pct": 0.0,
@@ -198,38 +198,38 @@
         "hit_rate": 0.36688311688311687
       },
       "SHORT": {
-        "avg_forward_return_pct": -0.005269055273288708,
-        "avg_opportunity_return_pct": 0.015985832336320158,
-        "avg_reward_r": -0.2667236766766454,
-        "completed": 251,
-        "evaluated": 251,
-        "hit_rate": 0.32270916334661354
+        "avg_forward_return_pct": -0.00527055251566081,
+        "avg_opportunity_return_pct": 0.015936866177648484,
+        "avg_reward_r": -0.26664275627125483,
+        "completed": 252,
+        "evaluated": 252,
+        "hit_rate": 0.32142857142857145
       }
     },
     "engine_version": "V10_ADAPTIVE_EVIDENCE_SHADOW",
-    "evaluated": 636,
+    "evaluated": 638,
     "evidence_maturity": {
       "automatic_retuning_allowed": false,
-      "directional_trades": 328,
-      "forward_days": 2.875,
+      "directional_trades": 330,
+      "forward_days": 2.9166666666666665,
       "reason": "Forward evidence is diagnostic until independently reviewed; no online parameter chasing.",
       "state": "PRELIMINARY"
     },
-    "pending": 259,
+    "pending": 261,
     "policies": [
       {
         "engine_version": "V10_ADAPTIVE_EVIDENCE_SHADOW",
-        "evaluated": 636,
-        "predictions": 895
+        "evaluated": 638,
+        "predictions": 899
       }
     ],
     "policy_performance": {
-      "avg_directional_trade_return_pct": -0.005562261433678153,
-      "avg_policy_return_pct": -0.0028685876576201794,
-      "directional_trade_samples": 328,
+      "avg_directional_trade_return_pct": -0.005442888363140986,
+      "avg_policy_return_pct": -0.0028152870843832687,
+      "directional_trade_samples": 330,
       "max_drawdown_pct": -0.8989346832457751,
-      "samples_including_no_trade": 636,
-      "trade_sequence_sharpe": -0.15490418023400448
+      "samples_including_no_trade": 638,
+      "trade_sequence_sharpe": -0.151763203333882
     },
     "promotion_gate": {
       "checks": {
@@ -355,14 +355,14 @@
         "samples": 15
       },
       {
-        "avg_forward_return_pct": -0.01058114788109338,
+        "avg_forward_return_pct": -0.01040490546930641,
         "decision": "SHORT",
-        "hit_rate": 0.2962962962962963,
+        "hit_rate": 0.2857142857142857,
         "horizon": "short",
         "market": "stock",
         "maturity": "PRELIMINARY",
         "regime": "NORMAL_DOWN_TREND",
-        "samples": 27
+        "samples": 28
       },
       {
         "avg_forward_return_pct": -0.008684328465655922,
@@ -655,6 +655,16 @@
         "samples": 4
       },
       {
+        "avg_forward_return_pct": 0.033914950760966955,
+        "decision": "LONG",
+        "hit_rate": 1.0,
+        "horizon": "short",
+        "market": "stock",
+        "maturity": "DIAGNOSTIC",
+        "regime": "NORMAL_DOWN_TREND",
+        "samples": 1
+      },
+      {
         "avg_forward_return_pct": 0.0378719343177329,
         "decision": "LONG",
         "hit_rate": 0.6153846153846154,
@@ -699,6 +709,241 @@
   "entry_gate": {
     "broker_order_api_calls": 0,
     "entries": [
+      {
+        "account_id": "stock_short",
+        "created_at": "2026-09-03T21:18:55.414114+00:00",
+        "decision_id": "2db77de2fdf14473852d12db381a5ac2",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 4065,
+        "order_id": "c4509e49de7341b5bd55165c3cfde393",
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "regime_state:SHADOW_ONLY_CANDIDATE",
+          "strategy_state:PAUSE_CANDIDATE",
+          "symbol_strategy_state:SHADOW_ONLY_CANDIDATE"
+        ],
+        "symbol": "HOOD"
+      },
+      {
+        "account_id": "stock_short",
+        "created_at": "2026-09-03T21:17:46.049110+00:00",
+        "decision_id": "822dfc1039f04fcb9c138b36f224fdbc",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 4064,
+        "order_id": "58d66cb0408b473a8213e7fc65ddb651",
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "pretrade_verdict:BLOCK_CANDIDATE",
+          "regime_state:PAUSE_CANDIDATE",
+          "strategy_state:PAUSE_CANDIDATE"
+        ],
+        "symbol": "ETHA"
+      },
+      {
+        "account_id": "stock_short",
+        "created_at": "2026-09-03T21:16:36.822404+00:00",
+        "decision_id": "0b4cc2313c874523acfd64ea17252312",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 4063,
+        "order_id": "aff53c2778c14fe2887cec5680294cfe",
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "regime_state:PAUSE_CANDIDATE",
+          "strategy_state:PAUSE_CANDIDATE"
+        ],
+        "symbol": "CIFR"
+      },
+      {
+        "account_id": "crypto_short",
+        "created_at": "2026-09-03T21:15:24.067727+00:00",
+        "decision_id": "fe9e2192ad0a4f6abc76804d39652159",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 4062,
+        "order_id": "53397941c64f47aea3f38f0c4007404a",
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "expected_live_state:QUARANTINED",
+          "regime_state:SHADOW_ONLY_CANDIDATE",
+          "symbol_strategy_state:PAUSE_CANDIDATE"
+        ],
+        "symbol": "ZECUSDT"
+      },
+      {
+        "account_id": "crypto_short",
+        "created_at": "2026-09-03T21:14:15.253189+00:00",
+        "decision_id": "6b468fa77b5144fdbb2d0b330e57e9bc",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 4061,
+        "order_id": "2ac89a386b094f2489ed16fe614c91d2",
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "regime_state:PAUSE_CANDIDATE",
+          "strategy_state:PAUSE_CANDIDATE"
+        ],
+        "symbol": "XRPUSDT"
+      },
+      {
+        "account_id": "crypto_short",
+        "created_at": "2026-09-03T21:13:04.306806+00:00",
+        "decision_id": "290ebeea05e34c14b6e66be6b22dfd22",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 4060,
+        "order_id": "394bb660f2f747f0acffe4431a08dfee",
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "regime_state:PAUSE_CANDIDATE",
+          "strategy_state:PAUSE_CANDIDATE"
+        ],
+        "symbol": "WIFUSDT"
+      },
+      {
+        "account_id": "crypto_short",
+        "created_at": "2026-09-03T21:11:58.027978+00:00",
+        "decision_id": "f0e7889562914ac79214e01ab5a50fd0",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 4059,
+        "order_id": "7aa5bd6c9c2b421289b7c54141d2dd46",
+        "reasons": [
+          "MATURE_NEGATIVE_EV",
+          "ZERO_NOTIONAL",
+          "regime_state:SHADOW_ONLY_CANDIDATE",
+          "strategy_state:SHADOW_ONLY_CANDIDATE",
+          "symbol_strategy_state:SHADOW_ONLY_CANDIDATE"
+        ],
+        "symbol": "USD1USDT"
+      },
+      {
+        "account_id": "crypto_short",
+        "created_at": "2026-09-03T21:10:51.493587+00:00",
+        "decision_id": "909c2bb8100b43bbb59e5e24329304be",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 4058,
+        "order_id": "f57e4ed2eb2043fc88717f6ac22a1125",
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "regime_state:PAUSE_CANDIDATE"
+        ],
+        "symbol": "UNIUSDT"
+      },
+      {
+        "account_id": "crypto_short",
+        "created_at": "2026-09-03T21:09:43.092531+00:00",
+        "decision_id": "a9c0d14d68334461918c865cd44fe065",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 4057,
+        "order_id": "bdc2016b2e2d436abde022934b2ca882",
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "regime_state:PAUSE_CANDIDATE",
+          "strategy_state:PAUSE_CANDIDATE"
+        ],
+        "symbol": "TRUMPUSDT"
+      },
+      {
+        "account_id": "crypto_short",
+        "created_at": "2026-09-03T21:08:33.251419+00:00",
+        "decision_id": "af8bbe11198e447e8d132980f8f7a36d",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 4056,
+        "order_id": "2564fc5a294443eba7d87faf0e319f19",
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "expected_live_state:QUARANTINED",
+          "regime_state:PAUSE_CANDIDATE",
+          "strategy_state:PAUSE_CANDIDATE",
+          "symbol_strategy_state:PAUSE_CANDIDATE"
+        ],
+        "symbol": "PUMPUSDT"
+      },
+      {
+        "account_id": "crypto_short",
+        "created_at": "2026-09-03T21:07:18.849977+00:00",
+        "decision_id": "65969228824b4f05ae78e2858788f6c5",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 4055,
+        "order_id": "ee9a7c8f091b420d920d95949c65c25e",
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "regime_state:PAUSE_CANDIDATE",
+          "strategy_state:PAUSE_CANDIDATE",
+          "symbol_strategy_state:SHADOW_ONLY_CANDIDATE"
+        ],
+        "symbol": "NILUSDT"
+      },
+      {
+        "account_id": "crypto_short",
+        "created_at": "2026-09-03T21:06:11.457433+00:00",
+        "decision_id": "1a9368e5c9f346e895916a27c0d36226",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 4054,
+        "order_id": "9523ae29005d46a18465e5b9b5e548fd",
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "regime_state:PAUSE_CANDIDATE",
+          "strategy_state:PAUSE_CANDIDATE"
+        ],
+        "symbol": "MUBARAKUSDT"
+      },
+      {
+        "account_id": "crypto_short",
+        "created_at": "2026-09-03T21:04:31.515257+00:00",
+        "decision_id": "5288ecb797004319b1b199837ad0b87f",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 4053,
+        "order_id": "734630bf3425415d81e230bb755e7c02",
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "regime_state:PAUSE_CANDIDATE",
+          "strategy_state:PAUSE_CANDIDATE",
+          "symbol_strategy_state:SHADOW_ONLY_CANDIDATE"
+        ],
+        "symbol": "ADAUSDT"
+      },
+      {
+        "account_id": "crypto_short",
+        "created_at": "2026-09-03T21:03:23.439442+00:00",
+        "decision_id": "af59b5fff5ef47e685d492b67b58989a",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 4052,
+        "order_id": "66237a93c22b4464b82dbdee243d0863",
+        "reasons": [
+          "MATURE_NEGATIVE_EV",
+          "ZERO_NOTIONAL",
+          "expected_live_state:QUARANTINED",
+          "regime_state:PAUSE_CANDIDATE",
+          "strategy_state:PAUSE_CANDIDATE",
+          "symbol_strategy_state:PAUSE_CANDIDATE"
+        ],
+        "symbol": "AAVEUSDT"
+      },
       {
         "account_id": "crypto_long",
         "created_at": "2026-09-03T20:55:26.858950+00:00",
@@ -3741,245 +3986,6 @@
           "symbol_strategy_state:SHADOW_ONLY_CANDIDATE"
         ],
         "symbol": "ADAUSDT"
-      },
-      {
-        "account_id": "crypto_short",
-        "created_at": "2026-09-03T11:03:24.717430+00:00",
-        "decision_id": null,
-        "entry_allowed": false,
-        "filled": false,
-        "filled_notional": 0.0,
-        "id": 3860,
-        "order_id": null,
-        "reasons": [
-          "MATURE_NEGATIVE_EV",
-          "ZERO_NOTIONAL",
-          "expected_live_state:QUARANTINED",
-          "regime_state:PAUSE_CANDIDATE",
-          "strategy_state:PAUSE_CANDIDATE",
-          "symbol_strategy_state:PAUSE_CANDIDATE"
-        ],
-        "symbol": "AAVEUSDT"
-      },
-      {
-        "account_id": "crypto_short",
-        "created_at": "2026-09-03T10:08:58.149860+00:00",
-        "decision_id": null,
-        "entry_allowed": false,
-        "filled": false,
-        "filled_notional": 0.0,
-        "id": 3859,
-        "order_id": null,
-        "reasons": [
-          "ZERO_NOTIONAL",
-          "expected_live_state:QUARANTINED",
-          "regime_state:SHADOW_ONLY_CANDIDATE",
-          "symbol_strategy_state:PAUSE_CANDIDATE"
-        ],
-        "symbol": "ZECUSDT"
-      },
-      {
-        "account_id": "crypto_short",
-        "created_at": "2026-09-03T10:07:44.897423+00:00",
-        "decision_id": null,
-        "entry_allowed": false,
-        "filled": false,
-        "filled_notional": 0.0,
-        "id": 3858,
-        "order_id": null,
-        "reasons": [
-          "MATURE_NEGATIVE_EV",
-          "ZERO_NOTIONAL",
-          "regime_state:SHADOW_ONLY_CANDIDATE",
-          "strategy_state:SHADOW_ONLY_CANDIDATE",
-          "symbol_strategy_state:SHADOW_ONLY_CANDIDATE"
-        ],
-        "symbol": "UUSDT"
-      },
-      {
-        "account_id": "crypto_short",
-        "created_at": "2026-09-03T10:06:26.110707+00:00",
-        "decision_id": null,
-        "entry_allowed": false,
-        "filled": false,
-        "filled_notional": 0.0,
-        "id": 3857,
-        "order_id": null,
-        "reasons": [
-          "MATURE_NEGATIVE_EV",
-          "ZERO_NOTIONAL",
-          "expected_live_state:QUARANTINED",
-          "regime_state:PAUSE_CANDIDATE",
-          "strategy_state:PAUSE_CANDIDATE",
-          "symbol_strategy_state:PAUSE_CANDIDATE"
-        ],
-        "symbol": "PUMPUSDT"
-      },
-      {
-        "account_id": "crypto_short",
-        "created_at": "2026-09-03T10:05:09.669231+00:00",
-        "decision_id": null,
-        "entry_allowed": false,
-        "filled": false,
-        "filled_notional": 0.0,
-        "id": 3856,
-        "order_id": null,
-        "reasons": [
-          "ZERO_NOTIONAL",
-          "regime_state:SHADOW_ONLY_CANDIDATE",
-          "symbol_strategy_state:SHADOW_ONLY_CANDIDATE"
-        ],
-        "symbol": "HEMIUSDT"
-      },
-      {
-        "account_id": "crypto_short",
-        "created_at": "2026-09-03T10:03:45.121400+00:00",
-        "decision_id": null,
-        "entry_allowed": false,
-        "filled": false,
-        "filled_notional": 0.0,
-        "id": 3855,
-        "order_id": null,
-        "reasons": [
-          "ZERO_NOTIONAL",
-          "regime_state:PAUSE_CANDIDATE",
-          "strategy_state:PAUSE_CANDIDATE"
-        ],
-        "symbol": "ARBUSDT"
-      },
-      {
-        "account_id": "crypto_short",
-        "created_at": "2026-09-03T10:02:44.245852+00:00",
-        "decision_id": null,
-        "entry_allowed": false,
-        "filled": false,
-        "filled_notional": 0.0,
-        "id": 3854,
-        "order_id": null,
-        "reasons": [
-          "ZERO_NOTIONAL",
-          "regime_state:PAUSE_CANDIDATE",
-          "strategy_state:PAUSE_CANDIDATE",
-          "symbol_strategy_state:SHADOW_ONLY_CANDIDATE"
-        ],
-        "symbol": "ADAUSDT"
-      },
-      {
-        "account_id": "crypto_short",
-        "created_at": "2026-09-03T10:01:38.269342+00:00",
-        "decision_id": null,
-        "entry_allowed": false,
-        "filled": false,
-        "filled_notional": 0.0,
-        "id": 3853,
-        "order_id": null,
-        "reasons": [
-          "MATURE_NEGATIVE_EV",
-          "ZERO_NOTIONAL",
-          "expected_live_state:QUARANTINED",
-          "regime_state:PAUSE_CANDIDATE",
-          "strategy_state:PAUSE_CANDIDATE",
-          "symbol_strategy_state:PAUSE_CANDIDATE"
-        ],
-        "symbol": "AAVEUSDT"
-      },
-      {
-        "account_id": "crypto_short",
-        "created_at": "2026-09-03T09:05:19.654897+00:00",
-        "decision_id": null,
-        "entry_allowed": false,
-        "filled": false,
-        "filled_notional": 0.0,
-        "id": 3852,
-        "order_id": null,
-        "reasons": [
-          "ZERO_NOTIONAL",
-          "expected_live_state:QUARANTINED",
-          "regime_state:SHADOW_ONLY_CANDIDATE",
-          "symbol_strategy_state:PAUSE_CANDIDATE"
-        ],
-        "symbol": "ZECUSDT"
-      },
-      {
-        "account_id": "crypto_short",
-        "created_at": "2026-09-03T09:03:52.473572+00:00",
-        "decision_id": null,
-        "entry_allowed": false,
-        "filled": false,
-        "filled_notional": 0.0,
-        "id": 3851,
-        "order_id": null,
-        "reasons": [
-          "ZERO_NOTIONAL",
-          "regime_state:SHADOW_ONLY_CANDIDATE",
-          "symbol_strategy_state:SHADOW_ONLY_CANDIDATE"
-        ],
-        "symbol": "HEMIUSDT"
-      },
-      {
-        "account_id": "crypto_short",
-        "created_at": "2026-09-03T09:02:48.691724+00:00",
-        "decision_id": null,
-        "entry_allowed": false,
-        "filled": false,
-        "filled_notional": 0.0,
-        "id": 3850,
-        "order_id": null,
-        "reasons": [
-          "ZERO_NOTIONAL",
-          "regime_state:PAUSE_CANDIDATE",
-          "strategy_state:PAUSE_CANDIDATE"
-        ],
-        "symbol": "ARBUSDT"
-      },
-      {
-        "account_id": "crypto_short",
-        "created_at": "2026-09-03T09:01:56.612143+00:00",
-        "decision_id": null,
-        "entry_allowed": false,
-        "filled": false,
-        "filled_notional": 0.0,
-        "id": 3849,
-        "order_id": null,
-        "reasons": [
-          "ZERO_NOTIONAL",
-          "regime_state:PAUSE_CANDIDATE",
-          "strategy_state:PAUSE_CANDIDATE",
-          "symbol_strategy_state:SHADOW_ONLY_CANDIDATE"
-        ],
-        "symbol": "ADAUSDT"
-      },
-      {
-        "account_id": "crypto_short",
-        "created_at": "2026-09-03T08:11:37.191161+00:00",
-        "decision_id": null,
-        "entry_allowed": false,
-        "filled": false,
-        "filled_notional": 0.0,
-        "id": 3848,
-        "order_id": null,
-        "reasons": [
-          "ZERO_NOTIONAL",
-          "expected_live_state:QUARANTINED",
-          "regime_state:SHADOW_ONLY_CANDIDATE",
-          "symbol_strategy_state:PAUSE_CANDIDATE"
-        ],
-        "symbol": "ZECUSDT"
-      },
-      {
-        "account_id": "crypto_medium",
-        "created_at": "2026-09-03T08:10:27.035350+00:00",
-        "decision_id": null,
-        "entry_allowed": false,
-        "filled": false,
-        "filled_notional": 0.0,
-        "id": 3847,
-        "order_id": null,
-        "reasons": [
-          "ZERO_NOTIONAL",
-          "regime_state:SHADOW_ONLY_CANDIDATE"
-        ],
-        "symbol": "TUSDT"
       }
     ],
     "policy_version": "ENTRY_GATE_V1",
@@ -3994,25 +4000,220 @@
   },
   "execution_audit": {
     "contains_secrets": false,
-    "generated_at": "2026-09-03T21:00:53.822797+00:00",
+    "generated_at": "2026-09-03T21:18:56.373231+00:00",
     "ledger_counts": {
       "accounts": 9,
-      "decisions": 19805,
-      "orders": 1557,
+      "decisions": 19854,
+      "orders": 1570,
       "positions": 49,
       "trades": 585
     },
     "lifecycle": {
       "coverage": {
         "diagnostic_limit": 5000,
-        "diagnostics_scanned": 1162,
+        "diagnostics_scanned": 1176,
         "legacy_links_inferred": false,
         "malformed_diagnostics": 0,
         "order_limit": 200,
         "sampled_buy_orders": 200,
-        "total_buy_orders": 1239
+        "total_buy_orders": 1252
       },
       "entries": [
+        {
+          "account_id": "stock_short",
+          "created_at": "2026-09-03T21:16:36.829814+00:00",
+          "decision_id": "6b745d5c881048cea12a33b498fdbfc6",
+          "fill_price": null,
+          "filled_bar": null,
+          "issues": [
+            "MISSING_OR_AMBIGUOUS_GATE_LINK"
+          ],
+          "order_id": "1440b4d1a4b54cd3911f9b3e056e4d39",
+          "order_status": "PENDING",
+          "status": "UNRESOLVED",
+          "symbol": "CIFR",
+          "trade_ids": []
+        },
+        {
+          "account_id": "crypto_short",
+          "created_at": "2026-09-03T21:15:24.077311+00:00",
+          "decision_id": "0ddee14ad75c4aa79f8df111be26347c",
+          "fill_price": null,
+          "filled_bar": null,
+          "issues": [
+            "MISSING_OR_AMBIGUOUS_GATE_LINK"
+          ],
+          "order_id": "f423f0084f9840c58f2c87bd8f632fc9",
+          "order_status": "PENDING",
+          "status": "UNRESOLVED",
+          "symbol": "ZECUSDT",
+          "trade_ids": []
+        },
+        {
+          "account_id": "crypto_short",
+          "created_at": "2026-09-03T21:14:15.262318+00:00",
+          "decision_id": "230c1e2545434426b5c396501fc98b49",
+          "fill_price": null,
+          "filled_bar": null,
+          "issues": [
+            "MISSING_OR_AMBIGUOUS_GATE_LINK"
+          ],
+          "order_id": "c70ca095ef424ef388d2e05789ba5240",
+          "order_status": "PENDING",
+          "status": "UNRESOLVED",
+          "symbol": "XRPUSDT",
+          "trade_ids": []
+        },
+        {
+          "account_id": "crypto_short",
+          "created_at": "2026-09-03T21:13:04.317869+00:00",
+          "decision_id": "511a3814d0d646968dd8142e0bef0a6b",
+          "fill_price": null,
+          "filled_bar": null,
+          "issues": [
+            "MISSING_OR_AMBIGUOUS_GATE_LINK"
+          ],
+          "order_id": "d463773dc1064629900e7eb7ebd8c5d6",
+          "order_status": "PENDING",
+          "status": "UNRESOLVED",
+          "symbol": "WIFUSDT",
+          "trade_ids": []
+        },
+        {
+          "account_id": "crypto_short",
+          "created_at": "2026-09-03T21:11:58.092430+00:00",
+          "decision_id": "b3621b1ff43d4826984a390619554df8",
+          "fill_price": null,
+          "filled_bar": null,
+          "issues": [
+            "MISSING_OR_AMBIGUOUS_GATE_LINK"
+          ],
+          "order_id": "906ad5bc799b47b0ae49d03ca20774ac",
+          "order_status": "PENDING",
+          "status": "UNRESOLVED",
+          "symbol": "USD1USDT",
+          "trade_ids": []
+        },
+        {
+          "account_id": "crypto_short",
+          "created_at": "2026-09-03T21:10:51.502894+00:00",
+          "decision_id": "876fd0fb324d4adb92031e62e5c15b2e",
+          "fill_price": null,
+          "filled_bar": null,
+          "issues": [
+            "MISSING_OR_AMBIGUOUS_GATE_LINK"
+          ],
+          "order_id": "ecf6f5c9875b4334a565c04b5c18834c",
+          "order_status": "PENDING",
+          "status": "UNRESOLVED",
+          "symbol": "UNIUSDT",
+          "trade_ids": []
+        },
+        {
+          "account_id": "crypto_short",
+          "created_at": "2026-09-03T21:09:43.100974+00:00",
+          "decision_id": "234ebef8b9564275ba48ed6999418aff",
+          "fill_price": null,
+          "filled_bar": null,
+          "issues": [
+            "MISSING_OR_AMBIGUOUS_GATE_LINK"
+          ],
+          "order_id": "a287b0a127034bf6840a457754fe1e47",
+          "order_status": "PENDING",
+          "status": "UNRESOLVED",
+          "symbol": "TRUMPUSDT",
+          "trade_ids": []
+        },
+        {
+          "account_id": "crypto_short",
+          "created_at": "2026-09-03T21:08:33.260824+00:00",
+          "decision_id": "792bc56a39a94861bc113378d1d898f6",
+          "fill_price": null,
+          "filled_bar": null,
+          "issues": [
+            "MISSING_OR_AMBIGUOUS_GATE_LINK"
+          ],
+          "order_id": "3b0c6acf1ba347cc987f39e1536cb719",
+          "order_status": "PENDING",
+          "status": "UNRESOLVED",
+          "symbol": "PUMPUSDT",
+          "trade_ids": []
+        },
+        {
+          "account_id": "crypto_short",
+          "created_at": "2026-09-03T21:07:18.859957+00:00",
+          "decision_id": "927f375d3f5a406285d14702fe6b9a0b",
+          "fill_price": null,
+          "filled_bar": null,
+          "issues": [
+            "MISSING_OR_AMBIGUOUS_GATE_LINK"
+          ],
+          "order_id": "85159d4812094e3485afb753dc4164d5",
+          "order_status": "PENDING",
+          "status": "UNRESOLVED",
+          "symbol": "NILUSDT",
+          "trade_ids": []
+        },
+        {
+          "account_id": "crypto_short",
+          "created_at": "2026-09-03T21:06:11.468961+00:00",
+          "decision_id": "42d9107764614fb19b5c7eb4861d2d6e",
+          "fill_price": null,
+          "filled_bar": null,
+          "issues": [
+            "MISSING_OR_AMBIGUOUS_GATE_LINK"
+          ],
+          "order_id": "58ba9c5720de46e2866d7b187d7cb955",
+          "order_status": "PENDING",
+          "status": "UNRESOLVED",
+          "symbol": "MUBARAKUSDT",
+          "trade_ids": []
+        },
+        {
+          "account_id": "crypto_short",
+          "created_at": "2026-09-03T21:04:32.693794+00:00",
+          "decision_id": "3dc18ef0f38c4f12afd3a900e7ed8c00",
+          "fill_price": null,
+          "filled_bar": null,
+          "issues": [
+            "MISSING_OR_AMBIGUOUS_GATE_LINK"
+          ],
+          "order_id": "dc8da8030b484924bd0aa6e8db6c11cd",
+          "order_status": "PENDING",
+          "status": "UNRESOLVED",
+          "symbol": "ARBUSDT",
+          "trade_ids": []
+        },
+        {
+          "account_id": "crypto_short",
+          "created_at": "2026-09-03T21:04:31.524743+00:00",
+          "decision_id": "0f7eb7f6dac946c58d04921ba3d047a9",
+          "fill_price": null,
+          "filled_bar": null,
+          "issues": [
+            "MISSING_OR_AMBIGUOUS_GATE_LINK"
+          ],
+          "order_id": "8c15d3c69de74f3189a2b8f5b60ac598",
+          "order_status": "PENDING",
+          "status": "UNRESOLVED",
+          "symbol": "ADAUSDT",
+          "trade_ids": []
+        },
+        {
+          "account_id": "crypto_short",
+          "created_at": "2026-09-03T21:03:23.450223+00:00",
+          "decision_id": "773bd7c7612347b480459aa2a9e05d51",
+          "fill_price": null,
+          "filled_bar": null,
+          "issues": [
+            "MISSING_OR_AMBIGUOUS_GATE_LINK"
+          ],
+          "order_id": "9696b6f9595b4334bae781dd3070a2b3",
+          "order_status": "PENDING",
+          "status": "UNRESOLVED",
+          "symbol": "AAVEUSDT",
+          "trade_ids": []
+        },
         {
           "account_id": "crypto_long",
           "block_reasons": [],
@@ -4299,16 +4500,23 @@
         },
         {
           "account_id": "stock_short",
+          "block_reasons": [
+            "ZERO_NOTIONAL",
+            "regime_state:SHADOW_ONLY_CANDIDATE",
+            "strategy_state:PAUSE_CANDIDATE",
+            "symbol_strategy_state:SHADOW_ONLY_CANDIDATE"
+          ],
           "created_at": "2026-09-03T20:28:41.952622+00:00",
           "decision_id": "2db77de2fdf14473852d12db381a5ac2",
+          "entry_allowed": false,
           "fill_price": null,
           "filled_bar": null,
-          "issues": [
-            "MISSING_OR_AMBIGUOUS_GATE_LINK"
-          ],
+          "gate_created_at": "2026-09-03T21:18:55.414114+00:00",
+          "gate_event_id": 4065,
+          "issues": [],
           "order_id": "c4509e49de7341b5bd55165c3cfde393",
-          "order_status": "PENDING",
-          "status": "UNRESOLVED",
+          "order_status": "CANCELLED",
+          "status": "VALIDATED_BLOCKED",
           "symbol": "HOOD",
           "trade_ids": []
         },
@@ -4344,31 +4552,44 @@
         },
         {
           "account_id": "stock_short",
+          "block_reasons": [
+            "ZERO_NOTIONAL",
+            "pretrade_verdict:BLOCK_CANDIDATE",
+            "regime_state:PAUSE_CANDIDATE",
+            "strategy_state:PAUSE_CANDIDATE"
+          ],
           "created_at": "2026-09-03T20:25:16.499051+00:00",
           "decision_id": "822dfc1039f04fcb9c138b36f224fdbc",
+          "entry_allowed": false,
           "fill_price": null,
           "filled_bar": null,
-          "issues": [
-            "MISSING_OR_AMBIGUOUS_GATE_LINK"
-          ],
+          "gate_created_at": "2026-09-03T21:17:46.049110+00:00",
+          "gate_event_id": 4064,
+          "issues": [],
           "order_id": "58d66cb0408b473a8213e7fc65ddb651",
-          "order_status": "PENDING",
-          "status": "UNRESOLVED",
+          "order_status": "CANCELLED",
+          "status": "VALIDATED_BLOCKED",
           "symbol": "ETHA",
           "trade_ids": []
         },
         {
           "account_id": "stock_short",
+          "block_reasons": [
+            "ZERO_NOTIONAL",
+            "regime_state:PAUSE_CANDIDATE",
+            "strategy_state:PAUSE_CANDIDATE"
+          ],
           "created_at": "2026-09-03T20:24:09.466317+00:00",
           "decision_id": "0b4cc2313c874523acfd64ea17252312",
+          "entry_allowed": false,
           "fill_price": null,
           "filled_bar": null,
-          "issues": [
-            "MISSING_OR_AMBIGUOUS_GATE_LINK"
-          ],
+          "gate_created_at": "2026-09-03T21:16:36.822404+00:00",
+          "gate_event_id": 4063,
+          "issues": [],
           "order_id": "aff53c2778c14fe2887cec5680294cfe",
-          "order_status": "PENDING",
-          "status": "UNRESOLVED",
+          "order_status": "CANCELLED",
+          "status": "VALIDATED_BLOCKED",
           "symbol": "CIFR",
           "trade_ids": []
         },
@@ -4419,136 +4640,195 @@
         },
         {
           "account_id": "crypto_short",
+          "block_reasons": [
+            "ZERO_NOTIONAL",
+            "expected_live_state:QUARANTINED",
+            "regime_state:SHADOW_ONLY_CANDIDATE",
+            "symbol_strategy_state:PAUSE_CANDIDATE"
+          ],
           "created_at": "2026-09-03T20:20:43.942571+00:00",
           "decision_id": "fe9e2192ad0a4f6abc76804d39652159",
+          "entry_allowed": false,
           "fill_price": null,
           "filled_bar": null,
-          "issues": [
-            "MISSING_OR_AMBIGUOUS_GATE_LINK"
-          ],
+          "gate_created_at": "2026-09-03T21:15:24.067727+00:00",
+          "gate_event_id": 4062,
+          "issues": [],
           "order_id": "53397941c64f47aea3f38f0c4007404a",
-          "order_status": "PENDING",
-          "status": "UNRESOLVED",
+          "order_status": "CANCELLED",
+          "status": "VALIDATED_BLOCKED",
           "symbol": "ZECUSDT",
           "trade_ids": []
         },
         {
           "account_id": "crypto_short",
+          "block_reasons": [
+            "ZERO_NOTIONAL",
+            "regime_state:PAUSE_CANDIDATE",
+            "strategy_state:PAUSE_CANDIDATE"
+          ],
           "created_at": "2026-09-03T20:19:32.521682+00:00",
           "decision_id": "6b468fa77b5144fdbb2d0b330e57e9bc",
+          "entry_allowed": false,
           "fill_price": null,
           "filled_bar": null,
-          "issues": [
-            "MISSING_OR_AMBIGUOUS_GATE_LINK"
-          ],
+          "gate_created_at": "2026-09-03T21:14:15.253189+00:00",
+          "gate_event_id": 4061,
+          "issues": [],
           "order_id": "2ac89a386b094f2489ed16fe614c91d2",
-          "order_status": "PENDING",
-          "status": "UNRESOLVED",
+          "order_status": "CANCELLED",
+          "status": "VALIDATED_BLOCKED",
           "symbol": "XRPUSDT",
           "trade_ids": []
         },
         {
           "account_id": "crypto_short",
+          "block_reasons": [
+            "ZERO_NOTIONAL",
+            "regime_state:PAUSE_CANDIDATE",
+            "strategy_state:PAUSE_CANDIDATE"
+          ],
           "created_at": "2026-09-03T20:18:15.876111+00:00",
           "decision_id": "290ebeea05e34c14b6e66be6b22dfd22",
+          "entry_allowed": false,
           "fill_price": null,
           "filled_bar": null,
-          "issues": [
-            "MISSING_OR_AMBIGUOUS_GATE_LINK"
-          ],
+          "gate_created_at": "2026-09-03T21:13:04.306806+00:00",
+          "gate_event_id": 4060,
+          "issues": [],
           "order_id": "394bb660f2f747f0acffe4431a08dfee",
-          "order_status": "PENDING",
-          "status": "UNRESOLVED",
+          "order_status": "CANCELLED",
+          "status": "VALIDATED_BLOCKED",
           "symbol": "WIFUSDT",
           "trade_ids": []
         },
         {
           "account_id": "crypto_short",
+          "block_reasons": [
+            "MATURE_NEGATIVE_EV",
+            "ZERO_NOTIONAL",
+            "regime_state:SHADOW_ONLY_CANDIDATE",
+            "strategy_state:SHADOW_ONLY_CANDIDATE",
+            "symbol_strategy_state:SHADOW_ONLY_CANDIDATE"
+          ],
           "created_at": "2026-09-03T20:17:09.755076+00:00",
           "decision_id": "f0e7889562914ac79214e01ab5a50fd0",
+          "entry_allowed": false,
           "fill_price": null,
           "filled_bar": null,
-          "issues": [
-            "MISSING_OR_AMBIGUOUS_GATE_LINK"
-          ],
+          "gate_created_at": "2026-09-03T21:11:58.027978+00:00",
+          "gate_event_id": 4059,
+          "issues": [],
           "order_id": "7aa5bd6c9c2b421289b7c54141d2dd46",
-          "order_status": "PENDING",
-          "status": "UNRESOLVED",
+          "order_status": "CANCELLED",
+          "status": "VALIDATED_BLOCKED",
           "symbol": "USD1USDT",
           "trade_ids": []
         },
         {
           "account_id": "crypto_short",
+          "block_reasons": [
+            "ZERO_NOTIONAL",
+            "regime_state:PAUSE_CANDIDATE"
+          ],
           "created_at": "2026-09-03T20:16:07.870589+00:00",
           "decision_id": "909c2bb8100b43bbb59e5e24329304be",
+          "entry_allowed": false,
           "fill_price": null,
           "filled_bar": null,
-          "issues": [
-            "MISSING_OR_AMBIGUOUS_GATE_LINK"
-          ],
+          "gate_created_at": "2026-09-03T21:10:51.493587+00:00",
+          "gate_event_id": 4058,
+          "issues": [],
           "order_id": "f57e4ed2eb2043fc88717f6ac22a1125",
-          "order_status": "PENDING",
-          "status": "UNRESOLVED",
+          "order_status": "CANCELLED",
+          "status": "VALIDATED_BLOCKED",
           "symbol": "UNIUSDT",
           "trade_ids": []
         },
         {
           "account_id": "crypto_short",
+          "block_reasons": [
+            "ZERO_NOTIONAL",
+            "regime_state:PAUSE_CANDIDATE",
+            "strategy_state:PAUSE_CANDIDATE"
+          ],
           "created_at": "2026-09-03T20:14:57.468936+00:00",
           "decision_id": "a9c0d14d68334461918c865cd44fe065",
+          "entry_allowed": false,
           "fill_price": null,
           "filled_bar": null,
-          "issues": [
-            "MISSING_OR_AMBIGUOUS_GATE_LINK"
-          ],
+          "gate_created_at": "2026-09-03T21:09:43.092531+00:00",
+          "gate_event_id": 4057,
+          "issues": [],
           "order_id": "bdc2016b2e2d436abde022934b2ca882",
-          "order_status": "PENDING",
-          "status": "UNRESOLVED",
+          "order_status": "CANCELLED",
+          "status": "VALIDATED_BLOCKED",
           "symbol": "TRUMPUSDT",
           "trade_ids": []
         },
         {
           "account_id": "crypto_short",
+          "block_reasons": [
+            "ZERO_NOTIONAL",
+            "expected_live_state:QUARANTINED",
+            "regime_state:PAUSE_CANDIDATE",
+            "strategy_state:PAUSE_CANDIDATE",
+            "symbol_strategy_state:PAUSE_CANDIDATE"
+          ],
           "created_at": "2026-09-03T20:13:47.691749+00:00",
           "decision_id": "af8bbe11198e447e8d132980f8f7a36d",
+          "entry_allowed": false,
           "fill_price": null,
           "filled_bar": null,
-          "issues": [
-            "MISSING_OR_AMBIGUOUS_GATE_LINK"
-          ],
+          "gate_created_at": "2026-09-03T21:08:33.251419+00:00",
+          "gate_event_id": 4056,
+          "issues": [],
           "order_id": "2564fc5a294443eba7d87faf0e319f19",
-          "order_status": "PENDING",
-          "status": "UNRESOLVED",
+          "order_status": "CANCELLED",
+          "status": "VALIDATED_BLOCKED",
           "symbol": "PUMPUSDT",
           "trade_ids": []
         },
         {
           "account_id": "crypto_short",
+          "block_reasons": [
+            "ZERO_NOTIONAL",
+            "regime_state:PAUSE_CANDIDATE",
+            "strategy_state:PAUSE_CANDIDATE",
+            "symbol_strategy_state:SHADOW_ONLY_CANDIDATE"
+          ],
           "created_at": "2026-09-03T20:12:39.103805+00:00",
           "decision_id": "65969228824b4f05ae78e2858788f6c5",
+          "entry_allowed": false,
           "fill_price": null,
           "filled_bar": null,
-          "issues": [
-            "MISSING_OR_AMBIGUOUS_GATE_LINK"
-          ],
+          "gate_created_at": "2026-09-03T21:07:18.849977+00:00",
+          "gate_event_id": 4055,
+          "issues": [],
           "order_id": "ee9a7c8f091b420d920d95949c65c25e",
-          "order_status": "PENDING",
-          "status": "UNRESOLVED",
+          "order_status": "CANCELLED",
+          "status": "VALIDATED_BLOCKED",
           "symbol": "NILUSDT",
           "trade_ids": []
         },
         {
           "account_id": "crypto_short",
+          "block_reasons": [
+            "ZERO_NOTIONAL",
+            "regime_state:PAUSE_CANDIDATE",
+            "strategy_state:PAUSE_CANDIDATE"
+          ],
           "created_at": "2026-09-03T20:11:34.734321+00:00",
           "decision_id": "1a9368e5c9f346e895916a27c0d36226",
+          "entry_allowed": false,
           "fill_price": null,
           "filled_bar": null,
-          "issues": [
-            "MISSING_OR_AMBIGUOUS_GATE_LINK"
-          ],
+          "gate_created_at": "2026-09-03T21:06:11.457433+00:00",
+          "gate_event_id": 4054,
+          "issues": [],
           "order_id": "9523ae29005d46a18465e5b9b5e548fd",
-          "order_status": "PENDING",
-          "status": "UNRESOLVED",
+          "order_status": "CANCELLED",
+          "status": "VALIDATED_BLOCKED",
           "symbol": "MUBARAKUSDT",
           "trade_ids": []
         },
@@ -4614,16 +4894,23 @@
         },
         {
           "account_id": "crypto_short",
+          "block_reasons": [
+            "ZERO_NOTIONAL",
+            "regime_state:PAUSE_CANDIDATE",
+            "strategy_state:PAUSE_CANDIDATE",
+            "symbol_strategy_state:SHADOW_ONLY_CANDIDATE"
+          ],
           "created_at": "2026-09-03T20:03:49.958870+00:00",
           "decision_id": "5288ecb797004319b1b199837ad0b87f",
+          "entry_allowed": false,
           "fill_price": null,
           "filled_bar": null,
-          "issues": [
-            "MISSING_OR_AMBIGUOUS_GATE_LINK"
-          ],
+          "gate_created_at": "2026-09-03T21:04:31.515257+00:00",
+          "gate_event_id": 4053,
+          "issues": [],
           "order_id": "734630bf3425415d81e230bb755e7c02",
-          "order_status": "PENDING",
-          "status": "UNRESOLVED",
+          "order_status": "CANCELLED",
+          "status": "VALIDATED_BLOCKED",
           "symbol": "ADAUSDT",
           "trade_ids": []
         },
@@ -4644,16 +4931,25 @@
         },
         {
           "account_id": "crypto_short",
+          "block_reasons": [
+            "MATURE_NEGATIVE_EV",
+            "ZERO_NOTIONAL",
+            "expected_live_state:QUARANTINED",
+            "regime_state:PAUSE_CANDIDATE",
+            "strategy_state:PAUSE_CANDIDATE",
+            "symbol_strategy_state:PAUSE_CANDIDATE"
+          ],
           "created_at": "2026-09-03T20:01:33.648606+00:00",
           "decision_id": "af59b5fff5ef47e685d492b67b58989a",
+          "entry_allowed": false,
           "fill_price": null,
           "filled_bar": null,
-          "issues": [
-            "MISSING_OR_AMBIGUOUS_GATE_LINK"
-          ],
+          "gate_created_at": "2026-09-03T21:03:23.439442+00:00",
+          "gate_event_id": 4052,
+          "issues": [],
           "order_id": "66237a93c22b4464b82dbdee243d0863",
-          "order_status": "PENDING",
-          "status": "UNRESOLVED",
+          "order_status": "CANCELLED",
+          "status": "VALIDATED_BLOCKED",
           "symbol": "AAVEUSDT",
           "trade_ids": []
         },
@@ -7707,229 +8003,15 @@
           "status": "UNRESOLVED",
           "symbol": "TRUMPUSDT",
           "trade_ids": []
-        },
-        {
-          "account_id": "crypto_short",
-          "created_at": "2026-09-03T12:12:07.322673+00:00",
-          "decision_id": "2856a3afa1784ee7827ffa77092a3f69",
-          "fill_price": null,
-          "filled_bar": null,
-          "issues": [
-            "MISSING_OR_AMBIGUOUS_GATE_LINK"
-          ],
-          "order_id": "0b327d0747444a17ba7ba135c925e51d",
-          "order_status": "CANCELLED",
-          "status": "UNRESOLVED",
-          "symbol": "PUMPUSDT",
-          "trade_ids": []
-        },
-        {
-          "account_id": "crypto_medium",
-          "block_reasons": [],
-          "created_at": "2026-09-03T12:11:12.308347+00:00",
-          "decision_id": "636063a7dcb247fcac8ba51508c00037",
-          "entry_allowed": true,
-          "fill_price": 0.028167804,
-          "filled_bar": "2026-09-03T12:00:00+00:00",
-          "gate_created_at": "2026-09-03T16:11:24.174639+00:00",
-          "gate_event_id": 3928,
-          "issues": [],
-          "order_id": "6a303e0dd7b94c3281625a472bc356e5",
-          "order_status": "FILLED",
-          "qty": 101636.84933517134,
-          "status": "VALIDATED_OPEN",
-          "symbol": "MUBARAKUSDT",
-          "trade_ids": []
-        },
-        {
-          "account_id": "crypto_short",
-          "created_at": "2026-09-03T12:11:11.739384+00:00",
-          "decision_id": "3bd1651b4b074847aa850504a1191512",
-          "fill_price": null,
-          "filled_bar": null,
-          "issues": [
-            "MISSING_OR_AMBIGUOUS_GATE_LINK"
-          ],
-          "order_id": "b35bff95843346a7a1d79002aaa06915",
-          "order_status": "CANCELLED",
-          "status": "UNRESOLVED",
-          "symbol": "MUBARAKUSDT",
-          "trade_ids": []
-        },
-        {
-          "account_id": "crypto_medium",
-          "block_reasons": [
-            "ZERO_NOTIONAL",
-            "strategy_state:PAUSE_CANDIDATE"
-          ],
-          "created_at": "2026-09-03T12:11:08.066690+00:00",
-          "decision_id": "986c775133224ccc9609789703050561",
-          "entry_allowed": false,
-          "fill_price": null,
-          "filled_bar": null,
-          "gate_created_at": "2026-09-03T16:09:20.363850+00:00",
-          "gate_event_id": 3926,
-          "issues": [],
-          "order_id": "5e669d3a540b4489b7dd01078870db85",
-          "order_status": "CANCELLED",
-          "status": "VALIDATED_BLOCKED",
-          "symbol": "HEMIUSDT",
-          "trade_ids": []
-        },
-        {
-          "account_id": "crypto_short",
-          "created_at": "2026-09-03T12:10:17.689679+00:00",
-          "decision_id": "0a72655682cb48109fd1c3bd0b8ed7c2",
-          "fill_price": null,
-          "filled_bar": null,
-          "issues": [
-            "MISSING_OR_AMBIGUOUS_GATE_LINK"
-          ],
-          "order_id": "b9bfeba47609417890875c00cfd2fe56",
-          "order_status": "CANCELLED",
-          "status": "UNRESOLVED",
-          "symbol": "HEMIUSDT",
-          "trade_ids": []
-        },
-        {
-          "account_id": "crypto_medium",
-          "block_reasons": [
-            "ZERO_NOTIONAL",
-            "meta_verdict:SHADOW_ONLY",
-            "regime_state:SHADOW_ONLY_CANDIDATE"
-          ],
-          "created_at": "2026-09-03T12:07:59.092808+00:00",
-          "decision_id": "9c1e72d126a9405b9f202b6f447eb2af",
-          "entry_allowed": false,
-          "fill_price": null,
-          "filled_bar": null,
-          "gate_created_at": "2026-09-03T16:07:06.463081+00:00",
-          "gate_event_id": 3923,
-          "issues": [],
-          "order_id": "e09d9578333c42208cde02e061b16efd",
-          "order_status": "CANCELLED",
-          "status": "VALIDATED_BLOCKED",
-          "symbol": "ARBUSDT",
-          "trade_ids": []
-        },
-        {
-          "account_id": "crypto_short",
-          "created_at": "2026-09-03T12:07:06.209252+00:00",
-          "decision_id": "776591c36b7046238baba93d9aaaddb9",
-          "fill_price": null,
-          "filled_bar": null,
-          "issues": [
-            "MISSING_OR_AMBIGUOUS_GATE_LINK"
-          ],
-          "order_id": "b26a3c3038d442cb97b9239e46f36767",
-          "order_status": "CANCELLED",
-          "status": "UNRESOLVED",
-          "symbol": "ARBUSDT",
-          "trade_ids": []
-        },
-        {
-          "account_id": "crypto_short",
-          "created_at": "2026-09-03T12:06:14.540581+00:00",
-          "decision_id": "161d2dd6dcaf472189b2845f782220cc",
-          "fill_price": null,
-          "filled_bar": null,
-          "issues": [
-            "MISSING_OR_AMBIGUOUS_GATE_LINK"
-          ],
-          "order_id": "15c73fabd91a4ac9872f3294263c8b59",
-          "order_status": "CANCELLED",
-          "status": "UNRESOLVED",
-          "symbol": "ADAUSDT",
-          "trade_ids": []
-        },
-        {
-          "account_id": "crypto_medium",
-          "block_reasons": [
-            "ZERO_NOTIONAL",
-            "strategy_state:PAUSE_CANDIDATE"
-          ],
-          "created_at": "2026-09-03T12:05:19.615963+00:00",
-          "decision_id": "8fcaefaeaef145f09c984fa31920229b",
-          "entry_allowed": false,
-          "fill_price": null,
-          "filled_bar": null,
-          "gate_created_at": "2026-09-03T16:03:59.528459+00:00",
-          "gate_event_id": 3920,
-          "issues": [],
-          "order_id": "c2b4dddd7449438e87c5056c594b44d9",
-          "order_status": "CANCELLED",
-          "status": "VALIDATED_BLOCKED",
-          "symbol": "AAVEUSDT",
-          "trade_ids": []
-        },
-        {
-          "account_id": "crypto_short",
-          "created_at": "2026-09-03T12:04:28.021003+00:00",
-          "decision_id": "eb6c2249918a4d4f970c3c659ea57eef",
-          "fill_price": null,
-          "filled_bar": null,
-          "issues": [
-            "MISSING_OR_AMBIGUOUS_GATE_LINK"
-          ],
-          "order_id": "ccba28193668450887a72c5985d2902d",
-          "order_status": "CANCELLED",
-          "status": "UNRESOLVED",
-          "symbol": "AAVEUSDT",
-          "trade_ids": []
-        },
-        {
-          "account_id": "crypto_short",
-          "created_at": "2026-09-03T12:01:06.860877+00:00",
-          "decision_id": "b183996e44554886ad83c912f0dbe464",
-          "fill_price": null,
-          "filled_bar": null,
-          "issues": [
-            "MISSING_OR_AMBIGUOUS_GATE_LINK"
-          ],
-          "order_id": "4c72b5a7366141c5a349a52844c05ff4",
-          "order_status": "CANCELLED",
-          "status": "UNRESOLVED",
-          "symbol": "ZECUSDT",
-          "trade_ids": []
-        },
-        {
-          "account_id": "crypto_short",
-          "created_at": "2026-09-03T11:12:16.962348+00:00",
-          "decision_id": "36c36c443c4640809cee511fb98da0f1",
-          "fill_price": null,
-          "filled_bar": null,
-          "issues": [
-            "MISSING_OR_AMBIGUOUS_GATE_LINK"
-          ],
-          "order_id": "e0498d0f8e0a4d34becbe2e4578d4364",
-          "order_status": "CANCELLED",
-          "status": "UNRESOLVED",
-          "symbol": "ZECUSDT",
-          "trade_ids": []
-        },
-        {
-          "account_id": "crypto_short",
-          "created_at": "2026-09-03T11:09:52.933078+00:00",
-          "decision_id": "24f8af1c1e414992bca3efab60b70de2",
-          "fill_price": null,
-          "filled_bar": null,
-          "issues": [
-            "MISSING_OR_AMBIGUOUS_GATE_LINK"
-          ],
-          "order_id": "68bf68f6555246c5a47db91b9bcfb458",
-          "order_status": "CANCELLED",
-          "status": "UNRESOLVED",
-          "symbol": "PUMPUSDT",
-          "trade_ids": []
         }
       ],
       "note": "VALIDATED_OPEN is not a completed round trip; legacy or missing gate IDs remain UNRESOLVED.",
       "status": "PARTIAL",
       "summary": {
-        "UNRESOLVED": 56,
-        "VALIDATED_BLOCKED": 141,
+        "UNRESOLVED": 46,
+        "VALIDATED_BLOCKED": 152,
         "VALIDATED_CLOSED": 1,
-        "VALIDATED_OPEN": 2
+        "VALIDATED_OPEN": 1
       }
     },
     "pnl_attribution": {
@@ -8978,7 +9060,7 @@
   "expected_live_deviation": {
     "active_sizing": true,
     "contains_secrets": false,
-    "generated_at": "2026-09-03T21:00:51.348426+00:00",
+    "generated_at": "2026-09-03T21:18:57.854156+00:00",
     "minimum_live_trades_for_active_sizing": 5,
     "rows": [
       {
@@ -20677,7 +20759,7 @@
       }
     ]
   },
-  "generated_at": "2026-09-03T21:00:53.795640+00:00",
+  "generated_at": "2026-09-03T21:18:56.347431+00:00",
   "governance": {
     "arenas": [
       {
@@ -36729,7 +36811,7 @@
         "total_reduction_notional": 24598.463710626125
       }
     ],
-    "generated_at": "2026-09-03T21:01:21.491872+00:00",
+    "generated_at": "2026-09-03T21:19:12.912122+00:00",
     "scope": "PUBLIC_READ_ONLY_RISK_SIZING_AUDIT",
     "status": "AVAILABLE",
     "summary": {
@@ -36755,12 +36837,12 @@
     "bootstrap_at": "2026-09-03T14:43:55.227248+00:00",
     "bootstrap_warnings": [],
     "current_snapshot_db": null,
-    "current_snapshot_finished_at": "2026-09-03T21:01:10.730736+00:00",
+    "current_snapshot_finished_at": "2026-09-03T21:18:27.254609+00:00",
     "current_snapshot_phase": "IDLE",
     "current_snapshot_progress": {},
-    "current_snapshot_progress_at": "2026-09-03T21:01:10.723048+00:00",
-    "current_snapshot_started_at": "2026-09-03T21:00:43.814257+00:00",
-    "last_snapshot_at": "2026-09-03T21:01:10.730747+00:00",
+    "current_snapshot_progress_at": "2026-09-03T21:18:27.246873+00:00",
+    "current_snapshot_started_at": "2026-09-03T21:18:00.195420+00:00",
+    "last_snapshot_at": "2026-09-03T21:18:27.254617+00:00",
     "last_snapshot_failed": [],
     "last_snapshot_success": [
       "crypto_v2_shadow.sqlite3",
@@ -36774,9 +36856,9 @@
     "mode": "RESCUE_RUNTIME",
     "persistence_status": "OK",
     "persistent_disk": {
-      "free": 2386767872,
+      "free": 2386628608,
       "total": 4685873152,
-      "used": 2282328064
+      "used": 2282467328
     },
     "restored": [
       {
@@ -36819,7 +36901,7 @@
     "snapshot_interval_seconds": 60,
     "snapshot_keep_archives": 0,
     "status": "AVAILABLE",
-    "updated_at": "2026-09-03T21:01:10.730834+00:00"
+    "updated_at": "2026-09-03T21:18:27.254704+00:00"
   },
   "strategy_performance": [
     {
@@ -39897,11 +39979,11 @@
       "worst_trade_return": -0.00029986839109497065
     }
   ],
-  "sync_checked_at": "2026-09-03T21:01:26.949033+00:00",
-  "sync_snapshot_age_seconds": 33.153393,
+  "sync_checked_at": "2026-09-03T21:19:17.634305+00:00",
+  "sync_snapshot_age_seconds": 21.286874,
   "trial_ledger": {
     "challenges": 67,
-    "cycles": 1348,
+    "cycles": 1349,
     "distinct_hypotheses": 68,
     "events": 210,
     "last_event_at": "2026-09-03T20:47:01.307425+00:00",
@@ -39909,113 +39991,103 @@
     "research_trials": 126
   },
   "worker": {
-    "assets_checked": 245,
-    "bars_processed": 0,
+    "assets_checked": 175,
+    "bars_processed": 49,
     "broker_order_api_calls": 0,
     "concept_drift_pairs": 9,
-    "cycle_elapsed_seconds": 93.341,
+    "cycle_elapsed_seconds": 1000.133,
     "data_quality": "OK",
     "data_quality_critical": 0,
-    "data_quality_warnings": 26,
+    "data_quality_warnings": 24,
     "first_cycle_complete": true,
-    "heartbeat_at": "2026-09-03T21:00:52.214154+00:00",
-    "last_cycle_duration_seconds": 679.393,
-    "last_cycle_finished_at": "2026-09-03T20:58:18.861132+00:00",
+    "heartbeat_at": "2026-09-03T21:18:55.728185+00:00",
+    "last_cycle_duration_seconds": 116.705,
+    "last_cycle_finished_at": "2026-09-03T21:01:15.578214+00:00",
     "last_cycle_phase_durations_seconds": {
-      "CALIBRATION": 6.644,
-      "DATA_QUALITY": 5.915,
-      "GOVERNANCE": 19.384,
-      "MODEL_HEALTH": 0.109,
-      "PORTFOLIO_RISK": 1.007,
-      "PREPARE": 0.015,
-      "PRETRADE_RISK": 66.43,
-      "SIMULATION": 577.918,
-      "UNIVERSE": 1.824,
-      "WATCHLIST": 0.148
-    },
-    "last_cycle_slow_units": [
-      {
-        "bars_processed": 145,
-        "seconds": 406.685,
-        "unit": "crypto:AVAXUSDT:short"
-      },
-      {
-        "bars_processed": 6,
-        "seconds": 84.479,
-        "unit": "crypto:AVAXUSDT:long"
-      },
-      {
-        "bars_processed": 37,
-        "seconds": 6.102,
-        "unit": "crypto:AVAXUSDT:medium"
-      },
-      {
-        "bars_processed": 0,
-        "seconds": 1.017,
-        "unit": "crypto:ENAUSDT:short"
-      },
-      {
-        "bars_processed": 0,
-        "seconds": 1.014,
-        "unit": "crypto:TAOUSDT:medium"
-      },
-      {
-        "bars_processed": 0,
-        "seconds": 1.006,
-        "unit": "crypto:NILUSDT:short"
-      },
-      {
-        "bars_processed": 0,
-        "seconds": 1.003,
-        "unit": "crypto:ENSOUSDT:medium"
-      },
-      {
-        "bars_processed": 0,
-        "seconds": 0.996,
-        "unit": "crypto:DOGEUSDT:medium"
-      },
-      {
-        "bars_processed": 0,
-        "seconds": 0.996,
-        "unit": "crypto:ENSOUSDT:short"
-      },
-      {
-        "bars_processed": 0,
-        "seconds": 0.647,
-        "unit": "crypto:LTCUSDT:medium"
-      }
-    ],
-    "last_cycle_started_at": "2026-09-03T20:59:18.873133+00:00",
-    "last_progress_at": "2026-09-03T21:00:05.007819+00:00",
-    "market_data_api_calls": 0,
-    "phase": "PRETRADE_RISK",
-    "phase_completed": 0,
-    "phase_durations_seconds": {
       "CALIBRATION": 0.117,
+      "DATA_QUALITY": 5.738,
       "GOVERNANCE": 7.321,
       "MODEL_HEALTH": 0.098,
       "PORTFOLIO_RISK": 0.837,
       "PREPARE": 0.014,
-      "PRETRADE_RISK": 47.206,
+      "PRETRADE_RISK": 64.832,
       "SIMULATION": 37.581,
       "UNIVERSE": 0.007,
       "WATCHLIST": 0.159
     },
-    "phase_elapsed_seconds": 47.206,
-    "phase_started_at": "2026-09-03T21:00:05.007819+00:00",
-    "phase_total": 0,
+    "last_cycle_slow_units": [
+      {
+        "bars_processed": 0,
+        "seconds": 1.271,
+        "unit": "crypto:WIFUSDT:short"
+      },
+      {
+        "bars_processed": 0,
+        "seconds": 1.001,
+        "unit": "crypto:TRXUSDT:short"
+      },
+      {
+        "bars_processed": 0,
+        "seconds": 1.001,
+        "unit": "crypto:TUTUSDT:short"
+      },
+      {
+        "bars_processed": 0,
+        "seconds": 0.978,
+        "unit": "crypto:XAUTUSDT:short"
+      },
+      {
+        "bars_processed": 0,
+        "seconds": 0.9,
+        "unit": "crypto:ADAUSDT:short"
+      },
+      {
+        "bars_processed": 0,
+        "seconds": 0.656,
+        "unit": "crypto:ARBUSDT:short"
+      },
+      {
+        "bars_processed": 0,
+        "seconds": 0.638,
+        "unit": "crypto:ENSOUSDT:short"
+      },
+      {
+        "bars_processed": 0,
+        "seconds": 0.637,
+        "unit": "crypto:NEARUSDT:short"
+      },
+      {
+        "bars_processed": 0,
+        "seconds": 0.582,
+        "unit": "crypto:RLUSDUSDT:short"
+      },
+      {
+        "bars_processed": 0,
+        "seconds": 0.578,
+        "unit": "crypto:PROMUSDT:short"
+      }
+    ],
+    "last_cycle_started_at": "2026-09-03T21:02:15.595175+00:00",
+    "last_progress_at": "2026-09-03T21:18:55.728177+00:00",
+    "market_data_api_calls": 0,
+    "phase": "SIMULATION",
+    "phase_completed": 198,
+    "phase_durations_seconds": {
+      "CALIBRATION": 0.081,
+      "PREPARE": 0.02,
+      "SIMULATION": 1000.022,
+      "UNIVERSE": 0.009
+    },
+    "phase_elapsed_seconds": 1000.022,
+    "phase_started_at": "2026-09-03T21:02:15.706178+00:00",
+    "phase_total": 402,
     "portfolio_risk": "MEDIUM",
-    "progress_events": 799,
+    "progress_events": 387,
     "progress_schema_version": "WORKER_PROGRESS_V1",
-    "progress_unit": null,
+    "progress_unit": "stock:IBIT:short",
     "realtime_watchlist_sync": "ONLINE",
     "realtime_watchlist_total": 51,
     "recent_cycles": [
-      {
-        "duration_seconds": 138.016,
-        "finished_at": "2026-09-03T18:45:24.718879+00:00",
-        "status": "COMPLETE"
-      },
       {
         "duration_seconds": 129.987,
         "finished_at": "2026-09-03T18:48:34.721413+00:00",
@@ -40110,60 +40182,65 @@
         "duration_seconds": 679.393,
         "finished_at": "2026-09-03T20:58:18.861168+00:00",
         "status": "COMPLETE"
+      },
+      {
+        "duration_seconds": 116.705,
+        "finished_at": "2026-09-03T21:01:15.578269+00:00",
+        "status": "COMPLETE"
       }
     ],
     "risk_layer": "ONLINE",
     "risk_sizing": "ACTIVE",
     "slow_units": [
       {
-        "bars_processed": 0,
-        "seconds": 1.271,
-        "unit": "crypto:WIFUSDT:short"
+        "bars_processed": 1,
+        "seconds": 76.294,
+        "unit": "crypto:MUBARAKUSDT:short"
       },
       {
-        "bars_processed": 0,
-        "seconds": 1.001,
-        "unit": "crypto:TRXUSDT:short"
+        "bars_processed": 1,
+        "seconds": 69.038,
+        "unit": "crypto:PUMPUSDT:short"
       },
       {
-        "bars_processed": 0,
-        "seconds": 1.001,
-        "unit": "crypto:TUTUSDT:short"
+        "bars_processed": 1,
+        "seconds": 68.245,
+        "unit": "crypto:ZECUSDT:short"
       },
       {
-        "bars_processed": 0,
-        "seconds": 0.978,
-        "unit": "crypto:XAUTUSDT:short"
+        "bars_processed": 1,
+        "seconds": 67.745,
+        "unit": "crypto:AAVEUSDT:short"
       },
       {
-        "bars_processed": 0,
-        "seconds": 0.9,
+        "bars_processed": 1,
+        "seconds": 67.693,
+        "unit": "stock:ETHA:short"
+      },
+      {
+        "bars_processed": 1,
+        "seconds": 67.416,
         "unit": "crypto:ADAUSDT:short"
       },
       {
-        "bars_processed": 0,
-        "seconds": 0.656,
-        "unit": "crypto:ARBUSDT:short"
+        "bars_processed": 1,
+        "seconds": 67.1,
+        "unit": "stock:CIFR:short"
       },
       {
-        "bars_processed": 0,
-        "seconds": 0.638,
-        "unit": "crypto:ENSOUSDT:short"
+        "bars_processed": 1,
+        "seconds": 66.56,
+        "unit": "stock:HOOD:short"
       },
       {
-        "bars_processed": 0,
-        "seconds": 0.637,
-        "unit": "crypto:NEARUSDT:short"
+        "bars_processed": 1,
+        "seconds": 66.021,
+        "unit": "crypto:USD1USDT:short"
       },
       {
-        "bars_processed": 0,
-        "seconds": 0.582,
-        "unit": "crypto:RLUSDUSDT:short"
-      },
-      {
-        "bars_processed": 0,
-        "seconds": 0.578,
-        "unit": "crypto:PROMUSDT:short"
+        "bars_processed": 1,
+        "seconds": 65.569,
+        "unit": "crypto:NILUSDT:short"
       }
     ],
     "status": "RUNNING",

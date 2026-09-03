@@ -1,5 +1,5 @@
 {
-  "bars_processed": 44,
+  "bars_processed": 0,
   "baseline": {
     "accounts": [
       {
@@ -33,25 +33,25 @@
   "catchup": {
     "cycle_event_limit": 160,
     "is_catching_up": false,
-    "newest_selected_bar": "2026-09-03T20:00:00+00:00",
-    "oldest_selected_bar": "2026-09-03T20:00:00+00:00",
-    "pending_events_at_cycle_start": 44,
-    "processed_events": 44,
+    "newest_selected_bar": null,
+    "oldest_selected_bar": null,
+    "pending_events_at_cycle_start": 0,
+    "processed_events": 0,
     "remaining_events_estimate": 0,
-    "selected_events": 44
+    "selected_events": 0
   },
   "contains_secrets": false,
   "errors": [],
   "forward_only": true,
-  "generated_at": "2026-09-03T21:01:05.483577+00:00",
+  "generated_at": "2026-09-03T21:18:16.964172+00:00",
   "latest_market_regime": {
-    "realized_vol": 0.02733689034820527,
+    "realized_vol": 0.027311149939178006,
     "reason": "No dominant directional regime",
-    "ret_fast": 0.01133308926123755,
-    "ret_slow": 0.05240988393536905,
+    "ret_fast": 0.011459097998422596,
+    "ret_slow": 0.05254101070446615,
     "state": "SIDEWAYS",
-    "trend": 0.011781537227371075,
-    "vol_ratio": 1.5263976413317226
+    "trend": 0.01178830830348443,
+    "vol_ratio": 1.5249603856992908
   },
   "market_data_api_calls": 0,
   "persistent_checkpoint": true,
@@ -13254,8 +13254,8 @@
   "shared_cache_only": true,
   "status": "ONLINE",
   "symbols": 45,
-  "sync_checked_at": "2026-09-03T21:01:26.949033+00:00",
-  "sync_snapshot_age_seconds": 21.465456,
+  "sync_checked_at": "2026-09-03T21:19:17.634305+00:00",
+  "sync_snapshot_age_seconds": 60.670133,
   "v2": {
     "accounts": [
       {
