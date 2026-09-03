@@ -2,6 +2,7 @@ name: Sync runtime snapshots
 
 on:
   push:
+    branches: [main]
     paths:
       - '.github/workflows/sync-runtime-snapshots.yml'
   schedule:
@@ -133,7 +134,10 @@ jobs:
                   'last_snapshot_success', 'last_snapshot_failed',
                   'snapshot_interval_seconds', 'snapshot_db_count',
                   'snapshot_keep_archives', 'skipped_rebuildable', 'persistent_disk',
-                  'bootstrap_at', 'restored', 'bootstrap_warnings', 'updated_at'
+                  'bootstrap_at', 'restored', 'bootstrap_warnings', 'updated_at',
+                  'current_snapshot_started_at', 'current_snapshot_finished_at',
+                  'current_snapshot_db', 'current_snapshot_phase',
+                  'current_snapshot_progress', 'current_snapshot_progress_at'
               }
               research['storage_persistence'] = {k: storage.get(k) for k in allowed if k in storage}
           elif old_research.get('storage_persistence'):

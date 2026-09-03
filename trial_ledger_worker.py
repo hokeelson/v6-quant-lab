@@ -12,6 +12,7 @@ from pathlib import Path
 from src.paths import data_dir, db_path
 from src.direction_forward import DirectionForwardLedger
 from src.entry_gate_audit import entry_gate_audit
+from src.execution_audit import execution_audit
 from src.trial_ledger import TrialLedger
 
 POLL_SECONDS = 60
@@ -307,6 +308,7 @@ def _public_snapshot(worker, quality):
         "trial_ledger": ledger.summary(),
         "direction_shadow": direction_ledger.summary(),
         "entry_gate": entry_gate_audit(sim_path),
+        "execution_audit": execution_audit(sim_path),
         "accounts": _accounts(sim_path),
         "strategy_performance": _strategy_performance(sim_path),
         "strategy_symbol_performance": _strategy_symbol_performance(sim_path),

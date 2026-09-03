@@ -53,6 +53,34 @@ def test_snapshot_and_heartbeat_do_not_advance_work_progress():
     assert "no work progress" in running_progress_problem(raw, now=clock.wall())
 
 
+def test_slow_units_and_history_are_bounded_and_retained():
+    clock = Clock()
+    p = CycleProgress(clock.tick, clock.wall)
+    for cycle in range(25):
+        p.start()
+        for unit in range(30):
+            clock.seconds += 1
+            p.report("SIMULATION", unit=f"crypto:T{unit}:short", unit_seconds=unit, unit_bars=2)
+        p.finish(failed=cycle == 24)
+    snap = public_progress(p.snapshot())
+    assert len(snap["recent_cycles"]) == 20
+    assert snap["recent_cycles"][-1]["status"] == "FAILED"
+    assert len(snap["last_cycle_slow_units"]) == 10
+    assert snap["last_cycle_slow_units"][0]["seconds"] == 29
+    p.start()
+    assert p.snapshot()["slow_units"] == []
+    assert len(p.snapshot()["last_cycle_slow_units"]) == 10
+    snap["recent_cycles"][0]["status"] = "MODIFIED"
+    assert p.snapshot()["recent_cycles"][0]["status"] == "COMPLETE"
+
+
+def test_nested_progress_public_fields_strip_unexpected_keys():
+    p = public_progress({"slow_units": [{"unit": "TEST", "seconds": float("nan"), "token": "secret"}],
+                         "recent_cycles": [{"finished_at": "x", "duration_seconds": 12, "password": "secret"}]})
+    assert p["slow_units"] == [{"unit": "TEST"}]
+    assert p["recent_cycles"] == [{"finished_at": "x", "duration_seconds": 12}]
+
+
 def test_phase_timing_and_completed_cycle_are_retained_separately():
     clock = Clock()
     p = CycleProgress(clock.tick, clock.wall)

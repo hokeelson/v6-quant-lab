@@ -35,6 +35,7 @@ PROGRESS_FIELDS = (
     "progress_events", "cycle_elapsed_seconds", "phase_durations_seconds",
     "last_cycle_duration_seconds", "last_cycle_phase_durations_seconds",
     "first_cycle_complete",
+    "slow_units", "last_cycle_slow_units", "recent_cycles",
 )
 
 
@@ -105,6 +106,9 @@ class CycleProgress:
         self.durations = {}
         self.last_duration = None
         self.last_durations = {}
+        self.slow_units = []
+        self.last_slow_units = []
+        self.recent_cycles = []
 
     def start(self, started_at=None):
         tick = self.clock()
@@ -116,8 +120,9 @@ class CycleProgress:
         self.events = 1
         self.unit = None
         self.durations = {}
+        self.slow_units = []
 
-    def report(self, phase, *, completed=0, total=0, unit=None, **_ignored):
+    def report(self, phase, *, completed=0, total=0, unit=None, unit_seconds=None, unit_bars=0, **_ignored):
         if not self.active:
             return
         if phase not in PHASE_LABELS:
@@ -134,6 +139,10 @@ class CycleProgress:
         self.unit = str(unit)[:100] if unit is not None else None
         self.last_progress_at = stamp
         self.events += 1
+        if unit is not None and isinstance(unit_seconds, (int, float)) and math.isfinite(unit_seconds) and unit_seconds >= 0:
+            self.slow_units.append({"unit": str(unit)[:100], "seconds": round(unit_seconds, 3),
+                                    "bars_processed": max(0, int(unit_bars))})
+            self.slow_units = sorted(self.slow_units, key=lambda x: x["seconds"], reverse=True)[:10]
 
     def finish(self, failed=False):
         if not self.active:
@@ -142,6 +151,11 @@ class CycleProgress:
         self.durations[self.phase] = self.durations.get(self.phase, 0.0) + max(0.0, tick - self.phase_started)
         self.last_duration = max(0.0, tick - self.started)
         self.last_durations = dict(self.durations)
+        self.last_slow_units = list(self.slow_units)
+        self.recent_cycles.append({"finished_at": self.wall_clock().isoformat(),
+                                   "status": "FAILED" if failed else "COMPLETE",
+                                   "duration_seconds": round(self.last_duration, 3)})
+        self.recent_cycles = self.recent_cycles[-20:]
         self.active = False
         self.phase = "FAILED" if failed else "COMPLETE"
         self.phase_started_at = self.last_progress_at = self.wall_clock().isoformat()
@@ -157,6 +171,9 @@ class CycleProgress:
             durations[self.phase] = durations.get(self.phase, 0.0) + elapsed
         cycle_elapsed = max(0.0, tick - self.started) if self.active else self.last_duration
         return {
+            "slow_units": [dict(x) for x in self.slow_units],
+            "last_cycle_slow_units": [dict(x) for x in self.last_slow_units],
+            "recent_cycles": [dict(x) for x in self.recent_cycles],
             "progress_schema_version": PROGRESS_SCHEMA_VERSION,
             "phase": self.phase, "phase_started_at": self.phase_started_at,
             "phase_elapsed_seconds": round(elapsed, 3),
@@ -179,7 +196,14 @@ def public_progress(raw):
         value = raw.get(key)
         if key not in raw:
             continue
-        if key in {"phase_durations_seconds", "last_cycle_phase_durations_seconds"}:
+        if key in {"slow_units", "last_cycle_slow_units", "recent_cycles"}:
+            fields = ("finished_at", "status", "duration_seconds") if key == "recent_cycles" else ("unit", "seconds", "bars_processed")
+            rows = value if isinstance(value, list) else []
+            result[key] = [{k: (v[:100] if isinstance(v, str) else v) for k, v in row.items()
+                            if k in fields and isinstance(v, (str, int, float))
+                            and (not isinstance(v, float) or math.isfinite(v))}
+                           for row in rows[:20] if isinstance(row, dict)]
+        elif key in {"phase_durations_seconds", "last_cycle_phase_durations_seconds"}:
             result[key] = {
                 phase: round(float(seconds), 3) for phase, seconds in (value.items() if isinstance(value, dict) else [])
                 if phase in PHASE_LABELS and isinstance(seconds, (int, float))

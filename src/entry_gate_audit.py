@@ -31,6 +31,7 @@ def entry_gate_audit(path, limit=200):
             filled = row["category"] == "RISK_SIZING" and float(payload.get("filled_notional") or 0) > 0
             out["entries"].append({
                 "id": row["id"], "account_id": row["account_id"], "symbol": row["symbol"],
+                "order_id": payload.get("order_id"), "decision_id": payload.get("decision_id"),
                 "created_at": row["created_at"], "entry_allowed": allowed, "filled": filled,
                 "reasons": payload.get("entry_block_reasons", []),
                 "filled_notional": payload.get("filled_notional", 0.0),

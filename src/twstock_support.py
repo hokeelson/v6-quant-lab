@@ -342,7 +342,8 @@ class TaiwanSimulationLab(SimulationLab):
                 self.db.cancel_order(o["order_id"], cancel_reason)
                 self.db.add_diagnostic(aid, symbol, hz, ts.isoformat(), "ORDER_CANCELLED", "Pending Taiwan BUY cancelled before fill",
                                        {**sizing, "cash_room": max(0.0, cash), "risk_adjusted_notional": risk_adjusted,
-                                        "requested_notional": original_notional, "cancel_reason": cancel_reason, "broker_order_api_calls": 0})
+                                        "requested_notional": original_notional, "cancel_reason": cancel_reason, "broker_order_api_calls": 0,
+                                        "order_id": o["order_id"], "decision_id": o.get("decision_id")})
                 return "CANCELLED"
             spent = qty * fill
             fees = qty * open_px * rate
@@ -359,6 +360,7 @@ class TaiwanSimulationLab(SimulationLab):
                 return None
             self.db.add_diagnostic(aid, symbol, hz, ts.isoformat(), "RISK_SIZING", "Active portfolio/strategy sizing applied", {
                 **sizing, "cash_room": max(0.0, cash), "filled_notional": spent, "fill_price": fill,
+                "order_id": o["order_id"], "decision_id": o.get("decision_id"),
                 "broker_order_api_calls": 0,
             })
             return "BUY"

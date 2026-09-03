@@ -19,6 +19,12 @@ def render_worker_progress(st, raw):
     )
     if isinstance(previous, (int, float)):
         st.caption(f"上一輪耗時：{previous:.0f} 秒")
+    if p.get("last_cycle_slow_units"):
+        with st.expander("上一輪最慢標的（含處理 K 棒數）", expanded=False):
+            st.dataframe(p["last_cycle_slow_units"], hide_index=True, use_container_width=True)
+    if p.get("recent_cycles"):
+        with st.expander("最近 20 輪耗時（程序重啟後重新累積）", expanded=False):
+            st.dataframe(p["recent_cycles"], hide_index=True, use_container_width=True)
     durations = p.get("phase_durations_seconds") or {}
     previous_durations = p.get("last_cycle_phase_durations_seconds") or {}
     phases = [phase for phase in PHASE_LABELS if phase in durations or phase in previous_durations]

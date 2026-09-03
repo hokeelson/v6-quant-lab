@@ -15,6 +15,7 @@ from src.dashboard_direction_fallback import build_cached_direction_fallback
 from src.live_analytics import account_performance, positions_table
 from src.ui_zh import account_label, horizon_label, market_label
 from src.worker_progress_ui import render_worker_progress
+from src.execution_audit_ui import render_execution_audit
 
 load_dotenv()
 st.set_page_config(page_title="V6 決策中心", layout="wide", page_icon="📊")
@@ -163,6 +164,7 @@ def decision_center():
     main_worker = ((health.get("components") or {}).get("main_v8") or {})
     if main_worker:
         render_worker_progress(st, main_worker)
+    render_execution_audit(st, research)
 
     if used_fallback:
         st.caption("方向 Shadow 快照尚未更新，因此首頁暫時使用既有行情快取即時計算；不會額外呼叫行情 API。")

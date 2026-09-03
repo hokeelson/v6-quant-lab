@@ -18,3 +18,28 @@ jobs:
       - run: python -m pip install --upgrade pip
       - run: pip install -r requirements.lock
       - run: pytest -q
+
+  schema2-recovery:
+    # Test the old engine + new ledger adapter, not a schema downgrade.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: candidate
+      - uses: actions/checkout@v4
+        with:
+          ref: 8dd8244bd86e656b736abf4944efa0840bea7c97
+          path: recovery
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: recovery/requirements.lock
+      - run: pip install -r recovery/requirements.lock
+      - name: Retain schema-2 adapter and test its compatibility with PR22
+        run: |
+          test "$(git -C recovery rev-parse HEAD)" = "8dd8244bd86e656b736abf4944efa0840bea7c97"
+          cp candidate/src/simulation_db.py recovery/src/simulation_db.py
+          cp candidate/tests/test_schema2_recovery.py recovery/tests/test_schema2_recovery.py
+          cd recovery
+          pytest -q
