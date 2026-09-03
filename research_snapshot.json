@@ -3,16 +3,16 @@
     {
       "account_id": "crypto_long",
       "as_of": "2026-09-02T00:00:00+00:00",
-      "cash": 46454.88401277282,
-      "closed_trades": 6,
-      "drawdown": -0.02895625936389934,
-      "equity": 97104.37406361007,
+      "cash": 46382.608225365206,
+      "closed_trades": 7,
+      "drawdown": -0.029679017237975502,
+      "equity": 97032.09827620245,
       "gross_exposure": 50649.49005083725,
       "horizon": "long",
       "initial_equity": 100000.0,
-      "leverage": 0.5215984402274025,
+      "leverage": 0.5219869605072661,
       "market": "crypto",
-      "return_pct": -0.02895625936389934
+      "return_pct": -0.029679017237975502
     },
     {
       "account_id": "crypto_medium",
@@ -699,6 +699,81 @@
   "entry_gate": {
     "broker_order_api_calls": 0,
     "entries": [
+      {
+        "account_id": "crypto_long",
+        "created_at": "2026-09-03T20:55:26.858950+00:00",
+        "decision_id": "12ff044f1a4649d9badf9e5791a14361",
+        "entry_allowed": true,
+        "filled": true,
+        "filled_notional": 4653.548455549553,
+        "id": 4050,
+        "order_id": "0580bae593d741aea94b95465ed6d9cf",
+        "reasons": [],
+        "symbol": "AVAXUSDT"
+      },
+      {
+        "account_id": "crypto_short",
+        "created_at": "2026-09-03T20:53:51.415737+00:00",
+        "decision_id": "e6c80d3a8f5a44b39f944f3e446af4a0",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 4049,
+        "order_id": "c5a57177fd474536bf4b7d0f7a94558b",
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "strategy_state:SHADOW_ONLY_CANDIDATE"
+        ],
+        "symbol": "AVAXUSDT"
+      },
+      {
+        "account_id": "crypto_short",
+        "created_at": "2026-09-03T20:52:45.065943+00:00",
+        "decision_id": "10eb050efccf4e658fbdcf10838118f8",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 4048,
+        "order_id": "43a58b21aa6c489888795f5c087a25f8",
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "regime_state:SHADOW_ONLY_CANDIDATE",
+          "strategy_state:SHADOW_ONLY_CANDIDATE"
+        ],
+        "symbol": "AVAXUSDT"
+      },
+      {
+        "account_id": "crypto_short",
+        "created_at": "2026-09-03T20:51:41.586785+00:00",
+        "decision_id": "9ac01213859b4712aec890f84d89bd1a",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 4047,
+        "order_id": "841b6240d01748469fb146c200563023",
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "regime_state:SHADOW_ONLY_CANDIDATE",
+          "strategy_state:SHADOW_ONLY_CANDIDATE"
+        ],
+        "symbol": "AVAXUSDT"
+      },
+      {
+        "account_id": "crypto_short",
+        "created_at": "2026-09-03T20:50:36.110909+00:00",
+        "decision_id": "f3fdbad9595d417197bffcf55950cf44",
+        "entry_allowed": false,
+        "filled": false,
+        "filled_notional": 0.0,
+        "id": 4046,
+        "order_id": "e86d7e458d174c3ca64ed2bdb2cdafa0",
+        "reasons": [
+          "ZERO_NOTIONAL",
+          "regime_state:SHADOW_ONLY_CANDIDATE",
+          "strategy_state:SHADOW_ONLY_CANDIDATE"
+        ],
+        "symbol": "AVAXUSDT"
+      },
       {
         "account_id": "crypto_short",
         "created_at": "2026-09-03T20:49:30.992184+00:00",
@@ -3905,82 +3980,6 @@
           "regime_state:SHADOW_ONLY_CANDIDATE"
         ],
         "symbol": "TUSDT"
-      },
-      {
-        "account_id": "crypto_short",
-        "created_at": "2026-09-03T08:09:24.522116+00:00",
-        "decision_id": null,
-        "entry_allowed": false,
-        "filled": false,
-        "filled_notional": 0.0,
-        "id": 3846,
-        "order_id": null,
-        "reasons": [
-          "MATURE_NEGATIVE_EV",
-          "ZERO_NOTIONAL",
-          "regime_state:SHADOW_ONLY_CANDIDATE",
-          "strategy_state:SHADOW_ONLY_CANDIDATE",
-          "symbol_strategy_state:SHADOW_ONLY_CANDIDATE"
-        ],
-        "symbol": "RLUSDUSDT"
-      },
-      {
-        "account_id": "crypto_medium",
-        "created_at": "2026-09-03T08:08:15.723176+00:00",
-        "decision_id": null,
-        "entry_allowed": false,
-        "filled": false,
-        "filled_notional": 0.0,
-        "id": 3845,
-        "order_id": null,
-        "reasons": [
-          "ZERO_NOTIONAL",
-          "strategy_state:PAUSE_CANDIDATE"
-        ],
-        "symbol": "HEMIUSDT"
-      },
-      {
-        "account_id": "crypto_short",
-        "created_at": "2026-09-03T08:07:22.977942+00:00",
-        "decision_id": null,
-        "entry_allowed": true,
-        "filled": true,
-        "filled_notional": 1947.5478054995324,
-        "id": 3842,
-        "order_id": null,
-        "reasons": [],
-        "symbol": "HEMIUSDT"
-      },
-      {
-        "account_id": "crypto_short",
-        "created_at": "2026-09-03T08:06:22.994775+00:00",
-        "decision_id": null,
-        "entry_allowed": false,
-        "filled": false,
-        "filled_notional": 0.0,
-        "id": 3841,
-        "order_id": null,
-        "reasons": [
-          "ZERO_NOTIONAL",
-          "regime_state:SHADOW_ONLY_CANDIDATE",
-          "strategy_state:SHADOW_ONLY_CANDIDATE"
-        ],
-        "symbol": "ENSOUSDT"
-      },
-      {
-        "account_id": "crypto_medium",
-        "created_at": "2026-09-03T08:05:20.363140+00:00",
-        "decision_id": null,
-        "entry_allowed": false,
-        "filled": false,
-        "filled_notional": 0.0,
-        "id": 3840,
-        "order_id": null,
-        "reasons": [
-          "ZERO_NOTIONAL",
-          "regime_state:SHADOW_ONLY_CANDIDATE"
-        ],
-        "symbol": "ARBUSDT"
       }
     ],
     "policy_version": "ENTRY_GATE_V1",
@@ -3995,37 +3994,129 @@
   },
   "execution_audit": {
     "contains_secrets": false,
-    "generated_at": "2026-09-03T20:49:52.137525+00:00",
+    "generated_at": "2026-09-03T21:00:53.822797+00:00",
     "ledger_counts": {
       "accounts": 9,
-      "decisions": 19672,
-      "orders": 1552,
+      "decisions": 19805,
+      "orders": 1557,
       "positions": 49,
-      "trades": 584
+      "trades": 585
     },
     "lifecycle": {
       "coverage": {
         "diagnostic_limit": 5000,
-        "diagnostics_scanned": 1157,
+        "diagnostics_scanned": 1162,
         "legacy_links_inferred": false,
         "malformed_diagnostics": 0,
         "order_limit": 200,
         "sampled_buy_orders": 200,
-        "total_buy_orders": 1235
+        "total_buy_orders": 1239
       },
       "entries": [
         {
+          "account_id": "crypto_long",
+          "block_reasons": [],
+          "created_at": "2026-09-03T20:54:04.815683+00:00",
+          "decision_id": "12ff044f1a4649d9badf9e5791a14361",
+          "entry_allowed": true,
+          "exit_bar": "2026-09-02T00:00:00+00:00",
+          "exit_order_id": "c9f097b65253407e90053015cf02c2a6",
+          "exit_reason": "MODEL_EXIT",
+          "fill_price": 7.3204236,
+          "filled_bar": "2026-08-29T00:00:00+00:00",
+          "gate_created_at": "2026-09-03T20:55:26.858950+00:00",
+          "gate_event_id": 4050,
+          "issues": [],
+          "order_id": "0580bae593d741aea94b95465ed6d9cf",
+          "order_status": "FILLED",
+          "qty": 635.6938764512962,
+          "realized_pnl": -72.27578740761876,
+          "status": "VALIDATED_CLOSED",
+          "symbol": "AVAXUSDT",
+          "trade_ids": [
+            "369e5afea10c424bbe5b9fa48d8cec25"
+          ]
+        },
+        {
           "account_id": "crypto_short",
-          "created_at": "2026-09-03T20:49:31.058185+00:00",
-          "decision_id": "f3fdbad9595d417197bffcf55950cf44",
+          "block_reasons": [
+            "ZERO_NOTIONAL",
+            "strategy_state:SHADOW_ONLY_CANDIDATE"
+          ],
+          "created_at": "2026-09-03T20:52:45.125646+00:00",
+          "decision_id": "e6c80d3a8f5a44b39f944f3e446af4a0",
+          "entry_allowed": false,
           "fill_price": null,
           "filled_bar": null,
-          "issues": [
-            "MISSING_OR_AMBIGUOUS_GATE_LINK"
+          "gate_created_at": "2026-09-03T20:53:51.415737+00:00",
+          "gate_event_id": 4049,
+          "issues": [],
+          "order_id": "c5a57177fd474536bf4b7d0f7a94558b",
+          "order_status": "CANCELLED",
+          "status": "VALIDATED_BLOCKED",
+          "symbol": "AVAXUSDT",
+          "trade_ids": []
+        },
+        {
+          "account_id": "crypto_short",
+          "block_reasons": [
+            "ZERO_NOTIONAL",
+            "regime_state:SHADOW_ONLY_CANDIDATE",
+            "strategy_state:SHADOW_ONLY_CANDIDATE"
           ],
+          "created_at": "2026-09-03T20:51:41.642414+00:00",
+          "decision_id": "10eb050efccf4e658fbdcf10838118f8",
+          "entry_allowed": false,
+          "fill_price": null,
+          "filled_bar": null,
+          "gate_created_at": "2026-09-03T20:52:45.065943+00:00",
+          "gate_event_id": 4048,
+          "issues": [],
+          "order_id": "43a58b21aa6c489888795f5c087a25f8",
+          "order_status": "CANCELLED",
+          "status": "VALIDATED_BLOCKED",
+          "symbol": "AVAXUSDT",
+          "trade_ids": []
+        },
+        {
+          "account_id": "crypto_short",
+          "block_reasons": [
+            "ZERO_NOTIONAL",
+            "regime_state:SHADOW_ONLY_CANDIDATE",
+            "strategy_state:SHADOW_ONLY_CANDIDATE"
+          ],
+          "created_at": "2026-09-03T20:50:36.172384+00:00",
+          "decision_id": "9ac01213859b4712aec890f84d89bd1a",
+          "entry_allowed": false,
+          "fill_price": null,
+          "filled_bar": null,
+          "gate_created_at": "2026-09-03T20:51:41.586785+00:00",
+          "gate_event_id": 4047,
+          "issues": [],
+          "order_id": "841b6240d01748469fb146c200563023",
+          "order_status": "CANCELLED",
+          "status": "VALIDATED_BLOCKED",
+          "symbol": "AVAXUSDT",
+          "trade_ids": []
+        },
+        {
+          "account_id": "crypto_short",
+          "block_reasons": [
+            "ZERO_NOTIONAL",
+            "regime_state:SHADOW_ONLY_CANDIDATE",
+            "strategy_state:SHADOW_ONLY_CANDIDATE"
+          ],
+          "created_at": "2026-09-03T20:49:31.058185+00:00",
+          "decision_id": "f3fdbad9595d417197bffcf55950cf44",
+          "entry_allowed": false,
+          "fill_price": null,
+          "filled_bar": null,
+          "gate_created_at": "2026-09-03T20:50:36.110909+00:00",
+          "gate_event_id": 4046,
+          "issues": [],
           "order_id": "e86d7e458d174c3ca64ed2bdb2cdafa0",
-          "order_status": "PENDING",
-          "status": "UNRESOLVED",
+          "order_status": "CANCELLED",
+          "status": "VALIDATED_BLOCKED",
           "symbol": "AVAXUSDT",
           "trade_ids": []
         },
@@ -7830,73 +7921,14 @@
           "status": "UNRESOLVED",
           "symbol": "PUMPUSDT",
           "trade_ids": []
-        },
-        {
-          "account_id": "crypto_short",
-          "created_at": "2026-09-03T11:07:47.216397+00:00",
-          "decision_id": "fcabdb2a58a44a03a413c77173810ada",
-          "fill_price": null,
-          "filled_bar": null,
-          "issues": [
-            "MISSING_OR_AMBIGUOUS_GATE_LINK"
-          ],
-          "order_id": "933bd017c61840698f9f07513442c25d",
-          "order_status": "CANCELLED",
-          "status": "UNRESOLVED",
-          "symbol": "HEMIUSDT",
-          "trade_ids": []
-        },
-        {
-          "account_id": "crypto_short",
-          "created_at": "2026-09-03T11:06:45.634064+00:00",
-          "decision_id": "c0bf21ef6bf640abb31359a6739f451a",
-          "fill_price": null,
-          "filled_bar": null,
-          "issues": [
-            "MISSING_OR_AMBIGUOUS_GATE_LINK"
-          ],
-          "order_id": "7746e5eb5f8d4833b2410d8140e862cc",
-          "order_status": "CANCELLED",
-          "status": "UNRESOLVED",
-          "symbol": "ENSOUSDT",
-          "trade_ids": []
-        },
-        {
-          "account_id": "crypto_short",
-          "created_at": "2026-09-03T11:05:35.060649+00:00",
-          "decision_id": "93039096b5334073a4ca2a81128ba213",
-          "fill_price": null,
-          "filled_bar": null,
-          "issues": [
-            "MISSING_OR_AMBIGUOUS_GATE_LINK"
-          ],
-          "order_id": "3d711a832b1949859ab8dd1f7f11cae5",
-          "order_status": "CANCELLED",
-          "status": "UNRESOLVED",
-          "symbol": "ARBUSDT",
-          "trade_ids": []
-        },
-        {
-          "account_id": "crypto_short",
-          "created_at": "2026-09-03T11:04:29.733840+00:00",
-          "decision_id": "de426348e7394294a6aa3a2559708f77",
-          "fill_price": null,
-          "filled_bar": null,
-          "issues": [
-            "MISSING_OR_AMBIGUOUS_GATE_LINK"
-          ],
-          "order_id": "e4152dead45e4d78899e70c139374a46",
-          "order_status": "CANCELLED",
-          "status": "UNRESOLVED",
-          "symbol": "ADAUSDT",
-          "trade_ids": []
         }
       ],
       "note": "VALIDATED_OPEN is not a completed round trip; legacy or missing gate IDs remain UNRESOLVED.",
       "status": "PARTIAL",
       "summary": {
-        "UNRESOLVED": 61,
-        "VALIDATED_BLOCKED": 137,
+        "UNRESOLVED": 56,
+        "VALIDATED_BLOCKED": 141,
+        "VALIDATED_CLOSED": 1,
         "VALIDATED_OPEN": 2
       }
     },
@@ -7942,11 +7974,11 @@
           },
           {
             "account_id": "crypto_long",
-            "closed_trades": 6,
+            "closed_trades": 7,
             "first_exit_bar": "2026-08-28T00:00:00+00:00",
             "last_exit_bar": "2026-09-02T00:00:00+00:00",
-            "losing_pnl": -2177.5998641594692,
-            "realized_pnl": -856.4641793866026,
+            "losing_pnl": -2249.875651567088,
+            "realized_pnl": -928.7399667942215,
             "winning_pnl": 1321.1356847728666
           },
           {
@@ -8039,6 +8071,16 @@
             "winning_pnl": 0
           },
           {
+            "account_id": "crypto_long",
+            "closed_trades": 4,
+            "exit_reason": "MODEL_EXIT",
+            "first_exit_bar": "2026-08-31T00:00:00+00:00",
+            "last_exit_bar": "2026-09-02T00:00:00+00:00",
+            "losing_pnl": -1252.082093425612,
+            "realized_pnl": -1252.082093425612,
+            "winning_pnl": 0
+          },
+          {
             "account_id": "stock_medium",
             "closed_trades": 14,
             "exit_reason": "MODEL_EXIT",
@@ -8047,16 +8089,6 @@
             "losing_pnl": -1335.5112923488105,
             "realized_pnl": -1224.4539856677643,
             "winning_pnl": 111.0573066810461
-          },
-          {
-            "account_id": "crypto_long",
-            "closed_trades": 3,
-            "exit_reason": "MODEL_EXIT",
-            "first_exit_bar": "2026-08-31T00:00:00+00:00",
-            "last_exit_bar": "2026-09-02T00:00:00+00:00",
-            "losing_pnl": -1179.806306017993,
-            "realized_pnl": -1179.806306017993,
-            "winning_pnl": 0
           },
           {
             "account_id": "crypto_long",
@@ -8282,11 +8314,11 @@
           },
           {
             "account_id": "crypto_long",
-            "closed_trades": 4,
+            "closed_trades": 5,
             "first_exit_bar": "2026-08-31T00:00:00+00:00",
             "last_exit_bar": "2026-09-02T00:00:00+00:00",
-            "losing_pnl": -1672.8811836039135,
-            "realized_pnl": -1672.8811836039135,
+            "losing_pnl": -1745.1569710115323,
+            "realized_pnl": -1745.1569710115323,
             "strategy": "Momentum",
             "winning_pnl": 0
           },
@@ -8946,7 +8978,7 @@
   "expected_live_deviation": {
     "active_sizing": true,
     "contains_secrets": false,
-    "generated_at": "2026-09-03T20:49:47.962368+00:00",
+    "generated_at": "2026-09-03T21:00:51.348426+00:00",
     "minimum_live_trades_for_active_sizing": 5,
     "rows": [
       {
@@ -10932,6 +10964,44 @@
         "suggested_confidence_multiplier": 1.0,
         "symbol": "ARBUSDT",
         "win_rate_gap": 0.3181818181818182
+      },
+      {
+        "deviation_score": 40.162499999999994,
+        "evidence_weight": 0.05,
+        "horizon": "long",
+        "live_closed_trades": 1,
+        "live_compound_return": -0.015531327995828015,
+        "live_losses": 1,
+        "live_max_loss_streak": 1,
+        "live_per_trade_return": -0.015531327995828015,
+        "live_profit_factor": 0.0,
+        "live_profit_factor_infinite": false,
+        "live_win_rate": 0.0,
+        "live_wins": 0,
+        "market": "crypto",
+        "oos_closed_trades": 8,
+        "oos_max_drawdown": -0.022422138146179327,
+        "oos_per_trade_return": 0.009067909640848804,
+        "oos_profit_factor": 4.284904392516002,
+        "oos_profit_factor_infinite": false,
+        "oos_sharpe": 1.6789892899187835,
+        "oos_total_return": 0.07488786455717111,
+        "oos_win_rate": 0.625,
+        "per_trade_return_gap": 0.02459923763667682,
+        "performance_key": "crypto:AVAXUSDT:long:Momentum",
+        "profit_factor_gap": 4.284904392516002,
+        "reasons": [
+          "OOS_POSITIVE_LIVE_NEGATIVE",
+          "WIN_RATE_DETERIORATION",
+          "PROFIT_FACTOR_DETERIORATION",
+          "EXPECTANCY_SIGN_REVERSAL"
+        ],
+        "shadow_only": true,
+        "state": "LEARNING",
+        "strategy": "Momentum",
+        "suggested_confidence_multiplier": 1.0,
+        "symbol": "AVAXUSDT",
+        "win_rate_gap": 0.625
       },
       {
         "deviation_score": 40.162499999999994,
@@ -14659,39 +14729,6 @@
         "strategy": "Momentum",
         "suggested_confidence_multiplier": 1.0,
         "symbol": "ARBUSDT",
-        "win_rate_gap": null
-      },
-      {
-        "deviation_score": 0.0,
-        "evidence_weight": 0.0,
-        "horizon": "long",
-        "live_closed_trades": 0,
-        "live_compound_return": null,
-        "live_losses": 0,
-        "live_max_loss_streak": 0,
-        "live_per_trade_return": null,
-        "live_profit_factor": null,
-        "live_profit_factor_infinite": false,
-        "live_win_rate": null,
-        "live_wins": 0,
-        "market": "crypto",
-        "oos_closed_trades": 8,
-        "oos_max_drawdown": -0.022422138146179327,
-        "oos_per_trade_return": 0.009067909640848804,
-        "oos_profit_factor": 4.284904392516002,
-        "oos_profit_factor_infinite": false,
-        "oos_sharpe": 1.6789892899187835,
-        "oos_total_return": 0.07488786455717111,
-        "oos_win_rate": 0.625,
-        "per_trade_return_gap": null,
-        "performance_key": "crypto:AVAXUSDT:long:Momentum",
-        "profit_factor_gap": null,
-        "reasons": [],
-        "shadow_only": true,
-        "state": "LEARNING",
-        "strategy": "Momentum",
-        "suggested_confidence_multiplier": 1.0,
-        "symbol": "AVAXUSDT",
         "win_rate_gap": null
       },
       {
@@ -20513,7 +20550,7 @@
       "models": 334,
       "severe": 6,
       "watch": 5,
-      "with_live_trades": 151
+      "with_live_trades": 152
     }
   },
   "forward_validation": {
@@ -20640,7 +20677,7 @@
       }
     ]
   },
-  "generated_at": "2026-09-03T20:49:52.116449+00:00",
+  "generated_at": "2026-09-03T21:00:53.795640+00:00",
   "governance": {
     "arenas": [
       {
@@ -28893,6 +28930,81 @@
     "contains_secrets": false,
     "entries": [
       {
+        "account_id": "crypto_long",
+        "bar_time": "2026-08-29T00:00:00+00:00",
+        "broad_health_multiplier": 1.0,
+        "broker_order_api_calls": 0,
+        "combined_multiplier": 0.85,
+        "cost_adjusted_leverage_room": 94200.05309439349,
+        "created_at": "2026-09-03T20:55:26.858950+00:00",
+        "data_multiplier": 1.0,
+        "data_status": "OK",
+        "drift_multiplier": 1.0,
+        "drift_status": "NORMAL",
+        "effective_health_multiplier": 1.0,
+        "execution_cap_multiplier": 1.0,
+        "execution_reduction_notional": 0.0,
+        "execution_room": 95007.07104457784,
+        "execution_room_type": "LEVERAGE",
+        "expected_live_deviation_score": 0.0,
+        "expected_live_evidence_weight": 0.0,
+        "expected_live_multiplier": 1.0,
+        "expected_live_performance_key": "crypto:AVAXUSDT:long:Momentum",
+        "expected_live_reasons": [],
+        "expected_live_samples": 0,
+        "expected_live_state": "LEARNING",
+        "fill_price": 7.3204236,
+        "filled_notional": 4653.548455549553,
+        "final_effective_multiplier": 0.85,
+        "flags": "無明顯組合衝突",
+        "global_multiplier": 0.85,
+        "has_error": false,
+        "horizon": "long",
+        "id": 4050,
+        "legacy_leverage_room": 95007.07104457784,
+        "leverage_guard_applied": false,
+        "leverage_guard_multiplier": 1.0,
+        "leverage_guard_reduction_notional": 0.0,
+        "leverage_guarded_notional": 4653.548455549553,
+        "market": "crypto",
+        "max_leverage": 1.5,
+        "meta_mode": "COLD_START",
+        "meta_multiplier": 1.0,
+        "meta_probability": 0.696910917873583,
+        "meta_samples": 50,
+        "meta_score": 67.52760427188275,
+        "meta_spread_bps": null,
+        "meta_tca_samples": 316,
+        "meta_verdict": "ALLOW",
+        "original_notional": 5474.762888881827,
+        "portfolio_multiplier": 0.85,
+        "pretrade_multiplier": 1.0,
+        "pretrade_score": 0.0,
+        "pretrade_verdict": "ALLOW",
+        "projected_post_fill_equity": 97096.47645716659,
+        "projected_post_fill_gross": 55295.140899943326,
+        "projected_post_fill_leverage": 0.5694865861001288,
+        "quality_drift_multiplier": 1.0,
+        "realized_evidence_dedup_applied": false,
+        "realized_evidence_multiplier": 1.0,
+        "regime": "NORMAL_UP_TREND",
+        "regime_multiplier": 1.0,
+        "risk_adjusted_notional": 4653.548455549553,
+        "risk_reduction_notional": 821.214433332274,
+        "strategy": "Momentum",
+        "strategy_multiplier": 1.0,
+        "symbol": "AVAXUSDT",
+        "symbol_strategy_failure_votes": 0,
+        "symbol_strategy_multiplier": 1.0,
+        "symbol_strategy_profit_factor": null,
+        "symbol_strategy_samples": 0,
+        "symbol_strategy_state": "LEARNING",
+        "symbol_strategy_weighted_avg_return": null,
+        "symbol_strategy_weighted_win_rate": null,
+        "target_leverage_cap": 1.4925,
+        "total_reduction_notional": 821.214433332274
+      },
+      {
         "account_id": "stock_medium",
         "bar_time": "2026-09-03T16:00:00+00:00",
         "broad_health_multiplier": 1.0,
@@ -36615,91 +36727,13 @@
         "symbol_strategy_weighted_win_rate": 0.40568166112680804,
         "target_leverage_cap": 1.99,
         "total_reduction_notional": 24598.463710626125
-      },
-      {
-        "account_id": "crypto_short",
-        "bar_time": "2026-08-31T17:00:00+00:00",
-        "broad_health_multiplier": 0.8,
-        "broker_order_api_calls": 0,
-        "combined_multiplier": 0.4,
-        "cost_adjusted_leverage_room": 127986.12321327583,
-        "created_at": "2026-08-31T18:02:42.054400+00:00",
-        "data_multiplier": 1.0,
-        "data_status": "OK",
-        "drift_multiplier": 1.0,
-        "drift_status": "NORMAL",
-        "effective_health_multiplier": 0.8,
-        "execution_cap_multiplier": 1.0,
-        "execution_reduction_notional": 0.0,
-        "execution_room": 129138.34127929961,
-        "execution_room_type": "LEVERAGE",
-        "expected_live_deviation_score": 16.07087577842228,
-        "expected_live_evidence_weight": 0.15,
-        "expected_live_multiplier": 1.0,
-        "expected_live_performance_key": "crypto:ENSOUSDT:short:Mean Reversion RSI",
-        "expected_live_reasons": [
-          "WIN_RATE_DETERIORATION",
-          "PROFIT_FACTOR_DETERIORATION"
-        ],
-        "expected_live_samples": 3,
-        "expected_live_state": "LEARNING",
-        "fill_price": 0.8935164000000001,
-        "filled_notional": 4338.579282108007,
-        "final_effective_multiplier": 0.4,
-        "flags": "市場總曝險偏高 / 同標的跨週期重複曝險 / 與現有持倉高度相關 / 外部情報風險:CAUTION",
-        "global_multiplier": 0.65,
-        "has_error": false,
-        "horizon": "short",
-        "id": 2878,
-        "legacy_leverage_room": 129138.34127929961,
-        "leverage_guard_applied": false,
-        "leverage_guard_multiplier": 1.0,
-        "leverage_guard_reduction_notional": 0.0,
-        "leverage_guarded_notional": 4338.579282108007,
-        "market": "crypto",
-        "max_leverage": 2.0,
-        "meta_mode": "COLD_START",
-        "meta_multiplier": 1.0,
-        "meta_probability": 0.9093473359077504,
-        "meta_samples": 140,
-        "meta_score": 84.81973124724234,
-        "meta_spread_bps": 11.242270938729634,
-        "meta_tca_samples": 179,
-        "meta_verdict": "STRONG",
-        "original_notional": 10846.448205270017,
-        "portfolio_multiplier": 0.5,
-        "pretrade_multiplier": 0.5,
-        "pretrade_score": 80.0,
-        "pretrade_verdict": "BLOCK_CANDIDATE",
-        "projected_post_fill_equity": 93710.93496259212,
-        "projected_post_fill_gross": 62629.47099555736,
-        "projected_post_fill_leverage": 0.6683261779487958,
-        "quality_drift_multiplier": 1.0,
-        "realized_evidence_dedup_applied": false,
-        "realized_evidence_multiplier": 0.8,
-        "regime": "NORMAL_UP_TREND",
-        "regime_multiplier": 1.0,
-        "risk_adjusted_notional": 4338.579282108007,
-        "risk_reduction_notional": 6507.86892316201,
-        "strategy": "Mean Reversion RSI",
-        "strategy_multiplier": 0.8,
-        "symbol": "ENSOUSDT",
-        "symbol_strategy_failure_votes": 0,
-        "symbol_strategy_multiplier": 1.0,
-        "symbol_strategy_profit_factor": 0.7936842426325988,
-        "symbol_strategy_samples": 3,
-        "symbol_strategy_state": "NORMAL",
-        "symbol_strategy_weighted_avg_return": 0.005661181885572934,
-        "symbol_strategy_weighted_win_rate": 0.6681446141020206,
-        "target_leverage_cap": 1.99,
-        "total_reduction_notional": 6507.86892316201
       }
     ],
-    "generated_at": "2026-09-03T20:49:52.981493+00:00",
+    "generated_at": "2026-09-03T21:01:21.491872+00:00",
     "scope": "PUBLIC_READ_ONLY_RISK_SIZING_AUDIT",
     "status": "AVAILABLE",
     "summary": {
-      "broad_health_reduced": 90,
+      "broad_health_reduced": 89,
       "broker_order_api_calls": 0,
       "entries": 100,
       "entries_with_error": 0,
@@ -36711,7 +36745,7 @@
       "portfolio_reduced": 100,
       "quality_drift_reduced": 21,
       "realized_evidence_dedup_applied": 31,
-      "realized_evidence_reduced": 90,
+      "realized_evidence_reduced": 89,
       "symbol_strategy_reduced": 50
     }
   },
@@ -36721,12 +36755,12 @@
     "bootstrap_at": "2026-09-03T14:43:55.227248+00:00",
     "bootstrap_warnings": [],
     "current_snapshot_db": null,
-    "current_snapshot_finished_at": "2026-09-03T20:49:41.753567+00:00",
+    "current_snapshot_finished_at": "2026-09-03T21:01:10.730736+00:00",
     "current_snapshot_phase": "IDLE",
     "current_snapshot_progress": {},
-    "current_snapshot_progress_at": "2026-09-03T20:49:41.746539+00:00",
-    "current_snapshot_started_at": "2026-09-03T20:49:13.732575+00:00",
-    "last_snapshot_at": "2026-09-03T20:49:41.753577+00:00",
+    "current_snapshot_progress_at": "2026-09-03T21:01:10.723048+00:00",
+    "current_snapshot_started_at": "2026-09-03T21:00:43.814257+00:00",
+    "last_snapshot_at": "2026-09-03T21:01:10.730747+00:00",
     "last_snapshot_failed": [],
     "last_snapshot_success": [
       "crypto_v2_shadow.sqlite3",
@@ -36740,9 +36774,9 @@
     "mode": "RESCUE_RUNTIME",
     "persistence_status": "OK",
     "persistent_disk": {
-      "free": 2387206144,
+      "free": 2386767872,
       "total": 4685873152,
-      "used": 2281889792
+      "used": 2282328064
     },
     "restored": [
       {
@@ -36785,7 +36819,7 @@
     "snapshot_interval_seconds": 60,
     "snapshot_keep_archives": 0,
     "status": "AVAILABLE",
-    "updated_at": "2026-09-03T20:49:41.753729+00:00"
+    "updated_at": "2026-09-03T21:01:10.730834+00:00"
   },
   "strategy_performance": [
     {
@@ -36997,16 +37031,16 @@
       "worst_trade_return": -0.020550406392377263
     },
     {
-      "avg_pnl": -418.2202959009784,
-      "avg_return_pct": -0.09964953231860363,
-      "best_trade_return": -0.02953645825651008,
-      "closed_trades": 4,
+      "avg_pnl": -349.03139420230644,
+      "avg_return_pct": -0.0828258914540485,
+      "best_trade_return": -0.015531327995828015,
+      "closed_trades": 5,
       "horizon": "long",
       "last_exit_bar": "2026-09-02T00:00:00+00:00",
-      "losses": 4,
+      "losses": 5,
       "market": "crypto",
       "profit_factor": 0.0,
-      "realized_pnl": -1672.8811836039135,
+      "realized_pnl": -1745.1569710115323,
       "strategy": "Momentum",
       "win_rate": 0.0,
       "wins": 0,
@@ -38999,6 +39033,24 @@
       "worst_trade_return": -0.029994027946086077
     },
     {
+      "avg_pnl": -72.27578740761876,
+      "avg_return_pct": -0.015531327995828015,
+      "best_trade_return": -0.015531327995828015,
+      "closed_trades": 1,
+      "horizon": "long",
+      "last_exit_bar": "2026-09-02T00:00:00+00:00",
+      "losses": 1,
+      "market": "crypto",
+      "performance_key": "crypto:AVAXUSDT:long:Momentum",
+      "profit_factor": 0.0,
+      "realized_pnl": -72.27578740761876,
+      "strategy": "Momentum",
+      "symbol": "AVAXUSDT",
+      "win_rate": 0.0,
+      "wins": 0,
+      "worst_trade_return": -0.015531327995828015
+    },
+    {
       "avg_pnl": -186.37423620496756,
       "avg_return_pct": -0.18531288462465656,
       "best_trade_return": -0.18531288462465656,
@@ -39845,11 +39897,11 @@
       "worst_trade_return": -0.00029986839109497065
     }
   ],
-  "sync_checked_at": "2026-09-03T20:49:54.218144+00:00",
-  "sync_snapshot_age_seconds": 2.101695,
+  "sync_checked_at": "2026-09-03T21:01:26.949033+00:00",
+  "sync_snapshot_age_seconds": 33.153393,
   "trial_ledger": {
     "challenges": 67,
-    "cycles": 1347,
+    "cycles": 1348,
     "distinct_hypotheses": 68,
     "events": 210,
     "last_event_at": "2026-09-03T20:47:01.307425+00:00",
@@ -39857,108 +39909,108 @@
     "research_trials": 126
   },
   "worker": {
-    "assets_checked": 9,
+    "assets_checked": 245,
     "bars_processed": 0,
     "broker_order_api_calls": 0,
     "concept_drift_pairs": 9,
-    "cycle_elapsed_seconds": 172.428,
+    "cycle_elapsed_seconds": 93.341,
     "data_quality": "OK",
     "data_quality_critical": 0,
     "data_quality_warnings": 26,
     "first_cycle_complete": true,
-    "heartbeat_at": "2026-09-03T20:49:51.896313+00:00",
-    "last_cycle_duration_seconds": 132.563,
-    "last_cycle_finished_at": "2026-09-03T20:45:59.454534+00:00",
+    "heartbeat_at": "2026-09-03T21:00:52.214154+00:00",
+    "last_cycle_duration_seconds": 679.393,
+    "last_cycle_finished_at": "2026-09-03T20:58:18.861132+00:00",
     "last_cycle_phase_durations_seconds": {
-      "CALIBRATION": 0.086,
-      "DATA_QUALITY": 5.815,
-      "GOVERNANCE": 7.145,
-      "MODEL_HEALTH": 0.089,
-      "PORTFOLIO_RISK": 0.743,
-      "PREPARE": 0.012,
-      "PRETRADE_RISK": 64.751,
-      "SIMULATION": 53.79,
-      "UNIVERSE": 0.007,
-      "WATCHLIST": 0.126
+      "CALIBRATION": 6.644,
+      "DATA_QUALITY": 5.915,
+      "GOVERNANCE": 19.384,
+      "MODEL_HEALTH": 0.109,
+      "PORTFOLIO_RISK": 1.007,
+      "PREPARE": 0.015,
+      "PRETRADE_RISK": 66.43,
+      "SIMULATION": 577.918,
+      "UNIVERSE": 1.824,
+      "WATCHLIST": 0.148
     },
     "last_cycle_slow_units": [
       {
-        "bars_processed": 0,
-        "seconds": 1.447,
-        "unit": "crypto:TUTUSDT:short"
+        "bars_processed": 145,
+        "seconds": 406.685,
+        "unit": "crypto:AVAXUSDT:short"
+      },
+      {
+        "bars_processed": 6,
+        "seconds": 84.479,
+        "unit": "crypto:AVAXUSDT:long"
+      },
+      {
+        "bars_processed": 37,
+        "seconds": 6.102,
+        "unit": "crypto:AVAXUSDT:medium"
       },
       {
         "bars_processed": 0,
-        "seconds": 1.045,
-        "unit": "crypto:TRXUSDT:medium"
+        "seconds": 1.017,
+        "unit": "crypto:ENAUSDT:short"
       },
       {
         "bars_processed": 0,
-        "seconds": 1.028,
-        "unit": "crypto:USD1USDT:short"
+        "seconds": 1.014,
+        "unit": "crypto:TAOUSDT:medium"
       },
       {
         "bars_processed": 0,
-        "seconds": 1.024,
-        "unit": "crypto:UNIUSDT:short"
+        "seconds": 1.006,
+        "unit": "crypto:NILUSDT:short"
       },
       {
         "bars_processed": 0,
-        "seconds": 0.991,
-        "unit": "crypto:BNBUSDT:short"
+        "seconds": 1.003,
+        "unit": "crypto:ENSOUSDT:medium"
       },
       {
         "bars_processed": 0,
-        "seconds": 0.991,
-        "unit": "crypto:TUTUSDT:medium"
+        "seconds": 0.996,
+        "unit": "crypto:DOGEUSDT:medium"
       },
       {
         "bars_processed": 0,
-        "seconds": 0.984,
-        "unit": "crypto:NEARUSDT:short"
+        "seconds": 0.996,
+        "unit": "crypto:ENSOUSDT:short"
       },
       {
         "bars_processed": 0,
-        "seconds": 0.983,
-        "unit": "crypto:MUBARAKUSDT:short"
-      },
-      {
-        "bars_processed": 0,
-        "seconds": 0.637,
-        "unit": "crypto:ETHUSDT:short"
-      },
-      {
-        "bars_processed": 0,
-        "seconds": 0.617,
-        "unit": "crypto:BNBUSDT:medium"
+        "seconds": 0.647,
+        "unit": "crypto:LTCUSDT:medium"
       }
     ],
-    "last_cycle_started_at": "2026-09-03T20:46:59.467954+00:00",
-    "last_progress_at": "2026-09-03T20:47:10.325897+00:00",
+    "last_cycle_started_at": "2026-09-03T20:59:18.873133+00:00",
+    "last_progress_at": "2026-09-03T21:00:05.007819+00:00",
     "market_data_api_calls": 0,
-    "phase": "SIMULATION",
-    "phase_completed": 9,
+    "phase": "PRETRADE_RISK",
+    "phase_completed": 0,
     "phase_durations_seconds": {
-      "CALIBRATION": 6.644,
-      "PREPARE": 0.015,
-      "SIMULATION": 163.945,
-      "UNIVERSE": 1.824
+      "CALIBRATION": 0.117,
+      "GOVERNANCE": 7.321,
+      "MODEL_HEALTH": 0.098,
+      "PORTFOLIO_RISK": 0.837,
+      "PREPARE": 0.014,
+      "PRETRADE_RISK": 47.206,
+      "SIMULATION": 37.581,
+      "UNIVERSE": 0.007,
+      "WATCHLIST": 0.159
     },
-    "phase_elapsed_seconds": 163.945,
-    "phase_started_at": "2026-09-03T20:47:07.951050+00:00",
-    "phase_total": 402,
+    "phase_elapsed_seconds": 47.206,
+    "phase_started_at": "2026-09-03T21:00:05.007819+00:00",
+    "phase_total": 0,
     "portfolio_risk": "MEDIUM",
-    "progress_events": 32,
+    "progress_events": 799,
     "progress_schema_version": "WORKER_PROGRESS_V1",
-    "progress_unit": "crypto:AVAXUSDT:short",
+    "progress_unit": null,
     "realtime_watchlist_sync": "ONLINE",
     "realtime_watchlist_total": 51,
     "recent_cycles": [
-      {
-        "duration_seconds": 124.952,
-        "finished_at": "2026-09-03T18:42:06.684726+00:00",
-        "status": "COMPLETE"
-      },
       {
         "duration_seconds": 138.016,
         "finished_at": "2026-09-03T18:45:24.718879+00:00",
@@ -40053,6 +40105,11 @@
         "duration_seconds": 132.563,
         "finished_at": "2026-09-03T20:45:59.454571+00:00",
         "status": "COMPLETE"
+      },
+      {
+        "duration_seconds": 679.393,
+        "finished_at": "2026-09-03T20:58:18.861168+00:00",
+        "status": "COMPLETE"
       }
     ],
     "risk_layer": "ONLINE",
@@ -40060,48 +40117,53 @@
     "slow_units": [
       {
         "bars_processed": 0,
-        "seconds": 0.569,
-        "unit": "crypto:AAVEUSDT:short"
+        "seconds": 1.271,
+        "unit": "crypto:WIFUSDT:short"
       },
       {
         "bars_processed": 0,
-        "seconds": 0.559,
-        "unit": "crypto:ARBUSDT:medium"
+        "seconds": 1.001,
+        "unit": "crypto:TRXUSDT:short"
       },
       {
         "bars_processed": 0,
-        "seconds": 0.55,
+        "seconds": 1.001,
+        "unit": "crypto:TUTUSDT:short"
+      },
+      {
+        "bars_processed": 0,
+        "seconds": 0.978,
+        "unit": "crypto:XAUTUSDT:short"
+      },
+      {
+        "bars_processed": 0,
+        "seconds": 0.9,
         "unit": "crypto:ADAUSDT:short"
       },
       {
         "bars_processed": 0,
-        "seconds": 0.545,
+        "seconds": 0.656,
         "unit": "crypto:ARBUSDT:short"
       },
       {
         "bars_processed": 0,
-        "seconds": 0.065,
-        "unit": "crypto:ADAUSDT:long"
+        "seconds": 0.638,
+        "unit": "crypto:ENSOUSDT:short"
       },
       {
         "bars_processed": 0,
-        "seconds": 0.033,
-        "unit": "crypto:AAVEUSDT:medium"
+        "seconds": 0.637,
+        "unit": "crypto:NEARUSDT:short"
       },
       {
         "bars_processed": 0,
-        "seconds": 0.018,
-        "unit": "crypto:ADAUSDT:medium"
+        "seconds": 0.582,
+        "unit": "crypto:RLUSDUSDT:short"
       },
       {
         "bars_processed": 0,
-        "seconds": 0.016,
-        "unit": "crypto:AAVEUSDT:long"
-      },
-      {
-        "bars_processed": 0,
-        "seconds": 0.008,
-        "unit": "crypto:ARBUSDT:long"
+        "seconds": 0.578,
+        "unit": "crypto:PROMUSDT:short"
       }
     ],
     "status": "RUNNING",
