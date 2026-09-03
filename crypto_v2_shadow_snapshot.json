@@ -43,7 +43,7 @@
   "contains_secrets": false,
   "errors": [],
   "forward_only": true,
-  "generated_at": "2026-09-03T20:37:48.162856+00:00",
+  "generated_at": "2026-09-03T20:49:15.484065+00:00",
   "latest_market_regime": {
     "realized_vol": 0.02674777120469947,
     "reason": "No dominant directional regime",
@@ -113,16 +113,14 @@
       }
     },
     "short": {
-      "breaches": [
-        "MAX_STRATEGY_EXPOSURE"
-      ],
+      "breaches": [],
       "caps": {
         "gross_notional": 35000.0,
         "regime_notional": 30000.0,
         "strategy_notional": 25000.0
       },
-      "gross_notional": 25000.0,
-      "gross_pct": 0.25,
+      "gross_notional": 18939.77963552336,
+      "gross_pct": 0.1893977963552336,
       "horizon": "short",
       "limits": {
         "max_gross_pct": 0.35,
@@ -131,15 +129,15 @@
         "max_strategy_pct": 0.25,
         "min_entry_pct": 0.005
       },
-      "open_positions": 4,
+      "open_positions": 3,
       "pending_orders": 1,
       "regime_notional": {
-        "SIDEWAYS": 25000.000000000004
+        "SIDEWAYS": 18939.77963552336
       },
-      "reserved_slots": 5,
-      "status": "LIMITED",
+      "reserved_slots": 4,
+      "status": "NORMAL",
       "strategy_notional": {
-        "V2_MEAN_REVERSION": 25000.000000000004
+        "V2_MEAN_REVERSION": 18939.77963552336
       }
     }
   },
@@ -208,19 +206,6 @@
       "strategy": "V2_MEAN_REVERSION",
       "symbol": "RLUSDUSDT",
       "target_price": 1.0251024999999998
-    },
-    {
-      "avg_entry": 7.299,
-      "bars_held": 2,
-      "entry_bar": "2026-08-28T17:00:00+00:00",
-      "horizon": "short",
-      "max_holding_bars": 6,
-      "qty": 830.2809103269822,
-      "regime_entry": "SIDEWAYS",
-      "stop_price": 7.1764857142857155,
-      "strategy": "V2_MEAN_REVERSION",
-      "symbol": "AVAXUSDT",
-      "target_price": 7.513400000000001
     },
     {
       "avg_entry": 0.793,
@@ -1941,6 +1926,45 @@
       "target_distance": 0.06299433485063462
     },
     {
+      "bars_held": 0,
+      "best_realized_action": null,
+      "conflict_margin": 0.0015,
+      "context_json": "{\"avg_pairwise_correlation\": 0.27336979473982226, \"breadth_above_ema20\": 0.8863636363636364, \"btc_return_24h\": 0.05707080561049582, \"external_derivatives_data\": \"NOT_CONNECTED\", \"funding_rate\": null, \"horizon\": \"short\", \"liquidation_shock_score\": null, \"median_one_bar_return\": -7.000240323901119e-05, \"open_interest_change\": null, \"session\": \"US\", \"symbols_observed\": 44, \"version\": 1}",
+      "created_at": "2026-09-03T20:47:52.252071+00:00",
+      "decision_bar": "2026-09-03T19:00:00+00:00",
+      "decision_correct": null,
+      "entry_bar": null,
+      "entry_price": null,
+      "ev_is_calibrated": 0,
+      "evaluation_bars": 6,
+      "exit_bar": null,
+      "exit_price": null,
+      "features_json": "{\"atr_pct\": 0.008662029227240855, \"bars\": 4319, \"breakout_pct\": -0.0013250298131707305, \"price\": 7.537, \"ready\": true, \"realized_vol\": 0.025209018890254998, \"relative_strength\": -0.005445299820067362, \"ret_fast\": 0.03105335157318745, \"ret_slow\": 0.05162550579042846, \"volume_z\": -0.26654729967617524, \"zscore20\": 1.6747881943205178}",
+      "horizon": "short",
+      "long_ev_proxy": 0.014498480535652013,
+      "long_mae_pct": 0.0,
+      "long_mfe_pct": 0.0,
+      "long_return_pct": null,
+      "long_score": 0.8054822823579796,
+      "method": "HEURISTIC_FORWARD_SHADOW_V1",
+      "min_trade_ev": 0.003,
+      "no_trade_ev": 0.0,
+      "reason": "LONG has the stronger cost-adjusted EV proxy",
+      "regime": "SIDEWAYS",
+      "selected_action": "LONG",
+      "selected_return_pct": null,
+      "shadow_id": "6305167bc3d64491ab5b88855c30d729",
+      "short_ev_proxy": -0.008659551999384854,
+      "short_mae_pct": 0.0,
+      "short_mfe_pct": 0.0,
+      "short_return_pct": null,
+      "short_score": 0.24850077318766167,
+      "status": "PENDING_ENTRY",
+      "stop_distance": 0.015591652609033538,
+      "symbol": "AVAXUSDT",
+      "target_distance": 0.025986087681722565
+    },
+    {
       "bars_held": 1,
       "best_realized_action": null,
       "conflict_margin": 0.0015,
@@ -3618,6 +3642,45 @@
       "target_distance": 0.0625864745948206
     },
     {
+      "bars_held": 1,
+      "best_realized_action": null,
+      "conflict_margin": 0.0015,
+      "context_json": "{\"avg_pairwise_correlation\": 0.27480459143219993, \"breadth_above_ema20\": 0.8863636363636364, \"btc_return_24h\": 0.05009914993662279, \"external_derivatives_data\": \"NOT_CONNECTED\", \"funding_rate\": null, \"horizon\": \"short\", \"liquidation_shock_score\": null, \"median_one_bar_return\": 0.0008313586380201965, \"open_interest_change\": null, \"session\": \"US\", \"symbols_observed\": 44, \"version\": 1}",
+      "created_at": "2026-09-03T20:47:52.086426+00:00",
+      "decision_bar": "2026-09-03T18:00:00+00:00",
+      "decision_correct": null,
+      "entry_bar": "2026-09-03T19:00:00+00:00",
+      "entry_price": 7.533,
+      "ev_is_calibrated": 0,
+      "evaluation_bars": 6,
+      "exit_bar": null,
+      "exit_price": null,
+      "features_json": "{\"atr_pct\": 0.009064876448388989, \"bars\": 4318, \"breakout_pct\": -0.0018550417384389783, \"price\": 7.533, \"ready\": true, \"realized_vol\": 0.02534633670352512, \"relative_strength\": -0.007028987935558506, \"ret_fast\": 0.029801777170198163, \"ret_slow\": 0.05004181767493732, \"volume_z\": -0.3920348789543579, \"zscore20\": 1.8662737418843314}",
+      "horizon": "short",
+      "long_ev_proxy": 0.015124164279183009,
+      "long_mae_pct": -0.003451480153989217,
+      "long_mfe_pct": 0.004247975574140472,
+      "long_return_pct": null,
+      "long_score": 0.8007312180115062,
+      "method": "HEURISTIC_FORWARD_SHADOW_V1",
+      "min_trade_ev": 0.003,
+      "no_trade_ev": 0.0,
+      "reason": "LONG has the stronger cost-adjusted EV proxy",
+      "regime": "SIDEWAYS",
+      "selected_action": "LONG",
+      "selected_return_pct": null,
+      "shadow_id": "3f36946f53a34678952430d1796e2dd9",
+      "short_ev_proxy": -0.00803088939590084,
+      "short_mae_pct": -0.004230006609385328,
+      "short_mfe_pct": 0.0034634341281472025,
+      "short_return_pct": null,
+      "short_score": 0.2685706813392402,
+      "status": "OPEN",
+      "stop_distance": 0.01631677760710018,
+      "symbol": "AVAXUSDT",
+      "target_distance": 0.027194629345166966
+    },
+    {
       "bars_held": 2,
       "best_realized_action": null,
       "conflict_margin": 0.0015,
@@ -4084,84 +4147,6 @@
       "stop_distance": 0.020518287682466805,
       "symbol": "ENSOUSDT",
       "target_distance": 0.03419714613744468
-    },
-    {
-      "bars_held": 2,
-      "best_realized_action": null,
-      "conflict_margin": 0.0015,
-      "context_json": "{\"avg_pairwise_correlation\": 0.26406224928343985, \"breadth_above_ema20\": 0.8372093023255814, \"btc_return_24h\": 0.047206534468244854, \"external_derivatives_data\": \"NOT_CONNECTED\", \"funding_rate\": null, \"horizon\": \"short\", \"liquidation_shock_score\": null, \"median_one_bar_return\": 0.0, \"open_interest_change\": null, \"session\": \"US\", \"symbols_observed\": 43, \"version\": 1}",
-      "created_at": "2026-09-03T18:00:19.270057+00:00",
-      "decision_bar": "2026-09-03T17:00:00+00:00",
-      "decision_correct": null,
-      "entry_bar": "2026-09-03T18:00:00+00:00",
-      "entry_price": 0.3361,
-      "ev_is_calibrated": 0,
-      "evaluation_bars": 6,
-      "exit_bar": null,
-      "exit_price": null,
-      "features_json": "{\"atr_pct\": 0.00730640159721337, \"bars\": 4323, \"breakout_pct\": -0.018961493582263733, \"price\": 0.3363, \"ready\": true, \"realized_vol\": 0.020960309430268373, \"relative_strength\": -0.048691095038316146, \"ret_fast\": 0.002085816448152533, \"ret_slow\": -0.0014845605700712916, \"volume_z\": 3.1659862517771313, \"zscore20\": -0.4183066885927302}",
-      "horizon": "short",
-      "long_ev_proxy": 0.0015731053209824242,
-      "long_mae_pct": -0.0014876524843796535,
-      "long_mfe_pct": 0.00833085391252597,
-      "long_return_pct": null,
-      "long_score": 0.49932763302456057,
-      "method": "HEURISTIC_FORWARD_SHADOW_V1",
-      "min_trade_ev": 0.003,
-      "no_trade_ev": 0.0,
-      "reason": "Neither direction clears minimum EV proxy 0.0030",
-      "regime": "SIDEWAYS",
-      "selected_action": "NO_TRADE",
-      "selected_return_pct": null,
-      "shadow_id": "1b1d563b5c7a4a8d84bae38beb10e811",
-      "short_ev_proxy": -0.0031731053209824215,
-      "short_mae_pct": -0.00826202419592792,
-      "short_mfe_pct": 0.0014898688915374603,
-      "short_return_pct": null,
-      "short_score": 0.38067236697543944,
-      "status": "OPEN",
-      "stop_distance": 0.015,
-      "symbol": "EPICUSDT",
-      "target_distance": 0.025
-    },
-    {
-      "bars_held": 2,
-      "best_realized_action": null,
-      "conflict_margin": 0.0015,
-      "context_json": "{\"avg_pairwise_correlation\": 0.26406224928343985, \"breadth_above_ema20\": 0.8372093023255814, \"btc_return_24h\": 0.047206534468244854, \"external_derivatives_data\": \"NOT_CONNECTED\", \"funding_rate\": null, \"horizon\": \"short\", \"liquidation_shock_score\": null, \"median_one_bar_return\": 0.0, \"open_interest_change\": null, \"session\": \"US\", \"symbols_observed\": 43, \"version\": 1}",
-      "created_at": "2026-09-03T18:00:19.289969+00:00",
-      "decision_bar": "2026-09-03T17:00:00+00:00",
-      "decision_correct": null,
-      "entry_bar": "2026-09-03T18:00:00+00:00",
-      "entry_price": 2500.49,
-      "ev_is_calibrated": 0,
-      "evaluation_bars": 6,
-      "exit_bar": null,
-      "exit_price": null,
-      "features_json": "{\"atr_pct\": 0.00905782099438426, \"bars\": 4323, \"breakout_pct\": -0.0069908693926161725, \"price\": 2501.39, \"ready\": true, \"realized_vol\": 0.03145136807157735, \"relative_strength\": -0.0022481633632516207, \"ret_fast\": 0.03912844798936521, \"ret_slow\": 0.04495837110499323, \"volume_z\": -0.36977148639993, \"zscore20\": 1.9286291935031532}",
-      "horizon": "short",
-      "long_ev_proxy": 0.015391384345297052,
-      "long_mae_pct": -0.000847833824570321,
-      "long_mfe_pct": 0.011737699410915514,
-      "long_return_pct": null,
-      "long_score": 0.807208998282338,
-      "method": "HEURISTIC_FORWARD_SHADOW_V1",
-      "min_trade_ev": 0.003,
-      "no_trade_ev": 0.0,
-      "reason": "LONG has the stronger cost-adjusted EV proxy",
-      "regime": "SIDEWAYS",
-      "selected_action": "LONG",
-      "selected_return_pct": null,
-      "shadow_id": "864994ee0234466f9acd2a8e2b1cda7c",
-      "short_ev_proxy": -0.008092038062150125,
-      "short_mae_pct": -0.011601524207064617,
-      "short_mfe_pct": 0.0008485532567232834,
-      "short_return_pct": null,
-      "short_score": 0.2670813371979141,
-      "status": "OPEN",
-      "stop_distance": 0.01630407778989167,
-      "symbol": "ETHUSDT",
-      "target_distance": 0.02717346298315278
     }
   ],
   "recent_blocked_candidates": [
@@ -7528,6 +7513,19 @@
     },
     {
       "action": "NO_TRADE",
+      "bar_time": "2026-09-03T19:00:00+00:00",
+      "confidence": 0.0,
+      "created_at": "2026-09-03T20:47:52.259756+00:00",
+      "decision_id": "81c3d53dc6f3444ab8b70e023bae1ea7",
+      "features_json": "{\"_research\": {\"avg_pairwise_correlation\": 0.27336979473982226, \"breadth_above_ema20\": 0.8863636363636364, \"btc_return_24h\": 0.05707080561049582, \"external_derivatives_data\": \"NOT_CONNECTED\", \"funding_rate\": null, \"horizon\": \"short\", \"liquidation_shock_score\": null, \"median_one_bar_return\": -7.000240323901119e-05, \"open_interest_change\": null, \"session\": \"US\", \"symbols_observed\": 44, \"version\": 1}, \"atr_pct\": 0.008662029227240855, \"bars\": 4319, \"breakout_pct\": -0.0013250298131707305, \"price\": 7.537, \"ready\": true, \"realized_vol\": 0.025209018890254998, \"relative_strength\": -0.005445299820067362, \"ret_fast\": 0.03105335157318745, \"ret_slow\": 0.05162550579042846, \"volume_z\": -0.26654729967617524, \"zscore20\": 1.6747881943205178}",
+      "horizon": "short",
+      "reason": "No V2 setup in SIDEWAYS",
+      "regime": "SIDEWAYS",
+      "strategy": "NONE",
+      "symbol": "AVAXUSDT"
+    },
+    {
+      "action": "NO_TRADE",
       "bar_time": "2026-09-03T18:00:00+00:00",
       "confidence": 0.0,
       "created_at": "2026-09-03T19:00:12.977569+00:00",
@@ -8087,6 +8085,19 @@
     },
     {
       "action": "NO_TRADE",
+      "bar_time": "2026-09-03T18:00:00+00:00",
+      "confidence": 0.0,
+      "created_at": "2026-09-03T20:47:52.094656+00:00",
+      "decision_id": "9ad0a5b07c3143cdae678b6083627fbe",
+      "features_json": "{\"_research\": {\"avg_pairwise_correlation\": 0.27480459143219993, \"breadth_above_ema20\": 0.8863636363636364, \"btc_return_24h\": 0.05009914993662279, \"external_derivatives_data\": \"NOT_CONNECTED\", \"funding_rate\": null, \"horizon\": \"short\", \"liquidation_shock_score\": null, \"median_one_bar_return\": 0.0008313586380201965, \"open_interest_change\": null, \"session\": \"US\", \"symbols_observed\": 44, \"version\": 1}, \"atr_pct\": 0.009064876448388989, \"bars\": 4318, \"breakout_pct\": -0.0018550417384389783, \"price\": 7.533, \"ready\": true, \"realized_vol\": 0.02534633670352512, \"relative_strength\": -0.007028987935558506, \"ret_fast\": 0.029801777170198163, \"ret_slow\": 0.05004181767493732, \"volume_z\": -0.3920348789543579, \"zscore20\": 1.8662737418843314}",
+      "horizon": "short",
+      "reason": "No V2 setup in SIDEWAYS",
+      "regime": "SIDEWAYS",
+      "strategy": "NONE",
+      "symbol": "AVAXUSDT"
+    },
+    {
+      "action": "NO_TRADE",
       "bar_time": "2026-09-03T17:00:00+00:00",
       "confidence": 0.0,
       "created_at": "2026-09-03T18:00:19.023066+00:00",
@@ -8643,6 +8654,19 @@
       "regime": "SIDEWAYS",
       "strategy": "NONE",
       "symbol": "ZECUSDT"
+    },
+    {
+      "action": "NO_TRADE",
+      "bar_time": "2026-09-03T17:00:00+00:00",
+      "confidence": 0.0,
+      "created_at": "2026-09-03T20:47:51.924196+00:00",
+      "decision_id": "f286d03408bb4a40a6cc0d2853634870",
+      "features_json": "{\"_research\": {\"avg_pairwise_correlation\": 0.2796113181421571, \"breadth_above_ema20\": 0.8409090909090909, \"btc_return_24h\": 0.04730242282215191, \"external_derivatives_data\": \"NOT_CONNECTED\", \"funding_rate\": null, \"horizon\": \"short\", \"liquidation_shock_score\": null, \"median_one_bar_return\": -0.00010002501250627738, \"open_interest_change\": null, \"session\": \"US\", \"symbols_observed\": 44, \"version\": 1}, \"atr_pct\": 0.009172391482235623, \"bars\": 4317, \"breakout_pct\": -0.005300119252683144, \"price\": 7.507, \"ready\": true, \"realized_vol\": 0.02531957293308634, \"relative_strength\": -0.0025133279996985003, \"ret_fast\": 0.030898104916231794, \"ret_slow\": 0.04758582193692429, \"volume_z\": -0.08985981150811072, \"zscore20\": 1.883884689819273}",
+      "horizon": "short",
+      "reason": "No V2 setup in SIDEWAYS",
+      "regime": "SIDEWAYS",
+      "strategy": "NONE",
+      "symbol": "AVAXUSDT"
     },
     {
       "action": "NO_TRADE",
@@ -9527,45 +9551,6 @@
       "regime": "SIDEWAYS",
       "strategy": "NONE",
       "symbol": "PROMUSDT"
-    },
-    {
-      "action": "NO_TRADE",
-      "bar_time": "2026-09-03T16:00:00+00:00",
-      "confidence": 0.0,
-      "created_at": "2026-09-03T20:00:14.180238+00:00",
-      "decision_id": "f2164e9890934bfdbd573b5320f34df0",
-      "features_json": "{\"_research\": {\"avg_pairwise_correlation\": 0.3322697421714228, \"breadth_above_ema20\": 0.813953488372093, \"btc_return_24h\": 0.0492133754041324, \"external_derivatives_data\": \"NOT_CONNECTED\", \"funding_rate\": null, \"horizon\": \"medium\", \"liquidation_shock_score\": null, \"median_one_bar_return\": -0.00019485580670297598, \"open_interest_change\": null, \"session\": \"EU_US_OVERLAP\", \"symbols_observed\": 43, \"version\": 1}, \"atr_pct\": 0.039347749025168355, \"bars\": 2144, \"breakout_pct\": -0.05600511073253822, \"price\": 0.004433, \"ready\": true, \"realized_vol\": 0.10514485843679901, \"relative_strength\": -0.1098907226328858, \"ret_fast\": 0.09321824907521603, \"ret_slow\": -0.05237280889268914, \"volume_z\": 0.20419956507610174, \"zscore20\": 0.7236642162448855}",
-      "horizon": "medium",
-      "reason": "No V2 setup in SIDEWAYS",
-      "regime": "SIDEWAYS",
-      "strategy": "NONE",
-      "symbol": "PUMPUSDT"
-    },
-    {
-      "action": "NO_TRADE",
-      "bar_time": "2026-09-03T16:00:00+00:00",
-      "confidence": 0.0,
-      "created_at": "2026-09-03T20:00:14.216517+00:00",
-      "decision_id": "77e6727f1ba14bb69fa311cd29a8b1fc",
-      "features_json": "{\"_research\": {\"avg_pairwise_correlation\": 0.3322697421714228, \"breadth_above_ema20\": 0.813953488372093, \"btc_return_24h\": 0.0492133754041324, \"external_derivatives_data\": \"NOT_CONNECTED\", \"funding_rate\": null, \"horizon\": \"medium\", \"liquidation_shock_score\": null, \"median_one_bar_return\": -0.00019485580670297598, \"open_interest_change\": null, \"session\": \"EU_US_OVERLAP\", \"symbols_observed\": 43, \"version\": 1}, \"atr_pct\": 0.003, \"bars\": 1347, \"breakout_pct\": -0.0007992806474171887, \"price\": 1.0001, \"ready\": true, \"realized_vol\": 0.0007859908272047673, \"relative_strength\": -0.05771785375819127, \"ret_fast\": -0.0002998800479807606, \"ret_slow\": -0.00019994001799461536, \"volume_z\": 2.094570166317701, \"zscore20\": -1.9999999999980569}",
-      "horizon": "medium",
-      "reason": "Existing V2 shadow position",
-      "regime": "SIDEWAYS",
-      "strategy": "NONE",
-      "symbol": "RLUSDUSDT"
-    },
-    {
-      "action": "NO_TRADE",
-      "bar_time": "2026-09-03T16:00:00+00:00",
-      "confidence": 0.0,
-      "created_at": "2026-09-03T20:00:14.237226+00:00",
-      "decision_id": "13520297b34d46cc94b27830a7d2693b",
-      "features_json": "{\"_research\": {\"avg_pairwise_correlation\": 0.3322697421714228, \"breadth_above_ema20\": 0.813953488372093, \"btc_return_24h\": 0.0492133754041324, \"external_derivatives_data\": \"NOT_CONNECTED\", \"funding_rate\": null, \"horizon\": \"medium\", \"liquidation_shock_score\": null, \"median_one_bar_return\": -0.00019485580670297598, \"open_interest_change\": null, \"session\": \"EU_US_OVERLAP\", \"symbols_observed\": 43, \"version\": 1}, \"atr_pct\": 0.0232398474268721, \"bars\": 505, \"breakout_pct\": -0.036119781627348746, \"price\": 1550.17, \"ready\": true, \"realized_vol\": 0.08402855989808612, \"relative_strength\": -0.01947618234254289, \"ret_fast\": -0.0015072366683628324, \"ret_slow\": 0.038041731397653766, \"volume_z\": -0.4406384922403329, \"zscore20\": 0.3953766098479847}",
-      "horizon": "medium",
-      "reason": "No V2 setup in SIDEWAYS",
-      "regime": "SIDEWAYS",
-      "strategy": "NONE",
-      "symbol": "SNDKBUSDT"
     }
   ],
   "recent_research_trades": [
@@ -9790,6 +9775,26 @@
       "trade_id": "66048e3ea4574608812025d3e5853f31"
     },
     {
+      "context_json": "{\"avg_pairwise_correlation\": 0.2921081635002943, \"breadth_above_ema20\": 0.13636363636363635, \"btc_return_24h\": -0.01728560430923254, \"external_derivatives_data\": \"NOT_CONNECTED\", \"funding_rate\": null, \"horizon\": \"short\", \"liquidation_shock_score\": null, \"median_one_bar_return\": -0.0022083290839620684, \"open_interest_change\": null, \"session\": \"EUROPE\", \"symbols_observed\": 44, \"version\": 1}",
+      "created_at": "2026-09-03T20:47:46.688781+00:00",
+      "entry_bar": "2026-09-02T11:00:00+00:00",
+      "entry_price": 7.084,
+      "entry_session": "EUROPE",
+      "exit_bar": "2026-09-02T16:00:00+00:00",
+      "exit_price": 7.144,
+      "exit_reason": "TIME",
+      "horizon": "short",
+      "mae_pct": -0.005081874647091977,
+      "mfe_pct": 0.016657255787690728,
+      "qty": 855.4800062784644,
+      "realized_pnl": 30.63679217684694,
+      "regime_entry": "LOW_VOL_SIDEWAYS",
+      "return_pct": 0.005046812851805245,
+      "strategy": "V2_MEAN_REVERSION",
+      "symbol": "AVAXUSDT",
+      "trade_id": "bf9a762ab38d40c5a0dbea1c0377bfb7"
+    },
+    {
       "context_json": "{\"avg_pairwise_correlation\": 0.26043132353107534, \"breadth_above_ema20\": 0.18181818181818182, \"btc_return_24h\": -0.015296541102483463, \"external_derivatives_data\": \"NOT_CONNECTED\", \"funding_rate\": null, \"horizon\": \"short\", \"liquidation_shock_score\": null, \"median_one_bar_return\": -0.0016544419827596024, \"open_interest_change\": null, \"session\": \"EUROPE\", \"symbols_observed\": 44, \"version\": 1}",
       "created_at": "2026-09-02T16:00:32.617184+00:00",
       "entry_bar": "2026-09-02T10:00:00+00:00",
@@ -9870,6 +9875,26 @@
       "trade_id": "92d160b9aff448c79519828c97d6f88e"
     },
     {
+      "context_json": "{\"avg_pairwise_correlation\": 0.30152042751573593, \"breadth_above_ema20\": 0.13636363636363635, \"btc_return_24h\": -0.013214261135381045, \"external_derivatives_data\": \"NOT_CONNECTED\", \"funding_rate\": null, \"horizon\": \"short\", \"liquidation_shock_score\": null, \"median_one_bar_return\": -0.0076589524889735805, \"open_interest_change\": null, \"session\": \"EUROPE\", \"symbols_observed\": 44, \"version\": 1}",
+      "created_at": "2026-09-03T20:47:45.757540+00:00",
+      "entry_bar": "2026-09-02T09:00:00+00:00",
+      "entry_price": 7.145,
+      "entry_session": "EUROPE",
+      "exit_bar": "2026-09-02T10:00:00+00:00",
+      "exit_price": 7.053342857142857,
+      "exit_reason": "STOP",
+      "horizon": "short",
+      "mae_pct": -0.014555633310006866,
+      "mfe_pct": 0.0040587823652904476,
+      "qty": 796.4812367264748,
+      "realized_pnl": -92.22800775082214,
+      "regime_entry": "LOW_VOL_SIDEWAYS",
+      "return_pct": -0.0161788396694528,
+      "strategy": "V2_MEAN_REVERSION",
+      "symbol": "AVAXUSDT",
+      "trade_id": "9467793385e34118b6222fb12109ed72"
+    },
+    {
       "context_json": "{\"avg_pairwise_correlation\": 0.28060258045578, \"breadth_above_ema20\": 0.34782608695652173, \"btc_return_24h\": -0.014238232026559605, \"external_derivatives_data\": \"NOT_CONNECTED\", \"funding_rate\": null, \"horizon\": \"short\", \"liquidation_shock_score\": null, \"median_one_bar_return\": 0.0019576994831229655, \"open_interest_change\": null, \"session\": \"ASIA\", \"symbols_observed\": 46, \"version\": 1}",
       "created_at": "2026-09-02T10:00:52.512503+00:00",
       "entry_bar": "2026-09-02T04:00:00+00:00",
@@ -9948,6 +9973,26 @@
       "strategy": "V2_MEAN_REVERSION",
       "symbol": "LINKUSDT",
       "trade_id": "4e6652ff1ab947c6957b9046eaabde42"
+    },
+    {
+      "context_json": "{\"avg_pairwise_correlation\": 0.3645062656287688, \"breadth_above_ema20\": 0.22727272727272727, \"btc_return_24h\": -0.02219989990415927, \"external_derivatives_data\": \"NOT_CONNECTED\", \"funding_rate\": null, \"horizon\": \"short\", \"liquidation_shock_score\": null, \"median_one_bar_return\": -0.0037812725880014275, \"open_interest_change\": null, \"session\": \"US\", \"symbols_observed\": 44, \"version\": 1}",
+      "created_at": "2026-09-03T20:47:44.780298+00:00",
+      "entry_bar": "2026-09-01T22:00:00+00:00",
+      "entry_price": 7.206,
+      "entry_session": "US",
+      "exit_bar": "2026-09-02T03:00:00+00:00",
+      "exit_price": 7.202,
+      "exit_reason": "TIME",
+      "horizon": "short",
+      "mae_pct": -0.013322231473771873,
+      "mfe_pct": 0.0056897030252567316,
+      "qty": 795.9944460317988,
+      "realized_pnl": -22.68074734745278,
+      "regime_entry": "SIDEWAYS",
+      "return_pct": -0.003947438674265046,
+      "strategy": "V2_MEAN_REVERSION",
+      "symbol": "AVAXUSDT",
+      "trade_id": "348c12438f2f4468bed8f3f54223a262"
     },
     {
       "context_json": "{\"avg_pairwise_correlation\": 0.3027306792030829, \"breadth_above_ema20\": 0.15555555555555556, \"btc_return_24h\": -0.023869469474536942, \"external_derivatives_data\": \"NOT_CONNECTED\", \"funding_rate\": null, \"horizon\": \"short\", \"liquidation_shock_score\": null, \"median_one_bar_return\": -0.005053057099545177, \"open_interest_change\": null, \"session\": \"US\", \"symbols_observed\": 45, \"version\": 1}",
@@ -10410,6 +10455,26 @@
       "trade_id": "6496014e33344bbf82a3ab6beea743f0"
     },
     {
+      "context_json": "{\"avg_pairwise_correlation\": 0.48828774343370485, \"breadth_above_ema20\": 0.09090909090909091, \"btc_return_24h\": -0.003105915001638593, \"external_derivatives_data\": \"NOT_CONNECTED\", \"funding_rate\": null, \"horizon\": \"short\", \"liquidation_shock_score\": null, \"median_one_bar_return\": 0.00471387956438285, \"open_interest_change\": null, \"session\": \"ASIA\", \"symbols_observed\": 44, \"version\": 1}",
+      "created_at": "2026-09-03T20:47:37.762191+00:00",
+      "entry_bar": "2026-08-31T01:00:00+00:00",
+      "entry_price": 7.152,
+      "entry_session": "ASIA",
+      "exit_bar": "2026-08-31T06:00:00+00:00",
+      "exit_price": 7.222,
+      "exit_reason": "TIME",
+      "horizon": "short",
+      "mae_pct": -0.00992729306487694,
+      "mfe_pct": 0.011744966442952975,
+      "qty": 847.346247829508,
+      "realized_pnl": 38.608653905353094,
+      "regime_entry": "SIDEWAYS",
+      "return_pct": 0.006360021297128186,
+      "strategy": "V2_MEAN_REVERSION",
+      "symbol": "AVAXUSDT",
+      "trade_id": "590d1c8509f84be0975a93021008d66c"
+    },
+    {
       "context_json": "{\"avg_pairwise_correlation\": 0.4583275913924986, \"breadth_above_ema20\": 0.04878048780487805, \"btc_return_24h\": -0.007139971877796247, \"external_derivatives_data\": \"NOT_CONNECTED\", \"funding_rate\": null, \"horizon\": \"short\", \"liquidation_shock_score\": null, \"median_one_bar_return\": -0.019189150194777183, \"open_interest_change\": null, \"session\": \"US\", \"symbols_observed\": 41, \"version\": 1}",
       "created_at": "2026-08-31T06:00:53.203997+00:00",
       "entry_bar": "2026-08-31T00:00:00+00:00",
@@ -10650,6 +10715,26 @@
       "trade_id": "a6ce8835d2164993bd72df7bdd95a3a9"
     },
     {
+      "context_json": "{\"avg_pairwise_correlation\": 0.2617670819617683, \"breadth_above_ema20\": 0.5, \"btc_return_24h\": 0.006570733341602741, \"external_derivatives_data\": \"NOT_CONNECTED\", \"funding_rate\": null, \"horizon\": \"short\", \"liquidation_shock_score\": null, \"median_one_bar_return\": 0.0030060760482542026, \"open_interest_change\": null, \"session\": \"EUROPE\", \"symbols_observed\": 44, \"version\": 1}",
+      "created_at": "2026-09-03T20:47:35.729027+00:00",
+      "entry_bar": "2026-08-30T11:00:00+00:00",
+      "entry_price": 7.381,
+      "entry_session": "EUROPE",
+      "exit_bar": "2026-08-30T18:00:00+00:00",
+      "exit_price": 7.445,
+      "exit_reason": "TIME",
+      "horizon": "short",
+      "mae_pct": -0.003387074922097333,
+      "mfe_pct": 0.012193469719550265,
+      "qty": 878.9430105067821,
+      "realized_pnl": 34.09929724701942,
+      "regime_entry": "LOW_VOL_SIDEWAYS",
+      "return_pct": 0.005247250923937429,
+      "strategy": "V2_BREAKOUT",
+      "symbol": "AVAXUSDT",
+      "trade_id": "0e607322a1624a80bee05cda8cfd03a3"
+    },
+    {
       "context_json": "{\"avg_pairwise_correlation\": 0.21941180236540747, \"breadth_above_ema20\": 0.5, \"btc_return_24h\": 0.0072345477527970825, \"external_derivatives_data\": \"NOT_CONNECTED\", \"funding_rate\": null, \"horizon\": \"short\", \"liquidation_shock_score\": null, \"median_one_bar_return\": 4.2868866442224984e-06, \"open_interest_change\": null, \"session\": \"EUROPE\", \"symbols_observed\": 38, \"version\": 1}",
       "created_at": "2026-08-30T18:00:46.566111+00:00",
       "entry_bar": "2026-08-30T12:00:00+00:00",
@@ -10828,6 +10913,26 @@
       "strategy": "V2_BREAKOUT",
       "symbol": "NILUSDT",
       "trade_id": "96ddec02a6554a0fb5bb61b2c7ceac09"
+    },
+    {
+      "context_json": "{\"avg_pairwise_correlation\": 0.35887096344760944, \"breadth_above_ema20\": 0.8181818181818182, \"btc_return_24h\": -0.0192107508897138, \"external_derivatives_data\": \"NOT_CONNECTED\", \"funding_rate\": null, \"horizon\": \"short\", \"liquidation_shock_score\": null, \"median_one_bar_return\": 0.009227821829599248, \"open_interest_change\": null, \"session\": \"EU_US_OVERLAP\", \"symbols_observed\": 44, \"version\": 1}",
+      "created_at": "2026-09-03T20:47:32.351364+00:00",
+      "entry_bar": "2026-08-29T15:00:00+00:00",
+      "entry_price": 7.359,
+      "entry_session": "EU_US_OVERLAP",
+      "exit_bar": "2026-08-29T22:00:00+00:00",
+      "exit_price": 7.325,
+      "exit_reason": "TIME",
+      "horizon": "short",
+      "mae_pct": -0.01155048240250034,
+      "mfe_pct": 0.0012229922543824934,
+      "qty": 957.1753379968825,
+      "realized_pnl": -56.437738019243625,
+      "regime_entry": "LOW_VOL_SIDEWAYS",
+      "return_pct": -0.007998740773651376,
+      "strategy": "V2_BREAKOUT",
+      "symbol": "AVAXUSDT",
+      "trade_id": "116f908418ed410cb08c64cc7d19a48d"
     },
     {
       "context_json": "{\"avg_pairwise_correlation\": 0.3043853809811902, \"breadth_above_ema20\": 0.5405405405405406, \"btc_return_24h\": -0.005946167251768331, \"external_derivatives_data\": \"NOT_CONNECTED\", \"funding_rate\": null, \"horizon\": \"short\", \"liquidation_shock_score\": null, \"median_one_bar_return\": -0.0024405125076266687, \"open_interest_change\": null, \"session\": \"EU_US_OVERLAP\", \"symbols_observed\": 37, \"version\": 1}",
@@ -11088,6 +11193,26 @@
       "strategy": "V2_MEAN_REVERSION",
       "symbol": "UNIUSDT",
       "trade_id": "47a74c2e545d4587b1114e09cf54e8ca"
+    },
+    {
+      "context_json": "{\"avg_pairwise_correlation\": 0.34374134299471726, \"breadth_above_ema20\": 0.1891891891891892, \"btc_return_24h\": -0.03196294821708523, \"external_derivatives_data\": \"NOT_CONNECTED\", \"funding_rate\": null, \"horizon\": \"short\", \"liquidation_shock_score\": null, \"median_one_bar_return\": -0.006356968215158854, \"open_interest_change\": null, \"session\": \"EU_US_OVERLAP\", \"symbols_observed\": 37, \"version\": 1}",
+      "created_at": "2026-09-03T20:47:27.612872+00:00",
+      "entry_bar": "2026-08-28T17:00:00+00:00",
+      "entry_price": 7.299,
+      "entry_session": "EU_US_OVERLAP",
+      "exit_bar": "2026-08-28T22:00:00+00:00",
+      "exit_price": 7.306,
+      "exit_reason": "TIME",
+      "horizon": "short",
+      "mae_pct": -0.01287847650363072,
+      "mfe_pct": 0.0030141115221262726,
+      "qty": 830.2809103269822,
+      "realized_pnl": -14.802663209765342,
+      "regime_entry": "SIDEWAYS",
+      "return_pct": -0.0024384495118404056,
+      "strategy": "V2_MEAN_REVERSION",
+      "symbol": "AVAXUSDT",
+      "trade_id": "da607088c6c74b85805aaa686728c1c4"
     },
     {
       "context_json": "{\"avg_pairwise_correlation\": 0.33879871580162074, \"breadth_above_ema20\": 0.2972972972972973, \"btc_return_24h\": -0.02394077780069115, \"external_derivatives_data\": \"NOT_CONNECTED\", \"funding_rate\": null, \"horizon\": \"short\", \"liquidation_shock_score\": null, \"median_one_bar_return\": -0.015986227250369023, \"open_interest_change\": null, \"session\": \"EU_US_OVERLAP\", \"symbols_observed\": 37, \"version\": 1}",
@@ -11428,46 +11553,6 @@
       "strategy": "V2_MEAN_REVERSION",
       "symbol": "USD1USDT",
       "trade_id": "ec8e4686471f482e87f83cec719aaa8e"
-    },
-    {
-      "context_json": "{\"avg_pairwise_correlation\": 0.313927233351633, \"breadth_above_ema20\": 0.7777777777777778, \"btc_return_24h\": 0.03063085241559005, \"external_derivatives_data\": \"NOT_CONNECTED\", \"funding_rate\": null, \"horizon\": \"short\", \"liquidation_shock_score\": null, \"median_one_bar_return\": 0.001355495744108759, \"open_interest_change\": null, \"session\": \"EU_US_OVERLAP\", \"symbols_observed\": 36, \"version\": 1}",
-      "created_at": "2026-08-27T23:00:48.248764+00:00",
-      "entry_bar": "2026-08-27T17:00:00+00:00",
-      "entry_price": 0.9995,
-      "entry_session": "EU_US_OVERLAP",
-      "exit_bar": "2026-08-27T22:00:00+00:00",
-      "exit_price": 0.9995,
-      "exit_reason": "TIME",
-      "horizon": "short",
-      "mae_pct": -0.00010005002501256577,
-      "mfe_pct": 0.0,
-      "qty": 5947.180714001816,
-      "realized_pnl": -20.210304220392572,
-      "regime_entry": "SIDEWAYS",
-      "return_pct": -0.0033942298093241822,
-      "strategy": "V2_MEAN_REVERSION",
-      "symbol": "UUSDT",
-      "trade_id": "426ebbcb680441a5809ace1b0c706c08"
-    },
-    {
-      "context_json": "{}",
-      "created_at": "2026-08-27T21:00:10.999765+00:00",
-      "entry_bar": "2026-08-27T15:00:00+00:00",
-      "entry_price": 1474.69,
-      "entry_session": "EU_US_OVERLAP",
-      "exit_bar": "2026-08-27T20:00:00+00:00",
-      "exit_price": 1478.76,
-      "exit_reason": "TIME",
-      "horizon": "short",
-      "mae_pct": -0.009147685276227557,
-      "mfe_pct": 0.008401765794844973,
-      "qty": 4.210954101041678,
-      "realized_pnl": -4.004048871287523,
-      "regime_entry": "SIDEWAYS",
-      "return_pct": -0.0006436954701234182,
-      "strategy": "V2_MEAN_REVERSION",
-      "symbol": "SNDKBUSDT",
-      "trade_id": "17a872e7ceca498e881c1cfc637fa3e7"
     }
   ],
   "recent_trades": [
@@ -11648,6 +11733,22 @@
       "trade_id": "66048e3ea4574608812025d3e5853f31"
     },
     {
+      "created_at": "2026-09-03T20:47:46.688781+00:00",
+      "entry_bar": "2026-09-02T11:00:00+00:00",
+      "entry_price": 7.084,
+      "exit_bar": "2026-09-02T16:00:00+00:00",
+      "exit_price": 7.144,
+      "exit_reason": "TIME",
+      "horizon": "short",
+      "qty": 855.4800062784644,
+      "realized_pnl": 30.63679217684694,
+      "regime_entry": "LOW_VOL_SIDEWAYS",
+      "return_pct": 0.005046812851805245,
+      "strategy": "V2_MEAN_REVERSION",
+      "symbol": "AVAXUSDT",
+      "trade_id": "bf9a762ab38d40c5a0dbea1c0377bfb7"
+    },
+    {
       "created_at": "2026-09-02T16:00:32.617184+00:00",
       "entry_bar": "2026-09-02T10:00:00+00:00",
       "entry_price": 0.04693,
@@ -11712,6 +11813,22 @@
       "trade_id": "92d160b9aff448c79519828c97d6f88e"
     },
     {
+      "created_at": "2026-09-03T20:47:45.757540+00:00",
+      "entry_bar": "2026-09-02T09:00:00+00:00",
+      "entry_price": 7.145,
+      "exit_bar": "2026-09-02T10:00:00+00:00",
+      "exit_price": 7.053342857142857,
+      "exit_reason": "STOP",
+      "horizon": "short",
+      "qty": 796.4812367264748,
+      "realized_pnl": -92.22800775082214,
+      "regime_entry": "LOW_VOL_SIDEWAYS",
+      "return_pct": -0.0161788396694528,
+      "strategy": "V2_MEAN_REVERSION",
+      "symbol": "AVAXUSDT",
+      "trade_id": "9467793385e34118b6222fb12109ed72"
+    },
+    {
       "created_at": "2026-09-02T10:00:52.512503+00:00",
       "entry_bar": "2026-09-02T04:00:00+00:00",
       "entry_price": 0.04801,
@@ -11774,6 +11891,22 @@
       "strategy": "V2_MEAN_REVERSION",
       "symbol": "LINKUSDT",
       "trade_id": "4e6652ff1ab947c6957b9046eaabde42"
+    },
+    {
+      "created_at": "2026-09-03T20:47:44.780298+00:00",
+      "entry_bar": "2026-09-01T22:00:00+00:00",
+      "entry_price": 7.206,
+      "exit_bar": "2026-09-02T03:00:00+00:00",
+      "exit_price": 7.202,
+      "exit_reason": "TIME",
+      "horizon": "short",
+      "qty": 795.9944460317988,
+      "realized_pnl": -22.68074734745278,
+      "regime_entry": "SIDEWAYS",
+      "return_pct": -0.003947438674265046,
+      "strategy": "V2_MEAN_REVERSION",
+      "symbol": "AVAXUSDT",
+      "trade_id": "348c12438f2f4468bed8f3f54223a262"
     },
     {
       "created_at": "2026-09-02T01:00:17.778768+00:00",
@@ -12144,6 +12277,22 @@
       "trade_id": "6496014e33344bbf82a3ab6beea743f0"
     },
     {
+      "created_at": "2026-09-03T20:47:37.762191+00:00",
+      "entry_bar": "2026-08-31T01:00:00+00:00",
+      "entry_price": 7.152,
+      "exit_bar": "2026-08-31T06:00:00+00:00",
+      "exit_price": 7.222,
+      "exit_reason": "TIME",
+      "horizon": "short",
+      "qty": 847.346247829508,
+      "realized_pnl": 38.608653905353094,
+      "regime_entry": "SIDEWAYS",
+      "return_pct": 0.006360021297128186,
+      "strategy": "V2_MEAN_REVERSION",
+      "symbol": "AVAXUSDT",
+      "trade_id": "590d1c8509f84be0975a93021008d66c"
+    },
+    {
       "created_at": "2026-08-31T06:00:53.203997+00:00",
       "entry_bar": "2026-08-31T00:00:00+00:00",
       "entry_price": 0.02087,
@@ -12336,6 +12485,22 @@
       "trade_id": "a6ce8835d2164993bd72df7bdd95a3a9"
     },
     {
+      "created_at": "2026-09-03T20:47:35.729027+00:00",
+      "entry_bar": "2026-08-30T11:00:00+00:00",
+      "entry_price": 7.381,
+      "exit_bar": "2026-08-30T18:00:00+00:00",
+      "exit_price": 7.445,
+      "exit_reason": "TIME",
+      "horizon": "short",
+      "qty": 878.9430105067821,
+      "realized_pnl": 34.09929724701942,
+      "regime_entry": "LOW_VOL_SIDEWAYS",
+      "return_pct": 0.005247250923937429,
+      "strategy": "V2_BREAKOUT",
+      "symbol": "AVAXUSDT",
+      "trade_id": "0e607322a1624a80bee05cda8cfd03a3"
+    },
+    {
       "created_at": "2026-08-30T18:00:46.566111+00:00",
       "entry_bar": "2026-08-30T12:00:00+00:00",
       "entry_price": 0.3446,
@@ -12478,6 +12643,22 @@
       "strategy": "V2_BREAKOUT",
       "symbol": "NILUSDT",
       "trade_id": "96ddec02a6554a0fb5bb61b2c7ceac09"
+    },
+    {
+      "created_at": "2026-09-03T20:47:32.351364+00:00",
+      "entry_bar": "2026-08-29T15:00:00+00:00",
+      "entry_price": 7.359,
+      "exit_bar": "2026-08-29T22:00:00+00:00",
+      "exit_price": 7.325,
+      "exit_reason": "TIME",
+      "horizon": "short",
+      "qty": 957.1753379968825,
+      "realized_pnl": -56.437738019243625,
+      "regime_entry": "LOW_VOL_SIDEWAYS",
+      "return_pct": -0.007998740773651376,
+      "strategy": "V2_BREAKOUT",
+      "symbol": "AVAXUSDT",
+      "trade_id": "116f908418ed410cb08c64cc7d19a48d"
     },
     {
       "created_at": "2026-08-29T22:00:43.662324+00:00",
@@ -12686,6 +12867,22 @@
       "strategy": "V2_MEAN_REVERSION",
       "symbol": "UNIUSDT",
       "trade_id": "47a74c2e545d4587b1114e09cf54e8ca"
+    },
+    {
+      "created_at": "2026-09-03T20:47:27.612872+00:00",
+      "entry_bar": "2026-08-28T17:00:00+00:00",
+      "entry_price": 7.299,
+      "exit_bar": "2026-08-28T22:00:00+00:00",
+      "exit_price": 7.306,
+      "exit_reason": "TIME",
+      "horizon": "short",
+      "qty": 830.2809103269822,
+      "realized_pnl": -14.802663209765342,
+      "regime_entry": "SIDEWAYS",
+      "return_pct": -0.0024384495118404056,
+      "strategy": "V2_MEAN_REVERSION",
+      "symbol": "AVAXUSDT",
+      "trade_id": "da607088c6c74b85805aaa686728c1c4"
     },
     {
       "created_at": "2026-08-28T17:00:28.941878+00:00",
@@ -12958,156 +13155,44 @@
       "strategy": "V2_MEAN_REVERSION",
       "symbol": "USD1USDT",
       "trade_id": "ec8e4686471f482e87f83cec719aaa8e"
-    },
-    {
-      "created_at": "2026-08-27T23:00:48.248764+00:00",
-      "entry_bar": "2026-08-27T17:00:00+00:00",
-      "entry_price": 0.9995,
-      "exit_bar": "2026-08-27T22:00:00+00:00",
-      "exit_price": 0.9995,
-      "exit_reason": "TIME",
-      "horizon": "short",
-      "qty": 5947.180714001816,
-      "realized_pnl": -20.210304220392572,
-      "regime_entry": "SIDEWAYS",
-      "return_pct": -0.0033942298093241822,
-      "strategy": "V2_MEAN_REVERSION",
-      "symbol": "UUSDT",
-      "trade_id": "426ebbcb680441a5809ace1b0c706c08"
-    },
-    {
-      "created_at": "2026-08-27T21:00:10.999765+00:00",
-      "entry_bar": "2026-08-27T15:00:00+00:00",
-      "entry_price": 1474.69,
-      "exit_bar": "2026-08-27T20:00:00+00:00",
-      "exit_price": 1478.76,
-      "exit_reason": "TIME",
-      "horizon": "short",
-      "qty": 4.210954101041678,
-      "realized_pnl": -4.004048871287523,
-      "regime_entry": "SIDEWAYS",
-      "return_pct": -0.0006436954701234182,
-      "strategy": "V2_MEAN_REVERSION",
-      "symbol": "SNDKBUSDT",
-      "trade_id": "17a872e7ceca498e881c1cfc637fa3e7"
-    },
-    {
-      "created_at": "2026-08-27T20:00:54.966394+00:00",
-      "entry_bar": "2026-08-26T12:00:00+00:00",
-      "entry_price": 0.08634,
-      "exit_bar": "2026-08-27T16:00:00+00:00",
-      "exit_price": 0.08866,
-      "exit_reason": "TIME",
-      "horizon": "medium",
-      "qty": 65232.29539704634,
-      "realized_pnl": 131.93231744052537,
-      "regime_entry": "SIDEWAYS",
-      "return_pct": 0.023385077427673238,
-      "strategy": "V2_MEAN_REVERSION",
-      "symbol": "DOGEUSDT",
-      "trade_id": "1af874a585ad4563b1fbceebde1df9c0"
-    },
-    {
-      "created_at": "2026-08-27T20:00:55.119396+00:00",
-      "entry_bar": "2026-08-26T12:00:00+00:00",
-      "entry_price": 3.79e-06,
-      "exit_bar": "2026-08-27T16:00:00+00:00",
-      "exit_price": 3.92e-06,
-      "exit_reason": "TIME",
-      "horizon": "medium",
-      "qty": 1562184475.3902242,
-      "realized_pnl": 182.60842988178865,
-      "regime_entry": "SIDEWAYS",
-      "return_pct": 0.03079013697821868,
-      "strategy": "V2_MEAN_REVERSION",
-      "symbol": "PEPEUSDT",
-      "trade_id": "a5198020848d4e31b5585ac3f636a36a"
-    },
-    {
-      "created_at": "2026-08-27T20:00:55.224795+00:00",
-      "entry_bar": "2026-08-26T12:00:00+00:00",
-      "entry_price": 0.755,
-      "exit_bar": "2026-08-27T16:00:00+00:00",
-      "exit_price": 0.7771,
-      "exit_reason": "TIME",
-      "horizon": "medium",
-      "qty": 7544.628652037543,
-      "realized_pnl": 147.08577976179276,
-      "regime_entry": "SIDEWAYS",
-      "return_pct": 0.02577793909294605,
-      "strategy": "V2_MEAN_REVERSION",
-      "symbol": "SUIUSDT",
-      "trade_id": "e1ddc5ba1c4548daa9ca87fb8a9be6e6"
-    },
-    {
-      "created_at": "2026-08-27T20:00:55.270742+00:00",
-      "entry_bar": "2026-08-26T12:00:00+00:00",
-      "entry_price": 0.3356,
-      "exit_bar": "2026-08-27T16:00:00+00:00",
-      "exit_price": 0.3377,
-      "exit_reason": "TIME",
-      "horizon": "medium",
-      "qty": 14156.644283080223,
-      "realized_pnl": 13.525116381611952,
-      "regime_entry": "SIDEWAYS",
-      "return_pct": 0.0028419803140382316,
-      "strategy": "V2_MEAN_REVERSION",
-      "symbol": "TRXUSDT",
-      "trade_id": "78a0523a5d0b4880b28d0b26923e7901"
-    },
-    {
-      "created_at": "2026-08-27T12:00:35.384787+00:00",
-      "entry_bar": "2026-08-27T04:00:00+00:00",
-      "entry_price": 0.3344,
-      "exit_bar": "2026-08-27T11:00:00+00:00",
-      "exit_price": 0.3368,
-      "exit_reason": "TIME",
-      "horizon": "short",
-      "qty": 16821.49543865845,
-      "realized_pnl": 21.17758989745289,
-      "regime_entry": "SIDEWAYS",
-      "return_pct": 0.0037584431824748622,
-      "strategy": "NONE",
-      "symbol": "TRXUSDT",
-      "trade_id": "2c43603a2b7e46279a69602919875a02"
     }
   ],
   "research_layer": {
     "bidirectional_decision_shadow": {
-      "active_evaluations": 1000,
-      "avg_selected_return_pct": -0.002744423295671859,
+      "active_evaluations": 1006,
+      "avg_selected_return_pct": -0.0024007437949522406,
       "by_selected_action": {
         "LONG": {
-          "accuracy": 0.3574029126213592,
-          "avg_selected_return_pct": -0.004066916331399711,
-          "closed": 1648,
-          "correct": 589
+          "accuracy": 0.37048567870485677,
+          "avg_selected_return_pct": -0.002575024058731935,
+          "closed": 1606,
+          "correct": 595
         },
         "NO_TRADE": {
-          "accuracy": 0.6524064171122995,
+          "accuracy": 0.6436170212765957,
           "avg_selected_return_pct": 0.0,
-          "closed": 561,
-          "correct": 366
+          "closed": 564,
+          "correct": 363
         },
         "SHORT": {
-          "accuracy": 0.3489788606234325,
-          "avg_selected_return_pct": -0.0025151696038024237,
-          "closed": 2791,
-          "correct": 974
+          "accuracy": 0.3424028268551237,
+          "avg_selected_return_pct": -0.002780293405101663,
+          "closed": 2830,
+          "correct": 969
         }
       },
       "changes_v2_execution": false,
       "closed_evaluations": 5000,
-      "decision_accuracy": 0.3858,
+      "decision_accuracy": 0.3854,
       "ev_is_calibrated": false,
       "ev_note": "EV proxy uses heuristic directional scores; forward outcomes are collected for later calibration.",
       "forward_only": true,
       "method": "HEURISTIC_FORWARD_SHADOW_V1",
-      "no_trade_avoided_losses": 300,
-      "no_trade_missed_opportunities": 195,
+      "no_trade_avoided_losses": 295,
+      "no_trade_missed_opportunities": 201,
       "observation_only": true,
       "status": "ACTIVE",
-      "total_decisions": 8000
+      "total_decisions": 8144
     },
     "bidirectional_registration": {
       "forward_only": true,
@@ -13129,59 +13214,59 @@
       "missed_winners": 140
     },
     "trade_excursion_tracking": {
-      "avg_mae_pct": -0.022382348878869925,
-      "avg_mfe_pct": 0.022072546791687873,
+      "avg_mae_pct": -0.021539472645260967,
+      "avg_mfe_pct": 0.02109287476791763,
       "by_session": {
         "ASIA": {
-          "avg_return_pct": -0.003684002978690967,
-          "closed_trades": 28,
-          "realized_pnl": -929.4037553043627,
-          "win_rate": 0.2857142857142857,
-          "wins": 8
+          "avg_return_pct": -0.003337657314007548,
+          "closed_trades": 29,
+          "realized_pnl": -890.7951013990096,
+          "win_rate": 0.3103448275862069,
+          "wins": 9
         },
         "EUROPE": {
-          "avg_return_pct": -0.006221638399301479,
-          "closed_trades": 24,
-          "realized_pnl": -1450.1060011663517,
-          "win_rate": 0.2916666666666667,
-          "wins": 7
+          "avg_return_pct": -0.005748299906553541,
+          "closed_trades": 27,
+          "realized_pnl": -1477.5979194933075,
+          "win_rate": 0.3333333333333333,
+          "wins": 9
         },
         "EU_US_OVERLAP": {
-          "avg_return_pct": -0.015029714301616155,
-          "closed_trades": 22,
-          "realized_pnl": -2010.3117775058272,
-          "win_rate": 0.18181818181818182,
+          "avg_return_pct": -0.014212121038376968,
+          "closed_trades": 24,
+          "realized_pnl": -2081.552178734836,
+          "win_rate": 0.16666666666666666,
           "wins": 4
         },
         "US": {
-          "avg_return_pct": -0.005389742709876337,
-          "closed_trades": 21,
-          "realized_pnl": -526.7157452789423,
-          "win_rate": 0.38095238095238093,
+          "avg_return_pct": -0.00532418343553037,
+          "closed_trades": 22,
+          "realized_pnl": -549.3964926263951,
+          "win_rate": 0.36363636363636365,
           "wins": 8
         }
       },
-      "tracked_closed_trades": 95
+      "tracked_closed_trades": 102
     },
     "version": 1
   },
   "scope": "PUBLIC_READ_ONLY_CRYPTO_V2_SHADOW",
   "shared_cache_only": true,
   "status": "ONLINE",
-  "symbols": 43,
-  "sync_checked_at": "2026-09-03T20:38:11.037643+00:00",
-  "sync_snapshot_age_seconds": 22.874787,
+  "symbols": 45,
+  "sync_checked_at": "2026-09-03T20:49:54.218144+00:00",
+  "sync_snapshot_age_seconds": 38.734079,
   "v2": {
     "accounts": [
       {
-        "cash": 78023.63171125363,
-        "closed_trades": 86,
+        "cash": 84011.3500373518,
+        "closed_trades": 93,
         "horizon": "short",
         "initial_equity": 100000.0,
-        "losses": 59,
-        "open_positions": 4,
-        "realized_pnl": -2567.828753421273,
-        "wins": 27
+        "losses": 63,
+        "open_positions": 3,
+        "realized_pnl": -2650.6331664193376,
+        "wins": 30
       },
       {
         "cash": 86115.15343155658,
@@ -13204,10 +13289,10 @@
         "wins": 0
       }
     ],
-    "closed_trades": 112,
-    "losses": 73,
-    "realized_pnl": -4316.784455343166,
-    "win_rate": 0.3482142857142857,
-    "wins": 39
+    "closed_trades": 119,
+    "losses": 77,
+    "realized_pnl": -4399.58886834123,
+    "win_rate": 0.35294117647058826,
+    "wins": 42
   }
 }
