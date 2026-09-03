@@ -3403,7 +3403,7 @@
   "expected_live_deviation": {
     "active_sizing": true,
     "contains_secrets": false,
-    "generated_at": "2026-09-03T10:09:46.643022+00:00",
+    "generated_at": "2026-09-03T10:26:51.904872+00:00",
     "minimum_live_trades_for_active_sizing": 5,
     "rows": [
       {
@@ -15000,7 +15000,7 @@
       }
     ]
   },
-  "generated_at": "2026-09-03T10:09:27.058085+00:00",
+  "generated_at": "2026-09-03T10:27:29.195181+00:00",
   "governance": {
     "arenas": [
       {
@@ -30983,7 +30983,7 @@
         "total_reduction_notional": 18680.0160747134
       }
     ],
-    "generated_at": "2026-09-03T10:09:56.693115+00:00",
+    "generated_at": "2026-09-03T10:27:42.181885+00:00",
     "scope": "PUBLIC_READ_ONLY_RISK_SIZING_AUDIT",
     "status": "AVAILABLE",
     "summary": {
@@ -31008,7 +31008,7 @@
   "storage_persistence": {
     "bootstrap_at": "2026-09-02T17:09:57.180719+00:00",
     "bootstrap_warnings": [],
-    "last_snapshot_at": "2026-09-03T10:08:58.815593+00:00",
+    "last_snapshot_at": "2026-09-03T10:26:16.193972+00:00",
     "last_snapshot_failed": [],
     "last_snapshot_success": [
       "crypto_v2_shadow.sqlite3",
@@ -31022,9 +31022,9 @@
     "mode": "RESCUE_RUNTIME",
     "persistence_status": "OK",
     "persistent_disk": {
-      "free": 2392002560,
+      "free": 2391953408,
       "total": 4685873152,
-      "used": 2277093376
+      "used": 2277142528
     },
     "restored": [
       {
@@ -31067,7 +31067,7 @@
     "snapshot_interval_seconds": 60,
     "snapshot_keep_archives": 0,
     "status": "AVAILABLE",
-    "updated_at": "2026-09-03T10:08:58.815749+00:00"
+    "updated_at": "2026-09-03T10:27:41.726373+00:00"
   },
   "strategy_performance": [
     {
@@ -34073,11 +34073,11 @@
       "worst_trade_return": -0.00029986839109497065
     }
   ],
-  "sync_checked_at": "2026-09-03T10:09:59.427081+00:00",
-  "sync_snapshot_age_seconds": 32.368996,
+  "sync_checked_at": "2026-09-03T10:27:44.326719+00:00",
+  "sync_snapshot_age_seconds": 15.131538,
   "trial_ledger": {
     "challenges": 66,
-    "cycles": 1214,
+    "cycles": 1220,
     "distinct_hypotheses": 67,
     "events": 205,
     "last_event_at": "2026-09-02T23:20:16.474409+00:00",
@@ -34086,53 +34086,58 @@
   },
   "worker": {
     "assets_checked": 242,
-    "bars_processed": 43,
+    "bars_processed": 0,
     "broker_order_api_calls": 0,
     "concept_drift_pairs": 14,
-    "cycle_elapsed_seconds": 534.351,
+    "cycle_elapsed_seconds": 125.598,
     "data_quality": "OK",
     "data_quality_critical": 0,
-    "data_quality_warnings": 52,
+    "data_quality_warnings": 50,
     "first_cycle_complete": true,
-    "heartbeat_at": "2026-09-03T10:09:26.825229+00:00",
-    "last_cycle_duration_seconds": 105.025,
-    "last_cycle_finished_at": "2026-09-03T09:59:32.457315+00:00",
+    "heartbeat_at": "2026-09-03T10:27:18.665694+00:00",
+    "last_cycle_duration_seconds": 125.598,
+    "last_cycle_finished_at": "2026-09-03T10:26:36.687929+00:00",
     "last_cycle_phase_durations_seconds": {
-      "CALIBRATION": 0.106,
-      "DATA_QUALITY": 6.346,
-      "GOVERNANCE": 7.958,
-      "MODEL_HEALTH": 0.081,
-      "PORTFOLIO_RISK": 0.933,
-      "PREPARE": 0.012,
-      "PRETRADE_RISK": 57.67,
-      "SIMULATION": 31.755,
-      "UNIVERSE": 0.034,
-      "WATCHLIST": 0.13
+      "CALIBRATION": 0.101,
+      "DATA_QUALITY": 6.475,
+      "GOVERNANCE": 7.218,
+      "MODEL_HEALTH": 0.076,
+      "PORTFOLIO_RISK": 0.913,
+      "PREPARE": 0.036,
+      "PRETRADE_RISK": 60.332,
+      "SIMULATION": 50.32,
+      "UNIVERSE": 0.013,
+      "WATCHLIST": 0.113
     },
-    "last_cycle_started_at": "2026-09-03T10:00:32.474488+00:00",
-    "last_progress_at": "2026-09-03T10:09:26.825223+00:00",
+    "last_cycle_started_at": "2026-09-03T10:24:31.089882+00:00",
+    "last_progress_at": "2026-09-03T10:26:36.687960+00:00",
     "market_data_api_calls": 5,
-    "phase": "GOVERNANCE",
-    "phase_completed": 34,
+    "phase": "COMPLETE",
+    "phase_completed": 0,
     "phase_durations_seconds": {
-      "CALIBRATION": 0.087,
-      "GOVERNANCE": 15.672,
-      "PREPARE": 0.011,
-      "SIMULATION": 518.573,
-      "UNIVERSE": 0.008
+      "CALIBRATION": 0.101,
+      "DATA_QUALITY": 6.475,
+      "GOVERNANCE": 7.218,
+      "MODEL_HEALTH": 0.076,
+      "PORTFOLIO_RISK": 0.913,
+      "PREPARE": 0.036,
+      "PRETRADE_RISK": 60.332,
+      "SIMULATION": 50.32,
+      "UNIVERSE": 0.013,
+      "WATCHLIST": 0.113
     },
-    "phase_elapsed_seconds": 15.672,
-    "phase_started_at": "2026-09-03T10:09:11.153434+00:00",
-    "phase_total": 66,
+    "phase_elapsed_seconds": 0.0,
+    "phase_started_at": "2026-09-03T10:26:36.687960+00:00",
+    "phase_total": 0,
     "portfolio_risk": "MEDIUM",
-    "progress_events": 730,
+    "progress_events": 799,
     "progress_schema_version": "WORKER_PROGRESS_V1",
-    "progress_unit": "crypto:DASHUSDT:medium",
+    "progress_unit": null,
     "realtime_watchlist_sync": "ONLINE",
     "realtime_watchlist_total": 51,
     "risk_layer": "ONLINE",
     "risk_sizing": "ACTIVE",
-    "status": "RUNNING",
+    "status": "ONLINE",
     "true_errors": 0
   }
 }
