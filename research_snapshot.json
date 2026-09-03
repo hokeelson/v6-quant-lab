@@ -114,7 +114,7 @@
     },
     {
       "account_id": "twstock_short",
-      "as_of": "2026-09-03T04:39:56+00:00",
+      "as_of": "2026-09-03T04:54:39+00:00",
       "cash": 98952.82731315448,
       "closed_trades": 17,
       "drawdown": -0.012248971200245706,
@@ -131,9 +131,9 @@
   "data_quality": {},
   "direction_shadow": {
     "benchmarks": {
-      "always_long_after_cost_avg_return_pct": -0.011073169871005921,
+      "always_long_after_cost_avg_return_pct": -0.008593471670029263,
       "note": "Equal-weight prediction-window diagnostic; not a portfolio equity curve.",
-      "policy_minus_always_long_avg_return_pct": 0.008330227101244203
+      "policy_minus_always_long_avg_return_pct": 0.005778556497883721
     },
     "broker_order_api_calls": 0,
     "confidence_calibration": {
@@ -145,22 +145,22 @@
           "samples": 4
         },
         {
-          "mean_confidence": 0.5560549585286103,
-          "observed_hit_rate": 0.3783783783783784,
+          "mean_confidence": 0.5579649052380002,
+          "observed_hit_rate": 0.358974358974359,
           "range": "0.5-0.6",
-          "samples": 37
+          "samples": 39
         },
         {
-          "mean_confidence": 0.6550821696920277,
-          "observed_hit_rate": 0.38392857142857145,
+          "mean_confidence": 0.655843330091066,
+          "observed_hit_rate": 0.36666666666666664,
           "range": "0.6-0.7",
-          "samples": 112
+          "samples": 120
         },
         {
-          "mean_confidence": 0.7390803373881092,
-          "observed_hit_rate": 0.34328358208955223,
+          "mean_confidence": 0.7389604450131511,
+          "observed_hit_rate": 0.3382352941176471,
           "range": "0.7-0.8",
-          "samples": 67
+          "samples": 68
         },
         {
           "mean_confidence": 0.8162290614962687,
@@ -175,10 +175,10 @@
           "samples": 1
         }
       ],
-      "brier_score": 0.3261268422097217,
-      "mean_confidence": 0.6633518287686015,
-      "observed_hit_rate": 0.36771300448430494,
-      "samples": 223
+      "brier_score": 0.32972287944073964,
+      "mean_confidence": 0.6631494868180913,
+      "observed_hit_rate": 0.3547008547008547,
+      "samples": 234
     },
     "decision_stats": {
       "LONG": {
@@ -191,27 +191,27 @@
       },
       "NO_TRADE": {
         "avg_forward_return_pct": 0.0,
-        "avg_opportunity_return_pct": 0.01769555983655492,
-        "avg_reward_r": -0.496751560336312,
-        "completed": 171,
-        "evaluated": 171,
-        "hit_rate": 0.391812865497076
+        "avg_opportunity_return_pct": 0.01831302803973629,
+        "avg_reward_r": -0.5118944044072209,
+        "completed": 201,
+        "evaluated": 201,
+        "hit_rate": 0.3880597014925373
       },
       "SHORT": {
-        "avg_forward_return_pct": 0.00017030815603993513,
-        "avg_opportunity_return_pct": 0.01228300652021028,
-        "avg_reward_r": -0.12125454196291258,
-        "completed": 183,
-        "evaluated": 183,
-        "hit_rate": 0.3989071038251366
+        "avg_forward_return_pct": -0.000580424000215906,
+        "avg_opportunity_return_pct": 0.01202525051219862,
+        "avg_reward_r": -0.15259184563925007,
+        "completed": 194,
+        "evaluated": 194,
+        "hit_rate": 0.38144329896907214
       }
     },
     "engine_version": "V10_ADAPTIVE_EVIDENCE_SHADOW",
-    "evaluated": 394,
+    "evaluated": 435,
     "evidence_maturity": {
       "automatic_retuning_allowed": false,
-      "directional_trades": 223,
-      "forward_days": 2.125,
+      "directional_trades": 234,
+      "forward_days": 2.1666666666666665,
       "reason": "Forward evidence is diagnostic until independently reviewed; no online parameter chasing.",
       "state": "PRELIMINARY"
     },
@@ -219,17 +219,17 @@
     "policies": [
       {
         "engine_version": "V10_ADAPTIVE_EVIDENCE_SHADOW",
-        "evaluated": 394,
-        "predictions": 649
+        "evaluated": 435,
+        "predictions": 690
       }
     ],
     "policy_performance": {
-      "avg_directional_trade_return_pct": -0.004846275566305458,
-      "avg_policy_return_pct": -0.0027429427697617187,
-      "directional_trade_samples": 223,
-      "max_drawdown_pct": -0.70241378491567,
-      "samples_including_no_trade": 394,
-      "trade_sequence_sharpe": -0.14987925498208618
+      "avg_directional_trade_return_pct": -0.005232855127706457,
+      "avg_policy_return_pct": -0.0028149151721455425,
+      "directional_trade_samples": 234,
+      "max_drawdown_pct": -0.7426697344610346,
+      "samples_including_no_trade": 435,
+      "trade_sequence_sharpe": -0.16511086072541786
     },
     "promotion_gate": {
       "checks": {
@@ -335,14 +335,14 @@
         "samples": 13
       },
       {
-        "avg_forward_return_pct": -0.0054035267584130785,
+        "avg_forward_return_pct": -0.005777330140673548,
         "decision": "SHORT",
-        "hit_rate": 0.30952380952380953,
+        "hit_rate": 0.28888888888888886,
         "horizon": "short",
         "market": "crypto",
         "maturity": "PRELIMINARY",
         "regime": "NORMAL_SIDEWAYS",
-        "samples": 42
+        "samples": 45
       },
       {
         "avg_forward_return_pct": -0.004977944204411594,
@@ -355,14 +355,14 @@
         "samples": 17
       },
       {
-        "avg_forward_return_pct": -0.0006708004195336081,
+        "avg_forward_return_pct": -0.001791763321277913,
         "decision": "SHORT",
-        "hit_rate": 0.36046511627906974,
+        "hit_rate": 0.3404255319148936,
         "horizon": "short",
         "market": "crypto",
         "maturity": "CREDIBLE",
         "regime": "NORMAL_DOWN_TREND",
-        "samples": 86
+        "samples": 94
       },
       {
         "avg_forward_return_pct": -0.00014684312103660675,
@@ -377,32 +377,32 @@
       {
         "avg_forward_return_pct": 0.0,
         "decision": "NO_TRADE",
-        "hit_rate": 0.5606060606060606,
+        "hit_rate": 0.5340909090909091,
         "horizon": "short",
         "market": "crypto",
         "maturity": "CREDIBLE",
         "regime": "NORMAL_SIDEWAYS",
-        "samples": 66
+        "samples": 88
       },
       {
         "avg_forward_return_pct": 0.0,
         "decision": "NO_TRADE",
-        "hit_rate": 0.18181818181818182,
+        "hit_rate": 0.2916666666666667,
+        "horizon": "short",
+        "market": "crypto",
+        "maturity": "PRELIMINARY",
+        "regime": "NORMAL_DOWN_TREND",
+        "samples": 24
+      },
+      {
+        "avg_forward_return_pct": 0.0,
+        "decision": "NO_TRADE",
+        "hit_rate": 0.17391304347826086,
         "horizon": "short",
         "market": "crypto",
         "maturity": "PRELIMINARY",
         "regime": "HIGH_VOL_UP_TREND",
-        "samples": 22
-      },
-      {
-        "avg_forward_return_pct": 0.0,
-        "decision": "NO_TRADE",
-        "hit_rate": 0.3157894736842105,
-        "horizon": "short",
-        "market": "crypto",
-        "maturity": "DIAGNOSTIC",
-        "regime": "NORMAL_DOWN_TREND",
-        "samples": 19
+        "samples": 23
       },
       {
         "avg_forward_return_pct": 0.0,
@@ -437,12 +437,12 @@
       {
         "avg_forward_return_pct": 0.0,
         "decision": "NO_TRADE",
-        "hit_rate": 0.25,
+        "hit_rate": 0.2222222222222222,
         "horizon": "short",
         "market": "crypto",
         "maturity": "DIAGNOSTIC",
         "regime": "NORMAL_UP_TREND",
-        "samples": 8
+        "samples": 9
       },
       {
         "avg_forward_return_pct": 0.0,
@@ -457,12 +457,12 @@
       {
         "avg_forward_return_pct": 0.0,
         "decision": "NO_TRADE",
-        "hit_rate": 0.5,
+        "hit_rate": 0.4,
         "horizon": "short",
         "market": "crypto",
         "maturity": "DIAGNOSTIC",
         "regime": "HIGH_VOL_SIDEWAYS",
-        "samples": 4
+        "samples": 5
       },
       {
         "avg_forward_return_pct": 0.0,
@@ -3387,7 +3387,7 @@
   "expected_live_deviation": {
     "active_sizing": true,
     "contains_secrets": false,
-    "generated_at": "2026-09-03T05:46:28.084346+00:00",
+    "generated_at": "2026-09-03T06:01:32.391069+00:00",
     "minimum_live_trades_for_active_sizing": 5,
     "rows": [
       {
@@ -14984,7 +14984,7 @@
       }
     ]
   },
-  "generated_at": "2026-09-03T05:46:01.492920+00:00",
+  "generated_at": "2026-09-03T06:02:02.821607+00:00",
   "governance": {
     "arenas": [
       {
@@ -30974,7 +30974,7 @@
         "total_reduction_notional": 2524.392563963863
       }
     ],
-    "generated_at": "2026-09-03T05:46:53.179617+00:00",
+    "generated_at": "2026-09-03T06:02:27.685775+00:00",
     "scope": "PUBLIC_READ_ONLY_RISK_SIZING_AUDIT",
     "status": "AVAILABLE",
     "summary": {
@@ -30999,7 +30999,7 @@
   "storage_persistence": {
     "bootstrap_at": "2026-09-02T17:09:57.180719+00:00",
     "bootstrap_warnings": [],
-    "last_snapshot_at": "2026-09-03T05:46:51.109849+00:00",
+    "last_snapshot_at": "2026-09-03T06:01:09.756303+00:00",
     "last_snapshot_failed": [],
     "last_snapshot_success": [
       "crypto_v2_shadow.sqlite3",
@@ -31013,9 +31013,9 @@
     "mode": "RESCUE_RUNTIME",
     "persistence_status": "OK",
     "persistent_disk": {
-      "free": 2394542080,
+      "free": 2394337280,
       "total": 4685873152,
-      "used": 2274553856
+      "used": 2274758656
     },
     "restored": [
       {
@@ -31058,7 +31058,7 @@
     "snapshot_interval_seconds": 60,
     "snapshot_keep_archives": 0,
     "status": "AVAILABLE",
-    "updated_at": "2026-09-03T05:46:51.109927+00:00"
+    "updated_at": "2026-09-03T06:02:13.361606+00:00"
   },
   "strategy_performance": [
     {
@@ -34046,11 +34046,11 @@
       "worst_trade_return": -0.00029986839109497065
     }
   ],
-  "sync_checked_at": "2026-09-03T05:46:58.281092+00:00",
-  "sync_snapshot_age_seconds": 56.788172,
+  "sync_checked_at": "2026-09-03T06:02:32.390235+00:00",
+  "sync_snapshot_age_seconds": 29.568628,
   "trial_ledger": {
     "challenges": 66,
-    "cycles": 1136,
+    "cycles": 1142,
     "distinct_hypotheses": 67,
     "events": 205,
     "last_event_at": "2026-09-02T23:20:16.474409+00:00",
@@ -34061,55 +34061,56 @@
     "assets_checked": 242,
     "bars_processed": 0,
     "broker_order_api_calls": 0,
-    "concept_drift_pairs": 14,
-    "cycle_elapsed_seconds": 48.378,
+    "concept_drift_pairs": 12,
+    "cycle_elapsed_seconds": 152.56,
     "data_quality": "OK",
     "data_quality_critical": 0,
-    "data_quality_warnings": 48,
+    "data_quality_warnings": 50,
     "first_cycle_complete": true,
-    "heartbeat_at": "2026-09-03T05:45:58.670935+00:00",
-    "last_cycle_duration_seconds": 143.669,
-    "last_cycle_finished_at": "2026-09-03T05:44:10.278705+00:00",
+    "heartbeat_at": "2026-09-03T06:01:58.932663+00:00",
+    "last_cycle_duration_seconds": 152.56,
+    "last_cycle_finished_at": "2026-09-03T06:01:17.941265+00:00",
     "last_cycle_phase_durations_seconds": {
-      "CALIBRATION": 0.089,
-      "DATA_QUALITY": 5.097,
-      "GOVERNANCE": 14.928,
-      "MODEL_HEALTH": 0.069,
-      "PORTFOLIO_RISK": 0.815,
-      "PREPARE": 0.012,
-      "PRETRADE_RISK": 50.434,
-      "SIMULATION": 72.113,
-      "UNIVERSE": 0.008,
-      "WATCHLIST": 0.104
+      "CALIBRATION": 0.083,
+      "DATA_QUALITY": 5.108,
+      "GOVERNANCE": 20.801,
+      "MODEL_HEALTH": 0.071,
+      "PORTFOLIO_RISK": 0.953,
+      "PREPARE": 0.013,
+      "PRETRADE_RISK": 51.275,
+      "SIMULATION": 74.114,
+      "UNIVERSE": 0.013,
+      "WATCHLIST": 0.129
     },
-    "last_cycle_started_at": "2026-09-03T05:45:10.292508+00:00",
-    "last_progress_at": "2026-09-03T05:45:54.075635+00:00",
+    "last_cycle_started_at": "2026-09-03T05:58:45.381647+00:00",
+    "last_progress_at": "2026-09-03T06:01:17.941294+00:00",
     "market_data_api_calls": 5,
-    "phase": "PRETRADE_RISK",
+    "phase": "COMPLETE",
     "phase_completed": 0,
     "phase_durations_seconds": {
-      "CALIBRATION": 0.06,
-      "GOVERNANCE": 7.147,
-      "MODEL_HEALTH": 0.058,
-      "PORTFOLIO_RISK": 0.777,
-      "PREPARE": 0.01,
-      "PRETRADE_RISK": 4.595,
-      "SIMULATION": 35.629,
-      "UNIVERSE": 0.005,
-      "WATCHLIST": 0.096
+      "CALIBRATION": 0.083,
+      "DATA_QUALITY": 5.108,
+      "GOVERNANCE": 20.801,
+      "MODEL_HEALTH": 0.071,
+      "PORTFOLIO_RISK": 0.953,
+      "PREPARE": 0.013,
+      "PRETRADE_RISK": 51.275,
+      "SIMULATION": 74.114,
+      "UNIVERSE": 0.013,
+      "WATCHLIST": 0.129
     },
-    "phase_elapsed_seconds": 4.595,
-    "phase_started_at": "2026-09-03T05:45:54.075635+00:00",
+    "phase_elapsed_seconds": 0.0,
+    "phase_started_at": "2026-09-03T06:01:17.941294+00:00",
     "phase_total": 0,
     "portfolio_risk": "MEDIUM",
-    "progress_events": 797,
+    "progress_events": 799,
     "progress_schema_version": "WORKER_PROGRESS_V1",
     "progress_unit": null,
     "realtime_watchlist_sync": "ONLINE",
     "realtime_watchlist_total": 52,
     "risk_layer": "ONLINE",
     "risk_sizing": "ACTIVE",
-    "status": "RUNNING",
+    "status": "ONLINE",
     "true_errors": 0
   }
 }
