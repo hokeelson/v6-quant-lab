@@ -3,6 +3,7 @@ from __future__ import annotations
 from datetime import datetime, timezone
 import os
 import re
+import time
 
 import pandas as pd
 import yaml
@@ -241,8 +242,11 @@ class AutoOrchestratorV8:
                     continue
                 notify_progress(progress, "SIMULATION", unit=unit, completed=completed, total=total)
                 checked += 1
+                unit_started = time.monotonic()
+                unit_result = {}
                 try:
                     r = self.lab.process_asset_horizon(a["market"], a["symbol"], hz, now)
+                    unit_result = r
                     processed += int(r.get("processed", 0))
                     fetched += int(r.get("fetched", 0))
                     api_calls += int(bool(r.get("api_called", False)))
@@ -252,6 +256,8 @@ class AutoOrchestratorV8:
                 finally:
                     completed += 1
                     notify_progress(progress, "SIMULATION", unit=unit, completed=completed, total=total,
+                                    unit_seconds=time.monotonic() - unit_started,
+                                    unit_bars=int(unit_result.get("processed", 0)),
                                     metrics={"assets_checked": checked, "bars_processed": processed,
                                              "market_data_api_calls": api_calls})
         return {

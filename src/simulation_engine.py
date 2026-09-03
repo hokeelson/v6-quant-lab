@@ -95,6 +95,7 @@ class SimulationLab:
                 self.db.add_diagnostic(aid,symbol,hz,ts.isoformat(),"ORDER_CANCELLED","Pending BUY cancelled before fill",{
                     **sizing,"leverage_room":room,"risk_adjusted_notional":risk_adjusted,
                     "requested_notional":original_notional,"cancel_reason":cancel_reason,
+                    "order_id":o["order_id"],"decision_id":o.get("decision_id"),
                     "broker_order_api_calls":0,
                 })
                 return "CANCELLED"
@@ -108,6 +109,7 @@ class SimulationLab:
                 return None
             self.db.add_diagnostic(aid,symbol,hz,ts.isoformat(),"RISK_SIZING","Active portfolio/strategy sizing applied",{
                 **sizing,"leverage_room":room,"filled_notional":notional,"fill_price":fill,
+                "order_id":o["order_id"],"decision_id":o.get("decision_id"),
                 "broker_order_api_calls":0,
             })
             return "BUY"

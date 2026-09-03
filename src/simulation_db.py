@@ -6,7 +6,7 @@ from datetime import datetime, timezone
 
 def now_iso(): return datetime.now(timezone.utc).isoformat()
 
-SCHEMA_VERSION = 1
+SCHEMA_VERSION = 2
 
 
 class SimulationDB:
@@ -81,6 +81,18 @@ class SimulationDB:
 
     def _migrate(self, c):
         current = int(c.execute("PRAGMA user_version").fetchone()[0])
+        if current == SCHEMA_VERSION:
+            return
+        if current > SCHEMA_VERSION:
+            raise RuntimeError(f"simulation DB schema {current} is newer than supported {SCHEMA_VERSION}")
+        # Multiple worker/exporter processes can initialize the same database.
+        # Serialize schema inspection and ALTERs so they cannot race each other.
+        c.execute("BEGIN IMMEDIATE")
+        current = int(c.execute("PRAGMA user_version").fetchone()[0])
+        if current == SCHEMA_VERSION:
+            return
+        if current > SCHEMA_VERSION:
+            raise RuntimeError(f"simulation DB schema {current} is newer than supported {SCHEMA_VERSION}")
         if current < 1:
             cols = {str(r[1]) for r in c.execute("PRAGMA table_info(trades)").fetchall()}
             if "exit_order_id" not in cols:
@@ -89,8 +101,12 @@ class SimulationDB:
             c.execute("PRAGMA user_version=1")
         else:
             c.execute("CREATE UNIQUE INDEX IF NOT EXISTS ux_trades_exit_order_id ON trades(exit_order_id) WHERE exit_order_id IS NOT NULL")
-        if current > SCHEMA_VERSION:
-            raise RuntimeError(f"simulation DB schema {current} is newer than supported {SCHEMA_VERSION}")
+        for table in ("positions", "trades"):
+            cols = {r[1] for r in c.execute(f"PRAGMA table_info({table})")}
+            if "entry_order_id" not in cols:
+                c.execute(f"ALTER TABLE {table} ADD COLUMN entry_order_id TEXT")
+            c.execute(f"CREATE INDEX IF NOT EXISTS ix_{table}_entry_order ON {table}(entry_order_id)")
+        c.execute("PRAGMA user_version=2")
 
     def _checkpoint_persistent(self):
         persist_root = os.getenv("V6_PERSISTENT_DATA_DIR")
@@ -241,6 +257,8 @@ class SimulationDB:
             ON CONFLICT(account_id,symbol) DO UPDATE SET qty=excluded.qty,avg_entry=excluded.avg_entry,entry_bar=excluded.entry_bar,
             strategy=excluded.strategy,horizon=excluded.horizon,regime_entry=excluded.regime_entry,stop_price=excluded.stop_price,target_price=excluded.target_price,
             max_holding_bars=excluded.max_holding_bars,bars_held=excluded.bars_held,leverage_at_entry=excluded.leverage_at_entry""",p)
+            c.execute("UPDATE positions SET entry_order_id=? WHERE account_id=? AND symbol=?",
+                      (oid, aid, p["symbol"]))
         self._checkpoint_persistent()
         return True
 
@@ -255,6 +273,8 @@ class SimulationDB:
             c.execute("UPDATE accounts SET cash=? WHERE account_id=?",(float(new_cash),aid))
             c.execute("""INSERT INTO trades(trade_id,account_id,symbol,entry_bar,exit_bar,qty,entry_price,exit_price,realized_pnl,return_pct,strategy,horizon,regime_entry,exit_reason,leverage,exit_order_id,created_at)
             VALUES(:trade_id,:account_id,:symbol,:entry_bar,:exit_bar,:qty,:entry_price,:exit_price,:realized_pnl,:return_pct,:strategy,:horizon,:regime_entry,:exit_reason,:leverage,:exit_order_id,:created_at)""",x)
+            c.execute("UPDATE trades SET entry_order_id=(SELECT entry_order_id FROM positions WHERE account_id=? AND symbol=?) WHERE trade_id=?",
+                      (aid, str(symbol).upper(), x["trade_id"]))
             c.execute("DELETE FROM positions WHERE account_id=? AND symbol=?",(aid,str(symbol).upper()))
         self._checkpoint_persistent()
         return True
@@ -269,6 +289,8 @@ class SimulationDB:
             c.execute("UPDATE accounts SET cash=? WHERE account_id=?",(float(new_cash),aid))
             c.execute("""INSERT INTO trades(trade_id,account_id,symbol,entry_bar,exit_bar,qty,entry_price,exit_price,realized_pnl,return_pct,strategy,horizon,regime_entry,exit_reason,leverage,exit_order_id,created_at)
             VALUES(:trade_id,:account_id,:symbol,:entry_bar,:exit_bar,:qty,:entry_price,:exit_price,:realized_pnl,:return_pct,:strategy,:horizon,:regime_entry,:exit_reason,:leverage,:exit_order_id,:created_at)""",x)
+            c.execute("UPDATE trades SET entry_order_id=(SELECT entry_order_id FROM positions WHERE account_id=? AND symbol=?) WHERE trade_id=?",
+                      (aid, str(symbol).upper(), x["trade_id"]))
             c.execute("DELETE FROM positions WHERE account_id=? AND symbol=?",(aid,str(symbol).upper()))
         self._checkpoint_persistent()
         return True
