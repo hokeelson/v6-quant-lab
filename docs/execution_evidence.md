@@ -57,6 +57,10 @@ disk headroom. Schema migration adds nullable columns and indexes, retaining row
 and balances. Old schema-1 code rejects user_version=2: do not blindly redeploy an
 old image or restore a predeployment ledger over new trades. Prefer a forward fix;
 any rollback requires a reviewed compatibility/data-preservation plan.
+The concrete [schema-2-compatible recovery plan](schema2_recovery.md) retains the
+new DB adapter with the pinned PR22 runtime. A separate CI job tests that exact
+runtime/adapter combination. It is not an authorization to deploy or an automatic
+restore procedure; the fresh maintenance backup gate still applies.
 
 After deployment, confirm updated snapshot timestamps and worker cycles, eight
 restored databases, successful seven-database backup plus independent V10 backup,
