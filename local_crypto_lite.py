@@ -19,6 +19,7 @@ WORKERS = [
     ("direction", [sys.executable, "direction_shadow_supervisor.py"]),
     ("external_intelligence", [sys.executable, "external_intelligence_worker.py"]),
     ("binance_context", [sys.executable, "binance_market_context_worker.py"]),
+    ("local_backup", [sys.executable, "local_backup_worker.py"]),
     ("runtime_health", [sys.executable, "runtime_health_exporter.py"]),
     ("policy_epoch", [sys.executable, "policy_epoch_exporter.py"]),
 ]

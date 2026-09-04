@@ -19,6 +19,7 @@ from src.worker_progress_ui import render_worker_progress
 from src.execution_audit_ui import render_execution_audit
 from src.realtime_layer import RealtimeDB
 from src.paths import db_path
+from src.performance_summary import build_performance_summary
 
 load_dotenv()
 st.set_page_config(page_title="V6 Crypto Lite", layout="wide", page_icon="₿")
@@ -383,6 +384,49 @@ def crypto_lite():
                 "原因": "、".join(r.get("decision_reasons") or []),
             } for r in rows])
             st.dataframe(all_df, width="stretch", hide_index=True)
+
+    st.subheader("模擬績效驗證")
+    perf = build_performance_summary(db, "crypto")
+    overall_perf = perf.get("overall") or {}
+    pf = overall_perf.get("profit_factor")
+    pf_text = "∞" if pf == float("inf") else ("—" if pf is None else f"{float(pf):.2f}")
+    pv1, pv2, pv3, pv4 = st.columns(4)
+    pv1.metric("已平倉交易", int(overall_perf.get("trades") or 0))
+    pv2.metric("勝率", f"{float(overall_perf.get('win_rate') or 0.0) * 100:.1f}%")
+    pv3.metric("Profit Factor", pf_text)
+    pv4.metric("最大回撤", f"{float(perf.get('max_drawdown') or 0.0) * 100:.2f}%")
+    st.caption(f"累積已實現損益：NTD {float(overall_perf.get('realized_pnl') or 0.0):+,.0f}")
+
+    horizon_perf_rows = []
+    for hz in ("short", "medium", "long"):
+        row = (perf.get("by_horizon") or {}).get(hz) or {}
+        hpf = row.get("profit_factor")
+        horizon_perf_rows.append({
+            "週期": horizon_label(hz),
+            "交易數": int(row.get("trades") or 0),
+            "勝率": f"{float(row.get('win_rate') or 0.0) * 100:.1f}%",
+            "平均報酬": f"{float(row.get('avg_return') or 0.0) * 100:+.2f}%",
+            "Profit Factor": "∞" if hpf == float("inf") else ("—" if hpf is None else f"{float(hpf):.2f}"),
+            "已實現損益": f"NTD {float(row.get('realized_pnl') or 0.0):+,.0f}",
+        })
+    st.dataframe(pd.DataFrame(horizon_perf_rows), width="stretch", hide_index=True)
+
+    context_cmp = perf.get("binance_context_comparison") or {}
+    with st.expander("Binance Context 效果比較", expanded=False):
+        compare_rows = []
+        for key, label in (("reduced", "有縮倉"), ("normal", "未縮倉"), ("unknown", "舊資料/無標記")):
+            row = context_cmp.get(key) or {}
+            cpf = row.get("profit_factor")
+            compare_rows.append({
+                "分組": label,
+                "交易數": int(row.get("trades") or 0),
+                "勝率": f"{float(row.get('win_rate') or 0.0) * 100:.1f}%",
+                "平均報酬": f"{float(row.get('avg_return') or 0.0) * 100:+.2f}%",
+                "Profit Factor": "∞" if cpf == float("inf") else ("—" if cpf is None else f"{float(cpf):.2f}"),
+                "已實現損益": f"NTD {float(row.get('realized_pnl') or 0.0):+,.0f}",
+            })
+        st.dataframe(pd.DataFrame(compare_rows), width="stretch", hide_index=True)
+        st.caption("這裡會隨 forward 交易累積，觀察 Binance 市場結構縮倉是否真的改善結果。")
 
     st.caption("目前為清理後的 Crypto Lite 單一主線基準；只保留現在主帳戶與必要 Crypto 模型/風控資料，不送出任何真實交易。")
 

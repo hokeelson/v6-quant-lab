@@ -308,6 +308,64 @@ class SimulationDB:
         self._checkpoint_persistent()
         return True
 
+    def close_realtime_position_atomic(self, aid, symbol, exit_bar, trigger_price, fill_price, exit_reason):
+        """Atomically close one simulated position from the realtime layer.
+
+        Cash is read and updated inside the same transaction so a realtime exit
+        cannot overwrite a concurrent account update from the bar worker.
+        """
+        symbol = str(symbol).upper()
+        with self._c() as c:
+            c.execute("BEGIN IMMEDIATE")
+            pos = c.execute(
+                "SELECT * FROM positions WHERE account_id=? AND symbol=?",
+                (aid, symbol),
+            ).fetchone()
+            if not pos:
+                return None
+            acct = c.execute("SELECT cash FROM accounts WHERE account_id=?", (aid,)).fetchone()
+            if not acct:
+                return None
+            p = dict(pos)
+            qty = float(p["qty"])
+            entry = float(p["avg_entry"])
+            fill = float(fill_price)
+            proceeds = qty * fill
+            pnl = qty * (fill - entry)
+            ret = fill / entry - 1.0 if entry else 0.0
+            trade_id = uuid.uuid4().hex
+            trade = {
+                "trade_id": trade_id,
+                "account_id": aid,
+                "symbol": symbol,
+                "entry_bar": p["entry_bar"],
+                "exit_bar": str(exit_bar),
+                "qty": qty,
+                "entry_price": entry,
+                "exit_price": fill,
+                "realized_pnl": pnl,
+                "return_pct": ret,
+                "strategy": p.get("strategy"),
+                "horizon": p.get("horizon"),
+                "regime_entry": p.get("regime_entry"),
+                "exit_reason": str(exit_reason),
+                "leverage": p.get("leverage_at_entry"),
+                "exit_order_id": None,
+                "created_at": now_iso(),
+            }
+            c.execute("UPDATE accounts SET cash=? WHERE account_id=?", (float(acct["cash"]) + proceeds, aid))
+            c.execute("""INSERT INTO trades(trade_id,account_id,symbol,entry_bar,exit_bar,qty,entry_price,exit_price,realized_pnl,return_pct,strategy,horizon,regime_entry,exit_reason,leverage,exit_order_id,created_at)
+                VALUES(:trade_id,:account_id,:symbol,:entry_bar,:exit_bar,:qty,:entry_price,:exit_price,:realized_pnl,:return_pct,:strategy,:horizon,:regime_entry,:exit_reason,:leverage,:exit_order_id,:created_at)""", trade)
+            c.execute("UPDATE trades SET entry_order_id=? WHERE trade_id=?", (p.get("entry_order_id"), trade_id))
+            c.execute("DELETE FROM positions WHERE account_id=? AND symbol=?", (aid, symbol))
+            c.execute(
+                "INSERT INTO marks(account_id,symbol,bar_time,price) VALUES(?,?,?,?) "
+                "ON CONFLICT(account_id,symbol) DO UPDATE SET bar_time=excluded.bar_time,price=excluded.price",
+                (aid, symbol, str(exit_bar), float(trigger_price)),
+            )
+        self._checkpoint_persistent()
+        return trade
+
     def add_trade(self,t):
         x=dict(t); x.setdefault("trade_id",uuid.uuid4().hex); x.setdefault("created_at",now_iso()); x.setdefault("exit_order_id",None)
         with self._c() as c:

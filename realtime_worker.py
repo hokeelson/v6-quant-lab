@@ -11,7 +11,12 @@ from dotenv import load_dotenv
 from websocket import WebSocketTimeoutException, create_connection
 
 from src.paths import data_dir, db_path
-from src.realtime_layer import RealtimeDB, build_realtime_watchlist, evaluate_realtime_signal
+from src.realtime_layer import (
+    RealtimeDB,
+    build_realtime_watchlist,
+    evaluate_realtime_signal,
+    execute_realtime_protective_exit,
+)
 from src.simulation_db import SimulationDB
 
 load_dotenv()
@@ -40,6 +45,7 @@ state = {
     "twstock_stream": "DISABLED" if os.getenv("V6_SINGLE_CRYPTO_ACCOUNT","0").strip().lower() in ("1","true","yes","on") else "BAR_ONLY",
     "quotes_received": 0,
     "signals_updated": 0,
+    "realtime_exits": 0,
     "broker_order_api_calls": 0,
     "message": "Realtime worker starting",
 }
@@ -161,10 +167,16 @@ def _crypto_loop():
                     q = rt_db.upsert_quote("crypto", sym, bid=bid, ask=ask, source="BINANCE_STREAM", ts=ts)
                 else:
                     continue
+                trade = execute_realtime_protective_exit(sim_db, "crypto", sym, q)
                 evaluate_realtime_signal(sim_db, rt_db, "crypto", sym, q)
                 with lock:
                     state["quotes_received"] += 1
                     state["signals_updated"] += 1
+                    if trade:
+                        state["realtime_exits"] += 1
+                        state["message"] = (
+                            f"realtime simulated exit {sym} {trade.get('exit_reason')}"
+                        )
         except Exception as exc:
             with lock:
                 state["crypto_stream"] = "ERROR"

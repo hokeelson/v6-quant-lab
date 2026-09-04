@@ -232,7 +232,7 @@ def write_snapshot(symbols: list[str], path: Path | None = None) -> dict:
         "read_only": True,
         "can_increase_exposure": False,
         "broker_order_api_calls": 0,
-        "refresh_seconds": 120,
+        "refresh_seconds": 60,
         "symbols": len(rows),
         "spot_depth_coverage": available / max(1, len(rows)),
         "futures_coverage": futures / max(1, len(rows)),

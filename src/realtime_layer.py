@@ -288,6 +288,65 @@ def build_realtime_watchlist(sim_db, realtime_db: RealtimeDB):
     return realtime_db.watchlist()
 
 
+def execute_realtime_protective_exit(sim_db, market: str, symbol: str, quote: dict):
+    """Close a simulated Crypto Lite position immediately when realtime price hits stop/target.
+
+    This is simulation-only and never calls a broker. The atomic DB method prevents
+    double-closes if the bar worker and realtime worker observe the exit together.
+    """
+    if market != "crypto":
+        return None
+    if os.getenv("V6_SINGLE_CRYPTO_ACCOUNT", "0").strip().lower() not in ("1", "true", "yes", "on"):
+        return None
+    price = quote.get("price")
+    if price is None or float(price) <= 0:
+        return None
+    pos = sim_db.position("crypto", symbol)
+    if not pos:
+        return None
+
+    price = float(price)
+    stop = float(pos.get("stop_price") or 0.0)
+    target = float(pos.get("target_price") or 0.0)
+    reason = None
+    if stop > 0 and price <= stop:
+        reason = "REALTIME_ATR_STOP"
+    elif target > 0 and price >= target:
+        reason = "REALTIME_ATR_TARGET"
+    if reason is None:
+        return None
+
+    # Match the existing crypto simulation cost assumption (10 bps fee +
+    # 5 bps slippage + 4 bps spread) without touching any broker endpoint.
+    one_way_cost = 0.0019
+    fill = max(0.0, price * (1.0 - one_way_cost))
+    if fill <= 0:
+        return None
+    ts = quote.get("ts") or now_iso()
+    trade = sim_db.close_realtime_position_atomic(
+        "crypto", symbol, ts, price, fill, reason
+    )
+    if trade:
+        sim_db.add_diagnostic(
+            "crypto",
+            symbol,
+            str(pos.get("horizon") or "medium"),
+            str(ts),
+            "REALTIME_EXIT",
+            reason,
+            {
+                "trigger_price": price,
+                "fill_price": fill,
+                "stop_price": stop,
+                "target_price": target,
+                "realized_pnl": trade.get("realized_pnl"),
+                "return_pct": trade.get("return_pct"),
+                "broker_order_api_calls": 0,
+            },
+        )
+    return trade
+
+
 def evaluate_realtime_signal(sim_db, realtime_db: RealtimeDB, market: str, symbol: str, quote: dict):
     price = quote.get("price")
     if price is None or price <= 0:
