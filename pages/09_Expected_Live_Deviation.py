@@ -3,6 +3,8 @@ from __future__ import annotations
 import pandas as pd
 import streamlit as st
 
+from src.crypto_lite_nav import render_crypto_lite_sidebar
+
 from src.expected_live_deviation import expected_live_deviation_snapshot
 from src.paths import db_path
 from src.simulation_db import SimulationDB
@@ -46,6 +48,7 @@ def _num(x, digits=2):
 
 
 st.set_page_config(page_title="Expected vs Live Deviation", layout="wide")
+render_crypto_lite_sidebar()
 st.title("Expected vs Live Deviation")
 st.caption(
     "比較模型校準時的 OOS 表現，與真正往前跑的虛擬已平倉交易。"
