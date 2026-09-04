@@ -95,8 +95,9 @@ class AutoOrchestratorV8:
             return []
 
     def _bootstrap_twstocks(self):
-        rows = [{"market": TW_MARKET, "symbol": s} for s in self._configured_twstocks()]
-        return self.lab.import_assets(rows)
+        # Crypto Lite keeps the legacy phase hook for orchestration/test compatibility
+        # but deliberately does not import Taiwan stocks.
+        return 0
 
     def import_active(self):
         # Crypto Lite: only import active crypto candidates.
@@ -274,6 +275,7 @@ class AutoOrchestratorV8:
     def full_cycle(self, now=None, force_recalibrate=False, progress=None):
         notify_progress(progress, "PREPARE")
         imported = self.import_active()
+        self._bootstrap_twstocks()  # compatibility hook; Crypto Lite config keeps this a no-op
         notify_progress(progress, "UNIVERSE")
         universe = self.universe.refresh_due(self._pinned_universe(), force=False)
         notify_progress(progress, "CALIBRATION")

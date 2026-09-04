@@ -14,6 +14,7 @@ from src.auto_orchestrator_v8 import AutoOrchestratorV8
 from src.dashboard_direction_fallback import build_cached_direction_fallback
 from src.ui_zh import horizon_label
 from src.worker_progress_ui import render_worker_progress
+from src.execution_audit_ui import render_execution_audit
 
 load_dotenv()
 st.set_page_config(page_title="V6 Crypto Lite", layout="wide", page_icon="₿")
@@ -117,6 +118,8 @@ def crypto_lite():
         st.warning(f"系統狀態：{overall}｜Broker order API calls：{broker_calls if broker_calls is not None else '—'}")
     else:
         st.info("正在等待最新系統狀態。")
+
+    render_execution_audit(st, research)
 
     main_worker = ((health.get("components") or {}).get("main_v8") or {})
     if main_worker and str(main_worker.get("status")) not in ("ONLINE", "HEALTHY", "OK"):
