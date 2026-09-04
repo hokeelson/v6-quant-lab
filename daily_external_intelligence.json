@@ -2,37 +2,37 @@
   "broker_order_api_calls": 0,
   "can_increase_exposure": false,
   "contains_secrets": false,
-  "generated_at": "2026-09-04T10:42:19.319332+00:00",
+  "generated_at": "2026-09-04T10:50:34.771442+00:00",
   "headline_summary": {
     "crypto": {
       "duplicate_count": 0,
-      "effective_headline_count": 13.827749895992074,
+      "effective_headline_count": 13.796094682494644,
       "event_risk": 1.0,
       "evidence_quality": 1.0,
       "headline_count": 30,
       "raw_headline_count": 30,
       "recency_coverage": 1.0,
-      "sentiment": -0.2534266776667871,
+      "sentiment": -0.25342667771488614,
       "source_count": 14,
       "source_diversity": 1.0
     },
     "macro": {
       "duplicate_count": 0,
-      "effective_headline_count": 24.319351300932237,
+      "effective_headline_count": 24.07577432849762,
       "event_risk": 1.0,
       "evidence_quality": 1.0,
       "headline_count": 30,
       "raw_headline_count": 30,
       "recency_coverage": 1.0,
-      "sentiment": -0.5350202916412979,
-      "source_count": 17,
+      "sentiment": -0.535020291637237,
+      "source_count": 16,
       "source_diversity": 1.0
     }
   },
   "market_data": {
     "BTC": {
-      "change_pct": -0.0027992509312171343,
-      "last": 81044.2421875,
+      "change_pct": -0.0025573925746600334,
+      "last": 81063.8984375,
       "symbol": "BTC-USD"
     },
     "DXY": {
@@ -63,8 +63,8 @@
       "market_multiplier": 0.85,
       "market_stress": 0.0,
       "risk_regime": "CAUTION",
-      "risk_score": 0.42039688851157314,
-      "sentiment_score": -0.3519844425578659,
+      "risk_score": 0.42039688851754176,
+      "sentiment_score": -0.3519844425877089,
       "strategy_multipliers": {
         "Breakout": 0.7999999999999999,
         "Mean Reversion RSI": 0.85,
@@ -78,8 +78,8 @@
       "market_multiplier": 0.85,
       "market_stress": 0.0,
       "risk_regime": "CAUTION",
-      "risk_score": 0.4570040583282596,
-      "sentiment_score": -0.5350202916412979,
+      "risk_score": 0.4570040583274474,
+      "sentiment_score": -0.535020291637237,
       "strategy_multipliers": {
         "Breakout": 0.7999999999999999,
         "Mean Reversion RSI": 0.85,
@@ -93,8 +93,8 @@
       "market_multiplier": 0.85,
       "market_stress": 0.0,
       "risk_regime": "CAUTION",
-      "risk_score": 0.4570040583282596,
-      "sentiment_score": -0.5350202916412979,
+      "risk_score": 0.4570040583274474,
+      "sentiment_score": -0.535020291637237,
       "strategy_multipliers": {
         "Breakout": 0.7999999999999999,
         "Mean Reversion RSI": 0.85,
@@ -118,6 +118,6 @@
     "source_coverage": 1.0
   },
   "status": "AVAILABLE",
-  "sync_checked_at": "2026-09-04T10:42:46.466763+00:00",
-  "sync_snapshot_age_seconds": 27.147431
+  "sync_checked_at": "2026-09-04T10:54:38.346960+00:00",
+  "sync_snapshot_age_seconds": 243.575518
 }

@@ -10,97 +10,201 @@
       "tracked_research_trades": 0
     },
     "direction_v10": {
-      "backup_age_seconds": 27.0,
-      "backup_at": "2026-09-04T10:42:17.870594+00:00",
+      "backup_age_seconds": 2.0,
+      "backup_at": "2026-09-04T10:54:33.149596+00:00",
       "backup_evaluated": 0,
-      "backup_healthy": false,
-      "backup_pending": 25,
+      "backup_healthy": true,
+      "backup_pending": 30,
       "broker_order_api_calls": 0,
-      "candidates": 0,
-      "degraded_reasons": [
-        "worker_status:ERROR",
-        "no_candidates",
-        "empty_forward_ledger",
-        "worker_errors",
-        "direction_backup_behind_ledger"
-      ],
-      "eligible_assets": 0,
-      "error_samples": [
-        {
-          "error": "FileNotFoundError"
-        }
-      ],
+      "candidates": 26,
+      "degraded_reasons": [],
+      "eligible_assets": 32,
+      "error_samples": [],
       "evaluated": 0,
-      "healthy": false,
-      "heartbeat_age_seconds": 11.1,
-      "heartbeat_at": "2026-09-04T10:42:33.787821+00:00",
-      "input_path_mode": null,
-      "insufficient_cache": 0,
-      "last_cycle_finished_at": "2026-09-04T10:42:18.787986+00:00",
+      "healthy": true,
+      "heartbeat_age_seconds": 1.1,
+      "heartbeat_at": "2026-09-04T10:54:34.035112+00:00",
+      "input_path_mode": "SHARED_V6_DATA_DIR",
+      "insufficient_cache": 59,
+      "last_cycle_finished_at": "2026-09-04T10:51:34.867560+00:00",
       "market_data_api_calls": 0,
-      "missing_models": 0,
-      "models_found": 0,
-      "pending": 0,
-      "registered_last_cycle": 0,
-      "status": "ERROR",
-      "true_errors": 1
+      "missing_models": 11,
+      "models_found": 85,
+      "pending": 30,
+      "registered_last_cycle": 4,
+      "status": "ONLINE",
+      "true_errors": 0
     },
     "main_v8": {
-      "assets_checked": 2,
+      "assets_checked": 30,
       "bars_processed": 0,
       "broker_order_api_calls": 0,
-      "completed_age_seconds": null,
-      "cycle_age_seconds": 26.0,
-      "cycle_elapsed_seconds": 23.676,
-      "data_quality": "STARTING",
+      "completed_age_seconds": 34.2,
+      "cycle_age_seconds": 241.0,
+      "cycle_elapsed_seconds": 206.87,
+      "data_quality": "OK",
       "degraded": false,
       "degraded_reasons": [],
       "error_samples": [],
-      "first_cycle_complete": false,
+      "first_cycle_complete": true,
       "hard_failure": false,
-      "healthy": false,
-      "heartbeat_age_seconds": 2.3,
-      "heartbeat_at": "2026-09-04T10:42:42.500507+00:00",
-      "last_cycle_duration_seconds": null,
-      "last_cycle_finished_at": null,
-      "last_cycle_phase_durations_seconds": {},
-      "last_cycle_slow_units": [],
-      "last_cycle_started_at": "2026-09-04T10:42:18.824069+00:00",
-      "last_progress_at": "2026-09-04T10:42:42.500494+00:00",
-      "market_data_api_calls": 0,
-      "phase": "SIMULATION",
-      "phase_completed": 2,
-      "phase_durations_seconds": {
-        "CALIBRATION": 7.978,
+      "healthy": true,
+      "heartbeat_age_seconds": 1.0,
+      "heartbeat_at": "2026-09-04T10:54:34.078176+00:00",
+      "last_cycle_duration_seconds": 206.87,
+      "last_cycle_finished_at": "2026-09-04T10:54:00.934825+00:00",
+      "last_cycle_phase_durations_seconds": {
+        "CALIBRATION": 7.448,
+        "DATA_QUALITY": 2.743,
+        "GOVERNANCE": 10.137,
+        "MODEL_HEALTH": 0.056,
+        "PORTFOLIO_RISK": 0.051,
         "PREPARE": 0.0,
-        "SIMULATION": 14.812,
-        "UNIVERSE": 0.886
+        "PRETRADE_RISK": 3.191,
+        "SIMULATION": 181.731,
+        "UNIVERSE": 1.508,
+        "WATCHLIST": 0.004
       },
-      "phase_elapsed_seconds": 14.812,
-      "phase_started_at": "2026-09-04T10:42:27.688455+00:00",
-      "phase_total": 32,
-      "progress_events": 18,
-      "progress_problem": null,
-      "progress_schema_version": "WORKER_PROGRESS_V1",
-      "progress_unit": "crypto:BNBUSDT:adaptive",
-      "ready": false,
-      "realtime_watchlist_sync": "STARTING",
-      "recent_cycles": [],
-      "risk_layer": "STARTING",
-      "slow_units": [
+      "last_cycle_slow_units": [
         {
           "bars_processed": 0,
-          "seconds": 7.431,
-          "unit": "crypto:ARBUSDT:adaptive"
+          "seconds": 8.425,
+          "unit": "crypto:UNIUSDT:adaptive"
         },
         {
           "bars_processed": 0,
-          "seconds": 7.377,
+          "seconds": 8.412,
+          "unit": "crypto:XRPUSDT:adaptive"
+        },
+        {
+          "bars_processed": 0,
+          "seconds": 8.292,
+          "unit": "crypto:ETHUSDT:adaptive"
+        },
+        {
+          "bars_processed": 0,
+          "seconds": 8.2,
+          "unit": "crypto:LINKUSDT:adaptive"
+        },
+        {
+          "bars_processed": 0,
+          "seconds": 7.945,
+          "unit": "crypto:SOLUSDT:adaptive"
+        },
+        {
+          "bars_processed": 0,
+          "seconds": 7.914,
+          "unit": "crypto:NEARUSDT:adaptive"
+        },
+        {
+          "bars_processed": 0,
+          "seconds": 7.45,
+          "unit": "crypto:ENAUSDT:adaptive"
+        },
+        {
+          "bars_processed": 0,
+          "seconds": 7.434,
+          "unit": "crypto:ZECUSDT:adaptive"
+        },
+        {
+          "bars_processed": 0,
+          "seconds": 7.426,
           "unit": "crypto:ADAUSDT:adaptive"
+        },
+        {
+          "bars_processed": 0,
+          "seconds": 6.885,
+          "unit": "crypto:PEPEUSDT:adaptive"
         }
       ],
-      "starting": true,
-      "status": "RUNNING",
+      "last_cycle_started_at": "2026-09-04T10:50:34.064940+00:00",
+      "last_progress_at": "2026-09-04T10:54:00.934865+00:00",
+      "market_data_api_calls": 0,
+      "phase": "COMPLETE",
+      "phase_completed": 0,
+      "phase_durations_seconds": {
+        "CALIBRATION": 7.448,
+        "DATA_QUALITY": 2.743,
+        "GOVERNANCE": 10.137,
+        "MODEL_HEALTH": 0.056,
+        "PORTFOLIO_RISK": 0.051,
+        "PREPARE": 0.0,
+        "PRETRADE_RISK": 3.191,
+        "SIMULATION": 181.731,
+        "UNIVERSE": 1.508,
+        "WATCHLIST": 0.004
+      },
+      "phase_elapsed_seconds": 0.0,
+      "phase_started_at": "2026-09-04T10:54:00.934865+00:00",
+      "phase_total": 0,
+      "progress_events": 148,
+      "progress_problem": null,
+      "progress_schema_version": "WORKER_PROGRESS_V1",
+      "progress_unit": null,
+      "ready": true,
+      "realtime_watchlist_sync": "ONLINE",
+      "recent_cycles": [
+        {
+          "duration_seconds": 206.87,
+          "finished_at": "2026-09-04T10:54:00.934856+00:00",
+          "status": "COMPLETE"
+        }
+      ],
+      "risk_layer": "ONLINE",
+      "slow_units": [
+        {
+          "bars_processed": 0,
+          "seconds": 8.425,
+          "unit": "crypto:UNIUSDT:adaptive"
+        },
+        {
+          "bars_processed": 0,
+          "seconds": 8.412,
+          "unit": "crypto:XRPUSDT:adaptive"
+        },
+        {
+          "bars_processed": 0,
+          "seconds": 8.292,
+          "unit": "crypto:ETHUSDT:adaptive"
+        },
+        {
+          "bars_processed": 0,
+          "seconds": 8.2,
+          "unit": "crypto:LINKUSDT:adaptive"
+        },
+        {
+          "bars_processed": 0,
+          "seconds": 7.945,
+          "unit": "crypto:SOLUSDT:adaptive"
+        },
+        {
+          "bars_processed": 0,
+          "seconds": 7.914,
+          "unit": "crypto:NEARUSDT:adaptive"
+        },
+        {
+          "bars_processed": 0,
+          "seconds": 7.45,
+          "unit": "crypto:ENAUSDT:adaptive"
+        },
+        {
+          "bars_processed": 0,
+          "seconds": 7.434,
+          "unit": "crypto:ZECUSDT:adaptive"
+        },
+        {
+          "bars_processed": 0,
+          "seconds": 7.426,
+          "unit": "crypto:ADAUSDT:adaptive"
+        },
+        {
+          "bars_processed": 0,
+          "seconds": 6.885,
+          "unit": "crypto:PEPEUSDT:adaptive"
+        }
+      ],
+      "starting": false,
+      "status": "ONLINE",
       "true_errors": 0
     },
     "research": {
@@ -111,25 +215,23 @@
       "status": "DISABLED"
     },
     "storage": {
-      "exporter_heartbeat_age_seconds": 5.0,
-      "exporter_heartbeat_at": "2026-09-04T10:42:39.859478+00:00",
+      "exporter_heartbeat_age_seconds": 4.9,
+      "exporter_heartbeat_at": "2026-09-04T10:54:30.234458+00:00",
       "healthy": true,
-      "last_snapshot_at": "2026-09-04T10:42:17.715157+00:00",
+      "last_snapshot_at": "2026-09-04T10:54:20.482359+00:00",
       "last_snapshot_success": [
-        "direction_forward.sqlite3",
         "data_quality.sqlite3",
         "model_governance.sqlite3",
-        "realtime_execution.sqlite3",
         "simulation_lab.sqlite3"
       ],
       "persistence_status": "OK",
-      "source_updated_at": "2026-09-04T10:42:17.855334+00:00",
+      "source_updated_at": "2026-09-04T10:54:20.482478+00:00",
       "status": "AVAILABLE"
     }
   },
   "contains_secrets": false,
-  "generated_at": "2026-09-04T10:42:44.845191+00:00",
-  "overall_status": "DEGRADED",
+  "generated_at": "2026-09-04T10:54:35.108635+00:00",
+  "overall_status": "HEALTHY",
   "public_paths": {
     "health_alias": "/app/static/health.json",
     "runtime_health": "/app/static/runtime_health.json",
@@ -142,6 +244,6 @@
   },
   "scope": "PUBLIC_READ_ONLY_RUNTIME_HEALTH",
   "source": "RAILWAY_RUNTIME_DIRECT",
-  "sync_checked_at": "2026-09-04T10:42:46.466763+00:00",
-  "sync_snapshot_age_seconds": 1.621572
+  "sync_checked_at": "2026-09-04T10:54:38.346960+00:00",
+  "sync_snapshot_age_seconds": 3.238325
 }
