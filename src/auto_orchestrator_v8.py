@@ -232,7 +232,7 @@ class AutoOrchestratorV8:
         skipped_unready = 0
         assets = [a for a in self.db.assets() if a.get("market") == "crypto"]
 
-        if self.lab.single_crypto_account:
+        if getattr(self.lab, "single_crypto_account", False):
             total = len(assets)
             completed = 0
             for a in assets:
