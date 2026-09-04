@@ -18,6 +18,7 @@ WORKERS = [
     ("tca", [sys.executable, "tca_supervisor.py"]),
     ("direction", [sys.executable, "direction_shadow_supervisor.py"]),
     ("external_intelligence", [sys.executable, "external_intelligence_worker.py"]),
+    ("binance_context", [sys.executable, "binance_market_context_worker.py"]),
     ("runtime_health", [sys.executable, "runtime_health_exporter.py"]),
     ("policy_epoch", [sys.executable, "policy_epoch_exporter.py"]),
 ]
