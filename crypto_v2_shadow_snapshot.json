@@ -43,15 +43,15 @@
   "contains_secrets": false,
   "errors": [],
   "forward_only": true,
-  "generated_at": "2026-09-04T09:05:31.796408+00:00",
+  "generated_at": "2026-09-04T09:24:32.814760+00:00",
   "latest_market_regime": {
-    "realized_vol": 0.028027745738361573,
-    "reason": "No dominant directional regime",
-    "ret_fast": 0.0038989513928828767,
-    "ret_slow": 0.04244178114659514,
-    "state": "SIDEWAYS",
-    "trend": 0.015753696842178533,
-    "vol_ratio": 1.5649726227800103
+    "realized_vol": 0.0,
+    "reason": "Need >=96 BTC 1h bars",
+    "ret_fast": 0.0,
+    "ret_slow": 0.0,
+    "state": "INSUFFICIENT_DATA",
+    "trend": 0.0,
+    "vol_ratio": 1.0
   },
   "market_data_api_calls": 0,
   "persistent_checkpoint": true,
@@ -13172,7 +13172,7 @@
   ],
   "research_layer": {
     "bidirectional_decision_shadow": {
-      "active_evaluations": 1079,
+      "active_evaluations": 1083,
       "avg_selected_return_pct": -0.0034018655392180856,
       "by_selected_action": {
         "LONG": {
@@ -13205,7 +13205,7 @@
       "no_trade_missed_opportunities": 170,
       "observation_only": true,
       "status": "ACTIVE",
-      "total_decisions": 9115
+      "total_decisions": 9119
     },
     "bidirectional_registration": {
       "forward_only": true,
@@ -13267,8 +13267,8 @@
   "shared_cache_only": true,
   "status": "ONLINE",
   "symbols": 46,
-  "sync_checked_at": "2026-09-04T09:05:56.923596+00:00",
-  "sync_snapshot_age_seconds": 25.127188,
+  "sync_checked_at": "2026-09-04T09:24:47.557600+00:00",
+  "sync_snapshot_age_seconds": 14.74284,
   "v2": {
     "accounts": [
       {
