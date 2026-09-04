@@ -4,6 +4,7 @@ import json
 import math
 import os
 import re
+import sqlite3
 import time
 from datetime import datetime, timezone
 from pathlib import Path
@@ -317,6 +318,59 @@ def _research_health(raw: dict) -> dict:
     }
 
 
+def _data_quality_detail(limit: int = 50) -> dict:
+    path = DATA_DIR / "data_quality.sqlite3"
+    if not path.exists():
+        return {"status": "UNAVAILABLE", "warnings": 0, "rows": []}
+    try:
+        con = sqlite3.connect(f"file:{path}?mode=ro", uri=True, timeout=5)
+        con.row_factory = sqlite3.Row
+        rows = con.execute(
+            """
+            SELECT market,symbol,horizon,checked_at,data_status,drift_status,
+                   quality_score,drift_score,size_multiplier,last_bar,stale_hours,payload_json
+            FROM health_latest
+            WHERE data_status='WARNING' OR drift_status='WATCH'
+            ORDER BY size_multiplier ASC, drift_score DESC, quality_score ASC
+            LIMIT ?
+            """,
+            (int(limit),),
+        ).fetchall()
+        con.close()
+        out = []
+        for row in rows:
+            d = dict(row)
+            payload = {}
+            try:
+                payload = json.loads(d.pop("payload_json") or "{}")
+            except Exception:
+                d.pop("payload_json", None)
+            reasons = []
+            for key in ("reasons",):
+                value = payload.get(key)
+                if isinstance(value, list):
+                    reasons.extend(str(x)[:120] for x in value)
+            drift_reasons = payload.get("reasons")
+            item = {
+                "market": str(d.get("market") or ""),
+                "symbol": str(d.get("symbol") or ""),
+                "horizon": str(d.get("horizon") or ""),
+                "checked_at": d.get("checked_at"),
+                "data_status": d.get("data_status"),
+                "drift_status": d.get("drift_status"),
+                "quality_score": _finite(d.get("quality_score")),
+                "drift_score": _finite(d.get("drift_score")),
+                "size_multiplier": _finite(d.get("size_multiplier")),
+                "last_bar": d.get("last_bar"),
+                "stale_hours": _finite(d.get("stale_hours")),
+                "reasons": sorted(set(reasons)),
+            }
+            out.append(item)
+        return {"status": "OK", "warnings": len(out), "rows": out}
+    except Exception as exc:
+        return {"status": "ERROR", "warnings": 0, "rows": [], "error": _safe_error_text(exc)}
+
+
 def _storage_health(raw: dict) -> dict:
     status = str(raw.get("status") or "UNAVAILABLE").upper()
     persistence = str(raw.get("persistence_status") or "UNKNOWN").upper()
@@ -369,6 +423,7 @@ def build_snapshot() -> dict:
     else:
         research = _research_health(research_raw)
     storage = _storage_health(storage_raw)
+    data_quality_detail = _data_quality_detail()
     direction = _direction_health(_read_json(DIRECTION_STATUS_PATH), _read_json(DIRECTION_BACKUP_PATH))
 
     broker_calls = int(main.get("broker_order_api_calls", 0) or 0) + int(v2.get("broker_order_api_calls", 0) or 0) + direction["broker_order_api_calls"]
@@ -395,6 +450,7 @@ def build_snapshot() -> dict:
             "crypto_v2": v2,
             "research": research,
             "storage": storage,
+            "data_quality_detail": data_quality_detail,
             "direction_v10": direction,
         },
         "safety": {
