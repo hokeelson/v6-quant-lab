@@ -358,7 +358,16 @@ def build_snapshot() -> dict:
             "tracked_research_trades": 0,
             "active_blocked_candidates": 0,
         }
-    research = _research_health(research_raw)
+    if single_crypto:
+        research = {
+            "healthy": True,
+            "status": "DISABLED",
+            "generated_at": None,
+            "age_seconds": None,
+            "latest_account_as_of": None,
+        }
+    else:
+        research = _research_health(research_raw)
     storage = _storage_health(storage_raw)
     direction = _direction_health(_read_json(DIRECTION_STATUS_PATH), _read_json(DIRECTION_BACKUP_PATH))
 
