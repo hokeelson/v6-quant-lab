@@ -11,7 +11,9 @@ export V6_RUNTIME_DATA_DIR="$RUNTIME_DIR"
 export V6_DATA_DIR="$RUNTIME_DIR"
 export V6_STORAGE_DEGRADED="1"
 export V6_SINGLE_CRYPTO_ACCOUNT="${V6_SINGLE_CRYPTO_ACCOUNT:-1}"
-export V6_SNAPSHOT_DBS="${V6_SNAPSHOT_DBS:-crypto_v2_shadow.sqlite3,data_quality.sqlite3,direction_forward.sqlite3,forward_validation.sqlite3,model_governance.sqlite3,realtime_execution.sqlite3,simulation_lab.sqlite3,trial_ledger.sqlite3}"
+export V6_ENABLE_CRYPTO_V2_SHADOW="${V6_ENABLE_CRYPTO_V2_SHADOW:-0}"
+export V6_ENABLE_TRIAL_LEDGER="${V6_ENABLE_TRIAL_LEDGER:-0}"
+export V6_SNAPSHOT_DBS="${V6_SNAPSHOT_DBS:-data_quality.sqlite3,direction_forward.sqlite3,model_governance.sqlite3,realtime_execution.sqlite3,simulation_lab.sqlite3}"
 
 BOOTSTRAP_OK=0
 if python storage_rescue.py bootstrap 2>/dev/null && [ -f "$RUNTIME_DIR/simulation_lab.sqlite3" ]; then
@@ -26,10 +28,17 @@ else
   done
 fi
 
+if python crypto_lite_cleanup.py; then
+  echo "Crypto Lite legacy data cleanup complete."
+  python storage_rescue.py snapshot >/dev/null 2>&1 || true
+else
+  echo "Crypto Lite cleanup failed; refusing to start mixed legacy runtime."
+  exit 1
+fi
+
 APP_PORT="${PORT:-8501}"
 echo "Starting V6 V9 decision dashboard on 0.0.0.0:${APP_PORT}"
 echo "Virtual simulation only; broker order API remains disabled."
-echo "Crypto V2 Shadow = isolated ledger, shared cache only, no extra market-data API calls, supervised auto-restart enabled."
 echo "SQLite rescue mode: persistent state=${PERSIST_DIR}; runtime DBs=${RUNTIME_DIR}; bootstrap=${BOOTSTRAP_OK}."
 echo "SQLite snapshot sidecar: best-effort only; failures never stop the dashboard."
 echo "Runtime health: Railway publishes static/runtime_health.json every 5 seconds; GitHub snapshots are backup only."
@@ -43,10 +52,6 @@ python realtime_supervisor.py &
 REALTIME_SUPERVISOR_PID=$!
 python tca_supervisor.py &
 TCA_SUPERVISOR_PID=$!
-python trial_ledger_worker.py &
-TRIAL_LEDGER_PID=$!
-python crypto_v2_shadow_supervisor.py &
-CRYPTO_V2_SUPERVISOR_PID=$!
 python storage_rescue.py watch &
 STORAGE_RESCUE_PID=$!
 python storage_status_exporter.py &
@@ -64,8 +69,6 @@ cleanup() {
   kill "$SUPERVISOR_PID" 2>/dev/null || true
   kill "$REALTIME_SUPERVISOR_PID" 2>/dev/null || true
   kill "$TCA_SUPERVISOR_PID" 2>/dev/null || true
-  kill "$TRIAL_LEDGER_PID" 2>/dev/null || true
-  kill "$CRYPTO_V2_SUPERVISOR_PID" 2>/dev/null || true
   kill "$STORAGE_RESCUE_PID" 2>/dev/null || true
   kill "$STORAGE_STATUS_PID" 2>/dev/null || true
   kill "$RUNTIME_HEALTH_PID" 2>/dev/null || true

@@ -18,9 +18,10 @@ class SimulationLab:
         self.cache=cache or MarketCache("market_cache.sqlite3")
         self.initial_equity=float(initial_equity)
         self.single_crypto_account=os.getenv("V6_SINGLE_CRYPTO_ACCOUNT","0").strip().lower() in ("1","true","yes","on")
-        self.db.ensure_accounts(self.initial_equity)
         if self.single_crypto_account:
             self.db.ensure_crypto_master_account(self.initial_equity)
+        else:
+            self.db.ensure_accounts(self.initial_equity)
 
     def import_assets(self, rows):
         n=0
