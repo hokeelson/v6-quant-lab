@@ -43,7 +43,7 @@
   "contains_secrets": false,
   "errors": [],
   "forward_only": true,
-  "generated_at": "2026-09-04T03:27:49.034290+00:00",
+  "generated_at": "2026-09-04T03:42:47.376129+00:00",
   "latest_market_regime": {
     "realized_vol": 0.02750299101353635,
     "reason": "No dominant directional regime",
@@ -10368,6 +10368,26 @@
       "trade_id": "fe014e2a66184b00b8e68a0e92e4adff"
     },
     {
+      "context_json": "{\"avg_pairwise_correlation\": 0.3302705011172299, \"breadth_above_ema20\": 0.13333333333333333, \"btc_return_24h\": 0.005982471247890642, \"external_derivatives_data\": \"NOT_CONNECTED\", \"funding_rate\": null, \"horizon\": \"medium\", \"liquidation_shock_score\": null, \"median_one_bar_return\": -0.03805272108843538, \"open_interest_change\": null, \"session\": \"US\", \"symbols_observed\": 45, \"version\": 1}",
+      "created_at": "2026-09-04T03:29:57.014841+00:00",
+      "entry_bar": "2026-08-31T00:00:00+00:00",
+      "entry_price": 0.03843,
+      "entry_session": "US",
+      "exit_bar": "2026-09-01T04:00:00+00:00",
+      "exit_price": 0.04034,
+      "exit_reason": "TIME",
+      "horizon": "medium",
+      "mae_pct": -0.014571948998178486,
+      "mfe_pct": 0.0934166016133231,
+      "qty": 65952.24360651206,
+      "realized_pnl": 117.13718629933328,
+      "regime_entry": "SIDEWAYS",
+      "return_pct": 0.04613782902659013,
+      "strategy": "V2_MEAN_REVERSION",
+      "symbol": "CHIPUSDT",
+      "trade_id": "6c1b82c502ef4d57b8cdcfd17bd9f321"
+    },
+    {
       "context_json": "{\"avg_pairwise_correlation\": 0.37637590676248245, \"breadth_above_ema20\": 0.6744186046511628, \"btc_return_24h\": 0.0034020239618826054, \"external_derivatives_data\": \"NOT_CONNECTED\", \"funding_rate\": null, \"horizon\": \"short\", \"liquidation_shock_score\": null, \"median_one_bar_return\": -5.0011502645608275e-05, \"open_interest_change\": null, \"session\": \"US\", \"symbols_observed\": 43, \"version\": 1}",
       "created_at": "2026-09-01T03:00:14.050153+00:00",
       "entry_bar": "2026-08-31T21:00:00+00:00",
@@ -11546,26 +11566,6 @@
       "strategy": "V2_MEAN_REVERSION",
       "symbol": "ADAUSDT",
       "trade_id": "a1a6826f73f444ab95c9568cc440be86"
-    },
-    {
-      "context_json": "{\"avg_pairwise_correlation\": 0.2405263136522709, \"breadth_above_ema20\": 0.8888888888888888, \"btc_return_24h\": 0.023917013099884032, \"external_derivatives_data\": \"NOT_CONNECTED\", \"funding_rate\": null, \"horizon\": \"short\", \"liquidation_shock_score\": null, \"median_one_bar_return\": 0.0020695011802506214, \"open_interest_change\": null, \"session\": \"ASIA\", \"symbols_observed\": 36, \"version\": 1}",
-      "created_at": "2026-08-28T07:00:10.961840+00:00",
-      "entry_bar": "2026-08-28T01:00:00+00:00",
-      "entry_price": 0.99961,
-      "entry_session": "ASIA",
-      "exit_bar": "2026-08-28T06:00:00+00:00",
-      "exit_price": 0.99974,
-      "exit_reason": "TIME",
-      "horizon": "short",
-      "mae_pct": -2.0007803043231576e-05,
-      "mfe_pct": 0.00025009753803972856,
-      "qty": 5641.260080874086,
-      "realized_pnl": -18.44068687206982,
-      "regime_entry": "SIDEWAYS",
-      "return_pct": -0.0032646205115734015,
-      "strategy": "V2_MEAN_REVERSION",
-      "symbol": "USD1USDT",
-      "trade_id": "23fbd8f6e50f45c6923a1856ada74f49"
     }
   ],
   "recent_trades": [
@@ -12208,6 +12208,22 @@
       "strategy": "V2_MEAN_REVERSION",
       "symbol": "WIFUSDT",
       "trade_id": "fe014e2a66184b00b8e68a0e92e4adff"
+    },
+    {
+      "created_at": "2026-09-04T03:29:57.014841+00:00",
+      "entry_bar": "2026-08-31T00:00:00+00:00",
+      "entry_price": 0.03843,
+      "exit_bar": "2026-09-01T04:00:00+00:00",
+      "exit_price": 0.04034,
+      "exit_reason": "TIME",
+      "horizon": "medium",
+      "qty": 65952.24360651206,
+      "realized_pnl": 117.13718629933328,
+      "regime_entry": "SIDEWAYS",
+      "return_pct": 0.04613782902659013,
+      "strategy": "V2_MEAN_REVERSION",
+      "symbol": "CHIPUSDT",
+      "trade_id": "6c1b82c502ef4d57b8cdcfd17bd9f321"
     },
     {
       "created_at": "2026-09-01T03:00:14.050153+00:00",
@@ -13152,46 +13168,30 @@
       "strategy": "V2_MEAN_REVERSION",
       "symbol": "ADAUSDT",
       "trade_id": "a1a6826f73f444ab95c9568cc440be86"
-    },
-    {
-      "created_at": "2026-08-28T07:00:10.961840+00:00",
-      "entry_bar": "2026-08-28T01:00:00+00:00",
-      "entry_price": 0.99961,
-      "exit_bar": "2026-08-28T06:00:00+00:00",
-      "exit_price": 0.99974,
-      "exit_reason": "TIME",
-      "horizon": "short",
-      "qty": 5641.260080874086,
-      "realized_pnl": -18.44068687206982,
-      "regime_entry": "SIDEWAYS",
-      "return_pct": -0.0032646205115734015,
-      "strategy": "V2_MEAN_REVERSION",
-      "symbol": "USD1USDT",
-      "trade_id": "23fbd8f6e50f45c6923a1856ada74f49"
     }
   ],
   "research_layer": {
     "bidirectional_decision_shadow": {
-      "active_evaluations": 1071,
-      "avg_selected_return_pct": -0.0031233176194342986,
+      "active_evaluations": 1077,
+      "avg_selected_return_pct": -0.003026414298934946,
       "by_selected_action": {
         "LONG": {
-          "accuracy": 0.3601717659688674,
-          "avg_selected_return_pct": -0.0012397173966354597,
-          "closed": 1863,
-          "correct": 671
+          "accuracy": 0.3638309256286784,
+          "avg_selected_return_pct": -0.0004917292991092602,
+          "closed": 1869,
+          "correct": 680
         },
         "NO_TRADE": {
-          "accuracy": 0.6698292220113852,
+          "accuracy": 0.6679389312977099,
           "avg_selected_return_pct": 0.0,
-          "closed": 527,
-          "correct": 353
+          "closed": 524,
+          "correct": 350
         },
         "SHORT": {
-          "accuracy": 0.3260536398467433,
-          "avg_selected_return_pct": -0.005098465359095635,
-          "closed": 2610,
-          "correct": 851
+          "accuracy": 0.3241273494438051,
+          "avg_selected_return_pct": -0.005451871666528381,
+          "closed": 2607,
+          "correct": 845
         }
       },
       "changes_v2_execution": false,
@@ -13201,11 +13201,11 @@
       "ev_note": "EV proxy uses heuristic directional scores; forward outcomes are collected for later calibration.",
       "forward_only": true,
       "method": "HEURISTIC_FORWARD_SHADOW_V1",
-      "no_trade_avoided_losses": 286,
+      "no_trade_avoided_losses": 284,
       "no_trade_missed_opportunities": 174,
       "observation_only": true,
       "status": "ACTIVE",
-      "total_decisions": 8722
+      "total_decisions": 8755
     },
     "bidirectional_registration": {
       "forward_only": true,
@@ -13227,8 +13227,8 @@
       "missed_winners": 146
     },
     "trade_excursion_tracking": {
-      "avg_mae_pct": -0.020952150453324093,
-      "avg_mfe_pct": 0.02074875218228474,
+      "avg_mae_pct": -0.020891959873558564,
+      "avg_mfe_pct": 0.02143429793163416,
       "by_session": {
         "ASIA": {
           "avg_return_pct": -0.0026978316216793893,
@@ -13252,14 +13252,14 @@
           "wins": 4
         },
         "US": {
-          "avg_return_pct": -0.005238538539346085,
-          "closed_trades": 23,
-          "realized_pnl": -569.1877967282825,
-          "win_rate": 0.34782608695652173,
-          "wins": 8
+          "avg_return_pct": -0.003097856557432076,
+          "closed_trades": 24,
+          "realized_pnl": -452.0506104289492,
+          "win_rate": 0.375,
+          "wins": 9
         }
       },
-      "tracked_closed_trades": 105
+      "tracked_closed_trades": 106
     },
     "version": 1
   },
@@ -13267,8 +13267,8 @@
   "shared_cache_only": true,
   "status": "ONLINE",
   "symbols": 46,
-  "sync_checked_at": "2026-09-04T03:27:59.377345+00:00",
-  "sync_snapshot_age_seconds": 10.343055,
+  "sync_checked_at": "2026-09-04T03:43:19.054975+00:00",
+  "sync_snapshot_age_seconds": 31.678846,
   "v2": {
     "accounts": [
       {
@@ -13282,14 +13282,14 @@
         "wins": 30
       },
       {
-        "cash": 79507.0342128459,
-        "closed_trades": 26,
+        "cash": 79624.17139914524,
+        "closed_trades": 27,
         "horizon": "medium",
         "initial_equity": 100000.0,
         "losses": 13,
         "open_positions": 3,
-        "realized_pnl": -994.4192349794271,
-        "wins": 13
+        "realized_pnl": -877.2820486800938,
+        "wins": 14
       },
       {
         "cash": 81615.05104367032,
@@ -13302,10 +13302,10 @@
         "wins": 0
       }
     ],
-    "closed_trades": 122,
+    "closed_trades": 123,
     "losses": 79,
-    "realized_pnl": -4398.818662932901,
-    "win_rate": 0.3524590163934426,
-    "wins": 43
+    "realized_pnl": -4281.681476633568,
+    "win_rate": 0.35772357723577236,
+    "wins": 44
   }
 }
