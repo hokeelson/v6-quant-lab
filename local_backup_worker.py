@@ -92,7 +92,8 @@ def main():
         if day != last_day:
             try:
                 result = run_backup()
-                last_day = day
+                if result.get("sqlite_files"):
+                    last_day = day
                 print(
                     "LOCAL_BACKUP OK",
                     result.get("backup_dir"),
