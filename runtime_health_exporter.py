@@ -346,11 +346,10 @@ def _data_quality_detail(limit: int = 50) -> dict:
             except Exception:
                 d.pop("payload_json", None)
             reasons = []
-            for key in ("reasons",):
+            for key in ("quality_reasons", "drift_reasons", "reasons"):
                 value = payload.get(key)
                 if isinstance(value, list):
                     reasons.extend(str(x)[:120] for x in value)
-            drift_reasons = payload.get("reasons")
             item = {
                 "market": str(d.get("market") or ""),
                 "symbol": str(d.get("symbol") or ""),
