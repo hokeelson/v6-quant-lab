@@ -100,17 +100,21 @@ class AutoOrchestratorV8:
         return 0
 
     def import_active(self):
-        # Crypto Lite: only import active crypto candidates.
+        # Crypto Lite discovers its own live crypto universe. Legacy ForwardDB
+        # candidates are research history only and must not seed production assets.
+        if getattr(self.lab, "single_crypto_account", False):
+            return 0
         rows = [r for r in self.forward.candidates("ACTIVE") if str(r.get("market") or "") == "crypto"]
         return self.lab.import_assets(rows)
 
     def _pinned_universe(self):
         pinned = {"stock": set(), "crypto": set(), TW_MARKET: set()}
-        for r in self.forward.candidates("ACTIVE"):
-            market = str(r.get("market") or "")
-            symbol = str(r.get("symbol") or "").upper()
-            if market == "crypto" and symbol:
-                pinned["crypto"].add(symbol)
+        if not getattr(self.lab, "single_crypto_account", False):
+            for r in self.forward.candidates("ACTIVE"):
+                market = str(r.get("market") or "")
+                symbol = str(r.get("symbol") or "").upper()
+                if market == "crypto" and symbol:
+                    pinned["crypto"].add(symbol)
         # An active Champion/Challenger arena must not lose its symbol from the
         # dynamic universe before the paired forward comparison is decided.
         for r in self.governance.arenas("ACTIVE"):
