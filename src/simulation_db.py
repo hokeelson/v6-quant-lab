@@ -155,6 +155,19 @@ class SimulationDB:
                     rows.append(dict(c.execute("SELECT * FROM accounts WHERE account_id=?",(aid,)).fetchone()))
         return rows
 
+    def ensure_crypto_master_account(self, initial_equity: float = 100000.0):
+        """Create one active Crypto Lite financial account without changing legacy schema behavior."""
+        aid = "crypto"
+        with self._c() as c:
+            c.execute(
+                "INSERT OR IGNORE INTO accounts(account_id,market,horizon,initial_equity,cash,created_at) VALUES(?,?,?,?,?,?)",
+                (aid, "crypto", "all", float(initial_equity), float(initial_equity), now_iso()),
+            )
+            c.execute("UPDATE accounts SET status='LEGACY' WHERE account_id<>?", (aid,))
+            c.execute("UPDATE accounts SET status='ACTIVE' WHERE account_id=?", (aid,))
+            row = c.execute("SELECT * FROM accounts WHERE account_id=?", (aid,)).fetchone()
+        return dict(row) if row else None
+
     def reset_lab(self, initial_equity: float = 100000.0):
         with self._c() as c:
             for t in ("orders","positions","trades","equity_history","decisions","diagnostics","marks","engine_state","models","accounts"):
