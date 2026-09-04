@@ -108,15 +108,15 @@ class AutoOrchestratorV8:
         for r in self.forward.candidates("ACTIVE"):
             market = str(r.get("market") or "")
             symbol = str(r.get("symbol") or "").upper()
-            if market in pinned and symbol:
-                pinned[market].add(symbol)
+            if market == "crypto" and symbol:
+                pinned["crypto"].add(symbol)
         # An active Champion/Challenger arena must not lose its symbol from the
         # dynamic universe before the paired forward comparison is decided.
         for r in self.governance.arenas("ACTIVE"):
             market = str(r.get("market") or "")
             symbol = str(r.get("symbol") or "").upper()
-            if market in pinned and symbol:
-                pinned[market].add(symbol)
+            if market == "crypto" and symbol:
+                pinned["crypto"].add(symbol)
         return {k: sorted(v) for k, v in pinned.items()}
 
     def _model_due(self, market, symbol, horizon, now):
@@ -229,7 +229,7 @@ class AutoOrchestratorV8:
         checked = processed = fetched = api_calls = 0
         errors = []
         skipped_unready = 0
-        assets = self.db.assets()
+        assets = [a for a in self.db.assets() if a.get("market") == "crypto"]
         total = len(assets) * len(_HORIZONS)
         completed = 0
         for a in assets:
