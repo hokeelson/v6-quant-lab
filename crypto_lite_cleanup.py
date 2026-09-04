@@ -203,6 +203,19 @@ def remove_obsolete_files() -> list[str]:
                         removed.append(str(p))
                 except Exception:
                     pass
+    # ForwardDB is no longer a production input in Crypto Lite. Keep the runtime
+    # file if a compatibility class recreates it, but remove old persistent copies
+    # so bootstrap can never revive the legacy candidate pool.
+    for root in (PERSIST_DIR, PERSIST_DIR / "v6-snapshots" / "current"):
+        for suffix in ("", "-wal", "-shm"):
+            p = root / ("forward_validation.sqlite3" + suffix)
+            try:
+                if p.exists():
+                    p.unlink()
+                    removed.append(str(p))
+            except Exception:
+                pass
+
     for p in (
         Path("static") / "crypto_v2_shadow_snapshot.json",
         RUNTIME_DIR / "crypto_v2_shadow_worker_status.json",
