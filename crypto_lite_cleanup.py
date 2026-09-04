@@ -220,6 +220,52 @@ def remove_obsolete_files() -> list[str]:
         except Exception:
             pass
 
+    # Remove stale root copies only when a current healthy snapshot exists.
+    # These August-era files were repeatedly mistaken for live runtime state.
+    current_dir = PERSIST_DIR / "v6-snapshots" / "current"
+    for name in ("simulation_lab.sqlite3", "model_governance.sqlite3", "data_quality.sqlite3"):
+        if not (current_dir / name).exists():
+            continue
+        for suffix in ("", "-wal", "-shm"):
+            p = PERSIST_DIR / (name + suffix)
+            try:
+                if p.exists():
+                    p.unlink()
+                    removed.append(str(p))
+            except Exception:
+                pass
+
+    for name in (
+        "realtime_status.json", "realtime_status.json.tmp",
+        "worker_status.json", "tca_status.json", "tca_status.json.tmp",
+        "dynamic_universe.json", "pretrade_risk_snapshot.json",
+        "professional_risk_snapshot.json",
+        "pr22-maintenance-5854c90t-receipt.json",
+        "pr22-maintenance-3982zwwt-receipt.json",
+    ):
+        p = PERSIST_DIR / name
+        try:
+            if p.exists():
+                p.unlink()
+                removed.append(str(p))
+        except Exception:
+            pass
+
+    # Clean orphaned temp sidecars left by retired Shadow workers.
+    try:
+        if current_dir.exists():
+            for p in current_dir.iterdir():
+                if not p.is_file():
+                    continue
+                if p.name.startswith(".crypto_v2_shadow.") or ".tmp-" in p.name:
+                    try:
+                        p.unlink()
+                        removed.append(str(p))
+                    except Exception:
+                        pass
+    except Exception:
+        pass
+
     # ForwardDB is no longer a production input in Crypto Lite. Keep the runtime
     # file if a compatibility class recreates it, but remove old persistent copies
     # so bootstrap can never revive the legacy candidate pool.
