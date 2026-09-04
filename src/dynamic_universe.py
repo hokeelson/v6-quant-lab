@@ -126,7 +126,7 @@ def _position_symbols(db, market):
     out = set()
     for p in db.positions():
         aid = str(p.get("account_id") or "")
-        if aid.startswith(f"{market}_"):
+        if aid == market or aid.startswith(f"{market}_"):
             out.add(str(p.get("symbol") or "").upper())
     return out
 
@@ -165,7 +165,11 @@ class DynamicUniverse:
         state.setdefault("markets", {})
         pinned = pinned or {}
         results = {}
-        for market, discover in (("crypto", discover_crypto), ("stock", discover_stocks), (TW_MARKET, discover_twstocks)):
+        single_crypto = os.getenv("V6_SINGLE_CRYPTO_ACCOUNT","0").strip().lower() in ("1","true","yes","on")
+        discoverers = (("crypto", discover_crypto),) if single_crypto else (
+            ("crypto", discover_crypto), ("stock", discover_stocks), (TW_MARKET, discover_twstocks)
+        )
+        for market, discover in discoverers:
             if not force and not _due(state, market, now):
                 current = [a["symbol"] for a in self.db.assets() if a.get("market") == market]
                 results[market] = {"status": "SKIPPED", "active": len(current), "limit": _limit(market)}
