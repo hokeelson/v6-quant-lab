@@ -125,6 +125,57 @@ def crypto_lite():
     if main_worker and str(main_worker.get("status")) not in ("ONLINE", "HEALTHY", "OK"):
         render_worker_progress(st, main_worker)
 
+    account = db.account("crypto") or {}
+    positions = db.positions("crypto")
+    marks = db.marks("crypto")
+    cash = float(account.get("cash") or 0.0)
+    position_rows = []
+    gross_exposure = 0.0
+    unrealized_total = 0.0
+    for p in positions:
+        qty = float(p.get("qty") or 0.0)
+        entry = float(p.get("avg_entry") or 0.0)
+        mark = float(marks.get(str(p.get("symbol") or "").upper(), entry) or entry or 0.0)
+        market_value = qty * mark
+        exposure = abs(market_value)
+        unrealized = qty * (mark - entry)
+        gross_exposure += exposure
+        unrealized_total += unrealized
+        position_rows.append({
+            "標的": p.get("symbol"),
+            "方向": "做多" if qty > 0 else ("做空" if qty < 0 else "—"),
+            "週期": horizon_label(p.get("horizon")),
+            "數量": qty,
+            "進場價": entry,
+            "現價": mark,
+            "持倉金額": exposure,
+            "未實現損益": unrealized,
+            "持倉比例": 0.0,
+            "策略": p.get("strategy") or "—",
+        })
+    total_equity = cash + sum(float(p.get("qty") or 0.0) * float(marks.get(str(p.get("symbol") or "").upper(), p.get("avg_entry") or 0.0) or 0.0) for p in positions)
+    if total_equity:
+        for row in position_rows:
+            row["持倉比例"] = float(row["持倉金額"]) / abs(total_equity)
+
+    st.subheader("目前持倉")
+    pc1, pc2, pc3, pc4 = st.columns(4)
+    pc1.metric("帳戶總資產", f"NTD {total_equity:,.0f}")
+    pc2.metric("可用現金", f"NTD {cash:,.0f}")
+    pc3.metric("持倉曝險", f"NTD {gross_exposure:,.0f}")
+    pc4.metric("未實現損益", f"NTD {unrealized_total:+,.0f}")
+    if not position_rows:
+        st.info("目前沒有模擬持倉。")
+    else:
+        pos_df = pd.DataFrame(position_rows)
+        pos_df["數量"] = pos_df["數量"].map(lambda x: f"{x:,.6f}")
+        pos_df["進場價"] = pos_df["進場價"].map(lambda x: f"{x:,.6f}")
+        pos_df["現價"] = pos_df["現價"].map(lambda x: f"{x:,.6f}")
+        pos_df["持倉金額"] = pos_df["持倉金額"].map(lambda x: f"NTD {x:,.0f}")
+        pos_df["未實現損益"] = pos_df["未實現損益"].map(lambda x: f"NTD {x:+,.0f}")
+        pos_df["持倉比例"] = pos_df["持倉比例"].map(lambda x: f"{x * 100:.1f}%")
+        st.dataframe(pos_df, width="stretch", hide_index=True)
+
     c1, c2, c3, c4 = st.columns(4)
     c1.metric("模擬本金", f"NTD {INITIAL_CAPITAL:,.0f}")
     c2.metric("目前方向", _direction_zh(market_dir))
