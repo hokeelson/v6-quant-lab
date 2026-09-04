@@ -2,42 +2,42 @@
   "broker_order_api_calls": 0,
   "can_increase_exposure": false,
   "contains_secrets": false,
-  "generated_at": "2026-09-04T02:43:59.504797+00:00",
+  "generated_at": "2026-09-04T07:48:42.710528+00:00",
   "headline_summary": {
     "crypto": {
+      "duplicate_count": 1,
+      "effective_headline_count": 13.762977864836303,
+      "event_risk": 1.0,
+      "evidence_quality": 0.9933333333333334,
+      "headline_count": 29,
+      "raw_headline_count": 30,
+      "recency_coverage": 1.0,
+      "sentiment": -0.5382244445259482,
+      "source_count": 12,
+      "source_diversity": 1.0
+    },
+    "macro": {
       "duplicate_count": 0,
-      "effective_headline_count": 14.786709237666965,
+      "effective_headline_count": 21.777238432403376,
       "event_risk": 1.0,
       "evidence_quality": 1.0,
       "headline_count": 30,
       "raw_headline_count": 30,
       "recency_coverage": 1.0,
-      "sentiment": -0.44977682385244727,
-      "source_count": 15,
-      "source_diversity": 1.0
-    },
-    "macro": {
-      "duplicate_count": 2,
-      "effective_headline_count": 20.628269689846086,
-      "event_risk": 1.0,
-      "evidence_quality": 0.9866666666666667,
-      "headline_count": 28,
-      "raw_headline_count": 30,
-      "recency_coverage": 1.0,
-      "sentiment": -0.15320029262490326,
-      "source_count": 18,
+      "sentiment": -0.14841902979438,
+      "source_count": 17,
       "source_diversity": 1.0
     }
   },
   "market_data": {
     "BTC": {
-      "change_pct": 0.04522115959626305,
-      "last": 80796.09375,
+      "change_pct": -0.006604290409595204,
+      "last": 80735.0,
       "symbol": "BTC-USD"
     },
     "DXY": {
-      "change_pct": -6.057276870263806e-05,
-      "last": 98.99400329589844,
+      "change_pct": 0.00022225428109212686,
+      "last": 99.02200317382812,
       "symbol": "DX-Y.NYB"
     },
     "SPX": {
@@ -51,20 +51,20 @@
       "symbol": "^TNX"
     },
     "VIX": {
-      "change_pct": -0.05789474509759629,
-      "last": 14.319999694824219,
+      "change_pct": -0.01187151396067343,
+      "last": 14.149999618530273,
       "symbol": "^VIX"
     }
   },
   "markets": {
     "crypto": {
-      "confidence": 0.9983333333333333,
+      "confidence": 0.9991666666666666,
       "event_risk": 1.0,
       "market_multiplier": 0.85,
       "market_stress": 0.0,
       "risk_regime": "CAUTION",
-      "risk_score": 0.41919500758456135,
-      "sentiment_score": -0.34597503792280687,
+      "risk_score": 0.43035850987397983,
+      "sentiment_score": -0.40179254936989933,
       "strategy_multipliers": {
         "Breakout": 0.7999999999999999,
         "Mean Reversion RSI": 0.85,
@@ -73,13 +73,13 @@
       }
     },
     "stock": {
-      "confidence": 0.9983333333333333,
+      "confidence": 0.9991666666666666,
       "event_risk": 1.0,
       "market_multiplier": 0.85,
       "market_stress": 0.0,
       "risk_regime": "CAUTION",
-      "risk_score": 0.3806400585249806,
-      "sentiment_score": -0.15320029262490326,
+      "risk_score": 0.37968380595887596,
+      "sentiment_score": -0.14841902979438,
       "strategy_multipliers": {
         "Breakout": 0.7999999999999999,
         "Mean Reversion RSI": 0.85,
@@ -88,13 +88,13 @@
       }
     },
     "twstock": {
-      "confidence": 0.9983333333333333,
+      "confidence": 0.9991666666666666,
       "event_risk": 1.0,
       "market_multiplier": 0.85,
       "market_stress": 0.0,
       "risk_regime": "CAUTION",
-      "risk_score": 0.3806400585249806,
-      "sentiment_score": -0.15320029262490326,
+      "risk_score": 0.37968380595887596,
+      "sentiment_score": -0.14841902979438,
       "strategy_multipliers": {
         "Breakout": 0.7999999999999999,
         "Mean Reversion RSI": 0.85,
@@ -110,14 +110,14 @@
     "crypto_news": "Google News RSS",
     "errors": [],
     "headline_coverage": 1.0,
-    "headline_quality": 0.9933333333333334,
+    "headline_quality": 0.9966666666666667,
     "headline_window_hours": 48,
     "macro_news": "Google News RSS",
     "market_context": "Yahoo Finance chart endpoint",
     "market_data_coverage": 1.0,
-    "source_coverage": 0.9983333333333333
+    "source_coverage": 0.9991666666666666
   },
   "status": "AVAILABLE",
-  "sync_checked_at": "2026-09-04T07:35:34.038149+00:00",
-  "sync_snapshot_age_seconds": 17494.533352
+  "sync_checked_at": "2026-09-04T07:49:14.858773+00:00",
+  "sync_snapshot_age_seconds": 32.148245
 }
