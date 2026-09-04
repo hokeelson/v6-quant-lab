@@ -43,15 +43,15 @@
   "contains_secrets": false,
   "errors": [],
   "forward_only": true,
-  "generated_at": "2026-09-04T07:01:35.136212+00:00",
+  "generated_at": "2026-09-04T07:19:54.311093+00:00",
   "latest_market_regime": {
-    "realized_vol": 0.027805599231607712,
+    "realized_vol": 0.02774714900616551,
     "reason": "No dominant directional regime",
-    "ret_fast": -0.00254346804801453,
-    "ret_slow": 0.03765623235454285,
+    "ret_fast": -0.0021579032387937236,
+    "ret_slow": 0.03805733627681773,
     "state": "SIDEWAYS",
-    "trend": 0.015787313766320255,
-    "vol_ratio": 1.5525687282762801
+    "trend": 0.015807926816868934,
+    "vol_ratio": 1.5493050693482215
   },
   "market_data_api_calls": 0,
   "persistent_checkpoint": true,
@@ -13267,8 +13267,8 @@
   "shared_cache_only": true,
   "status": "ONLINE",
   "symbols": 46,
-  "sync_checked_at": "2026-09-04T07:02:34.377096+00:00",
-  "sync_snapshot_age_seconds": 59.240884,
+  "sync_checked_at": "2026-09-04T07:20:50.015418+00:00",
+  "sync_snapshot_age_seconds": 55.704325,
   "v2": {
     "accounts": [
       {
