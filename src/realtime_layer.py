@@ -206,6 +206,8 @@ class RealtimeDB:
 
 def _market_from_account_id(account_id: str) -> str:
     aid = str(account_id or "")
+    if aid in ("crypto", "stock", "twstock"):
+        return aid
     for market in ("crypto", "stock", "twstock"):
         if aid.startswith(market + "_"):
             return market
@@ -258,7 +260,8 @@ def build_realtime_watchlist(sim_db, realtime_db: RealtimeDB):
         if market in active_by_market and symbol:
             active_by_market[market].append(symbol)
 
-    for market in ("crypto", "stock", "twstock"):
+    markets = ("crypto",) if os.getenv("V6_SINGLE_CRYPTO_ACCOUNT","0").strip().lower() in ("1","true","yes","on") else ("crypto", "stock", "twstock")
+    for market in markets:
         cap = _cap(market)
         already = sum(1 for m, _ in position_keys if m == market)
         slots = max(0, cap - already)
