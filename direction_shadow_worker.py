@@ -83,7 +83,7 @@ def build_snapshot(db: SimulationDB, cache: MarketCache, forward: DirectionForwa
         counts["assets_checked"] += 1
         market = str(asset.get("market") or "")
         symbol = str(asset.get("symbol") or "").upper()
-        if market not in ("stock", "crypto") or not symbol:
+        if market != "crypto" or not symbol:
             continue
         counts["eligible_assets"] += 1
         for horizon in ("short", "medium", "long"):

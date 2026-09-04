@@ -69,7 +69,7 @@ class AutoOrchestratorV8:
         self.lab = TaiwanSimulationLab(self.db, self.cache, initial_equity=self.initial_equity)
         self.universe = DynamicUniverse(self.db)
         self.governance = ChampionChallenger(db_path("model_governance.sqlite3"), self.initial_equity)
-        self._bootstrap_twstocks()
+        # Crypto Lite: do not auto-bootstrap Taiwan stocks.
 
     def forward_health(self):
         return {
@@ -99,24 +99,24 @@ class AutoOrchestratorV8:
         return self.lab.import_assets(rows)
 
     def import_active(self):
-        # In degraded mode the fallback ForwardDB intentionally starts empty. We
-        # do not invent or reconstruct old Forward candidates from other stores.
-        return self.lab.import_assets(self.forward.candidates("ACTIVE"))
+        # Crypto Lite: only import active crypto candidates.
+        rows = [r for r in self.forward.candidates("ACTIVE") if str(r.get("market") or "") == "crypto"]
+        return self.lab.import_assets(rows)
 
     def _pinned_universe(self):
-        pinned = {"stock": set(), "crypto": set(), TW_MARKET: set(self._configured_twstocks())}
+        pinned = {"stock": set(), "crypto": set(), TW_MARKET: set()}
         for r in self.forward.candidates("ACTIVE"):
             market = str(r.get("market") or "")
             symbol = str(r.get("symbol") or "").upper()
-            if market in pinned and symbol:
-                pinned[market].add(symbol)
+            if market == "crypto" and symbol:
+                pinned["crypto"].add(symbol)
         # An active Champion/Challenger arena must not lose its symbol from the
         # dynamic universe before the paired forward comparison is decided.
         for r in self.governance.arenas("ACTIVE"):
             market = str(r.get("market") or "")
             symbol = str(r.get("symbol") or "").upper()
-            if market in pinned and symbol:
-                pinned[market].add(symbol)
+            if market == "crypto" and symbol:
+                pinned["crypto"].add(symbol)
         return {k: sorted(v) for k, v in pinned.items()}
 
     def _model_due(self, market, symbol, horizon, now):
@@ -152,7 +152,7 @@ class AutoOrchestratorV8:
         return model, pack
 
     def model_health(self):
-        assets = self.db.assets()
+        assets = [a for a in self.db.assets() if a.get("market") == "crypto"]
         total = len(assets) * len(_HORIZONS)
         ready = 0
         for a in assets:
@@ -170,7 +170,7 @@ class AutoOrchestratorV8:
         # challengers while one is already in forward validation would data-mine
         # the same future period and defeat the governance layer.
         budget = _calibration_budget()
-        for a in self.db.assets():
+        for a in [x for x in self.db.assets() if x.get("market") == "crypto"]:
             for hz in _HORIZONS:
                 market, symbol = a["market"], a["symbol"]
                 if self.governance.active_arena(market, symbol, hz):
@@ -229,7 +229,7 @@ class AutoOrchestratorV8:
         checked = processed = fetched = api_calls = 0
         errors = []
         skipped_unready = 0
-        assets = self.db.assets()
+        assets = [a for a in self.db.assets() if a.get("market") == "crypto"]
         total = len(assets) * len(_HORIZONS)
         completed = 0
         for a in assets:
@@ -274,7 +274,6 @@ class AutoOrchestratorV8:
     def full_cycle(self, now=None, force_recalibrate=False, progress=None):
         notify_progress(progress, "PREPARE")
         imported = self.import_active()
-        self._bootstrap_twstocks()
         notify_progress(progress, "UNIVERSE")
         universe = self.universe.refresh_due(self._pinned_universe(), force=False)
         notify_progress(progress, "CALIBRATION")
