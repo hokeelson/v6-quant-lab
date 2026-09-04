@@ -343,7 +343,9 @@ def build_snapshot() -> dict:
     storage_raw = _read_json(STORAGE_PATH)
 
     main = _main_health(main_raw)
-    v2_enabled = os.getenv("V6_ENABLE_CRYPTO_V2_SHADOW","0").strip().lower() in ("1","true","yes","on")
+    single_crypto = os.getenv("V6_SINGLE_CRYPTO_ACCOUNT","0").strip().lower() in ("1","true","yes","on")
+    v2_default = "0" if single_crypto else "1"
+    v2_enabled = os.getenv("V6_ENABLE_CRYPTO_V2_SHADOW",v2_default).strip().lower() in ("1","true","yes","on")
     if v2_enabled:
         v2 = _v2_health(v2_raw, v2_snapshot)
     else:
