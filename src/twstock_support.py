@@ -264,6 +264,8 @@ class TaiwanSimulationLab(SimulationLab):
         for r in rows:
             market = str(r.get("market", ""))
             symbol = str(r.get("symbol", "")).upper()
+            if self.single_crypto_account and market != "crypto":
+                continue
             if market in ("stock", "crypto", TW_MARKET) and symbol:
                 if market == TW_MARKET:
                     symbol = normalize_tw_symbol(symbol)
