@@ -425,9 +425,32 @@ def build_snapshot() -> dict:
         }
     else:
         research = _research_health(research_raw)
+    local_mode = os.getenv("V6_LOCAL_MODE","0").strip().lower() in ("1","true","yes","on")
     storage = _storage_health(storage_raw)
     data_quality_detail = _data_quality_detail()
     direction = _direction_health(_read_json(DIRECTION_STATUS_PATH), _read_json(DIRECTION_BACKUP_PATH))
+
+    if local_mode:
+        # Local mode persists SQLite directly on the user's disk. Railway's
+        # storage exporter and direction-backup sidecar do not run here, so
+        # their absence must not degrade an otherwise healthy local runtime.
+        storage = {
+            "healthy": DATA_DIR.exists(),
+            "status": "LOCAL_DIRECT",
+            "persistence_status": "DIRECT_DISK",
+            "data_dir": str(DATA_DIR),
+        }
+        backup_only = {
+            "missing_failed_or_stale_direction_backup",
+            "direction_backup_behind_ledger",
+        }
+        direction["degraded_reasons"] = [
+            reason for reason in (direction.get("degraded_reasons") or [])
+            if reason not in backup_only
+        ]
+        direction["healthy"] = not direction["degraded_reasons"]
+        direction["backup_healthy"] = True
+        direction["backup_mode"] = "NOT_REQUIRED_LOCAL"
 
     broker_calls = int(main.get("broker_order_api_calls", 0) or 0) + int(v2.get("broker_order_api_calls", 0) or 0) + direction["broker_order_api_calls"]
     safety_ok = broker_calls == 0 and int(v2.get("market_data_api_calls", 0) or 0) == 0 and direction["market_data_api_calls"] == 0
@@ -466,7 +489,7 @@ def build_snapshot() -> dict:
             "health_alias": "/app/static/health.json",
             "streamlit_process_health": "/_stcore/health",
         },
-        "source": "RAILWAY_RUNTIME_DIRECT",
+        "source": "LOCAL_WINDOWS_DIRECT" if local_mode else "RAILWAY_RUNTIME_DIRECT",
     }
 
 
