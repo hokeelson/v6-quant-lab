@@ -95,8 +95,9 @@ class AutoOrchestratorV8:
             return []
 
     def _bootstrap_twstocks(self):
-        rows = [{"market": TW_MARKET, "symbol": s} for s in self._configured_twstocks()]
-        return self.lab.import_assets(rows)
+        # Crypto Lite keeps the legacy phase hook for orchestration/test compatibility
+        # but deliberately does not import Taiwan stocks.
+        return 0
 
     def import_active(self):
         # Crypto Lite: only import active crypto candidates.
