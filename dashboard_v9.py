@@ -90,6 +90,32 @@ def _direction_summary(rows: list[dict]) -> tuple[str, int, int, int]:
     return "NO_TRADE", long_n, short_n, no_n
 
 
+def _select_symbol_winners(rows: list[dict]) -> list[dict]:
+    """Keep one best short/medium/long direction candidate per symbol."""
+    winners = {}
+    for r in rows:
+        if r.get("direction") not in ("LONG", "SHORT"):
+            continue
+        confidence = float(r.get("direction_confidence") or 0.0)
+        ev_gap = max(0.0, float(r.get("ev_gap_r") or 0.0))
+        stability = float(r.get("stability_score") or 0.0)
+        score = 0.50 * confidence + 0.30 * min(ev_gap / 0.50, 1.0) + 0.20 * stability
+        row = dict(r)
+        row["_adaptive_score"] = score
+        symbol = str(row.get("symbol") or "")
+        current = winners.get(symbol)
+        if current is None or score > float(current.get("_adaptive_score") or 0.0):
+            winners[symbol] = row
+    return sorted(
+        winners.values(),
+        key=lambda r: (
+            float(r.get("_adaptive_score") or 0.0),
+            float(r.get("direction_confidence") or 0.0),
+        ),
+        reverse=True,
+    )
+
+
 def _stats(research: dict) -> dict:
     shadow = research.get("direction_shadow") or {}
     stats = shadow.get("decision_stats") or shadow.get("by_decision") or {}
@@ -186,21 +212,15 @@ def crypto_lite():
     c4.metric("可做空訊號", short_n)
     st.caption(f"目前不交易訊號：{no_n}｜單一標的參考部位上限：NTD {INITIAL_CAPITAL * MAX_POSITION_PCT:,.0f}")
 
-    qualified = [
+    qualified = _select_symbol_winners([
         r for r in rows
         if r.get("direction") in ("LONG", "SHORT")
         and float(r.get("direction_confidence") or 0.0) >= 0.55
         and float(r.get("ev_gap_r") or 0.0) >= 0.08
-    ]
-    qualified.sort(
-        key=lambda r: (
-            float(r.get("direction_confidence") or 0.0),
-            float(r.get("ev_gap_r") or 0.0),
-        ),
-        reverse=True,
-    )
+    ])
 
     st.subheader("現在最值得看的機會")
+    st.caption("同一個幣只保留短 / 中 / 長線中分數最高的一個，避免三個週期同時搶同一筆資金。")
     if not qualified:
         st.info("目前沒有同時通過方向信心與 EV 差距門檻的標的，維持不交易。")
     else:
