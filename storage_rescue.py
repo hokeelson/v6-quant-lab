@@ -36,7 +36,6 @@ DEFAULT_CRITICAL_DBS = {
     "model_governance.sqlite3",
     "trial_ledger.sqlite3",
     "data_quality.sqlite3",
-    "realtime_execution.sqlite3",
 }
 CRITICAL_DBS = {
     x.strip() for x in os.getenv("V6_SNAPSHOT_DBS", ",".join(sorted(DEFAULT_CRITICAL_DBS))).split(",") if x.strip()
