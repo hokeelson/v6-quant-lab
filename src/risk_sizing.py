@@ -4,6 +4,7 @@ import os
 import math
 
 from .backtest import ExecutionCosts
+from .binance_market_context import binance_market_context_assessment
 from .entry_gate import finalize_entry, multiplier
 from .data_quality_drift import assess_pair
 from .decision_engine import HORIZON_SPECS
@@ -190,6 +191,7 @@ def active_entry_sizing(db, cache, market: str, symbol: str, horizon: str, decis
         "active_expected_live_sizing": _flag("V6_ACTIVE_EXPECTED_LIVE_SIZING", True),
         "active_meta_sizing": _flag("V6_ACTIVE_META_SIZING", True),
         "active_data_quality_sizing": _flag("V6_ACTIVE_DATA_QUALITY_SIZING", True),
+        "active_binance_context_sizing": _flag("V6_ACTIVE_BINANCE_CONTEXT_SIZING", True),
         "active_leverage_hard_guard": _flag("V6_ACTIVE_LEVERAGE_HARD_GUARD", True),
         "leverage_guard_applied": False,
         "leverage_guard_multiplier": 1.0,
@@ -204,6 +206,18 @@ def active_entry_sizing(db, cache, market: str, symbol: str, horizon: str, decis
         "trade_ev_error": None,
         "meta_error": None,
         "quality_error": None,
+        "binance_context_multiplier": 1.0,
+        "binance_context_status": "UNAVAILABLE",
+        "binance_context_risk_score": 0.0,
+        "binance_context_risk_state": "UNAVAILABLE",
+        "binance_context_reasons": [],
+        "binance_funding_rate": None,
+        "binance_open_interest": None,
+        "binance_long_short_ratio": None,
+        "binance_bid_share_top20": None,
+        "binance_spread_bps": None,
+        "binance_context_generated_at": None,
+        "binance_context_error": None,
         "symbol_strategy_error": None,
         "expected_live_error": None,
         "error": None,
@@ -380,6 +394,18 @@ def active_entry_sizing(db, cache, market: str, symbol: str, horizon: str, decis
                 result["quality_error"] = f"{type(exc).__name__}: {exc}"
                 quality_multiplier = 1.0
 
+        binance_context_multiplier = 1.0
+        if market == "crypto" and result["active_binance_context_sizing"]:
+            try:
+                bctx = binance_market_context_assessment(symbol)
+                result.update(bctx)
+                binance_context_multiplier = multiplier(
+                    bctx.get("binance_context_multiplier", 1.0)
+                )
+            except Exception as exc:
+                result["binance_context_error"] = f"{type(exc).__name__}: {exc}"
+                binance_context_multiplier = 1.0
+
         realized_evidence_multiplier = min(health_multiplier, expected_live_multiplier)
         result["realized_evidence_multiplier"] = realized_evidence_multiplier
         result["realized_evidence_dedup_applied"] = (
@@ -395,6 +421,7 @@ def active_entry_sizing(db, cache, market: str, symbol: str, horizon: str, decis
             * result["alpha_evidence_multiplier"]
             * meta_multiplier
             * quality_multiplier
+            * binance_context_multiplier
         )
         combined = multiplier(combined)
         result["combined_multiplier"] = combined

@@ -163,6 +163,7 @@ def crypto_lite():
     direction = _load_json(Path("static") / "direction_shadow_snapshot.json")
     research = _load_json(Path("static") / "research_snapshot.json")
     health = _load_json(Path("static") / "runtime_health.json")
+    binance_context = _load_json(Path("static") / "binance_market_context.json")
 
     if _snapshot_stale(direction):
         fallback = _cached_direction_fallback()
@@ -194,6 +195,32 @@ def crypto_lite():
             render_execution_audit(st, research)
 
     st.caption("畫面每 10 秒自動更新｜持倉現價優先使用秒級 Realtime quote｜底層健康狀態約每 5 秒更新")
+
+    with st.expander("Binance 市場資料", expanded=False):
+        if not binance_context:
+            st.info("正在等待 Binance 市場資料。")
+        else:
+            bc1, bc2, bc3 = st.columns(3)
+            bc1.metric("資料狀態", str(binance_context.get("status") or "UNKNOWN"))
+            bc2.metric("Spot Depth 覆蓋", f"{float(binance_context.get('spot_depth_coverage') or 0.0) * 100:.0f}%")
+            bc3.metric("Futures 覆蓋", f"{float(binance_context.get('futures_coverage') or 0.0) * 100:.0f}%")
+            risky = sorted(
+                list(binance_context.get("rows") or []),
+                key=lambda r: float(r.get("risk_score") or 0.0),
+                reverse=True,
+            )[:10]
+            if risky:
+                st.dataframe(pd.DataFrame([{
+                    "標的": r.get("symbol"),
+                    "風險狀態": r.get("risk_state"),
+                    "風險分數": f"{float(r.get('risk_score') or 0.0) * 100:.0f}%",
+                    "Funding": "—" if r.get("last_funding_rate") is None else f"{float(r.get('last_funding_rate')) * 100:.4f}%",
+                    "OI": "—" if r.get("open_interest") is None else f"{float(r.get('open_interest')):,.0f}",
+                    "多空比": "—" if r.get("long_short_ratio") is None else f"{float(r.get('long_short_ratio')):.2f}",
+                    "買盤占比": "—" if r.get("bid_share_top20") is None else f"{float(r.get('bid_share_top20')) * 100:.1f}%",
+                    "Spread": "—" if r.get("spread_bps") is None else f"{float(r.get('spread_bps')):.2f} bps",
+                    "部位倍率": f"{float(r.get('size_multiplier') or 1.0):.2f}x",
+                } for r in risky]), width="stretch", hide_index=True)
 
     account = db.account("crypto") or {}
     positions = db.positions("crypto")
