@@ -145,17 +145,28 @@ class SimulationDB:
                 pass
 
     def ensure_accounts(self, initial_equity: float = 100000.0):
-        """Crypto Lite uses one financial account; legacy horizon accounts are retained but deactivated."""
+        rows=[]
+        with self._c() as c:
+            for market in ("stock","crypto"):
+                for horizon in ("short","medium","long"):
+                    aid=f"{market}_{horizon}"
+                    c.execute("INSERT OR IGNORE INTO accounts(account_id,market,horizon,initial_equity,cash,created_at) VALUES(?,?,?,?,?,?)",
+                              (aid,market,horizon,float(initial_equity),float(initial_equity),now_iso()))
+                    rows.append(dict(c.execute("SELECT * FROM accounts WHERE account_id=?",(aid,)).fetchone()))
+        return rows
+
+    def ensure_crypto_master_account(self, initial_equity: float = 100000.0):
+        """Create one active Crypto Lite financial account without changing legacy schema behavior."""
         aid = "crypto"
         with self._c() as c:
-            c.execute("UPDATE accounts SET status='LEGACY' WHERE account_id<>?", (aid,))
             c.execute(
                 "INSERT OR IGNORE INTO accounts(account_id,market,horizon,initial_equity,cash,created_at) VALUES(?,?,?,?,?,?)",
                 (aid, "crypto", "all", float(initial_equity), float(initial_equity), now_iso()),
             )
+            c.execute("UPDATE accounts SET status='LEGACY' WHERE account_id<>?", (aid,))
             c.execute("UPDATE accounts SET status='ACTIVE' WHERE account_id=?", (aid,))
             row = c.execute("SELECT * FROM accounts WHERE account_id=?", (aid,)).fetchone()
-        return [dict(row)] if row else []
+        return dict(row) if row else None
 
     def reset_lab(self, initial_equity: float = 100000.0):
         with self._c() as c:
@@ -169,8 +180,7 @@ class SimulationDB:
     def assets(self):
         with self._c() as c: return [dict(x) for x in c.execute("SELECT * FROM assets WHERE status='ACTIVE' ORDER BY market,symbol")]
     def accounts(self):
-        with self._c() as c:
-            return [dict(x) for x in c.execute("SELECT * FROM accounts WHERE status='ACTIVE' ORDER BY market,horizon")]
+        with self._c() as c: return [dict(x) for x in c.execute("SELECT * FROM accounts ORDER BY market,horizon")]
     def account(self, aid):
         with self._c() as c:
             r=c.execute("SELECT * FROM accounts WHERE account_id=?",(aid,)).fetchone(); return dict(r) if r else None
