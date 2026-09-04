@@ -37,7 +37,10 @@ jobs:
           expected_tmp="$(mktemp)"
           external_tmp="$(mktemp)"
 
-          curl --fail --silent --show-error --location --retry 3 --retry-delay 3 --max-time 30             "$base/runtime_health.json" -o "$health_tmp"
+          if ! curl --fail --silent --show-error --location --retry 3 --retry-delay 3 --max-time 30             "$base/runtime_health.json" -o "$health_tmp"; then
+            echo 'Runtime health temporarily unavailable; keeping previous snapshot and exiting successfully.'
+            exit 0
+          fi
 
           curl --fail --silent --show-error --location --retry 2 --retry-delay 2 --max-time 15             "$base/storage_persistence.json" -o "$storage_tmp" || printf '%s\n' '{}' > "$storage_tmp"
           curl --fail --silent --show-error --location --retry 2 --retry-delay 2 --max-time 15             "$base/risk_sizing_audit.json" -o "$sizing_tmp" || printf '%s\n' '{}' > "$sizing_tmp"
