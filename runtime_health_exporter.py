@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import math
+import os
 import re
 import time
 from datetime import datetime, timezone
@@ -342,14 +343,26 @@ def build_snapshot() -> dict:
     storage_raw = _read_json(STORAGE_PATH)
 
     main = _main_health(main_raw)
-    v2 = _v2_health(v2_raw, v2_snapshot)
+    v2_enabled = os.getenv("V6_ENABLE_CRYPTO_V2_SHADOW","0").strip().lower() in ("1","true","yes","on")
+    if v2_enabled:
+        v2 = _v2_health(v2_raw, v2_snapshot)
+    else:
+        v2 = {
+            "healthy": True,
+            "status": "DISABLED",
+            "broker_order_api_calls": 0,
+            "market_data_api_calls": 0,
+            "research_layer_present": False,
+            "tracked_research_trades": 0,
+            "active_blocked_candidates": 0,
+        }
     research = _research_health(research_raw)
     storage = _storage_health(storage_raw)
     direction = _direction_health(_read_json(DIRECTION_STATUS_PATH), _read_json(DIRECTION_BACKUP_PATH))
 
     broker_calls = int(main.get("broker_order_api_calls", 0) or 0) + int(v2.get("broker_order_api_calls", 0) or 0) + direction["broker_order_api_calls"]
     safety_ok = broker_calls == 0 and int(v2.get("market_data_api_calls", 0) or 0) == 0 and direction["market_data_api_calls"] == 0
-    hard_failure = bool(main.get("hard_failure")) or not bool(v2.get("healthy")) or not safety_ok
+    hard_failure = bool(main.get("hard_failure")) or (v2_enabled and not bool(v2.get("healthy"))) or not safety_ok
     degraded = bool(main.get("degraded")) or not bool(research.get("healthy")) or not bool(storage.get("healthy")) or not direction["healthy"]
 
     if hard_failure:
