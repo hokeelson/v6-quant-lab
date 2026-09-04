@@ -404,7 +404,7 @@ class DataQualityDriftMonitor:
                        f"{result['data_status']}|{result['drift_status']}", _json(result), result["checked_at"]))
 
     def scan_all(self, db, cache, now=None) -> dict:
-        checked = warnings = critical = drifted = 0
+        checked = warnings = drift_watch = critical = drifted = 0
         errors = []
         active_keys = set()
         for asset in db.assets():
@@ -418,7 +418,8 @@ class DataQualityDriftMonitor:
                 try:
                     result = assess_pair(db, cache, market, symbol, horizon, now)
                     self.save(result)
-                    warnings += int(result["data_status"] == "WARNING" or result["drift_status"] == "WATCH")
+                    warnings += int(result["data_status"] == "WARNING")
+                    drift_watch += int(result["drift_status"] == "WATCH")
                     critical += int(result["data_status"] == "CRITICAL")
                     drifted += int(result["drift_status"] in ("DRIFT", "SEVERE"))
                 except Exception as exc:
@@ -452,6 +453,7 @@ class DataQualityDriftMonitor:
             "status": "OK" if not errors else "PARTIAL",
             "checked": checked,
             "warnings": warnings,
+            "drift_watch": drift_watch,
             "critical_data": critical,
             "drifted": drifted,
             "stale_rows_removed": removed_stale,
