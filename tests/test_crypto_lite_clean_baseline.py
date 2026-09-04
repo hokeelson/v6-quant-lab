@@ -93,3 +93,22 @@ def test_realtime_lite_watchlist_is_crypto_only_and_master_position_is_priority(
     btc = next(row for row in rows if row["symbol"] == "BTCUSDT")
     assert btc["reason"] == "POSITION"
     assert btc["score"] == 1000.0
+
+
+def test_realtime_db_is_not_persisted_in_crypto_lite_snapshot_policy():
+    from pathlib import Path
+
+    cloud = Path("cloud_start.sh").read_text(encoding="utf-8")
+    rescue = Path("storage_rescue.py").read_text(encoding="utf-8")
+
+    snapshot_line = next(line for line in cloud.splitlines() if line.startswith("export V6_SNAPSHOT_DBS="))
+    assert "realtime_execution.sqlite3" not in snapshot_line
+    default_block = rescue.split("DEFAULT_CRITICAL_DBS = {", 1)[1].split("}", 1)[0]
+    assert "realtime_execution.sqlite3" not in default_block
+
+
+def test_realtime_ticks_are_bounded_to_six_hours():
+    from pathlib import Path
+
+    worker = Path("realtime_worker.py").read_text(encoding="utf-8")
+    assert "rt_db.prune_ticks(6)" in worker
