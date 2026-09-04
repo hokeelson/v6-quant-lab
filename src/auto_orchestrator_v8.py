@@ -274,6 +274,7 @@ class AutoOrchestratorV8:
     def full_cycle(self, now=None, force_recalibrate=False, progress=None):
         notify_progress(progress, "PREPARE")
         imported = self.import_active()
+        self._bootstrap_twstocks()  # compatibility hook; Crypto Lite config keeps this a no-op
         notify_progress(progress, "UNIVERSE")
         universe = self.universe.refresh_due(self._pinned_universe(), force=False)
         notify_progress(progress, "CALIBRATION")
