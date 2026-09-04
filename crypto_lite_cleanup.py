@@ -87,14 +87,17 @@ def cleanup_simulation(path: Path, baseline_at: str) -> dict:
     return out
 
 
-def cleanup_forward(path: Path) -> dict:
+def cleanup_forward(path: Path, first_run: bool) -> dict:
     if not path.exists():
         return {"missing": True}
     out = {}
     with connect(path) as con:
         con.execute("PRAGMA foreign_keys=ON")
         if table_exists(con, "candidates") and "market" in columns(con, "candidates"):
-            out["candidates_noncrypto"] = delete_count(con, "DELETE FROM candidates WHERE market<>'crypto'")
+            if first_run:
+                out["candidates_reset"] = delete_count(con, "DELETE FROM candidates")
+            else:
+                out["candidates_noncrypto"] = delete_count(con, "DELETE FROM candidates WHERE market<>'crypto'")
         con.commit()
     return out
 
@@ -125,22 +128,43 @@ def cleanup_direction(path: Path, baseline_at: str) -> dict:
     return out
 
 
-def cleanup_governance(path: Path) -> dict:
+def cleanup_governance(path: Path, first_run: bool) -> dict:
     if not path.exists():
         return {"missing": True}
     out = {}
     with connect(path) as con:
-        if table_exists(con, "arenas"):
-            ids = [str(r[0]) for r in con.execute("SELECT arena_id FROM arenas WHERE market<>'crypto'").fetchall()]
-            if ids and table_exists(con, "arena_snapshots"):
-                marks = ",".join("?" for _ in ids)
-                out["arena_snapshots_noncrypto"] = delete_count(
-                    con, f"DELETE FROM arena_snapshots WHERE arena_id IN ({marks})", ids
-                )
-            out["arenas_noncrypto"] = delete_count(con, "DELETE FROM arenas WHERE market<>'crypto'")
-        for table in ("research_state", "governance_events"):
-            if table_exists(con, table) and "market" in columns(con, table):
-                out[table] = delete_count(con, f"DELETE FROM {table} WHERE market<>'crypto'")
+        if first_run:
+            for table in ("arena_snapshots", "governance_events", "arenas", "research_state"):
+                if table_exists(con, table):
+                    out[table + "_reset"] = delete_count(con, f"DELETE FROM {table}")
+        else:
+            if table_exists(con, "arenas"):
+                ids = [str(r[0]) for r in con.execute("SELECT arena_id FROM arenas WHERE market<>'crypto'").fetchall()]
+                if ids and table_exists(con, "arena_snapshots"):
+                    marks = ",".join("?" for _ in ids)
+                    out["arena_snapshots_noncrypto"] = delete_count(
+                        con, f"DELETE FROM arena_snapshots WHERE arena_id IN ({marks})", ids
+                    )
+                out["arenas_noncrypto"] = delete_count(con, "DELETE FROM arenas WHERE market<>'crypto'")
+            for table in ("research_state", "governance_events"):
+                if table_exists(con, table) and "market" in columns(con, table):
+                    out[table] = delete_count(con, f"DELETE FROM {table} WHERE market<>'crypto'")
+        con.commit()
+    return out
+
+
+def cleanup_data_quality(path: Path, first_run: bool) -> dict:
+    if not path.exists():
+        return {"missing": True}
+    out = {}
+    with connect(path) as con:
+        for table in ("health_latest", "health_events"):
+            if not table_exists(con, table):
+                continue
+            if first_run:
+                out[table + "_reset"] = delete_count(con, f"DELETE FROM {table}")
+            elif "market" in columns(con, table):
+                out[table + "_noncrypto"] = delete_count(con, f"DELETE FROM {table} WHERE market<>'crypto'")
         con.commit()
     return out
 
@@ -210,10 +234,11 @@ def main():
         "baseline_at": baseline_at,
         "first_run": first_run,
         "simulation": cleanup_simulation(RUNTIME_DIR / "simulation_lab.sqlite3", baseline_at),
-        "forward": cleanup_forward(RUNTIME_DIR / "forward_validation.sqlite3"),
+        "forward": cleanup_forward(RUNTIME_DIR / "forward_validation.sqlite3", first_run),
         "market_cache": cleanup_market_cache(RUNTIME_DIR / "market_cache.sqlite3"),
         "direction": cleanup_direction(RUNTIME_DIR / "direction_forward.sqlite3", baseline_at),
-        "governance": cleanup_governance(RUNTIME_DIR / "model_governance.sqlite3"),
+        "governance": cleanup_governance(RUNTIME_DIR / "model_governance.sqlite3", first_run),
+        "data_quality": cleanup_data_quality(RUNTIME_DIR / "data_quality.sqlite3", first_run),
         "realtime": cleanup_realtime(RUNTIME_DIR / "realtime_execution.sqlite3", first_run),
         "removed_files": remove_obsolete_files(),
     }
