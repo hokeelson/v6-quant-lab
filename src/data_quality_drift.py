@@ -313,6 +313,8 @@ def assess_pair(db, cache, market: str, symbol: str, horizon: str, now=None) -> 
         "checked_at": now_ts.isoformat(),
         **quality,
         **drift,
+        "quality_reasons": list(quality.get("reasons") or []),
+        "drift_reasons": list(drift.get("reasons") or []),
         "quality_drift_multiplier": multiplier,
     }
 
@@ -404,11 +406,14 @@ class DataQualityDriftMonitor:
     def scan_all(self, db, cache, now=None) -> dict:
         checked = warnings = critical = drifted = 0
         errors = []
+        active_keys = set()
         for asset in db.assets():
             for horizon in _HORIZONS:
                 market, symbol = asset["market"], asset["symbol"]
                 if db.model(market, symbol, horizon) is None:
                     continue
+                key = (str(market), str(symbol).upper(), str(horizon))
+                active_keys.add(key)
                 checked += 1
                 try:
                     result = assess_pair(db, cache, market, symbol, horizon, now)
@@ -421,12 +426,35 @@ class DataQualityDriftMonitor:
                         "market": market, "symbol": symbol, "horizon": horizon,
                         "error": f"{type(exc).__name__}: {exc}",
                     })
+
+        # health_latest is a current-state table. Remove rows for symbols/horizons
+        # that are no longer part of the active Crypto Lite universe/model set.
+        removed_stale = 0
+        with self._c() as c:
+            rows = c.execute("SELECT market,symbol,horizon FROM health_latest").fetchall()
+            stale = [
+                (r["market"], r["symbol"], r["horizon"])
+                for r in rows
+                if (str(r["market"]), str(r["symbol"]).upper(), str(r["horizon"])) not in active_keys
+            ]
+            for key in stale:
+                c.execute(
+                    "DELETE FROM health_latest WHERE market=? AND symbol=? AND horizon=?",
+                    key,
+                )
+            removed_stale = len(stale)
+            # Events are audit history, but do not need to grow forever.
+            c.execute(
+                "DELETE FROM health_events WHERE julianday('now') - julianday(created_at) > 30"
+            )
+
         return {
             "status": "OK" if not errors else "PARTIAL",
             "checked": checked,
             "warnings": warnings,
             "critical_data": critical,
             "drifted": drifted,
+            "stale_rows_removed": removed_stale,
             "errors": errors,
             "broker_order_api_calls": 0,
         }

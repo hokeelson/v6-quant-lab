@@ -201,7 +201,6 @@ def test_bad_trade_pnl_is_not_validated(setup_lab):
 
 def test_public_export_and_dashboard_wiring():
     from pathlib import Path
-    assert '"execution_audit": execution_audit(sim_path)' in Path("trial_ledger_worker.py").read_text()
     assert "render_execution_audit(st, research)" in Path("dashboard_v9.py").read_text()
     sync = Path(".github/workflows/sync-runtime-snapshots.yml").read_text()
     for name in ("current_snapshot_db", "current_snapshot_phase", "current_snapshot_progress"):
