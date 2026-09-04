@@ -216,10 +216,13 @@ def _market_from_account_id(account_id: str) -> str:
 
 def build_realtime_watchlist(sim_db, realtime_db: RealtimeDB):
     """Positions are always watched; remaining slots use latest confidence with ACTIVE-asset fallback."""
+    single_crypto = os.getenv("V6_SINGLE_CRYPTO_ACCOUNT","0").strip().lower() in ("1","true","yes","on")
     positions = sim_db.positions()
     position_counts = {}
     for p in positions:
         market = _market_from_account_id(p.get("account_id"))
+        if single_crypto and market != "crypto":
+            continue
         symbol = str(p.get("symbol") or "").upper()
         if market and symbol:
             key = (market, symbol)
@@ -260,7 +263,7 @@ def build_realtime_watchlist(sim_db, realtime_db: RealtimeDB):
         if market in active_by_market and symbol:
             active_by_market[market].append(symbol)
 
-    markets = ("crypto",) if os.getenv("V6_SINGLE_CRYPTO_ACCOUNT","0").strip().lower() in ("1","true","yes","on") else ("crypto", "stock", "twstock")
+    markets = ("crypto",) if single_crypto else ("crypto", "stock", "twstock")
     for market in markets:
         cap = _cap(market)
         already = sum(1 for m, _ in position_keys if m == market)
