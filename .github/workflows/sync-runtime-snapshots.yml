@@ -128,13 +128,19 @@ jobs:
         run: |
           set -euo pipefail
           files='runtime_health.json storage_persistence.json risk_sizing_audit.json expected_live_deviation.json daily_external_intelligence.json'
-          if [ -z "$(git status --porcelain -- $files)" ]; then
+          changed=()
+          for file in $files; do
+            if [ -e "$file" ] && [ -n "$(git status --porcelain -- "$file")" ]; then
+              changed+=("$file")
+            fi
+          done
+          if [ "${#changed[@]}" -eq 0 ]; then
             echo 'No runtime snapshot changes.'
             exit 0
           fi
           git config user.name 'v6-snapshot-bot'
           git config user.email 'v6-snapshot-bot@users.noreply.github.com'
-          git add $files
+          git add -- "${changed[@]}"
           git commit -m 'Update Crypto Lite runtime snapshots'
 
           for attempt in 1 2 3; do
