@@ -187,7 +187,14 @@ def cleanup_realtime(path: Path, first_run: bool) -> dict:
 
 def remove_obsolete_files() -> list[str]:
     removed = []
-    names = ("trial_ledger.sqlite3", "crypto_v2_shadow.sqlite3")
+    # Realtime execution and market cache are rebuildable runtime caches in
+    # Crypto Lite. Never keep old persistent copies on the small Railway volume.
+    names = (
+        "trial_ledger.sqlite3",
+        "crypto_v2_shadow.sqlite3",
+        "realtime_execution.sqlite3",
+        "market_cache.sqlite3",
+    )
     roots = [
         RUNTIME_DIR,
         PERSIST_DIR,
@@ -195,7 +202,7 @@ def remove_obsolete_files() -> list[str]:
     ]
     for root in roots:
         for name in names:
-            for suffix in ("", "-wal", "-shm"):
+            for suffix in ("", "-wal", "-shm", ".new"):
                 p = root / (name + suffix)
                 try:
                     if p.exists():
@@ -203,6 +210,16 @@ def remove_obsolete_files() -> list[str]:
                         removed.append(str(p))
                 except Exception:
                     pass
+    for prefix in ("pr20-backup-", "pr20-restore-safety-", "pr20-realtime-safe-", "entry-gate-backup-"):
+        try:
+            for p in PERSIST_DIR.glob(prefix + "*"):
+                if p.is_dir():
+                    import shutil
+                    shutil.rmtree(p, ignore_errors=True)
+                    removed.append(str(p))
+        except Exception:
+            pass
+
     # ForwardDB is no longer a production input in Crypto Lite. Keep the runtime
     # file if a compatibility class recreates it, but remove old persistent copies
     # so bootstrap can never revive the legacy candidate pool.
