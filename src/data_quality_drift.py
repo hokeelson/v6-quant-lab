@@ -313,6 +313,8 @@ def assess_pair(db, cache, market: str, symbol: str, horizon: str, now=None) -> 
         "checked_at": now_ts.isoformat(),
         **quality,
         **drift,
+        "quality_reasons": list(quality.get("reasons") or []),
+        "drift_reasons": list(drift.get("reasons") or []),
         "quality_drift_multiplier": multiplier,
     }
 
