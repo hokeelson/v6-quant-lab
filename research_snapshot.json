@@ -3917,7 +3917,7 @@
   },
   "execution_audit": {
     "contains_secrets": false,
-    "generated_at": "2026-09-04T09:39:34.663938+00:00",
+    "generated_at": "2026-09-04T09:52:36.677232+00:00",
     "ledger_counts": {
       "accounts": 10,
       "decisions": 20937,
@@ -8931,7 +8931,7 @@
   "expected_live_deviation": {
     "active_sizing": true,
     "contains_secrets": false,
-    "generated_at": "2026-09-04T09:39:37.647894+00:00",
+    "generated_at": "2026-09-04T09:52:41.379574+00:00",
     "minimum_live_trades_for_active_sizing": 5,
     "rows": [
       {
@@ -20635,7 +20635,7 @@
       }
     ]
   },
-  "generated_at": "2026-09-04T09:39:34.639272+00:00",
+  "generated_at": "2026-09-04T09:52:36.652043+00:00",
   "governance": {
     "arenas": [
       {
@@ -36748,7 +36748,7 @@
         "total_reduction_notional": 13112.142086580167
       }
     ],
-    "generated_at": "2026-09-04T09:39:32.610964+00:00",
+    "generated_at": "2026-09-04T09:53:16.540751+00:00",
     "scope": "PUBLIC_READ_ONLY_RISK_SIZING_AUDIT",
     "status": "AVAILABLE",
     "summary": {
@@ -36774,12 +36774,12 @@
     "bootstrap_at": "2026-09-04T09:24:31.068980+00:00",
     "bootstrap_warnings": [],
     "current_snapshot_db": null,
-    "current_snapshot_finished_at": "2026-09-04T09:38:48.870632+00:00",
+    "current_snapshot_finished_at": "2026-09-04T09:53:13.739775+00:00",
     "current_snapshot_phase": "IDLE",
     "current_snapshot_progress": {},
-    "current_snapshot_progress_at": "2026-09-04T09:38:48.856723+00:00",
-    "current_snapshot_started_at": "2026-09-04T09:38:22.326335+00:00",
-    "last_snapshot_at": "2026-09-04T09:38:48.870649+00:00",
+    "current_snapshot_progress_at": "2026-09-04T09:53:13.674741+00:00",
+    "current_snapshot_started_at": "2026-09-04T09:52:46.973424+00:00",
+    "last_snapshot_at": "2026-09-04T09:53:13.739791+00:00",
     "last_snapshot_failed": [],
     "last_snapshot_success": [
       "crypto_v2_shadow.sqlite3",
@@ -36793,9 +36793,9 @@
     "mode": "RESCUE_RUNTIME",
     "persistence_status": "OK",
     "persistent_disk": {
-      "free": 2379837440,
+      "free": 2379825152,
       "total": 4685873152,
-      "used": 2289258496
+      "used": 2289270784
     },
     "restored": [
       {
@@ -36838,7 +36838,7 @@
     "snapshot_interval_seconds": 60,
     "snapshot_keep_archives": 0,
     "status": "AVAILABLE",
-    "updated_at": "2026-09-04T09:38:48.870783+00:00"
+    "updated_at": "2026-09-04T09:53:13.739910+00:00"
   },
   "strategy_performance": [
     {
@@ -39934,11 +39934,11 @@
       "worst_trade_return": -0.00029986839109497065
     }
   ],
-  "sync_checked_at": "2026-09-04T09:39:38.755973+00:00",
-  "sync_snapshot_age_seconds": 4.116701,
+  "sync_checked_at": "2026-09-04T09:53:19.053981+00:00",
+  "sync_snapshot_age_seconds": 42.401938,
   "trial_ledger": {
     "challenges": 70,
-    "cycles": 1488,
+    "cycles": 1492,
     "distinct_hypotheses": 69,
     "events": 216,
     "last_event_at": "2026-09-04T07:48:48.548786+00:00",
@@ -39950,99 +39950,100 @@
     "bars_processed": 0,
     "broker_order_api_calls": 0,
     "concept_drift_pairs": 6,
-    "cycle_elapsed_seconds": 84.19,
+    "cycle_elapsed_seconds": 129.952,
     "data_quality": "OK",
     "data_quality_critical": 105,
     "data_quality_warnings": 24,
     "first_cycle_complete": true,
-    "heartbeat_at": "2026-09-04T09:39:32.987134+00:00",
-    "last_cycle_duration_seconds": 115.127,
-    "last_cycle_finished_at": "2026-09-04T09:37:08.776919+00:00",
+    "heartbeat_at": "2026-09-04T09:52:33.723436+00:00",
+    "last_cycle_duration_seconds": 123.608,
+    "last_cycle_finished_at": "2026-09-04T09:49:23.757897+00:00",
     "last_cycle_phase_durations_seconds": {
-      "CALIBRATION": 0.129,
-      "DATA_QUALITY": 3.839,
-      "GOVERNANCE": 8.774,
-      "MODEL_HEALTH": 0.032,
-      "PORTFOLIO_RISK": 0.6,
+      "CALIBRATION": 0.076,
+      "DATA_QUALITY": 4.197,
+      "GOVERNANCE": 9.055,
+      "MODEL_HEALTH": 0.043,
+      "PORTFOLIO_RISK": 0.597,
       "PREPARE": 0.003,
-      "PRETRADE_RISK": 61.946,
-      "SIMULATION": 39.67,
-      "UNIVERSE": 0.005,
-      "WATCHLIST": 0.13
+      "PRETRADE_RISK": 68.698,
+      "SIMULATION": 40.737,
+      "UNIVERSE": 0.004,
+      "WATCHLIST": 0.199
     },
     "last_cycle_slow_units": [
       {
         "bars_processed": 0,
-        "seconds": 1.506,
-        "unit": "crypto:BMTUSDT:adaptive"
-      },
-      {
-        "bars_processed": 0,
-        "seconds": 1.311,
-        "unit": "crypto:TAOUSDT:adaptive"
-      },
-      {
-        "bars_processed": 0,
-        "seconds": 1.308,
-        "unit": "crypto:TRXUSDT:adaptive"
-      },
-      {
-        "bars_processed": 0,
-        "seconds": 1.308,
-        "unit": "crypto:XRPUSDT:adaptive"
-      },
-      {
-        "bars_processed": 0,
-        "seconds": 1.285,
-        "unit": "crypto:USD1USDT:adaptive"
-      },
-      {
-        "bars_processed": 0,
-        "seconds": 1.26,
-        "unit": "crypto:WIFUSDT:adaptive"
-      },
-      {
-        "bars_processed": 0,
-        "seconds": 1.24,
+        "seconds": 1.708,
         "unit": "crypto:WLDUSDT:adaptive"
       },
       {
         "bars_processed": 0,
-        "seconds": 1.227,
+        "seconds": 1.336,
+        "unit": "crypto:TAOUSDT:adaptive"
+      },
+      {
+        "bars_processed": 0,
+        "seconds": 1.332,
+        "unit": "crypto:TRXUSDT:adaptive"
+      },
+      {
+        "bars_processed": 0,
+        "seconds": 1.319,
+        "unit": "crypto:XRPUSDT:adaptive"
+      },
+      {
+        "bars_processed": 0,
+        "seconds": 1.254,
+        "unit": "crypto:USD1USDT:adaptive"
+      },
+      {
+        "bars_processed": 0,
+        "seconds": 1.24,
+        "unit": "crypto:WIFUSDT:adaptive"
+      },
+      {
+        "bars_processed": 0,
+        "seconds": 1.237,
         "unit": "crypto:XPLUSDT:adaptive"
       },
       {
         "bars_processed": 0,
-        "seconds": 1.223,
-        "unit": "crypto:TUTUSDT:adaptive"
+        "seconds": 1.233,
+        "unit": "crypto:UNIUSDT:adaptive"
       },
       {
         "bars_processed": 0,
-        "seconds": 1.183,
-        "unit": "crypto:XAUTUSDT:adaptive"
+        "seconds": 1.211,
+        "unit": "crypto:DOGEUSDT:adaptive"
+      },
+      {
+        "bars_processed": 0,
+        "seconds": 1.202,
+        "unit": "crypto:TUTUSDT:adaptive"
       }
     ],
-    "last_cycle_started_at": "2026-09-04T09:38:08.796836+00:00",
-    "last_progress_at": "2026-09-04T09:39:08.660423+00:00",
+    "last_cycle_started_at": "2026-09-04T09:50:23.770956+00:00",
+    "last_progress_at": "2026-09-04T09:52:33.723420+00:00",
     "market_data_api_calls": 0,
-    "phase": "PRETRADE_RISK",
+    "phase": "DATA_QUALITY",
     "phase_completed": 0,
     "phase_durations_seconds": {
-      "CALIBRATION": 0.071,
-      "GOVERNANCE": 7.72,
+      "CALIBRATION": 0.106,
+      "DATA_QUALITY": 0.0,
+      "GOVERNANCE": 8.348,
       "MODEL_HEALTH": 0.025,
-      "PORTFOLIO_RISK": 0.616,
-      "PREPARE": 0.002,
-      "PRETRADE_RISK": 24.327,
-      "SIMULATION": 51.304,
-      "UNIVERSE": 0.004,
-      "WATCHLIST": 0.121
+      "PORTFOLIO_RISK": 0.667,
+      "PREPARE": 0.006,
+      "PRETRADE_RISK": 67.782,
+      "SIMULATION": 52.836,
+      "UNIVERSE": 0.009,
+      "WATCHLIST": 0.174
     },
-    "phase_elapsed_seconds": 24.327,
-    "phase_started_at": "2026-09-04T09:39:08.660423+00:00",
+    "phase_elapsed_seconds": 0.0,
+    "phase_started_at": "2026-09-04T09:52:33.723420+00:00",
     "phase_total": 0,
     "portfolio_risk": "MEDIUM",
-    "progress_events": 249,
+    "progress_events": 250,
     "progress_schema_version": "WORKER_PROGRESS_V1",
     "progress_unit": null,
     "realtime_watchlist_sync": "ONLINE",
@@ -40062,6 +40063,26 @@
         "duration_seconds": 115.127,
         "finished_at": "2026-09-04T09:37:08.776968+00:00",
         "status": "COMPLETE"
+      },
+      {
+        "duration_seconds": 128.357,
+        "finished_at": "2026-09-04T09:40:17.153934+00:00",
+        "status": "COMPLETE"
+      },
+      {
+        "duration_seconds": 115.843,
+        "finished_at": "2026-09-04T09:43:13.006947+00:00",
+        "status": "COMPLETE"
+      },
+      {
+        "duration_seconds": 127.114,
+        "finished_at": "2026-09-04T09:46:20.137642+00:00",
+        "status": "COMPLETE"
+      },
+      {
+        "duration_seconds": 123.608,
+        "finished_at": "2026-09-04T09:49:23.757938+00:00",
+        "status": "COMPLETE"
       }
     ],
     "risk_layer": "ONLINE",
@@ -40069,53 +40090,53 @@
     "slow_units": [
       {
         "bars_processed": 0,
-        "seconds": 2.455,
-        "unit": "crypto:CRCLBUSDT:adaptive"
-      },
-      {
-        "bars_processed": 0,
-        "seconds": 1.649,
-        "unit": "crypto:NILUSDT:adaptive"
-      },
-      {
-        "bars_processed": 0,
-        "seconds": 1.629,
-        "unit": "crypto:ARBUSDT:adaptive"
-      },
-      {
-        "bars_processed": 0,
-        "seconds": 1.426,
-        "unit": "crypto:DOGEUSDT:adaptive"
-      },
-      {
-        "bars_processed": 0,
-        "seconds": 1.381,
+        "seconds": 1.828,
         "unit": "crypto:BNBUSDT:adaptive"
       },
       {
         "bars_processed": 0,
-        "seconds": 1.379,
-        "unit": "crypto:SUIUSDT:adaptive"
+        "seconds": 1.7,
+        "unit": "crypto:DASHUSDT:adaptive"
       },
       {
         "bars_processed": 0,
-        "seconds": 1.334,
+        "seconds": 1.666,
+        "unit": "crypto:BTCUSDT:adaptive"
+      },
+      {
+        "bars_processed": 0,
+        "seconds": 1.647,
+        "unit": "crypto:ENAUSDT:adaptive"
+      },
+      {
+        "bars_processed": 0,
+        "seconds": 1.621,
+        "unit": "crypto:MUBARAKUSDT:adaptive"
+      },
+      {
+        "bars_processed": 0,
+        "seconds": 1.604,
+        "unit": "crypto:CRCLBUSDT:adaptive"
+      },
+      {
+        "bars_processed": 0,
+        "seconds": 1.466,
         "unit": "crypto:PAXGUSDT:adaptive"
       },
       {
         "bars_processed": 0,
-        "seconds": 1.308,
-        "unit": "crypto:PEPEUSDT:adaptive"
+        "seconds": 1.415,
+        "unit": "crypto:SUIUSDT:adaptive"
       },
       {
         "bars_processed": 0,
-        "seconds": 1.291,
-        "unit": "crypto:DEXEUSDT:adaptive"
-      },
-      {
-        "bars_processed": 0,
-        "seconds": 1.29,
+        "seconds": 1.373,
         "unit": "crypto:AVAXUSDT:adaptive"
+      },
+      {
+        "bars_processed": 0,
+        "seconds": 1.353,
+        "unit": "crypto:ARBUSDT:adaptive"
       }
     ],
     "status": "RUNNING",
