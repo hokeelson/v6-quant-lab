@@ -13,7 +13,7 @@ export V6_STORAGE_DEGRADED="1"
 export V6_SINGLE_CRYPTO_ACCOUNT="${V6_SINGLE_CRYPTO_ACCOUNT:-1}"
 export V6_ENABLE_CRYPTO_V2_SHADOW="${V6_ENABLE_CRYPTO_V2_SHADOW:-0}"
 export V6_ENABLE_TRIAL_LEDGER="${V6_ENABLE_TRIAL_LEDGER:-0}"
-export V6_SNAPSHOT_DBS="${V6_SNAPSHOT_DBS:-data_quality.sqlite3,direction_forward.sqlite3,forward_validation.sqlite3,model_governance.sqlite3,realtime_execution.sqlite3,simulation_lab.sqlite3}"
+export V6_SNAPSHOT_DBS="${V6_SNAPSHOT_DBS:-data_quality.sqlite3,direction_forward.sqlite3,model_governance.sqlite3,realtime_execution.sqlite3,simulation_lab.sqlite3}"
 
 BOOTSTRAP_OK=0
 if python storage_rescue.py bootstrap 2>/dev/null && [ -f "$RUNTIME_DIR/simulation_lab.sqlite3" ]; then
