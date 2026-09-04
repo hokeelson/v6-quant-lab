@@ -12,7 +12,7 @@ from .simulation_db import SimulationDB, now_iso
 
 
 class SimulationLab:
-    """Local six-account forward simulator. No broker order API is used."""
+    """Local single-account crypto forward simulator. No broker order API is used."""
     def __init__(self, db=None, cache=None, initial_equity=100000.0):
         self.db=db or SimulationDB("simulation_lab.sqlite3")
         self.cache=cache or MarketCache("market_cache.sqlite3")
@@ -181,18 +181,18 @@ class SimulationLab:
         return True
 
     def process_asset_horizon(self, market, symbol, horizon, now=None):
-        aid=f"{market}_{horizon}"; pack=self.cache.ensure(market,symbol,horizon,now)
+        if market != "crypto":\n            return {"processed":0,"reason":"crypto_lite_only","fetched":0,"api_called":False}\n        aid="crypto"; state_aid=f"crypto_{horizon}"; pack=self.cache.ensure(market,symbol,horizon,now)
         df=self.cache.closed_only(pack["data"],market,horizon,now)
         spec=HORIZON_SPECS[horizon]
         if len(df)<spec["warmup"]: return {"processed":0,"reason":"insufficient_history","fetched":pack["fetched"],"api_called":pack.get("api_called",False)}
         model=self.db.model(market,symbol,horizon)
         if model is None:
             self.calibrate(market,symbol,horizon,now); model=self.db.model(market,symbol,horizon)
-        last=self.db.last_processed(aid,symbol)
+        last=self.db.last_processed(state_aid,symbol)
         eligible=df if last is None else df[df.index>pd.Timestamp(last)]
         # First run registers the latest closed bar as the forward starting point; it does not backfill trades.
         if last is None:
-            self.db.set_last_processed(aid,symbol,df.index[-1].isoformat())
+            self.db.set_last_processed(state_aid,symbol,df.index[-1].isoformat())
             return {"processed":0,"reason":"forward_registered","fetched":pack["fetched"],"api_called":pack.get("api_called",False)}
         if eligible.empty:return {"processed":0,"reason":"no_new_closed_bar","fetched":pack["fetched"],"api_called":pack.get("api_called",False)}
         processed=0
@@ -211,19 +211,19 @@ class SimulationLab:
             dec.setdefault("diagnostics",{})["max_holding_bars"]=dec.pop("max_holding_bars")
             pos=self.db.position(aid,symbol)
             if pos is not None and dec["action"]=="EXIT" and not self.db.pending_order(aid,symbol):
-                did=self.db.add_decision({"account_id":aid,"market":market,"symbol":symbol,"horizon":horizon,"bar_time":ts.isoformat(),**{k:v for k,v in dec.items() if k!="max_holding_bars"}})
+                did=self.db.add_decision({"account_id":state_aid,"market":market,"symbol":symbol,"horizon":horizon,"bar_time":ts.isoformat(),**{k:v for k,v in dec.items() if k!="max_holding_bars"}})
                 self.db.add_order({"account_id":aid,"symbol":symbol,"side":"SELL","created_bar":ts.isoformat(),"requested_notional":0.0,"qty":pos["qty"],"reason":"MODEL_EXIT","decision_id":did})
             elif pos is None and dec["action"]=="ENTER" and not self.db.pending_order(aid,symbol):
-                did=self.db.add_decision({"account_id":aid,"market":market,"symbol":symbol,"horizon":horizon,"bar_time":ts.isoformat(),**{k:v for k,v in dec.items() if k!="max_holding_bars"}})
+                did=self.db.add_decision({"account_id":state_aid,"market":market,"symbol":symbol,"horizon":horizon,"bar_time":ts.isoformat(),**{k:v for k,v in dec.items() if k!="max_holding_bars"}})
                 self.db.add_order({"account_id":aid,"symbol":symbol,"side":"BUY","created_bar":ts.isoformat(),"requested_notional":dec["requested_notional"],"qty":None,"reason":"MODEL_ENTER","decision_id":did})
             else:
-                self.db.add_decision({"account_id":aid,"market":market,"symbol":symbol,"horizon":horizon,"bar_time":ts.isoformat(),**{k:v for k,v in dec.items() if k!="max_holding_bars"}})
+                self.db.add_decision({"account_id":state_aid,"market":market,"symbol":symbol,"horizon":horizon,"bar_time":ts.isoformat(),**{k:v for k,v in dec.items() if k!="max_holding_bars"}})
             cash,gross,equity=self._account_marks(aid)
             peak=self.db.peak_equity(aid) or float(self.db.account(aid)["initial_equity"]); peak=max(peak,equity); dd=equity/peak-1 if peak>0 else 0
             lev=gross/equity if equity>0 else float("inf")
             self.db.save_equity(aid,ts.isoformat(),equity,cash,gross,lev,dd)
             if financing>0:self.db.add_diagnostic(aid,symbol,horizon,ts.isoformat(),"FINANCING","Borrow cost charged",{"charge":financing})
-            self.db.set_last_processed(aid,symbol,ts.isoformat()); processed+=1
+            self.db.set_last_processed(state_aid,symbol,ts.isoformat()); processed+=1
         return {"processed":processed,"fetched":pack["fetched"],"api_called":pack.get("api_called",False)}
 
     def run_once(self, now=None):
