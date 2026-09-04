@@ -148,11 +148,16 @@ def crypto_lite():
     else:
         st.info("正在等待最新系統狀態。")
 
-    render_execution_audit(st, research)
-
     main_worker = ((health.get("components") or {}).get("main_v8") or {})
-    if main_worker and str(main_worker.get("status")) not in ("ONLINE", "HEALTHY", "OK"):
-        render_worker_progress(st, main_worker)
+    if overall != "HEALTHY":
+        render_execution_audit(st, research)
+        if main_worker:
+            render_worker_progress(st, main_worker)
+    else:
+        with st.expander("系統診斷（正常時可忽略）", expanded=False):
+            render_execution_audit(st, research)
+
+    st.caption("畫面每 30 秒自動更新｜底層健康狀態約每 5 秒更新")
 
     account = db.account("crypto") or {}
     positions = db.positions("crypto")
