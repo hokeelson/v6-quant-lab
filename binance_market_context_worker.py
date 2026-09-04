@@ -6,7 +6,7 @@ from src.binance_market_context import write_snapshot
 from src.paths import db_path
 from src.simulation_db import SimulationDB
 
-REFRESH_SECONDS = 120
+REFRESH_SECONDS = 60
 
 
 def current_crypto_symbols(db: SimulationDB) -> list[str]:
