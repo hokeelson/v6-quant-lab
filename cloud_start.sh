@@ -10,6 +10,7 @@ export V6_PERSISTENT_DATA_DIR="$PERSIST_DIR"
 export V6_RUNTIME_DATA_DIR="$RUNTIME_DIR"
 export V6_DATA_DIR="$RUNTIME_DIR"
 export V6_STORAGE_DEGRADED="1"
+export V6_SINGLE_CRYPTO_ACCOUNT="${V6_SINGLE_CRYPTO_ACCOUNT:-1}"
 export V6_SNAPSHOT_DBS="${V6_SNAPSHOT_DBS:-crypto_v2_shadow.sqlite3,data_quality.sqlite3,direction_forward.sqlite3,forward_validation.sqlite3,model_governance.sqlite3,realtime_execution.sqlite3,simulation_lab.sqlite3,trial_ledger.sqlite3}"
 
 BOOTSTRAP_OK=0
