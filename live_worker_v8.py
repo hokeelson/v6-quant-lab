@@ -50,6 +50,7 @@ worker_state = {
     "data_quality": "STARTING",
     "data_quality_warnings": 0,
     "data_quality_critical": 0,
+    "concept_drift_watch": 0,
     "concept_drift_pairs": 0,
     "realtime_watchlist_sync": "STARTING",
     "realtime_watchlist_total": 0,
@@ -181,7 +182,7 @@ while True:
         global_risk = "UNKNOWN"
         realtime_watchlist_total = 0
         quality_result = {
-            "status": "UNKNOWN", "warnings": 0, "critical_data": 0, "drifted": 0, "errors": []
+            "status": "UNKNOWN", "warnings": 0, "drift_watch": 0, "critical_data": 0, "drifted": 0, "errors": []
         }
 
         # Synchronize the realtime watchlist from the SAME SimulationDB instance
@@ -230,7 +231,7 @@ while True:
                 print(stamp, "DATA_QUALITY_PARTIAL", quality_result.get("errors"), flush=True)
         except Exception as exc:
             quality_result = {
-                "status": "ERROR", "warnings": 0, "critical_data": 0, "drifted": 0,
+                "status": "ERROR", "warnings": 0, "drift_watch": 0, "critical_data": 0, "drifted": 0,
                 "errors": [{"error": f"{type(exc).__name__}: {exc}"}],
             }
             auxiliary_errors.append(f"data_quality: {type(exc).__name__}: {exc}")
@@ -260,6 +261,7 @@ while True:
                 "data_quality": str(quality_result.get("status") or "UNKNOWN"),
                 "data_quality_warnings": int(quality_result.get("warnings", 0) or 0),
                 "data_quality_critical": int(quality_result.get("critical_data", 0) or 0),
+                "concept_drift_watch": int(quality_result.get("drift_watch", 0) or 0),
                 "concept_drift_pairs": int(quality_result.get("drifted", 0) or 0),
                 "portfolio_risk": global_risk,
                 "realtime_watchlist_sync": realtime_sync_status,
