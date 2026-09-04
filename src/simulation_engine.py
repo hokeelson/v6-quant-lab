@@ -1,5 +1,5 @@
 from __future__ import annotations
-import json, math
+import json, math, os
 import numpy as np
 import pandas as pd
 
@@ -12,18 +12,25 @@ from .simulation_db import SimulationDB, now_iso
 
 
 class SimulationLab:
-    """Local single-account crypto forward simulator. No broker order API is used."""
+    """Local forward simulator. Crypto Lite can opt into one shared financial account."""
     def __init__(self, db=None, cache=None, initial_equity=100000.0):
         self.db=db or SimulationDB("simulation_lab.sqlite3")
         self.cache=cache or MarketCache("market_cache.sqlite3")
         self.initial_equity=float(initial_equity)
+        self.single_crypto_account=os.getenv("V6_SINGLE_CRYPTO_ACCOUNT","0").strip().lower() in ("1","true","yes","on")
         self.db.ensure_accounts(self.initial_equity)
+        if self.single_crypto_account:
+            self.db.ensure_crypto_master_account(self.initial_equity)
 
     def import_assets(self, rows):
         n=0
         for r in rows:
             market=str(r.get("market","")); symbol=str(r.get("symbol","")).upper()
-            if market in ("stock","crypto") and symbol:
+            if self.single_crypto_account:
+                allowed = market == "crypto"
+            else:
+                allowed = market in ("stock","crypto")
+            if allowed and symbol:
                 self.db.add_asset(market,symbol); n+=1
         return n
 
@@ -37,7 +44,10 @@ class SimulationLab:
 
     def calibrate_all(self, now=None):
         out=[]; errors=[]
-        for a in self.db.assets():
+        assets=self.db.assets()
+        if self.single_crypto_account:
+            assets=[a for a in assets if a.get("market")=="crypto"]
+        for a in assets:
             for hz in ("short","medium","long"):
                 try: out.append(self.calibrate(a["market"],a["symbol"],hz,now))
                 except Exception as e: errors.append({"market":a["market"],"symbol":a["symbol"],"horizon":hz,"error":f"{type(e).__name__}: {e}"})
@@ -67,7 +77,9 @@ class SimulationLab:
         decision_context=self.db.decision(o.get("decision_id")) or {}
         acct=self.db.account(aid); pos=self.db.position(aid,symbol)
         open_px=float(row.open)
-        hz=decision_context.get("horizon",aid.split("_",1)[1])
+        hz=decision_context.get("horizon")
+        if not hz:
+            hz=aid.split("_",1)[1] if "_" in aid else "medium"
         if o["side"]=="BUY" and pos is not None:
             self.db.cancel_order(o["order_id"], "STALE_BUY_POSITION_EXISTS")
             self.db.add_diagnostic(aid,symbol,hz,ts.isoformat(),"ORDER_CANCELLED","Stale BUY cancelled because position already exists",{
@@ -181,7 +193,12 @@ class SimulationLab:
         return True
 
     def process_asset_horizon(self, market, symbol, horizon, now=None):
-        if market != "crypto":\n            return {"processed":0,"reason":"crypto_lite_only","fetched":0,"api_called":False}\n        aid="crypto"; state_aid=f"crypto_{horizon}"; pack=self.cache.ensure(market,symbol,horizon,now)
+        if self.single_crypto_account and market != "crypto":
+            return {"processed":0,"reason":"crypto_lite_only","fetched":0,"api_called":False}
+        aid="crypto" if self.single_crypto_account else f"{market}_{horizon}"
+        state_aid=f"crypto_{horizon}" if self.single_crypto_account else aid
+        decision_aid=state_aid if self.single_crypto_account else aid
+        pack=self.cache.ensure(market,symbol,horizon,now)
         df=self.cache.closed_only(pack["data"],market,horizon,now)
         spec=HORIZON_SPECS[horizon]
         if len(df)<spec["warmup"]: return {"processed":0,"reason":"insufficient_history","fetched":pack["fetched"],"api_called":pack.get("api_called",False)}
@@ -211,13 +228,13 @@ class SimulationLab:
             dec.setdefault("diagnostics",{})["max_holding_bars"]=dec.pop("max_holding_bars")
             pos=self.db.position(aid,symbol)
             if pos is not None and dec["action"]=="EXIT" and not self.db.pending_order(aid,symbol):
-                did=self.db.add_decision({"account_id":state_aid,"market":market,"symbol":symbol,"horizon":horizon,"bar_time":ts.isoformat(),**{k:v for k,v in dec.items() if k!="max_holding_bars"}})
+                did=self.db.add_decision({"account_id":decision_aid,"market":market,"symbol":symbol,"horizon":horizon,"bar_time":ts.isoformat(),**{k:v for k,v in dec.items() if k!="max_holding_bars"}})
                 self.db.add_order({"account_id":aid,"symbol":symbol,"side":"SELL","created_bar":ts.isoformat(),"requested_notional":0.0,"qty":pos["qty"],"reason":"MODEL_EXIT","decision_id":did})
             elif pos is None and dec["action"]=="ENTER" and not self.db.pending_order(aid,symbol):
-                did=self.db.add_decision({"account_id":state_aid,"market":market,"symbol":symbol,"horizon":horizon,"bar_time":ts.isoformat(),**{k:v for k,v in dec.items() if k!="max_holding_bars"}})
+                did=self.db.add_decision({"account_id":decision_aid,"market":market,"symbol":symbol,"horizon":horizon,"bar_time":ts.isoformat(),**{k:v for k,v in dec.items() if k!="max_holding_bars"}})
                 self.db.add_order({"account_id":aid,"symbol":symbol,"side":"BUY","created_bar":ts.isoformat(),"requested_notional":dec["requested_notional"],"qty":None,"reason":"MODEL_ENTER","decision_id":did})
             else:
-                self.db.add_decision({"account_id":state_aid,"market":market,"symbol":symbol,"horizon":horizon,"bar_time":ts.isoformat(),**{k:v for k,v in dec.items() if k!="max_holding_bars"}})
+                self.db.add_decision({"account_id":decision_aid,"market":market,"symbol":symbol,"horizon":horizon,"bar_time":ts.isoformat(),**{k:v for k,v in dec.items() if k!="max_holding_bars"}})
             cash,gross,equity=self._account_marks(aid)
             peak=self.db.peak_equity(aid) or float(self.db.account(aid)["initial_equity"]); peak=max(peak,equity); dd=equity/peak-1 if peak>0 else 0
             lev=gross/equity if equity>0 else float("inf")
@@ -238,7 +255,11 @@ class SimulationLab:
 
     def account_summary(self):
         rows=[]
-        for a in self.db.accounts():
+        accounts=self.db.accounts()
+        if self.single_crypto_account:
+            master=self.db.account("crypto")
+            accounts=[master] if master else []
+        for a in accounts:
             aid=a["account_id"]; eqrows=self.db.equity(aid); last=eqrows[-1] if eqrows else None
             equity=float(last["equity"]) if last else float(a["initial_equity"]); gross=float(last["gross_exposure"]) if last else 0.0
             rows.append({"account_id":aid,"market":a["market"],"horizon":a["horizon"],"initial_equity":a["initial_equity"],"equity":equity,"return_pct":equity/float(a["initial_equity"])-1,"cash":float(last["cash"]) if last else a["cash"],"gross_exposure":gross,"leverage":float(last["leverage"]) if last else 0.0,"drawdown":float(last["drawdown"]) if last else 0.0,"positions":len(self.db.positions(aid))})
