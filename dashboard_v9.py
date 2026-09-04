@@ -7,6 +7,8 @@ from pathlib import Path
 
 import pandas as pd
 import streamlit as st
+
+from src.crypto_lite_nav import render_crypto_lite_sidebar
 import yaml
 from dotenv import load_dotenv
 
@@ -18,6 +20,7 @@ from src.execution_audit_ui import render_execution_audit
 
 load_dotenv()
 st.set_page_config(page_title="V6 Crypto Lite", layout="wide", page_icon="₿")
+render_crypto_lite_sidebar()
 
 _required_password = os.getenv("V6_DASHBOARD_PASSWORD", "") or os.getenv("V6_PASSWORD", "")
 if _required_password and not st.session_state.get("v6_authenticated", False):
@@ -85,6 +88,32 @@ def _direction_summary(rows: list[dict]) -> tuple[str, int, int, int]:
     if short_n > long_n * 1.15:
         return "SHORT", long_n, short_n, no_n
     return "NO_TRADE", long_n, short_n, no_n
+
+
+def _select_symbol_winners(rows: list[dict]) -> list[dict]:
+    """Keep one best short/medium/long direction candidate per symbol."""
+    winners = {}
+    for r in rows:
+        if r.get("direction") not in ("LONG", "SHORT"):
+            continue
+        confidence = float(r.get("direction_confidence") or 0.0)
+        ev_gap = max(0.0, float(r.get("ev_gap_r") or 0.0))
+        stability = float(r.get("stability_score") or 0.0)
+        score = 0.50 * confidence + 0.30 * min(ev_gap / 0.50, 1.0) + 0.20 * stability
+        row = dict(r)
+        row["_adaptive_score"] = score
+        symbol = str(row.get("symbol") or "")
+        current = winners.get(symbol)
+        if current is None or score > float(current.get("_adaptive_score") or 0.0):
+            winners[symbol] = row
+    return sorted(
+        winners.values(),
+        key=lambda r: (
+            float(r.get("_adaptive_score") or 0.0),
+            float(r.get("direction_confidence") or 0.0),
+        ),
+        reverse=True,
+    )
 
 
 def _stats(research: dict) -> dict:
@@ -183,21 +212,15 @@ def crypto_lite():
     c4.metric("可做空訊號", short_n)
     st.caption(f"目前不交易訊號：{no_n}｜單一標的參考部位上限：NTD {INITIAL_CAPITAL * MAX_POSITION_PCT:,.0f}")
 
-    qualified = [
+    qualified = _select_symbol_winners([
         r for r in rows
         if r.get("direction") in ("LONG", "SHORT")
         and float(r.get("direction_confidence") or 0.0) >= 0.55
         and float(r.get("ev_gap_r") or 0.0) >= 0.08
-    ]
-    qualified.sort(
-        key=lambda r: (
-            float(r.get("direction_confidence") or 0.0),
-            float(r.get("ev_gap_r") or 0.0),
-        ),
-        reverse=True,
-    )
+    ])
 
     st.subheader("現在最值得看的機會")
+    st.caption("同一個幣只保留短 / 中 / 長線中分數最高的一個，避免三個週期同時搶同一筆資金。")
     if not qualified:
         st.info("目前沒有同時通過方向信心與 EV 差距門檻的標的，維持不交易。")
     else:

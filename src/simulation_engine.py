@@ -192,6 +192,94 @@ class SimulationLab:
             self.db.add_diagnostic(aid,pos["symbol"],pos["horizon"],ts.isoformat(),"LIQUIDATION","Maintenance margin breached",{"margin_ratio":ratio,"maintenance":maintenance,"pnl":pnl})
         return True
 
+    def select_crypto_horizon(self, market, symbol, now=None):
+        """Choose exactly one horizon that may affect the shared crypto account this cycle."""
+        if not self.single_crypto_account or market != "crypto":
+            return None
+
+        aid = "crypto"
+        position = self.db.position(aid, symbol)
+        pending = self.db.pending_order(aid, symbol)
+        locked_horizon = None
+        if position is not None and position.get("horizon") in ("short", "medium", "long"):
+            locked_horizon = str(position.get("horizon"))
+        elif pending is not None:
+            pending_decision = self.db.decision(pending.get("decision_id")) or {}
+            if pending_decision.get("horizon") in ("short", "medium", "long"):
+                locked_horizon = str(pending_decision.get("horizon"))
+
+        candidates = []
+        cash, gross, equity = self._account_marks(aid)
+        for horizon in ("short", "medium", "long"):
+            try:
+                pack = self.cache.ensure(market, symbol, horizon, now)
+                df = self.cache.closed_only(pack["data"], market, horizon, now)
+                spec = HORIZON_SPECS[horizon]
+                if len(df) < spec["warmup"]:
+                    continue
+                model = self.db.model(market, symbol, horizon)
+                if model is None:
+                    continue
+                latest_bar = df.index[-1].isoformat()
+                dec = decision_for(df, market, horizon, model, max(equity, 1.0))
+                diag = dec.get("diagnostics") or {}
+                confidence = float(dec.get("confidence") or 0.0)
+                oos = float(diag.get("oos_score", model.get("oos_score", 0.0)) or 0.0)
+                stability = float(diag.get("stability", 0.0) or 0.0)
+                regime_fit = float(diag.get("regime_fit", 0.0) or 0.0) * 100.0
+                score = 0.55 * confidence + 0.20 * oos + 0.15 * stability + 0.10 * regime_fit
+                candidates.append({
+                    "horizon": horizon,
+                    "action": dec.get("action"),
+                    "score": float(score),
+                    "confidence": confidence,
+                    "latest_bar": latest_bar,
+                })
+            except Exception:
+                continue
+
+        if not candidates:
+            return None
+
+        if locked_horizon:
+            winner = next((x for x in candidates if x["horizon"] == locked_horizon), None)
+            if winner is None:
+                return None
+        else:
+            actionable = [x for x in candidates if x.get("action") == "ENTER"]
+            pool = actionable or candidates
+            winner = max(pool, key=lambda x: (x["score"], x["confidence"]))
+
+        # Non-winning horizons stay research-only. Advance their forward cursors so
+        # a later winner change never replays stale historical bars into the shared account.
+        for candidate in candidates:
+            if candidate["horizon"] == winner["horizon"]:
+                continue
+            self.db.set_last_processed(
+                f"crypto_{candidate['horizon']}",
+                symbol,
+                candidate["latest_bar"],
+            )
+        return winner
+
+    def process_crypto_symbol_adaptive(self, market, symbol, now=None):
+        """Evaluate all horizons first, then allow one winner to touch the shared account."""
+        winner = self.select_crypto_horizon(market, symbol, now)
+        if not winner:
+            return {
+                "processed": 0,
+                "reason": "no_ready_horizon",
+                "fetched": 0,
+                "api_called": False,
+                "selected_horizon": None,
+            }
+        result = self.process_asset_horizon(market, symbol, winner["horizon"], now)
+        result = dict(result)
+        result["selected_horizon"] = winner["horizon"]
+        result["arbitration_score"] = winner["score"]
+        result["arbitration_confidence"] = winner["confidence"]
+        return result
+
     def process_asset_horizon(self, market, symbol, horizon, now=None):
         if self.single_crypto_account and market != "crypto":
             return {"processed":0,"reason":"crypto_lite_only","fetched":0,"api_called":False}

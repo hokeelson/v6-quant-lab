@@ -5,11 +5,14 @@ import json
 import pandas as pd
 import streamlit as st
 
+from src.crypto_lite_nav import render_crypto_lite_sidebar
+
 from src.paths import db_path
 from src.trial_ledger import TrialLedger
 from src.ui_zh import horizon_label, market_label, strategy_label, translate_code
 
 st.set_page_config(page_title="V6 模型實驗帳本", layout="wide")
+render_crypto_lite_sidebar()
 st.title("V6 模型實驗帳本（Trial Ledger）")
 st.caption("記錄研究假設、重新校準、Champion / Challenger 治理與背景循環。此頁只做稽核，不會改變交易或模型。")
 

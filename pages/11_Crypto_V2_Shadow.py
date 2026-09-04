@@ -6,12 +6,15 @@ from pathlib import Path
 import pandas as pd
 import streamlit as st
 
+from src.crypto_lite_nav import render_crypto_lite_sidebar
+
 from src.crypto_v2.risk import portfolio_status
 from src.crypto_v2.shadow_db import CryptoV2ShadowDB
 from src.market_cache import MarketCache, TIMEFRAME_MAP
 from src.paths import data_dir, db_path
 
 st.set_page_config(page_title="Crypto V2 中文模擬實驗室", layout="wide")
+render_crypto_lite_sidebar()
 st.title("Crypto V2 中文模擬實驗室")
 st.caption("獨立前向模擬：使用同一份市場快取資料，但採用不同策略引擎與獨立帳本，不影響現有 Crypto 原版系統。")
 

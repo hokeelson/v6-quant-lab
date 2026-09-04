@@ -231,36 +231,86 @@ class AutoOrchestratorV8:
         errors = []
         skipped_unready = 0
         assets = [a for a in self.db.assets() if a.get("market") == "crypto"]
-        total = len(assets) * len(_HORIZONS)
-        completed = 0
-        for a in assets:
-            for hz in _HORIZONS:
-                unit = f"{a['market']}:{a['symbol']}:{hz}"
-                if self.db.model(a["market"], a["symbol"], hz) is None:
-                    skipped_unready += 1
+
+        if getattr(self.lab, "single_crypto_account", False):
+            total = len(assets)
+            completed = 0
+            for a in assets:
+                unit = f"{a['market']}:{a['symbol']}:adaptive"
+                ready_models = sum(
+                    1 for hz in _HORIZONS
+                    if self.db.model(a["market"], a["symbol"], hz) is not None
+                )
+                if ready_models == 0:
+                    skipped_unready += len(_HORIZONS)
                     completed += 1
                     notify_progress(progress, "SIMULATION", unit=unit, completed=completed, total=total)
                     continue
+                skipped_unready += len(_HORIZONS) - ready_models
                 notify_progress(progress, "SIMULATION", unit=unit, completed=completed, total=total)
                 checked += 1
                 unit_started = time.monotonic()
                 unit_result = {}
                 try:
-                    r = self.lab.process_asset_horizon(a["market"], a["symbol"], hz, now)
+                    r = self.lab.process_crypto_symbol_adaptive(a["market"], a["symbol"], now)
                     unit_result = r
                     processed += int(r.get("processed", 0))
                     fetched += int(r.get("fetched", 0))
                     api_calls += int(bool(r.get("api_called", False)))
                 except Exception as e:
-                    errors.append({"market": a["market"], "symbol": a["symbol"], "horizon": hz,
-                                   "error": f"{type(e).__name__}: {e}"})
+                    errors.append({
+                        "market": a["market"],
+                        "symbol": a["symbol"],
+                        "horizon": "adaptive",
+                        "error": f"{type(e).__name__}: {e}",
+                    })
                 finally:
                     completed += 1
-                    notify_progress(progress, "SIMULATION", unit=unit, completed=completed, total=total,
-                                    unit_seconds=time.monotonic() - unit_started,
-                                    unit_bars=int(unit_result.get("processed", 0)),
-                                    metrics={"assets_checked": checked, "bars_processed": processed,
-                                             "market_data_api_calls": api_calls})
+                    notify_progress(
+                        progress,
+                        "SIMULATION",
+                        unit=unit,
+                        completed=completed,
+                        total=total,
+                        unit_seconds=time.monotonic() - unit_started,
+                        unit_bars=int(unit_result.get("processed", 0)),
+                        metrics={
+                            "assets_checked": checked,
+                            "bars_processed": processed,
+                            "market_data_api_calls": api_calls,
+                        },
+                    )
+        else:
+            total = len(assets) * len(_HORIZONS)
+            completed = 0
+            for a in assets:
+                for hz in _HORIZONS:
+                    unit = f"{a['market']}:{a['symbol']}:{hz}"
+                    if self.db.model(a["market"], a["symbol"], hz) is None:
+                        skipped_unready += 1
+                        completed += 1
+                        notify_progress(progress, "SIMULATION", unit=unit, completed=completed, total=total)
+                        continue
+                    notify_progress(progress, "SIMULATION", unit=unit, completed=completed, total=total)
+                    checked += 1
+                    unit_started = time.monotonic()
+                    unit_result = {}
+                    try:
+                        r = self.lab.process_asset_horizon(a["market"], a["symbol"], hz, now)
+                        unit_result = r
+                        processed += int(r.get("processed", 0))
+                        fetched += int(r.get("fetched", 0))
+                        api_calls += int(bool(r.get("api_called", False)))
+                    except Exception as e:
+                        errors.append({"market": a["market"], "symbol": a["symbol"], "horizon": hz,
+                                       "error": f"{type(e).__name__}: {e}"})
+                    finally:
+                        completed += 1
+                        notify_progress(progress, "SIMULATION", unit=unit, completed=completed, total=total,
+                                        unit_seconds=time.monotonic() - unit_started,
+                                        unit_bars=int(unit_result.get("processed", 0)),
+                                        metrics={"assets_checked": checked, "bars_processed": processed,
+                                                 "market_data_api_calls": api_calls})
         return {
             "status": "OK" if not errors else "PARTIAL",
             "assets_checked": checked,

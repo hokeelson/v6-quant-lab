@@ -6,6 +6,8 @@ from pathlib import Path
 import pandas as pd
 import streamlit as st
 
+from src.crypto_lite_nav import render_crypto_lite_sidebar
+
 
 def _pct_mult(x):
     try:
@@ -31,6 +33,7 @@ def _num(x, digits=1):
 
 
 st.set_page_config(page_title="Risk Sizing Audit", layout="wide")
+render_crypto_lite_sidebar()
 st.title("Risk Sizing Audit")
 st.caption(
     "逐筆查看虛擬 BUY 從原始部位到最終成交部位的風控縮放。"

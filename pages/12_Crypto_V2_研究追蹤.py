@@ -5,12 +5,15 @@ import json
 import pandas as pd
 import streamlit as st
 
+from src.crypto_lite_nav import render_crypto_lite_sidebar
+
 from src.crypto_v2.bidirectional_shadow import bidirectional_summary, recent_bidirectional_decisions
 from src.crypto_v2.research import recent_blocked_candidates, recent_research_trades, research_summary
 from src.crypto_v2.shadow_db import CryptoV2ShadowDB
 from src.paths import db_path
 
 st.set_page_config(page_title="Crypto V2 研究追蹤", layout="wide")
+render_crypto_lite_sidebar()
 st.title("Crypto V2 研究追蹤")
 st.caption("純觀測研究層：不改 V2 進場、出場、部位大小或組合風控，只記錄交易發生時的市場特徵與反事實結果。")
 
