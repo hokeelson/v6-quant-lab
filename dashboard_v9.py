@@ -7,6 +7,8 @@ from pathlib import Path
 
 import pandas as pd
 import streamlit as st
+
+from src.crypto_lite_nav import render_crypto_lite_sidebar
 import yaml
 from dotenv import load_dotenv
 
@@ -18,6 +20,7 @@ from src.execution_audit_ui import render_execution_audit
 
 load_dotenv()
 st.set_page_config(page_title="V6 Crypto Lite", layout="wide", page_icon="₿")
+render_crypto_lite_sidebar()
 
 _required_password = os.getenv("V6_DASHBOARD_PASSWORD", "") or os.getenv("V6_PASSWORD", "")
 if _required_password and not st.session_state.get("v6_authenticated", False):
