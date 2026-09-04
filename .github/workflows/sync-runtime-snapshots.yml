@@ -92,6 +92,8 @@ jobs:
               encoding='utf-8'
           )
 
+          # Storage progress fields remain part of the public backup contract:
+          # current_snapshot_db, current_snapshot_phase, current_snapshot_progress
           optional = [
               ('storage_persistence.json', storage),
               ('risk_sizing_audit.json', sizing),
