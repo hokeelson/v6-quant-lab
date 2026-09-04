@@ -2,42 +2,42 @@
   "broker_order_api_calls": 0,
   "can_increase_exposure": false,
   "contains_secrets": false,
-  "generated_at": "2026-09-04T11:14:21.666247+00:00",
+  "generated_at": "2026-09-04T12:34:14.349044+00:00",
   "headline_summary": {
     "crypto": {
       "duplicate_count": 0,
-      "effective_headline_count": 14.191660836057439,
+      "effective_headline_count": 15.231686094979475,
       "event_risk": 1.0,
       "evidence_quality": 1.0,
       "headline_count": 30,
       "raw_headline_count": 30,
       "recency_coverage": 1.0,
-      "sentiment": -0.37198103336789623,
+      "sentiment": -0.4381689566535293,
       "source_count": 14,
       "source_diversity": 1.0
     },
     "macro": {
       "duplicate_count": 0,
-      "effective_headline_count": 23.892615871812126,
+      "effective_headline_count": 25.977613885750433,
       "event_risk": 1.0,
       "evidence_quality": 1.0,
       "headline_count": 30,
       "raw_headline_count": 30,
       "recency_coverage": 1.0,
-      "sentiment": -0.5806013416366268,
+      "sentiment": -0.7098041667422328,
       "source_count": 17,
       "source_diversity": 1.0
     }
   },
   "market_data": {
     "BTC": {
-      "change_pct": -0.0006798180832956469,
-      "last": 81216.4921875,
+      "change_pct": -0.01696007693325907,
+      "last": 79893.3671875,
       "symbol": "BTC-USD"
     },
     "DXY": {
-      "change_pct": 0.0008080993035826101,
-      "last": 99.08000183105469,
+      "change_pct": 0.0004141451132417817,
+      "last": 99.04100036621094,
       "symbol": "DX-Y.NYB"
     },
     "SPX": {
@@ -51,8 +51,8 @@
       "symbol": "^TNX"
     },
     "VIX": {
-      "change_pct": -0.012569787383900799,
-      "last": 14.140000343322754,
+      "change_pct": -0.0027932934850189994,
+      "last": 14.279999732971191,
       "symbol": "^VIX"
     }
   },
@@ -63,8 +63,8 @@
       "market_multiplier": 0.85,
       "market_stress": 0.0,
       "risk_regime": "CAUTION",
-      "risk_score": 0.43899962825239036,
-      "sentiment_score": -0.4449981412619519,
+      "risk_score": 0.45664825603691506,
+      "sentiment_score": -0.5332412801845755,
       "strategy_multipliers": {
         "Breakout": 0.7999999999999999,
         "Mean Reversion RSI": 0.85,
@@ -78,8 +78,8 @@
       "market_multiplier": 0.85,
       "market_stress": 0.0,
       "risk_regime": "CAUTION",
-      "risk_score": 0.46612026832732534,
-      "sentiment_score": -0.5806013416366268,
+      "risk_score": 0.49196083334844654,
+      "sentiment_score": -0.7098041667422328,
       "strategy_multipliers": {
         "Breakout": 0.7999999999999999,
         "Mean Reversion RSI": 0.85,
@@ -93,8 +93,8 @@
       "market_multiplier": 0.85,
       "market_stress": 0.0,
       "risk_regime": "CAUTION",
-      "risk_score": 0.46612026832732534,
-      "sentiment_score": -0.5806013416366268,
+      "risk_score": 0.49196083334844654,
+      "sentiment_score": -0.7098041667422328,
       "strategy_multipliers": {
         "Breakout": 0.7999999999999999,
         "Mean Reversion RSI": 0.85,
@@ -118,6 +118,6 @@
     "source_coverage": 1.0
   },
   "status": "AVAILABLE",
-  "sync_checked_at": "2026-09-04T12:12:18.309689+00:00",
-  "sync_snapshot_age_seconds": 3476.643442
+  "sync_checked_at": "2026-09-04T12:34:56.758563+00:00",
+  "sync_snapshot_age_seconds": 42.409519
 }
