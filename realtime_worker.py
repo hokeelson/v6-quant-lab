@@ -12,7 +12,7 @@ from websocket import WebSocketTimeoutException, create_connection
 
 from src.paths import data_dir, db_path
 from src.realtime_layer import RealtimeDB, build_realtime_watchlist, evaluate_realtime_signal
-from src.twstock_support import TaiwanSimulationDB
+from src.simulation_db import SimulationDB
 
 load_dotenv()
 
@@ -21,7 +21,7 @@ STATUS_WRITE_SECONDS = 2
 RECONNECT_SECONDS = 3
 STATUS_PATH = Path(data_dir()) / "realtime_status.json"
 
-sim_db = TaiwanSimulationDB(db_path("simulation_lab.sqlite3"))
+sim_db = SimulationDB(db_path("simulation_lab.sqlite3"))
 rt_db = RealtimeDB()
 lock = threading.Lock()
 state = {
@@ -36,8 +36,8 @@ state = {
     "simulation_db_path": str(sim_db.path),
     "realtime_db_path": str(rt_db.path),
     "crypto_stream": "STARTING",
-    "stock_stream": "STARTING",
-    "twstock_stream": "BAR_ONLY",
+    "stock_stream": "DISABLED" if os.getenv("V6_SINGLE_CRYPTO_ACCOUNT","0").strip().lower() in ("1","true","yes","on") else "STARTING",
+    "twstock_stream": "DISABLED" if os.getenv("V6_SINGLE_CRYPTO_ACCOUNT","0").strip().lower() in ("1","true","yes","on") else "BAR_ONLY",
     "quotes_received": 0,
     "signals_updated": 0,
     "broker_order_api_calls": 0,
@@ -260,7 +260,8 @@ def _stock_loop():
 threading.Thread(target=_status_loop, daemon=True).start()
 threading.Thread(target=_refresh_watchlist_loop, daemon=True).start()
 threading.Thread(target=_crypto_loop, daemon=True).start()
-threading.Thread(target=_stock_loop, daemon=True).start()
+if os.getenv("V6_SINGLE_CRYPTO_ACCOUNT","0").strip().lower() not in ("1","true","yes","on"):
+    threading.Thread(target=_stock_loop, daemon=True).start()
 
 print("V6 Realtime Execution Layer started.", flush=True)
 print(f"Simulation DB: {sim_db.path}", flush=True)
