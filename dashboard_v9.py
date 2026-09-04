@@ -17,6 +17,8 @@ from src.dashboard_direction_fallback import build_cached_direction_fallback
 from src.ui_zh import horizon_label
 from src.worker_progress_ui import render_worker_progress
 from src.execution_audit_ui import render_execution_audit
+from src.realtime_layer import RealtimeDB
+from src.paths import db_path
 
 load_dotenv()
 st.set_page_config(page_title="V6 Crypto Lite", layout="wide", page_icon="₿")
@@ -50,6 +52,40 @@ def _load_json(path: str | Path) -> dict:
     try:
         value = json.loads(Path(path).read_text(encoding="utf-8"))
         return value if isinstance(value, dict) else {}
+    except Exception:
+        return {}
+
+
+def _fresh_quote_map(max_age_seconds: int = 60) -> dict[str, dict]:
+    """Return fresh crypto realtime quotes keyed by symbol; stale rows are ignored."""
+    try:
+        rt = RealtimeDB(db_path("realtime_execution.sqlite3"))
+        now = datetime.now(timezone.utc)
+        out = {}
+        for q in rt.quotes():
+            if str(q.get("market") or "") != "crypto":
+                continue
+            symbol = str(q.get("symbol") or "").upper()
+            price = q.get("price")
+            ts_raw = str(q.get("ts") or "")
+            if not symbol or price is None:
+                continue
+            try:
+                ts = datetime.fromisoformat(ts_raw.replace("Z", "+00:00"))
+                if ts.tzinfo is None:
+                    ts = ts.replace(tzinfo=timezone.utc)
+                age = max(0.0, (now - ts.astimezone(timezone.utc)).total_seconds())
+            except Exception:
+                continue
+            if age > max_age_seconds:
+                continue
+            out[symbol] = {
+                "price": float(price),
+                "ts": ts_raw,
+                "age_seconds": age,
+                "source": str(q.get("source") or "REALTIME"),
+            }
+        return out
     except Exception:
         return {}
 
@@ -122,7 +158,7 @@ def _stats(research: dict) -> dict:
     return stats if isinstance(stats, dict) else {}
 
 
-@st.fragment(run_every="30s")
+@st.fragment(run_every="10s")
 def crypto_lite():
     direction = _load_json(Path("static") / "direction_shadow_snapshot.json")
     research = _load_json(Path("static") / "research_snapshot.json")
@@ -157,24 +193,37 @@ def crypto_lite():
         with st.expander("系統診斷（正常時可忽略）", expanded=False):
             render_execution_audit(st, research)
 
-    st.caption("畫面每 30 秒自動更新｜底層健康狀態約每 5 秒更新")
+    st.caption("畫面每 10 秒自動更新｜持倉現價優先使用秒級 Realtime quote｜底層健康狀態約每 5 秒更新")
 
     account = db.account("crypto") or {}
     positions = db.positions("crypto")
     marks = db.marks("crypto")
+    realtime_quotes = _fresh_quote_map(max_age_seconds=60)
     cash = float(account.get("cash") or 0.0)
     position_rows = []
     gross_exposure = 0.0
     unrealized_total = 0.0
+    signed_market_value = 0.0
+    realtime_used = 0
     for p in positions:
         qty = float(p.get("qty") or 0.0)
         entry = float(p.get("avg_entry") or 0.0)
-        mark = float(marks.get(str(p.get("symbol") or "").upper(), entry) or entry or 0.0)
+        symbol = str(p.get("symbol") or "").upper()
+        fallback_mark = float(marks.get(symbol, entry) or entry or 0.0)
+        quote = realtime_quotes.get(symbol)
+        if quote is not None:
+            mark = float(quote["price"])
+            price_source = "即時"
+            realtime_used += 1
+        else:
+            mark = fallback_mark
+            price_source = "Bar"
         market_value = qty * mark
         exposure = abs(market_value)
         unrealized = qty * (mark - entry)
         gross_exposure += exposure
         unrealized_total += unrealized
+        signed_market_value += market_value
         position_rows.append({
             "標的": p.get("symbol"),
             "方向": "做多" if qty > 0 else ("做空" if qty < 0 else "—"),
@@ -182,17 +231,20 @@ def crypto_lite():
             "數量": qty,
             "進場價": entry,
             "現價": mark,
+            "價格來源": price_source,
             "持倉金額": exposure,
             "未實現損益": unrealized,
             "持倉比例": 0.0,
             "策略": p.get("strategy") or "—",
         })
-    total_equity = cash + sum(float(p.get("qty") or 0.0) * float(marks.get(str(p.get("symbol") or "").upper(), p.get("avg_entry") or 0.0) or 0.0) for p in positions)
+    total_equity = cash + signed_market_value
     if total_equity:
         for row in position_rows:
             row["持倉比例"] = float(row["持倉金額"]) / abs(total_equity)
 
     st.subheader("目前持倉")
+    if positions:
+        st.caption(f"即時估值：{realtime_used}/{len(positions)} 筆持倉使用 60 秒內 Realtime quote；其餘自動退回最近 Bar 價。")
     pc1, pc2, pc3, pc4 = st.columns(4)
     pc1.metric("帳戶總資產", f"NTD {total_equity:,.0f}")
     pc2.metric("可用現金", f"NTD {cash:,.0f}")
@@ -305,7 +357,7 @@ def crypto_lite():
             } for r in rows])
             st.dataframe(all_df, width="stretch", hide_index=True)
 
-    st.caption("舊版多市場 / 六帳戶資料仍保留在研究資料庫作歷史證據，不再出現在日常操作畫面，也不會因此送出任何真實交易。")
+    st.caption("目前為清理後的 Crypto Lite 單一主線基準；只保留現在主帳戶與必要 Crypto 模型/風控資料，不送出任何真實交易。")
 
 
 crypto_lite()
