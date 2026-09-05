@@ -15,6 +15,7 @@ from src.paths import data_dir, db_path
 from src.pretrade_risk import write_pretrade_risk_snapshot
 from src.pro_risk_engine import write_professional_risk_snapshot
 from src.realtime_layer import RealtimeDB, build_realtime_watchlist
+from src.status_file import atomic_write_json
 from src.worker_progress import CycleProgress
 
 POLL_SECONDS = 60
@@ -100,11 +101,14 @@ def _write_status():
         worker_state["heartbeat_at"] = datetime.now(timezone.utc).isoformat()
         payload = dict(worker_state)
         payload.update(cycle_progress.snapshot())
-        # Heartbeat and progress writers share the same atomic temp file. Keep
-        # the whole write under the lock so they cannot replace each other's file.
-        tmp = status_path.with_suffix(".json.tmp")
-        tmp.write_text(json.dumps(payload, ensure_ascii=False), encoding="utf-8")
-        tmp.replace(status_path)
+    try:
+        atomic_write_json(status_path, payload)
+        return True
+    except Exception as exc:
+        # Status telemetry must never kill the simulation worker. The supervisor
+        # can still restart a genuinely stale worker if writes remain broken.
+        print("WORKER_STATUS_WRITE_ERROR", type(exc).__name__, exc, flush=True)
+        return False
 
 
 def _report_progress(phase, **details):

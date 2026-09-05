@@ -10,6 +10,7 @@ from types import SimpleNamespace
 
 import pytest
 
+from src.status_file import atomic_write_json
 from src.worker_progress import (
     CYCLE_HARD_LIMIT_SECONDS, NO_PROGRESS_TIMEOUT_SECONDS, PROGRESS_SCHEMA_VERSION,
     CycleProgress, notify_progress, public_progress, running_progress_problem,
@@ -173,6 +174,7 @@ def _worker_writer_namespace(tmp_path):
     progress = CycleProgress()
     progress.start()
     ns = {"json": json, "datetime": datetime, "timezone": timezone,
+          "atomic_write_json": atomic_write_json,
           "status_lock": threading.Lock(), "status_path": tmp_path / "worker_status.json",
           "worker_state": {"status": "RUNNING"}, "cycle_progress": progress}
     exec(compile(ast.Module(body=nodes, type_ignores=[]), "live_worker_v8.py", "exec"), ns)
