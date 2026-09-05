@@ -63,6 +63,15 @@ def _account_marks(db, account_id: str) -> tuple[float, float, float]:
     return cash, gross, cash + gross
 
 
+def _risk_account_id(market: str, horizon: str) -> str:
+    single_crypto = (
+        market == "crypto"
+        and os.getenv("V6_SINGLE_CRYPTO_ACCOUNT", "0").strip().lower()
+        in ("1", "true", "yes", "on")
+    )
+    return "crypto" if single_crypto else f"{market}_{horizon}"
+
+
 def _cost_rate(market: str) -> float:
     costs = ExecutionCosts(0, 3, 2) if market == "stock" else ExecutionCosts(10, 5, 4)
     return float(costs.one_way_rate)
@@ -430,12 +439,7 @@ def active_entry_sizing(db, cache, market: str, symbol: str, horizon: str, decis
 
         if result["active_leverage_hard_guard"] and market in ("stock", "crypto"):
             try:
-                single_crypto = (
-                    market == "crypto"
-                    and os.getenv("V6_SINGLE_CRYPTO_ACCOUNT", "0").strip().lower()
-                    in ("1", "true", "yes", "on")
-                )
-                account_id = "crypto" if single_crypto else f"{market}_{horizon}"
+                account_id = _risk_account_id(market, horizon)
                 _, gross, equity = _account_marks(db, account_id)
                 max_leverage = float(HORIZON_SPECS[horizon]["max_leverage"])
                 rate = _cost_rate(market)
