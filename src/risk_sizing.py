@@ -430,7 +430,12 @@ def active_entry_sizing(db, cache, market: str, symbol: str, horizon: str, decis
 
         if result["active_leverage_hard_guard"] and market in ("stock", "crypto"):
             try:
-                account_id = f"{market}_{horizon}"
+                single_crypto = (
+                    market == "crypto"
+                    and os.getenv("V6_SINGLE_CRYPTO_ACCOUNT", "0").strip().lower()
+                    in ("1", "true", "yes", "on")
+                )
+                account_id = "crypto" if single_crypto else f"{market}_{horizon}"
                 _, gross, equity = _account_marks(db, account_id)
                 max_leverage = float(HORIZON_SPECS[horizon]["max_leverage"])
                 rate = _cost_rate(market)
